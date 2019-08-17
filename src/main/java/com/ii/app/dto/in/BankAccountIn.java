@@ -12,9 +12,5 @@ import java.util.Set;
 @Data
 public class BankAccountIn
 {
-        private String number;
-
-        private Set<Saldo> saldos;
-
         private boolean multiCurrency;
 }

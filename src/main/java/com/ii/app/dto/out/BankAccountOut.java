@@ -14,12 +14,8 @@ import java.util.Set;
 public class BankAccountOut
 {
         private Long id;
-
+        
         private String number;
-
-        private Set<Saldo> saldos;
-
-        private Set<Transaction> transactions;
 
         private boolean multiCurrency;
 }
