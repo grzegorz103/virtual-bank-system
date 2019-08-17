@@ -30,4 +30,11 @@ public class Saldo
         @ManyToOne
         @JoinColumn (name = "bank_account_id")
         private BankAccount bankAccount;
+
+        public Saldo ( BigDecimal balance, CurrencyType currencyType, BankAccount bankAccount )
+        {
+                this.balance = balance;
+                this.currencyType = currencyType;
+                this.bankAccount = bankAccount;
+        }
 }

@@ -10,6 +10,7 @@ import com.ii.app.repositories.BankAccountRepository;
 import com.ii.app.repositories.CurrencyTypeRepository;
 import com.ii.app.repositories.SaldoRepository;
 import com.ii.app.repositories.TransactionRepository;
+import com.ii.app.services.interfaces.TransactionService;
 import com.ii.app.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
