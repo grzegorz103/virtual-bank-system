@@ -112,23 +112,26 @@ public class TransactionServiceImpl implements TransactionService
         {
 
                 BigDecimal convertedCurrency;
-                if ( sourceCurrency != null && destinedCurrency != null )
+                if ( currency > 0 )
                 {
-                        // gdy waluta zrodlowa == docelowa nie trzeba konwertowac na inna walute
-                        if ( sourceCurrency == destinedCurrency )
+                        if ( sourceCurrency != null && destinedCurrency != null )
                         {
-                                convertedCurrency = new BigDecimal( currency );
-                                convertedCurrency = convertedCurrency.setScale( 2, RoundingMode.DOWN );
-                                return convertedCurrency;
-                        } else
-                        {
-                                final float sourceExchangeRate = sourceCurrency.getExchangeRate();
-                                final float destinedExchangeRate = destinedCurrency.getExchangeRate();
-                                if ( destinedExchangeRate > 0 )
+                                // gdy waluta zrodlowa == docelowa nie trzeba konwertowac na inna walute
+                                if ( sourceCurrency == destinedCurrency )
                                 {
-                                        convertedCurrency = new BigDecimal( (currency * sourceExchangeRate) / destinedExchangeRate );
+                                        convertedCurrency = new BigDecimal( currency );
                                         convertedCurrency = convertedCurrency.setScale( 2, RoundingMode.DOWN );
                                         return convertedCurrency;
+                                } else
+                                {
+                                        final float sourceExchangeRate = sourceCurrency.getExchangeRate();
+                                        final float destinedExchangeRate = destinedCurrency.getExchangeRate();
+                                        if ( destinedExchangeRate > 0 )
+                                        {
+                                                convertedCurrency = new BigDecimal( (currency * sourceExchangeRate) / destinedExchangeRate );
+                                                convertedCurrency = convertedCurrency.setScale( 2, RoundingMode.DOWN );
+                                                return convertedCurrency;
+                                        }
                                 }
                         }
                 }
