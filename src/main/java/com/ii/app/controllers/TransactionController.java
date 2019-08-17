@@ -1,13 +1,13 @@
 package com.ii.app.controllers;
 
 import com.ii.app.dto.TransactionDTO;
+import com.ii.app.dto.out.TransactionOut;
 import com.ii.app.models.Transaction;
 import com.ii.app.services.interfaces.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping ("/api/transaction")
@@ -25,5 +25,11 @@ public class TransactionController
         public Transaction create ( @RequestBody TransactionDTO transactionDTO )
         {
                 return transactionService.create( transactionDTO );
+        }
+
+        @GetMapping
+        public List<TransactionOut> findAll ()
+        {
+                return transactionService.findAll();
         }
 }
