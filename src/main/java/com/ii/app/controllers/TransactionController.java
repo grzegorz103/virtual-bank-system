@@ -2,7 +2,7 @@ package com.ii.app.controllers;
 
 import com.ii.app.dto.TransactionDTO;
 import com.ii.app.models.Transaction;
-import com.ii.app.services.TransactionService;
+import com.ii.app.services.interfaces.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

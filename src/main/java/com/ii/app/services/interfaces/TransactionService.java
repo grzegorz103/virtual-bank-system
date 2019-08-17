@@ -1,4 +1,4 @@
-package com.ii.app.services;
+package com.ii.app.services.interfaces;
 
 import com.ii.app.dto.TransactionDTO;
 import com.ii.app.models.Transaction;
