@@ -1,6 +1,8 @@
 package com.ii.app.services;
 
 import com.ii.app.dto.TransactionDTO;
+import com.ii.app.dto.out.TransactionOut;
+import com.ii.app.mappers.TransactionMapper;
 import com.ii.app.models.BankAccount;
 import com.ii.app.models.CurrencyType;
 import com.ii.app.models.Saldo;
@@ -19,7 +21,9 @@ import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.Instant;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service ("transactionService")
 public class TransactionServiceImpl implements TransactionService
@@ -32,19 +36,23 @@ public class TransactionServiceImpl implements TransactionService
 
         private final TransactionRepository transactionRepository;
 
+        private final TransactionMapper transactionMapper;
+
         private final Constants constants;
 
         @Autowired
         public TransactionServiceImpl ( CurrencyTypeRepository currencyTypeRepository,
                                         BankAccountRepository bankAccountRepository,
                                         SaldoRepository saldoRepository,
-                                        Constants constants, TransactionRepository transactionRepository )
+                                        Constants constants,
+                                        TransactionRepository transactionRepository, TransactionMapper transactionMapper )
         {
                 this.currencyTypeRepository = currencyTypeRepository;
                 this.bankAccountRepository = bankAccountRepository;
                 this.saldoRepository = saldoRepository;
                 this.constants = constants;
                 this.transactionRepository = transactionRepository;
+                this.transactionMapper = transactionMapper;
         }
 
         @Override
@@ -109,6 +117,15 @@ public class TransactionServiceImpl implements TransactionService
                 return transactionRepository.save( transaction );
         }
 
+        @Override
+        public List<TransactionOut> findAll ()
+        {
+                return transactionRepository.findAll()
+                        .stream()
+                        .map( transactionMapper::entityToDTO )
+                        .collect( Collectors.toList() );
+        }
+
         private BigDecimal convertCurrency ( float currency, CurrencyType sourceCurrency, CurrencyType destinedCurrency )
         {
 
@@ -136,7 +153,7 @@ public class TransactionServiceImpl implements TransactionService
                                 }
                         }
                 }
-                return null;
+                return BigDecimal.ZERO;
         }
 
 }

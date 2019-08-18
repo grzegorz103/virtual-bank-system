@@ -32,22 +32,24 @@ public class BankAccountServiceImpl implements BankAccountService
 
         private final BankAccountRepository bankAccountRepository;
 
-        @Autowired
-        private SaldoRepository saldoRepository;
+        private final SaldoRepository saldoRepository;
 
-        @Autowired
-        private CurrencyTypeRepository currencyTypeRepository;
+        private final CurrencyTypeRepository currencyTypeRepository;
 
         private final Constants constants;
 
         @Autowired
         public BankAccountServiceImpl ( BankAccountMapper bankAccountMapper,
                                         BankAccountRepository bankAccountRepository,
-                                        Constants constants )
+                                        Constants constants,
+                                        SaldoRepository saldoRepository,
+                                        CurrencyTypeRepository currencyTypeRepository )
         {
                 this.bankAccountMapper = bankAccountMapper;
                 this.bankAccountRepository = bankAccountRepository;
                 this.constants = constants;
+                this.saldoRepository = saldoRepository;
+                this.currencyTypeRepository = currencyTypeRepository;
         }
 
         @Override
@@ -55,7 +57,7 @@ public class BankAccountServiceImpl implements BankAccountService
         {
                 BankAccount bankAccount = bankAccountMapper.DTOtoEntity( bankAccountIn );
                 bankAccount.setNumber( RandomStringUtils.randomNumeric( constants.BANK_ACCOUNT_NUMBER_LENGTH ) );
-                BankAccount finalBankAccount = bankAccount = bankAccountRepository.save( bankAccount );
+                BankAccount finalBankAccount = bankAccountRepository.save( bankAccount );
 
                 if ( bankAccount.isMultiCurrency() )
                 {
