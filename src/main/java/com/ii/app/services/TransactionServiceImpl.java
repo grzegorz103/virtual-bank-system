@@ -14,6 +14,7 @@ import com.ii.app.repositories.SaldoRepository;
 import com.ii.app.repositories.TransactionRepository;
 import com.ii.app.services.interfaces.TransactionService;
 import com.ii.app.utils.Constants;
+import com.ii.app.utils.CurrencyConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,12 +41,15 @@ public class TransactionServiceImpl implements TransactionService
 
         private final Constants constants;
 
+        private final CurrencyConverter currencyConverter;
+
         @Autowired
         public TransactionServiceImpl ( CurrencyTypeRepository currencyTypeRepository,
                                         BankAccountRepository bankAccountRepository,
                                         SaldoRepository saldoRepository,
                                         Constants constants,
-                                        TransactionRepository transactionRepository, TransactionMapper transactionMapper )
+                                        TransactionRepository transactionRepository,
+                                        TransactionMapper transactionMapper, CurrencyConverter currencyConverter )
         {
                 this.currencyTypeRepository = currencyTypeRepository;
                 this.bankAccountRepository = bankAccountRepository;
@@ -53,6 +57,7 @@ public class TransactionServiceImpl implements TransactionService
                 this.constants = constants;
                 this.transactionRepository = transactionRepository;
                 this.transactionMapper = transactionMapper;
+                this.currencyConverter = currencyConverter;
         }
 
         @Override
@@ -75,7 +80,7 @@ public class TransactionServiceImpl implements TransactionService
                         throw new RuntimeException( "Source saldo has no required balance" );
 
 
-                final BigDecimal balance = convertCurrency(
+                final BigDecimal balance = currencyConverter.convertCurrency(
                         transactionDTO.getBalance(),
                         sourceCurrency,
                         destinedBankAccount.isMultiCurrency()
@@ -126,6 +131,7 @@ public class TransactionServiceImpl implements TransactionService
                         .collect( Collectors.toList() );
         }
 
+        /*
         private BigDecimal convertCurrency ( float currency, CurrencyType sourceCurrency, CurrencyType destinedCurrency )
         {
 
@@ -155,5 +161,6 @@ public class TransactionServiceImpl implements TransactionService
                 }
                 return BigDecimal.ZERO;
         }
+        */
 
 }
