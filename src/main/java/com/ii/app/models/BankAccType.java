@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Table (name = "currency_types")
+@Table (name = "bank_account_types")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -25,8 +25,8 @@ public class BankAccType
         private BankAccountType bankAccountType;
 
         @Column (name = "transaction_commission")
-        private float transactionComission;
+        private Float transactionComission;
 
         @Column (name = "exchange_currency_commission")
-        private float exchangeCurrencyCommission;
+        private Float exchangeCurrencyCommission;
 }
