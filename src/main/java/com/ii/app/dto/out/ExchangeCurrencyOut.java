@@ -15,5 +15,5 @@ public class ExchangeCurrencyOut
 {
         private BigDecimal balance;
 
-        private Currency currency;
+        private Currency destCurrency;
 }

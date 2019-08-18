@@ -20,14 +20,15 @@ public class ExchangeCurrency
         @GeneratedValue (strategy = GenerationType.IDENTITY)
         private Long id;
 
-        @Column (name = "bank_account")
+        @ManyToOne (fetch = FetchType.EAGER)
+        @JoinColumn (name = "bank_account_id", nullable = false)
         private BankAccount bankAccount;
 
         @Column (name = "source_currency")
         private Currency sourceCurrency;
 
         @Column (name = "destined_currency")
-        private CurrencyType destCurrency;
+        private Currency destCurrency;
 
         @Column (name = "balance")
         private float balance;

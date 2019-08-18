@@ -7,6 +7,7 @@ import com.ii.app.models.BankAccount;
 import com.ii.app.models.CurrencyType;
 import com.ii.app.models.Saldo;
 import com.ii.app.models.Transaction;
+import com.ii.app.models.enums.BankAccountType;
 import com.ii.app.models.enums.Currency;
 import com.ii.app.repositories.BankAccountRepository;
 import com.ii.app.repositories.CurrencyTypeRepository;
@@ -76,20 +77,26 @@ public class TransactionServiceImpl implements TransactionService
                         .findFirst()
                         .get();
 
+                final Saldo destSaldo = destinedBankAccount.getSaldos()
+                        .stream()
+                        .filter( Objects::nonNull )
+                        .filter( e -> e.getCurrencyType() == sourceCurrency )
+                        .findFirst()
+                        .orElse( destinedBankAccount.getSaldos().stream().filter( e -> e.getCurrencyType().getCurrency() == Currency.PLN ).findFirst().get() );
+
                 if ( sourceSaldo.getBalance().floatValue() < transactionDTO.getBalance() )
                         throw new RuntimeException( "Source saldo has no required balance" );
 
+                boolean sourceMultiCurrency = sourceBankAccount.getBankAccType().getBankAccountType() == BankAccountType.MULTI_CURRENCY;
 
                 final BigDecimal balance = currencyConverter.convertCurrency(
                         transactionDTO.getBalance(),
                         sourceCurrency,
-                        destinedBankAccount.isMultiCurrency()
-                                ? sourceCurrency
-                                : currencyTypeRepository.findByCurrency( Currency.PLN ).get()
+                        destSaldo.getCurrencyType()
                 );
 
                 final BigDecimal balanceWithCommission = BigDecimal.valueOf(
-                        balance.doubleValue() - (((sourceBankAccount.isMultiCurrency()
+                        balance.doubleValue() - (((sourceMultiCurrency
                                 ? constants.MULTI_CURRENCY_TRANSFER_COMMISSION
                                 : constants.SINGLE_CURRENCY_TRANSFER_COMMISSION) / 100d) * balance.doubleValue()
                         )
@@ -97,11 +104,13 @@ public class TransactionServiceImpl implements TransactionService
 
                 sourceSaldo.setBalance( sourceSaldo.getBalance().subtract( BigDecimal.valueOf( transactionDTO.getBalance() ) ) );
 
-                destinedBankAccount.getSaldos()
+                destSaldo.setBalance( destSaldo.getBalance().add( balanceWithCommission ) );
+
+         /*       destinedBankAccount.getSaldos()
                         .stream()
                         .filter( Objects::nonNull )
                         .filter( e -> {
-                                if ( destinedBankAccount.isMultiCurrency() )
+                                if ( destMultiCurrency )
                                         return e.getCurrencyType() == sourceCurrency;
                                 else
                                         return e.getCurrencyType().getCurrency() == Currency.PLN;
@@ -111,7 +120,7 @@ public class TransactionServiceImpl implements TransactionService
                                 e.setBalance( e.getBalance().add( balanceWithCommission ) );
                                 saldoRepository.save( e );
                         } );
-
+*/
                 transaction.setBalance( BigDecimal.valueOf( transactionDTO.getBalance() ) );
                 transaction.setBalanceWithCommission( balanceWithCommission );
                 transaction.setDate( Instant.now() );

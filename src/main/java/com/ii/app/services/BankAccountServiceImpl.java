@@ -5,6 +5,7 @@ import com.ii.app.dto.out.BankAccountOut;
 import com.ii.app.mappers.BankAccountMapper;
 import com.ii.app.models.BankAccount;
 import com.ii.app.models.Saldo;
+import com.ii.app.models.enums.BankAccountType;
 import com.ii.app.models.enums.Currency;
 import com.ii.app.repositories.BankAccountRepository;
 import com.ii.app.repositories.CurrencyTypeRepository;
@@ -59,7 +60,7 @@ public class BankAccountServiceImpl implements BankAccountService
                 bankAccount.setNumber( RandomStringUtils.randomNumeric( constants.BANK_ACCOUNT_NUMBER_LENGTH ) );
                 BankAccount finalBankAccount = bankAccountRepository.save( bankAccount );
 
-                if ( bankAccount.isMultiCurrency() )
+                if ( bankAccount.getBankAccType().getBankAccountType() == BankAccountType.MULTI_CURRENCY )
                 {
                         currencyTypeRepository.findAll()
                                 .forEach( e ->

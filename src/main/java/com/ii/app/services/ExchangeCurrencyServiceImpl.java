@@ -4,9 +4,12 @@ import com.ii.app.dto.in.ExchangeCurrencyIn;
 import com.ii.app.dto.out.ExchangeCurrencyOut;
 import com.ii.app.mappers.ExchangeCurrencyMapper;
 import com.ii.app.models.BankAccount;
+import com.ii.app.models.CurrencyType;
 import com.ii.app.models.ExchangeCurrency;
 import com.ii.app.models.Saldo;
+import com.ii.app.models.enums.BankAccountType;
 import com.ii.app.repositories.BankAccountRepository;
+import com.ii.app.repositories.CurrencyTypeRepository;
 import com.ii.app.repositories.ExchangeCurrencyRepository;
 import com.ii.app.repositories.SaldoRepository;
 import com.ii.app.services.interfaces.ExchangeCurrencyService;
@@ -17,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import java.time.Instant;
 
 @Service
 public class ExchangeCurrencyServiceImpl implements ExchangeCurrencyService
@@ -29,7 +33,7 @@ public class ExchangeCurrencyServiceImpl implements ExchangeCurrencyService
 
         private final CurrencyConverter currencyConverter;
 
-        private final SaldoRepository saldoRepository;
+        private final CurrencyTypeRepository currencyTypeRepository;
 
         private final Constants constants;
 
@@ -39,14 +43,15 @@ public class ExchangeCurrencyServiceImpl implements ExchangeCurrencyService
                                              BankAccountRepository bankAccountRepository,
                                              CurrencyConverter currencyConverter,
                                              Constants constants,
-                                             SaldoRepository saldoRepository )
+                                             SaldoRepository saldoRepository,
+                                             CurrencyTypeRepository currencyTypeRepository )
         {
                 this.exchangeCurrencyRepository = exchangeCurrencyRepository;
                 this.exchangeCurrencyMapper = exchangeCurrencyMapper;
                 this.bankAccountRepository = bankAccountRepository;
                 this.currencyConverter = currencyConverter;
                 this.constants = constants;
-                this.saldoRepository = saldoRepository;
+                this.currencyTypeRepository = currencyTypeRepository;
         }
 
         @Override
@@ -56,7 +61,7 @@ public class ExchangeCurrencyServiceImpl implements ExchangeCurrencyService
                 BankAccount sourceBankAcc = bankAccountRepository.findByNumber( exchangeCurrencyIn.getSourceBankAccNumber() )
                         .orElseThrow( () -> new RuntimeException( "nie znaleziono" ) );
 
-                if ( !sourceBankAcc.isMultiCurrency() )
+                if ( sourceBankAcc.getBankAccType().getBankAccountType() == BankAccountType.SINGLE_CURRENCY )
                         throw new RuntimeException( "nie jest wielowalutowe" );
 
                 Saldo sourceSaldo = sourceBankAcc.getSaldos()
@@ -64,6 +69,10 @@ public class ExchangeCurrencyServiceImpl implements ExchangeCurrencyService
                         .filter( e -> e.getCurrencyType().getCurrency() == exchangeCurrencyIn.getSourceCurrency() )
                         .findFirst()
                         .orElseThrow( () -> new RuntimeException( "not found" ) );
+
+                if ( sourceSaldo.getBalance().doubleValue() < exchangeCurrencyIn.getBalance() )
+                        throw new RuntimeException( "not enough balance" );
+
 
                 Saldo destSaldo = sourceBankAcc.getSaldos()
                         .stream()
@@ -74,14 +83,18 @@ public class ExchangeCurrencyServiceImpl implements ExchangeCurrencyService
 
                 ExchangeCurrency mapped = exchangeCurrencyMapper.DTOtoEntity( exchangeCurrencyIn );
 
+                CurrencyType sourceCurrencyType = sourceSaldo.getCurrencyType();
+                CurrencyType destCurrencyType = destSaldo.getCurrencyType();
+
                 BigDecimal convertedBalance = currencyConverter.convertCurrency(
                         mapped.getBalance(),
-                        mapped.getSourceCurrencyType(),
-                        mapped.getDestCurrencyType()
+                        sourceCurrencyType,
+                        destCurrencyType
                 );
 
+                float transactionCommission = sourceBankAcc.getBankAccType().getExchangeCurrencyCommission();
                 BigDecimal balanceAfterCommission = BigDecimal.valueOf(
-                        convertedBalance.doubleValue() - ((constants.CURRENCY_CONVERT_COMMISSION / 100d) * convertedBalance.doubleValue()
+                        convertedBalance.doubleValue() - ((transactionCommission / 100d) * convertedBalance.doubleValue()
                         ) );
 
                 if ( balanceAfterCommission.doubleValue() < 0 )
@@ -92,8 +105,9 @@ public class ExchangeCurrencyServiceImpl implements ExchangeCurrencyService
 
                 mapped.setBalanceAfterExchange( balanceAfterCommission );
                 mapped.setBankAccount( sourceBankAcc );
-                mapped.set
+                mapped.setDate( Instant.now() );
 
-
+                exchangeCurrencyRepository.save( mapped );
+                return exchangeCurrencyMapper.entityToDTO( mapped );
         }
 }

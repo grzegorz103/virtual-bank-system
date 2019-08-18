@@ -32,6 +32,10 @@ public class BankAccount
         @JsonIgnore
         private Set<Transaction> transactions;
 
-        @Column (name = "multi_currency")
-        private boolean multiCurrency;
+        @OneToMany (mappedBy = "bankAccount", fetch = FetchType.EAGER)
+        private Set<Saldo> exchanges;
+
+        @ManyToOne (fetch = FetchType.EAGER)
+        @JoinColumn (name = "bank_account_type_id", nullable = false)
+        private BankAccType bankAccType;
 }
