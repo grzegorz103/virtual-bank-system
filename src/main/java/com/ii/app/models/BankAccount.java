@@ -22,7 +22,7 @@ public class BankAccount
         @Column (name = "number")
         private String number;
 
-        @OneToMany (mappedBy = "bankAccount", cascade = CascadeType.ALL)
+        @OneToMany (mappedBy = "bankAccount", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
         @JsonIgnore
         private Set<Saldo> saldos;
 
