@@ -8,6 +8,7 @@ import com.ii.app.models.Saldo;
 import com.ii.app.models.enums.BankAccountType;
 import com.ii.app.models.enums.Currency;
 import com.ii.app.repositories.BankAccountRepository;
+import com.ii.app.repositories.BankAccountTypeRepository;
 import com.ii.app.repositories.CurrencyTypeRepository;
 import com.ii.app.repositories.SaldoRepository;
 import com.ii.app.services.interfaces.BankAccountService;
@@ -33,6 +34,8 @@ public class BankAccountServiceImpl implements BankAccountService
 
         private final BankAccountRepository bankAccountRepository;
 
+        private final BankAccountTypeRepository bankAccountTypeRepository;
+
         private final SaldoRepository saldoRepository;
 
         private final CurrencyTypeRepository currencyTypeRepository;
@@ -44,20 +47,29 @@ public class BankAccountServiceImpl implements BankAccountService
                                         BankAccountRepository bankAccountRepository,
                                         Constants constants,
                                         SaldoRepository saldoRepository,
-                                        CurrencyTypeRepository currencyTypeRepository )
+                                        CurrencyTypeRepository currencyTypeRepository,
+                                        BankAccountTypeRepository bankAccountTypeRepository )
         {
                 this.bankAccountMapper = bankAccountMapper;
                 this.bankAccountRepository = bankAccountRepository;
                 this.constants = constants;
                 this.saldoRepository = saldoRepository;
                 this.currencyTypeRepository = currencyTypeRepository;
+                this.bankAccountTypeRepository = bankAccountTypeRepository;
         }
 
         @Override
         public BankAccountOut create ( @NotNull BankAccountIn bankAccountIn )
         {
-                BankAccount bankAccount = bankAccountMapper.DTOtoEntity( bankAccountIn );
+                BankAccount bankAccount = new BankAccount();
                 bankAccount.setNumber( RandomStringUtils.randomNumeric( constants.BANK_ACCOUNT_NUMBER_LENGTH ) );
+                bankAccount.setBankAccType(
+                        bankAccountTypeRepository.findByBankAccountType(
+                                bankAccountIn.isMultiCurrency()
+                                        ? BankAccountType.MULTI_CURRENCY
+                                        : BankAccountType.SINGLE_CURRENCY
+                        )
+                );
                 BankAccount finalBankAccount = bankAccountRepository.save( bankAccount );
 
                 if ( bankAccount.getBankAccType().getBankAccountType() == BankAccountType.MULTI_CURRENCY )

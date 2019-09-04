@@ -100,7 +100,7 @@ public class TransactionServiceImpl implements TransactionService
                                 ? constants.MULTI_CURRENCY_TRANSFER_COMMISSION
                                 : constants.SINGLE_CURRENCY_TRANSFER_COMMISSION) / 100d) * balance.doubleValue()
                         )
-                );
+                ).setScale( BigDecimal.ROUND_DOWN, 2 );
 
                 sourceSaldo.setBalance( sourceSaldo.getBalance().subtract( BigDecimal.valueOf( transactionDTO.getBalance() ) ) );
 
