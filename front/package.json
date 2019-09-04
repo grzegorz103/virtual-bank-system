@@ -1,5 +1,5 @@
 {
-  "name": "front",
+  "name": "angular",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -11,14 +11,21 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "~8.1.0",
+    "@angular/animations": "^8.1.3",
+    "@angular/cdk": "^8.1.3",
     "@angular/common": "~8.1.0",
     "@angular/compiler": "~8.1.0",
     "@angular/core": "~8.1.0",
     "@angular/forms": "~8.1.0",
+    "@angular/material": "^8.1.3",
     "@angular/platform-browser": "~8.1.0",
     "@angular/platform-browser-dynamic": "~8.1.0",
     "@angular/router": "~8.1.0",
+    "bootstrap": "^4.3.1",
+    "i": "^0.3.6",
+    "jquery": "^1.9.1",
+    "ngx-bootstrap": "^5.1.1",
+    "popper.js": "^1.14.7",
     "rxjs": "~6.4.0",
     "tslib": "^1.9.0",
     "zone.js": "~0.9.1"

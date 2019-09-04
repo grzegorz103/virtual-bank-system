@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { BankAccount } from './bank-account';
-import { HttpClient } from '@angular/common/http/http';
+import { HttpClient } from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
 })
 export class BankAccountService {
 
-  url='http://localhost:8080/api/bankAccounts';
+  url='http://localhost:8080/api/bankaccount';
 
   constructor(private http: HttpClient) { }
 
