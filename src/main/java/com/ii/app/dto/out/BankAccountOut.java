@@ -18,4 +18,6 @@ public class BankAccountOut
         private String number;
 
         private boolean multiCurrency;
+
+        private Set<Saldo> saldos;
 }

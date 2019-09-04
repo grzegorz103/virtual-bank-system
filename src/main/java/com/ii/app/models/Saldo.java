@@ -24,10 +24,10 @@ public class Saldo
 
         @ManyToOne (fetch = FetchType.EAGER)
         @JoinColumn (name = "currency_type_id", nullable = false)
-        @JsonIgnore
         private CurrencyType currencyType;
 
         @ManyToOne
+        @JsonIgnore
         @JoinColumn (name = "bank_account_id")
         private BankAccount bankAccount;
 

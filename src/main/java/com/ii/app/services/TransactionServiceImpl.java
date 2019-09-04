@@ -66,7 +66,8 @@ public class TransactionServiceImpl implements TransactionService
         {
                 final Transaction transaction = new Transaction();
 
-                final CurrencyType sourceCurrency = currencyTypeRepository.findByCurrency( transactionDTO.getCurrency() ).orElseThrow( () -> new RuntimeException( "Currency type not found" ) );
+                final CurrencyType sourceCurrency = currencyTypeRepository.findByCurrency( transactionDTO.getSourceCurrency() ).orElseThrow( () -> new RuntimeException( "Currency type not found" ) );
+                final CurrencyType destCurrency = currencyTypeRepository.findByCurrency( transactionDTO.getDestinedCurrency() ).orElseThrow( () -> new RuntimeException( "asd" ) );
                 final BankAccount destinedBankAccount = bankAccountRepository.findByNumber( transactionDTO.getDestinedAccountNumber() ).orElseThrow( () -> new RuntimeException( "Bank account does not exists" ) );
                 final BankAccount sourceBankAccount = bankAccountRepository.findByNumber( transactionDTO.getSourceAccountNumber() ).get();
 
@@ -80,7 +81,7 @@ public class TransactionServiceImpl implements TransactionService
                 final Saldo destSaldo = destinedBankAccount.getSaldos()
                         .stream()
                         .filter( Objects::nonNull )
-                        .filter( e -> e.getCurrencyType() == sourceCurrency )
+                        .filter( e -> e.getCurrencyType() == destCurrency )
                         .findFirst()
                         .orElse( destinedBankAccount.getSaldos().stream().filter( e -> e.getCurrencyType().getCurrency() == Currency.PLN ).findFirst().get() );
 
@@ -96,11 +97,9 @@ public class TransactionServiceImpl implements TransactionService
                 );
 
                 final BigDecimal balanceWithCommission = BigDecimal.valueOf(
-                        balance.doubleValue() - (((sourceMultiCurrency
-                                ? constants.MULTI_CURRENCY_TRANSFER_COMMISSION
-                                : constants.SINGLE_CURRENCY_TRANSFER_COMMISSION) / 100d) * balance.doubleValue()
+                        balance.doubleValue() - ((sourceBankAccount.getBankAccType().getTransactionComission() / 100d) * balance.doubleValue()
                         )
-                );
+                ).setScale( BigDecimal.ROUND_DOWN, 2 );
 
                 sourceSaldo.setBalance( sourceSaldo.getBalance().subtract( BigDecimal.valueOf( transactionDTO.getBalance() ) ) );
 

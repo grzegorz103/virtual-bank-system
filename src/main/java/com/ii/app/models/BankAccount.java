@@ -1,17 +1,15 @@
 package com.ii.app.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
 @Table (name = "bank_accounts")
-@Data
+@Getter @Setter
+@EqualsAndHashCode (exclude="exchanges")
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
@@ -24,7 +22,7 @@ public class BankAccount
         @Column (name = "number")
         private String number;
 
-        @OneToMany (mappedBy = "bankAccount", cascade = CascadeType.ALL)
+        @OneToMany (mappedBy = "bankAccount", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
         @JsonIgnore
         private Set<Saldo> saldos;
 
@@ -33,7 +31,7 @@ public class BankAccount
         private Set<Transaction> transactions;
 
         @OneToMany (mappedBy = "bankAccount", fetch = FetchType.EAGER)
-        private Set<Saldo> exchanges;
+        private Set<ExchangeCurrency> exchanges;
 
         @ManyToOne (fetch = FetchType.EAGER)
         @JoinColumn (name = "bank_account_type_id", nullable = false)
