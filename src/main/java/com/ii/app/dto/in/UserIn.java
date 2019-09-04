@@ -9,4 +9,11 @@ import lombok.NoArgsConstructor;
 @Data
 public class UserIn
 {
+        private String username;
+
+        private String password;
+
+        private String email;
+
+        private AddressIn addressIn;
 }

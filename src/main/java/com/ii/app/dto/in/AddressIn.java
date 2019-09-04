@@ -9,4 +9,18 @@ import lombok.NoArgsConstructor;
 @Data
 public class AddressIn
 {
+        private String city;
+
+        private String street;
+
+        private String postCode;
+
+        private String houseNumber;
+
+        private String name;
+
+        private String surname;
+
+        private String phoneNumber;
+
 }
