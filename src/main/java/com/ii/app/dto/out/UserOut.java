@@ -14,5 +14,5 @@ public class UserOut
 
         private String email;
 
-        private AddressOut addressOut;
+        private AddressOut address;
 }

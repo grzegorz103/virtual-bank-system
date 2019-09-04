@@ -1,4 +1,4 @@
-package com.ii.app.dto.out;
+package com.ii.app.dto.edit;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,10 +7,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class AddressOut
+public class AddressEdit
 {
-        private Long id;
-
         private String city;
 
         private String street;
@@ -18,10 +16,6 @@ public class AddressOut
         private String postCode;
 
         private String houseNumber;
-
-        private String name;
-
-        private String surname;
 
         private String phoneNumber;
 }
