@@ -6,10 +6,8 @@ import com.ii.app.models.CurrencyType;
 import com.ii.app.models.Saldo;
 import com.ii.app.models.enums.BankAccountType;
 import com.ii.app.models.enums.Currency;
-import com.ii.app.repositories.BankAccountRepository;
-import com.ii.app.repositories.BankAccountTypeRepository;
-import com.ii.app.repositories.CurrencyTypeRepository;
-import com.ii.app.repositories.SaldoRepository;
+import com.ii.app.models.user.UserRole;
+import com.ii.app.repositories.*;
 import com.ii.app.utils.Constants;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,20 +24,33 @@ import java.util.stream.Collectors;
 @Configuration
 public class RepositoryInitializer
 {
-        @Autowired
-        BankAccountRepository bankAccountRepository;
+        private final BankAccountRepository bankAccountRepository;
+
+        private final CurrencyTypeRepository currencyTypeRepository;
+
+        private final SaldoRepository saldoRepository;
+
+        private final BankAccountTypeRepository bankAccountTypeRepository;
+
+        private final Constants constants;
+
+        private final UserRoleRepository userRoleRepository;
 
         @Autowired
-        CurrencyTypeRepository currencyTypeRepository;
-
-        @Autowired
-        SaldoRepository saldoRepository;
-
-        @Autowired
-        BankAccountTypeRepository bankAccountTypeRepository;
-
-        @Autowired
-        Constants constants;
+        public RepositoryInitializer ( BankAccountRepository bankAccountRepository,
+                                       CurrencyTypeRepository currencyTypeRepository,
+                                       SaldoRepository saldoRepository,
+                                       BankAccountTypeRepository bankAccountTypeRepository,
+                                       Constants constants,
+                                       UserRoleRepository userRoleRepository )
+        {
+                this.bankAccountRepository = bankAccountRepository;
+                this.currencyTypeRepository = currencyTypeRepository;
+                this.saldoRepository = saldoRepository;
+                this.bankAccountTypeRepository = bankAccountTypeRepository;
+                this.constants = constants;
+                this.userRoleRepository = userRoleRepository;
+        }
 
         @Bean
         public InitializingBean intializeRepo ()
@@ -141,6 +152,11 @@ public class RepositoryInitializer
                                                 .build() ) )
                                         .collect( Collectors.toSet() );
 
+                        }
+
+                        if(userRoleRepository.findAll().isEmpty()){
+                                userRoleRepository.save( UserRole.builder().userType( UserRole.UserType.ROLE_EMPLOYEE ).build() );
+                                userRoleRepository.save( UserRole.builder().userType( UserRole.UserType.ROLE_USER ).build() );
                         }
                 };
         }
