@@ -12,5 +12,4 @@ public interface AddressMapper
         Address DTOtoEntity ( AddressIn addressIn );
 
         AddressOut entityToDTO ( Address address );
-
 }
