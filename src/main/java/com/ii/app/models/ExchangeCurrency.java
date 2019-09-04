@@ -1,9 +1,8 @@
 package com.ii.app.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ii.app.models.enums.Currency;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -11,7 +10,8 @@ import java.time.Instant;
 
 @Entity
 @Table
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class ExchangeCurrency
@@ -20,7 +20,8 @@ public class ExchangeCurrency
         @GeneratedValue (strategy = GenerationType.IDENTITY)
         private Long id;
 
-        @ManyToOne (fetch = FetchType.EAGER)
+        @ManyToOne (fetch = FetchType.LAZY)
+        @JsonIgnore
         @JoinColumn (name = "bank_account_id", nullable = false)
         private BankAccount bankAccount;
 

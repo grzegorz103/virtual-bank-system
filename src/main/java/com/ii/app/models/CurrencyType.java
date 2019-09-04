@@ -27,6 +27,7 @@ public class CurrencyType
         private float exchangeRate;
 
         @OneToMany (mappedBy = "currencyType", fetch = FetchType.EAGER)
+        @JsonIgnore
         private Set<Saldo> saldos;
 
 }
