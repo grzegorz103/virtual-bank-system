@@ -1,16 +1,21 @@
 package com.ii.app.services;
 
 import com.ii.app.dto.TransactionDTO;
+import com.ii.app.dto.out.TransactionOut;
+import com.ii.app.mappers.TransactionMapper;
 import com.ii.app.models.BankAccount;
 import com.ii.app.models.CurrencyType;
 import com.ii.app.models.Saldo;
 import com.ii.app.models.Transaction;
+import com.ii.app.models.enums.BankAccountType;
 import com.ii.app.models.enums.Currency;
 import com.ii.app.repositories.BankAccountRepository;
 import com.ii.app.repositories.CurrencyTypeRepository;
 import com.ii.app.repositories.SaldoRepository;
 import com.ii.app.repositories.TransactionRepository;
+import com.ii.app.services.interfaces.TransactionService;
 import com.ii.app.utils.Constants;
+import com.ii.app.utils.CurrencyConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +23,9 @@ import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.Instant;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service ("transactionService")
 public class TransactionServiceImpl implements TransactionService
@@ -31,19 +38,27 @@ public class TransactionServiceImpl implements TransactionService
 
         private final TransactionRepository transactionRepository;
 
+        private final TransactionMapper transactionMapper;
+
         private final Constants constants;
+
+        private final CurrencyConverter currencyConverter;
 
         @Autowired
         public TransactionServiceImpl ( CurrencyTypeRepository currencyTypeRepository,
                                         BankAccountRepository bankAccountRepository,
                                         SaldoRepository saldoRepository,
-                                        Constants constants, TransactionRepository transactionRepository )
+                                        Constants constants,
+                                        TransactionRepository transactionRepository,
+                                        TransactionMapper transactionMapper, CurrencyConverter currencyConverter )
         {
                 this.currencyTypeRepository = currencyTypeRepository;
                 this.bankAccountRepository = bankAccountRepository;
                 this.saldoRepository = saldoRepository;
                 this.constants = constants;
                 this.transactionRepository = transactionRepository;
+                this.transactionMapper = transactionMapper;
+                this.currencyConverter = currencyConverter;
         }
 
         @Override
@@ -62,20 +77,26 @@ public class TransactionServiceImpl implements TransactionService
                         .findFirst()
                         .get();
 
+                final Saldo destSaldo = destinedBankAccount.getSaldos()
+                        .stream()
+                        .filter( Objects::nonNull )
+                        .filter( e -> e.getCurrencyType() == sourceCurrency )
+                        .findFirst()
+                        .orElse( destinedBankAccount.getSaldos().stream().filter( e -> e.getCurrencyType().getCurrency() == Currency.PLN ).findFirst().get() );
+
                 if ( sourceSaldo.getBalance().floatValue() < transactionDTO.getBalance() )
                         throw new RuntimeException( "Source saldo has no required balance" );
 
+                boolean sourceMultiCurrency = sourceBankAccount.getBankAccType().getBankAccountType() == BankAccountType.MULTI_CURRENCY;
 
-                final BigDecimal balance = convertCurrency(
+                final BigDecimal balance = currencyConverter.convertCurrency(
                         transactionDTO.getBalance(),
                         sourceCurrency,
-                        destinedBankAccount.isMultiCurrency()
-                                ? sourceCurrency
-                                : currencyTypeRepository.findByCurrency( Currency.PLN ).get()
+                        destSaldo.getCurrencyType()
                 );
 
                 final BigDecimal balanceWithCommission = BigDecimal.valueOf(
-                        balance.doubleValue() - (((sourceBankAccount.isMultiCurrency()
+                        balance.doubleValue() - (((sourceMultiCurrency
                                 ? constants.MULTI_CURRENCY_TRANSFER_COMMISSION
                                 : constants.SINGLE_CURRENCY_TRANSFER_COMMISSION) / 100d) * balance.doubleValue()
                         )
@@ -83,11 +104,13 @@ public class TransactionServiceImpl implements TransactionService
 
                 sourceSaldo.setBalance( sourceSaldo.getBalance().subtract( BigDecimal.valueOf( transactionDTO.getBalance() ) ) );
 
-                destinedBankAccount.getSaldos()
+                destSaldo.setBalance( destSaldo.getBalance().add( balanceWithCommission ) );
+
+         /*       destinedBankAccount.getSaldos()
                         .stream()
                         .filter( Objects::nonNull )
                         .filter( e -> {
-                                if ( destinedBankAccount.isMultiCurrency() )
+                                if ( destMultiCurrency )
                                         return e.getCurrencyType() == sourceCurrency;
                                 else
                                         return e.getCurrencyType().getCurrency() == Currency.PLN;
@@ -97,7 +120,7 @@ public class TransactionServiceImpl implements TransactionService
                                 e.setBalance( e.getBalance().add( balanceWithCommission ) );
                                 saldoRepository.save( e );
                         } );
-
+*/
                 transaction.setBalance( BigDecimal.valueOf( transactionDTO.getBalance() ) );
                 transaction.setBalanceWithCommission( balanceWithCommission );
                 transaction.setDate( Instant.now() );
@@ -108,31 +131,45 @@ public class TransactionServiceImpl implements TransactionService
                 return transactionRepository.save( transaction );
         }
 
+        @Override
+        public List<TransactionOut> findAll ()
+        {
+                return transactionRepository.findAll()
+                        .stream()
+                        .map( transactionMapper::entityToDTO )
+                        .collect( Collectors.toList() );
+        }
+
+        /*
         private BigDecimal convertCurrency ( float currency, CurrencyType sourceCurrency, CurrencyType destinedCurrency )
         {
 
                 BigDecimal convertedCurrency;
-                if ( sourceCurrency != null && destinedCurrency != null )
+                if ( currency > 0 )
                 {
-                        // gdy waluta zrodlowa == docelowa nie trzeba konwertowac na inna walute
-                        if ( sourceCurrency == destinedCurrency )
+                        if ( sourceCurrency != null && destinedCurrency != null )
                         {
-                                convertedCurrency = new BigDecimal( currency );
-                                convertedCurrency = convertedCurrency.setScale( 2, RoundingMode.DOWN );
-                                return convertedCurrency;
-                        } else
-                        {
-                                final float sourceExchangeRate = sourceCurrency.getExchangeRate();
-                                final float destinedExchangeRate = destinedCurrency.getExchangeRate();
-                                if ( destinedExchangeRate > 0 )
+                                // gdy waluta zrodlowa == docelowa nie trzeba konwertowac na inna walute
+                                if ( sourceCurrency == destinedCurrency )
                                 {
-                                        convertedCurrency = new BigDecimal( (currency * sourceExchangeRate) / destinedExchangeRate );
+                                        convertedCurrency = new BigDecimal( currency );
                                         convertedCurrency = convertedCurrency.setScale( 2, RoundingMode.DOWN );
                                         return convertedCurrency;
+                                } else
+                                {
+                                        final float sourceExchangeRate = sourceCurrency.getExchangeRate();
+                                        final float destinedExchangeRate = destinedCurrency.getExchangeRate();
+                                        if ( destinedExchangeRate > 0 )
+                                        {
+                                                convertedCurrency = new BigDecimal( (currency * sourceExchangeRate) / destinedExchangeRate );
+                                                convertedCurrency = convertedCurrency.setScale( 2, RoundingMode.DOWN );
+                                                return convertedCurrency;
+                                        }
                                 }
                         }
                 }
-                return null;
+                return BigDecimal.ZERO;
         }
+        */
 
 }

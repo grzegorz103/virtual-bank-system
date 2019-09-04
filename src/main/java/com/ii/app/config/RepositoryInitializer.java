@@ -1,12 +1,16 @@
 package com.ii.app.config;
 
+import com.ii.app.models.BankAccType;
 import com.ii.app.models.BankAccount;
 import com.ii.app.models.CurrencyType;
 import com.ii.app.models.Saldo;
+import com.ii.app.models.enums.BankAccountType;
 import com.ii.app.models.enums.Currency;
 import com.ii.app.repositories.BankAccountRepository;
+import com.ii.app.repositories.BankAccountTypeRepository;
 import com.ii.app.repositories.CurrencyTypeRepository;
 import com.ii.app.repositories.SaldoRepository;
+import com.ii.app.utils.Constants;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -30,6 +34,12 @@ public class RepositoryInitializer
 
         @Autowired
         SaldoRepository saldoRepository;
+
+        @Autowired
+        BankAccountTypeRepository bankAccountTypeRepository;
+
+        @Autowired
+        Constants constants;
 
         @Bean
         public InitializingBean intializeRepo ()
@@ -69,11 +79,33 @@ public class RepositoryInitializer
                                 currencyTypeRepository.save( gbp );
                         }
 
+                        if ( bankAccountTypeRepository.findAll().isEmpty() )
+                        {
+                                BankAccType bankAccType = BankAccType.builder()
+                                        .bankAccountType( BankAccountType.MULTI_CURRENCY )
+                                        .exchangeCurrencyCommission( ( float ) constants.CURRENCY_CONVERT_COMMISSION )
+                                        .transactionComission( ( float ) constants.MULTI_CURRENCY_TRANSFER_COMMISSION )
+                                        .build();
+
+                                bankAccountTypeRepository.save( bankAccType );
+
+                                BankAccType bankAccType2 = BankAccType.builder()
+                                        .bankAccountType( BankAccountType.SINGLE_CURRENCY )
+                                        .exchangeCurrencyCommission( ( float ) constants.CURRENCY_CONVERT_COMMISSION )
+                                        .transactionComission( ( float ) constants.SINGLE_CURRENCY_TRANSFER_COMMISSION )
+                                        .build();
+
+                                bankAccountTypeRepository.save( bankAccType2 );
+
+                        }
+
                         if ( bankAccountRepository.findAll().isEmpty() )
                         {
+                                BankAccType single = bankAccountTypeRepository.findByBankAccountType( BankAccountType.SINGLE_CURRENCY );
+                                BankAccType multi = bankAccountTypeRepository.findByBankAccountType( BankAccountType.MULTI_CURRENCY );
 
                                 BankAccount bankAccount = BankAccount.builder()
-                                        .multiCurrency( true )
+                                        .bankAccType( multi )
                                         .number( "321123" )
                                         .saldos( new HashSet<>() )
                                         .transactions( new HashSet<>() )
@@ -92,7 +124,7 @@ public class RepositoryInitializer
 
 
                                 BankAccount bankAccount2 = BankAccount.builder()
-                                        .multiCurrency( true )
+                                        .bankAccType( multi )
                                         .number( "432123" )
                                         .saldos( new HashSet<>() )
                                         .transactions( new HashSet<>() )
