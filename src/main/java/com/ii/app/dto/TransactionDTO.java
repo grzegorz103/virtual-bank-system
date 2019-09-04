@@ -16,9 +16,10 @@ import java.math.BigDecimal;
 @Builder
 public class TransactionDTO
 {
-        private String destinedAccountNumber;
         private String sourceAccountNumber;
-        private Currency currency;
+        private Currency sourceCurrency;
+        private String destinedAccountNumber;
+        private Currency destinedCurrency;
         private float balance;
         private String title;
 }
