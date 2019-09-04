@@ -15,5 +15,5 @@ public class UserIn
 
         private String email;
 
-        private AddressIn addressIn;
+        private AddressIn address;
 }

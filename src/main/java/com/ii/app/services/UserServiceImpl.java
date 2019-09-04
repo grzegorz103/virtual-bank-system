@@ -42,21 +42,21 @@ public class UserServiceImpl implements UserService
         @Override
         public UserOut create ( UserIn userIn )
         {
-                User mapped = userMapper.DTOtoEntity( userIn );
+                User mapped = userMapper.userInToUser( userIn );
                 mapped.setLocked( false );
                 mapped.setCredentials( false );
                 mapped.setEnabled( true );
                 mapped.setUserRoles( Collections.singleton( userRoleRepository.findByUserType( UserRole.UserType.ROLE_USER ) ) );
                 mapped.setPassword( encoder.encode( userIn.getPassword() ) );
 
-                return userMapper.entityToDTO( userRepository.save( mapped ) );
+                return userMapper.userToUserOut( userRepository.save( mapped ) );
         }
 
         @Override
         public UserOut getByUsername ( String username )
         {
                 return userRepository.findByUsername( username )
-                        .map( userMapper::entityToDTO )
+                        .map( userMapper::userToUserOut )
                         .orElseThrow( () -> new UsernameNotFoundException( "Not found" ) );
         }
 

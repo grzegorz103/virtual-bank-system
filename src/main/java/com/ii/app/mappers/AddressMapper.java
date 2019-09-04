@@ -8,7 +8,7 @@ import org.mapstruct.Mapper;
 @Mapper (componentModel = "spring")
 public interface AddressMapper
 {
-        Address DTOtoEntity ( AddressIn transactionIn );
+        Address DTOtoEntity ( AddressIn addressIn );
 
         AddressOut entityToDTO ( Address address );
 }
