@@ -4,12 +4,50 @@
   <div id="sidebar-wrapper">
     <div class="bg-dark sidebar-heading">Wirtualny bank</div>
     <div class="list-group list-group-flush border-right">
-      <a href="#" class="list-group-item list-group-item-action ">
-        <fa-icon [icon]="faUniversity"></fa-icon>Przelewy
-      </a>
-      <a href="#" class="list-group-item list-group-item-action">Wymiana</a>
-      <a href="#" class="list-group-item list-group-item-action">Kredyty</a>
-      <a href="#" class="list-group-item list-group-item-action">Lokaty</a>
+   
+    <mat-accordion>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Przelewy
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <a routerLink="bankAccounts" class="list-group-item list-group-item-action ">
+          <fa-icon [icon]="faMoneyBillWave"></fa-icon> Przelewy
+        </a>
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Wymiana
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <a routerLink="transactions/create" class="list-group-item list-group-item-action">
+          <fa-icon [icon]="faHandshake"></fa-icon> Wymiana
+        </a>
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Kredyty
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <a href="#" class="list-group-item list-group-item-action">
+            <fa-icon [icon]="faHandHolding"></fa-icon> Kredyty
+          </a>
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Lokaty
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <a href="#" class="list-group-item list-group-item-action">
+            <fa-icon [icon]="faUniversity"></fa-icon> Lokaty
+          </a>
+      </mat-expansion-panel>
+
+    </mat-accordion>
     </div>
   </div>
   <!-- /#sidebar-wrapper -->

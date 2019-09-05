@@ -12,6 +12,8 @@ import { TransactionMultiCurrencyComponent } from './main/views/transaction-mult
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import { ExchangeCurrencyComponent } from './main/views/exchange-currency/exchange-currency.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -26,8 +28,10 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    BrowserAnimationsModule,
     FormsModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    MatExpansionModule
   ],
   providers: [BankAccountService],
   bootstrap: [AppComponent]
