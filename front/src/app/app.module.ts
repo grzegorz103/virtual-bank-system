@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { BankAccountListComponent } from './bank-account-list/bank-account-list.component';
 import { BankAccountService } from './bank-account.service';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { HttpClientModule } from '@angular/common/http';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [BankAccountService],
   bootstrap: [AppComponent]
