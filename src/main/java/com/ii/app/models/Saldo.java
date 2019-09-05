@@ -27,7 +27,6 @@ public class Saldo
         private CurrencyType currencyType;
 
         @ManyToOne
-        @JsonIgnore
         @JoinColumn (name = "bank_account_id")
         private BankAccount bankAccount;
 

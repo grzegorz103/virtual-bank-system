@@ -27,7 +27,8 @@ export class BankAccountListComponent implements OnInit {
   ngOnInit() {
   }
 
-  createTransaction() {this.transaction.destinedCurrency='PLN';
+  createTransaction() {
+    this.transaction.destinedCurrency = 'PLN';
     this.transactionService.create(this.transaction).subscribe(res => console.log(res));
   }
 
@@ -35,7 +36,6 @@ export class BankAccountListComponent implements OnInit {
     this.currencyList = this.bankAccounts
       .find(e => e.number === this.transaction.sourceAccountNumber)
       .saldos
-      .map(e => e.currencyType.currency)
-      .map(e => String(e));
+      .map(e => String(e.currencyType.currency))
   }
 }
