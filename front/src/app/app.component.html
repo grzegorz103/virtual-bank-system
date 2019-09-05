@@ -1,2 +1,19 @@
-<app-navbar></app-navbar>
-<router-outlet></router-outlet>
+<div class="d-flex" id="wrapper">
+
+  <!-- Sidebar -->
+  <div id="sidebar-wrapper">
+    <div class="bg-dark sidebar-heading">Wirtualny bank</div>
+    <div class="list-group list-group-flush border-right">
+      <a href="#" class="list-group-item list-group-item-action ">
+        <fa-icon [icon]="faUniversity"></fa-icon>Przelewy
+      </a>
+      <a href="#" class="list-group-item list-group-item-action">Wymiana</a>
+      <a href="#" class="list-group-item list-group-item-action">Kredyty</a>
+      <a href="#" class="list-group-item list-group-item-action">Lokaty</a>
+    </div>
+  </div>
+  <!-- /#sidebar-wrapper -->
+  <div id="page-content-wrapper">
+    <app-navbar></app-navbar>
+    <router-outlet></router-outlet>
+  </div>
