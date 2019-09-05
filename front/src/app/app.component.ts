@@ -13,6 +13,6 @@ export class AppComponent {
   title = 'front';
   faMoneyBillWave = faMoneyBillWave;
   faUniversity = faUniversity;
-  faHandshake=faHandshake;
+  faHandshake = faHandshake;
   faHandHolding = faHandHolding;
 }

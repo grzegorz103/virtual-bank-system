@@ -8,23 +8,21 @@
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="navbar-nav">
 
-        <li class="nav-item active">
-          <a  class="nav-link"
-            routerLink="bankAccounts">Moje konta<span class="sr-only">(current)</span></a>
+        <li *ngIf="isMobileView()" class="nav-item active">
+          <a class="nav-link" routerLink="bankAccounts">Moje konta<span class="sr-only">(current)</span></a>
         </li>
-        <li class="nav-item active">
-          <a class="nav-link"
-            routerLink="transactions/create">Nowy przelew</a>
-        </li>
-      
-        <li class="nav-item">
-          <a class="nav-link"
-            routerLink="transactions/create/multicurrency">Nowy przelew wielowalutowy</a>
+        <li *ngIf="isMobileView()" class="nav-item active">
+          <a class="nav-link" routerLink="transactions/create">Nowy przelew</a>
         </li>
 
+        <li *ngIf="isMobileView()" class="nav-item">
+          <a class="nav-link" routerLink="transactions/create/multicurrency">Nowy przelew wielowalutowy</a>
+        </li>
         <li class="nav-item">
-          <a class="nav-link"
-            routerLink="exchange">Wymiana walut</a>
+            <a class="nav-link" routerLink="exchange">Wymiana walut</a>
+          </li>
+        <li *ngIf="isMobileView()" class="nav-item">
+          <a class="nav-link" routerLink="exchange">Wymiana walut</a>
         </li>
       </ul>
 
