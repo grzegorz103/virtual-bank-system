@@ -11,7 +11,7 @@ export class TransactionService {
 
   constructor(private http: HttpClient) { }
 
-  create(transaction: Transaction) {
+  create(transaction: string) {
     return this.http.post<Transaction>(this.url, transaction);
   }
 
