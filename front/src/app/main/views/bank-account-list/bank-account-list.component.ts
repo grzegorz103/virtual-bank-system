@@ -1,16 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { BankAccount } from '../bank-account';
-import { Transaction } from '../transaction';
-import { BankAccountService } from '../bank-account.service';
-import { TransactionService } from '../transaction.service';
+import { BankAccountService } from '../../services/bank-account.service';
+import { BankAccount } from '../../models/bank-account';
+import { TransactionService } from '../../services/transaction.service';
+import { Transaction } from '../../models/transaction';
 
 @Component({
-  selector: 'app-transaction',
-  templateUrl: './transaction.component.html',
-  styleUrls: ['./transaction.component.scss']
+  selector: 'app-bank-account-list',
+  templateUrl: './bank-account-list.component.html',
+  styleUrls: ['./bank-account-list.component.scss']
 })
-export class TransactionComponent implements OnInit {
-
+export class BankAccountListComponent implements OnInit {
 
   bankAccounts: BankAccount[];
   transaction: Transaction;

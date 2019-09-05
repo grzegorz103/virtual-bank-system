@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { BankAccountService } from '../bank-account.service';
-import { BankAccount } from '../bank-account';
-import { TransactionService } from '../transaction.service';
-import { Transaction } from '../transaction';
+import { BankAccount } from '../../models/bank-account';
+import { BankAccountService } from '../../services/bank-account.service';
+import { TransactionService } from '../../services/transaction.service';
+import { Transaction } from '../../models/transaction';
 
 @Component({
-  selector: 'app-bank-account-list',
-  templateUrl: './bank-account-list.component.html',
-  styleUrls: ['./bank-account-list.component.scss']
+  selector: 'app-transaction-multi-currency',
+  templateUrl: './transaction-multi-currency.component.html',
+  styleUrls: ['./transaction-multi-currency.component.scss']
 })
-export class BankAccountListComponent implements OnInit {
+export class TransactionMultiCurrencyComponent implements OnInit {
 
+  
   bankAccounts: BankAccount[];
   transaction: Transaction;
 
@@ -28,7 +29,6 @@ export class BankAccountListComponent implements OnInit {
   }
 
   createTransaction() {
-    this.transaction.destinedCurrency = 'PLN';
     this.transactionService.create(this.transaction).subscribe(res => console.log(res));
   }
 
@@ -38,4 +38,5 @@ export class BankAccountListComponent implements OnInit {
       .saldos
       .map(e => String(e.currencyType.currency))
   }
+
 }
