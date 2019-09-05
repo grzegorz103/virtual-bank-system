@@ -7,11 +7,17 @@ import { BankAccountListComponent } from './bank-account-list/bank-account-list.
 import { BankAccountService } from './bank-account.service';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { TransactionComponent } from './transaction/transaction.component';
+import { TransactionMultiCurrencyComponent } from './transaction-multi-currency/transaction-multi-currency.component';
+import { NavbarComponent } from './shared/navbar/navbar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    BankAccountListComponent
+    BankAccountListComponent,
+    TransactionComponent,
+    TransactionMultiCurrencyComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,
