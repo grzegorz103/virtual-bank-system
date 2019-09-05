@@ -19,5 +19,5 @@ public class BankAccountOut
 
         private boolean multiCurrency;
 
-        private Set<Saldo> saldos;
+        private Set<SaldoOut> saldos;
 }

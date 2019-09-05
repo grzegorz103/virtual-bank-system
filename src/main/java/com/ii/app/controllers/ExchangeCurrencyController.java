@@ -5,10 +5,9 @@ import com.ii.app.dto.out.ExchangeCurrencyOut;
 import com.ii.app.models.ExchangeCurrency;
 import com.ii.app.services.interfaces.ExchangeCurrencyService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.math.BigDecimal;
 
 @RestController
 @RequestMapping ("/exchangecurrency")
@@ -26,5 +25,11 @@ public class ExchangeCurrencyController
         public ExchangeCurrencyOut create ( @RequestBody ExchangeCurrencyIn exchangeCurrencyIn )
         {
                 return exchangeCurrencyService.create( exchangeCurrencyIn );
+        }
+
+        @PostMapping ("/calculate")
+        public BigDecimal calculate ( @RequestBody ExchangeCurrencyIn exchangeCurrencyIn )
+        {
+                return exchangeCurrencyService.calculate( exchangeCurrencyIn );
         }
 }
