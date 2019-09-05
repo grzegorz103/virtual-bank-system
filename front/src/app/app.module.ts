@@ -6,12 +6,16 @@ import { AppComponent } from './app.component';
 import { BankAccountListComponent } from './main/views/bank-account-list/bank-account-list.component';
 import { BankAccountService } from './main/services/bank-account.service';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TransactionComponent } from './main/views/transaction/transaction.component';
 import { TransactionMultiCurrencyComponent } from './main/views/transaction-multi-currency/transaction-multi-currency.component';
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import { ExchangeCurrencyComponent } from './main/views/exchange-currency/exchange-currency.component';
-
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatButtonModule, MatFormFieldModule, MatInputModule, MatCardModule, MatOptionModule, MatSelectModule } from '@angular/material';
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,7 +29,17 @@ import { ExchangeCurrencyComponent } from './main/views/exchange-currency/exchan
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    BrowserAnimationsModule,
+    FormsModule,
+    FontAwesomeModule,
+    MatExpansionModule,
+    ReactiveFormsModule,
+    MatStepperModule, MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatOptionModule,
+    MatSelectModule,
+    MatCardModule
   ],
   providers: [BankAccountService],
   bootstrap: [AppComponent]
