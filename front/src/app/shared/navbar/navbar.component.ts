@@ -11,17 +11,12 @@ declare const $: any;
 
 export class NavbarComponent implements OnInit {
 
-  mobile: boolean;
+  isMobileView: boolean;
 
   constructor() { }
 
   ngOnInit() {
-
+    window.onresize = () => this.isMobileView = window.innerWidth <= 768;
   }
-  isMobileView() {
-    if ($(window).width() > 991) {
-      return false;
-    }
-    return true;
-  };
+  
 }
