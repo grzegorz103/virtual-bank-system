@@ -29,7 +29,7 @@ export class TransactionMultiCurrencyComponent implements OnInit {
   }
 
   createTransaction() {
-    this.transactionService.create(this.transaction).subscribe(res => console.log(res));
+   // this.transactionService.create(this.transaction).subscribe(res => console.log(res));
   }
 
   changeCurrencyList() {

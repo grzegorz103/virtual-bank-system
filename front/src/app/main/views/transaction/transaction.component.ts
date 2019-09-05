@@ -42,6 +42,7 @@ export class TransactionComponent implements OnInit {
   }
 
   createTransaction() {
+    this.transactionService.create(this.transactionForm.value).subscribe(res=>console.log(res));
   //  this.transaction.destinedCurrency = 'PLN';
     //this.transactionService.create(this.transaction).subscribe(res => console.log(res));
   }
