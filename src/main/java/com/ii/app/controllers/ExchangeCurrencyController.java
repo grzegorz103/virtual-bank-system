@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigDecimal;
 
 @RestController
-@RequestMapping ("/exchangecurrency")
+@RequestMapping ("/api/exchangecurrency")
 public class ExchangeCurrencyController
 {
         private final ExchangeCurrencyService exchangeCurrencyService;
