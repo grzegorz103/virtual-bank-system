@@ -1,0 +1,14 @@
+
+<select [(ngModel)]="exchangeCurrency.sourceBankAccNumber" (change)="changeCurrencyList()" name="sourceAccNumber">
+    <option *ngFor="let bankAccount of bankAccounts" [ngValue]="bankAccount.number">{{ bankAccount.number }}</option>
+</select>
+<select [(ngModel)]="exchangeCurrency.sourceCurrency" name="sourceCurrency">
+    <option *ngFor="let currency of currencyList" [ngValue]="currency">{{ currency }}</option>
+</select>
+<select [(ngModel)]="exchangeCurrency.destCurrency" name="destCurrency">
+    <option [ngValue]="'USD'">USD</option>
+    <option [ngValue]="'EUR'">EUR</option>
+</select>
+<input type="text" [(ngModel)]="exchangeCurrency.balance">
+
+<button type="button" (click)="save()">Wymień</button>

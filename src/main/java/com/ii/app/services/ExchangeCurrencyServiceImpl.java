@@ -110,4 +110,17 @@ public class ExchangeCurrencyServiceImpl implements ExchangeCurrencyService
                 exchangeCurrencyRepository.save( mapped );
                 return exchangeCurrencyMapper.entityToDTO( mapped );
         }
+
+        @Override
+        public BigDecimal calculate ( ExchangeCurrencyIn exchangeCurrencyIn )
+        {
+                CurrencyType sourceCurrencyType = currencyTypeRepository.findByCurrency( exchangeCurrencyIn.getSourceCurrency() ).orElseThrow( () -> new RuntimeException( "Nie znaleziono" ) );
+                CurrencyType destCurrencyType = currencyTypeRepository.findByCurrency( exchangeCurrencyIn.getDestCurrency() ).orElseThrow( () -> new RuntimeException( "Nie znaleziono" ) );
+
+                return currencyConverter.convertCurrency(
+                        exchangeCurrencyIn.getBalance(),
+                        sourceCurrencyType,
+                        destCurrencyType
+                );
+        }
 }
