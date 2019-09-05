@@ -1,4 +1,3 @@
-
 <select [(ngModel)]="transaction.sourceAccountNumber" (change)="changeCurrencyList()" name="sourceAccNumber">
     <option *ngFor="let bankAccount of bankAccounts" [ngValue]="bankAccount.number">{{ bankAccount.number }}</option>
 </select>
@@ -11,3 +10,54 @@
 <input type="text" [(ngModel)]="transaction.title">
 
 <button type="button" (click)="createTransaction()">Przelew</button>
+<mat-horizontal-stepper [linear]="false" #stepper>
+    <mat-step [stepControl]="transactionForm">
+        <form [formGroup]="transactionForm">
+            <ng-template matStepLabel>Formularz</ng-template>
+
+            <mat-form-field>
+                <mat-label>Rachunek bankowy</mat-label>
+                <mat-select formControlName="sourceAccountNumber" (change)="changeCurrencyList()">
+                    <mat-option *ngFor="let bankAccount of bankAccounts" [value]="bankAccount.number">
+                        {{bankAccount.number}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput placeholder="Konto odbiorcy" formControlName="destinedAccountNumber" required>
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput placeholder="Tytuł" formControlName="title" required>
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput placeholder="Kwota" formControlName="balance" required>
+            </mat-form-field>
+            <div>
+                <button mat-button matStepperNext>Next</button>
+            </div>
+        </form>
+    </mat-step>
+    <mat-step [stepControl]="transactionForm">
+        <form [formGroup]="transactionForm">
+            <ng-template matStepLabel>Podsumowanie</ng-template>
+            <mat-form-field>
+                <input matInput placeholder="Address" formControlName="sourceCurrency" required>
+            </mat-form-field>
+            <div>
+                <button mat-button matStepperPrevious>Back</button>
+                <button mat-button matStepperNext>Next</button>
+            </div>
+        </form>
+    </mat-step>
+    <mat-step>
+        <ng-template matStepLabel>Done</ng-template>
+        You are now done.
+        <div>
+            <button mat-button matStepperPrevious>Wysłanie</button>
+            <button mat-button (click)="stepper.reset()">Reset</button>
+        </div>
+    </mat-step>
+</mat-horizontal-stepper>

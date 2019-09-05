@@ -15,7 +15,9 @@
         <li class="nav-item active">
           <a class="nav-link" routerLink="transactions/create">Rejestracja</a>
         </li>
-        
+        <li *ngIf="isMobileView" class="nav-item active">
+            <a class="nav-link" routerLink="bankAccounts">Podsumowanie<span class="sr-only">(current)</span></a>
+          </li>
         <li *ngIf="isMobileView" class="nav-item active">
           <a class="nav-link" routerLink="bankAccounts">Moje konta<span class="sr-only">(current)</span></a>
         </li>

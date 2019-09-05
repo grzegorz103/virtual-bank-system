@@ -22,12 +22,19 @@
     font-size: 1.2rem;
   }
   
+  mat-expansion-panel,mat-expansion-panel-header {
+  margin: 0;
+}
   #sidebar-wrapper .list-group {
     width: 15rem;
   }
   
   #page-content-wrapper {
     min-width: 100vw;
+  }
+
+  #router-wrapper{
+      max-width: 80%;
   }
   
   #wrapper.toggled #sidebar-wrapper {
