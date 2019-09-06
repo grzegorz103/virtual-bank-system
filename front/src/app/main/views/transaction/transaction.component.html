@@ -9,7 +9,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-12 col-md-6">
+                    <div class="col-sm-12 col-md-8">
                         <mat-form-field style="width:100%">
                             <mat-label>Rachunek bankowy</mat-label>
                             <mat-select formControlName="sourceAccountNumber" (change)="changeCurrencyList()">
@@ -53,7 +53,7 @@
                     </div>
                 </div>
                 <div>
-                    <button mat-button matStepperNext>Dalej</button>
+                    <button mat-raised-button color="primary" matStepperNext>Dalej</button>
                 </div>
             </form>
         </mat-step>
@@ -79,8 +79,8 @@
                     </tr>
                 </table>
                 <div>
-                    <button mat-button matStepperPrevious>Wstecz</button>
-                    <button mat-button (click)="createTransaction()" matStepperNext>Wyślij</button>
+                    <button mat-raised-button color="warn" class="mr-2" matStepperPrevious>Wstecz</button>
+                    <button mat-raised-button color="primary" (click)="createTransaction()" matStepperNext>Wyślij</button>
                 </div>
             </form>
         </mat-step>

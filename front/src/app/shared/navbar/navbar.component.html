@@ -1,13 +1,13 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container">
-    <a class="navbar-brand" routerLink="/">Index</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+   <!--  <a class="navbar-brand" routerLink="/">Index</a>
+    --> <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
       aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
-      <ul class="navbar-nav">
-        
+      <ul class="navbar-nav w-100 justify-content-end">
+
         <li class="nav-item active">
           <a class="nav-link" routerLink="transactions/create">Logowanie</a>
         </li>
@@ -16,8 +16,8 @@
           <a class="nav-link" routerLink="transactions/create">Rejestracja</a>
         </li>
         <li *ngIf="isMobileView" class="nav-item active">
-            <a class="nav-link" routerLink="bankAccounts">Podsumowanie<span class="sr-only">(current)</span></a>
-          </li>
+          <a class="nav-link" routerLink="bankAccounts">Podsumowanie<span class="sr-only">(current)</span></a>
+        </li>
         <li *ngIf="isMobileView" class="nav-item active">
           <a class="nav-link" routerLink="bankAccounts">Moje konta<span class="sr-only">(current)</span></a>
         </li>
