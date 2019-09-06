@@ -1,5 +1,5 @@
 <mat-card>
-    <mat-horizontal-stepper [linear]="false" #stepper>
+    <mat-horizontal-stepper linear #stepper>
         <mat-step [stepControl]="transactionForm">
             <form [formGroup]="transactionForm">
                 <ng-template matStepLabel>Formularz</ng-template>
@@ -80,7 +80,7 @@
                 </table>
                 <div>
                     <button mat-button matStepperPrevious>Wstecz</button>
-                    <button mat-button matStepperNext>Dalej</button>
+                    <button mat-button (click)="createTransaction()" matStepperNext>Wyślij</button>
                 </div>
             </form>
         </mat-step>
