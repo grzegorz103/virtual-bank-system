@@ -15,7 +15,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatStepperModule } from '@angular/material/stepper';
-import { MatButtonModule, MatFormFieldModule, MatInputModule, MatCardModule, MatOptionModule, MatSelectModule } from '@angular/material';
+import { MatButtonModule, MatFormFieldModule, MatInputModule, MatCardModule, MatOptionModule, 
+  MatSelectModule, MatIconModule, MatTableModule } from '@angular/material';
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,7 +40,8 @@ import { MatButtonModule, MatFormFieldModule, MatInputModule, MatCardModule, Mat
     MatInputModule,
     MatOptionModule,
     MatSelectModule,
-    MatCardModule
+    MatCardModule,
+    MatIconModule,MatTableModule
   ],
   providers: [BankAccountService],
   bootstrap: [AppComponent]

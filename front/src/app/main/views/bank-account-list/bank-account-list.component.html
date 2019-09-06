@@ -1,20 +1,36 @@
-<table class="table table-hover">
-    <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Numer</th>
-            <th scope="col">Wielowalutowość</th>
-            <th scope="col">Salda</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let bankAccount of bankAccounts">
-            <th scope="row">{{ bankAccount.id }}</th>
-            <td>{{ bankAccount.number }}</td>
-            <td>{{ bankAccount.multiCurrency }}</td>
-            <td>
-                <div *ngFor="let saldo of bankAccount.saldos">{{saldo.id}} {{saldo.balance}}</div>
-            </td>
-        </tr>
-    </tbody>
-</table>
+
+<div class="example-container mat-elevation-z8">
+    <table mat-table [dataSource]="bankAccounts">
+  
+      <!-- Position Column -->
+      <ng-container matColumnDef="ID">
+        <th mat-header-cell *matHeaderCellDef>ID</th>
+        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+      </ng-container>
+
+      
+      <ng-container matColumnDef="numer">
+        <th mat-header-cell *matHeaderCellDef>Numer</th>
+        <td mat-cell *matCellDef="let element"> {{element.number}} </td>
+      </ng-container>
+      
+      <ng-container matColumnDef="multiCurrency">
+        <th mat-header-cell *matHeaderCellDef>Wielowalutowe</th>
+        <td mat-cell *matCellDef="let element"> {{element.multiCurrency}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="saldos">
+        <th mat-header-cell *matHeaderCellDef>Salda</th>
+        <td mat-cell *matCellDef="let element"> <span *ngFor="let saldo of element.saldos">{{saldo.balance}} </span> </td>
+      </ng-container>
+
+      <ng-container matColumnDef="details">
+        <th mat-header-cell *matHeaderCellDef>Wielowalutowe</th>
+        <td mat-cell *matCellDef="let element">   <button mat-raised-button color="primary">Szczegóły</button>
+        </td>
+      </ng-container>
+  
+      <tr mat-header-row *matHeaderRowDef="['ID', 'numer', 'multiCurrency', 'saldos', 'details']; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['ID', 'numer', 'multiCurrency', 'saldos', 'details'];"></tr>
+    </table>
+  </div>
