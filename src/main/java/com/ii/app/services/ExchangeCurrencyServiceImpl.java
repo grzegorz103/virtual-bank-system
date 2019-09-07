@@ -61,7 +61,7 @@ public class ExchangeCurrencyServiceImpl implements ExchangeCurrencyService
                 BankAccount sourceBankAcc = bankAccountRepository.findByNumber( exchangeCurrencyIn.getSourceBankAccNumber() )
                         .orElseThrow( () -> new RuntimeException( "nie znaleziono" ) );
 
-                if ( sourceBankAcc.getBankAccType().getBankAccountType() == BankAccountType.SINGLE_CURRENCY )
+                if ( sourceBankAcc.getBankAccType().getBankAccountType() != BankAccountType.MULTI_CURRENCY )
                         throw new RuntimeException( "nie jest wielowalutowe" );
 
                 Saldo sourceSaldo = sourceBankAcc.getSaldos()
