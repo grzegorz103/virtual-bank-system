@@ -72,7 +72,13 @@ export class BankAccountDetailsComponent implements OnInit {
     this.chartOptions = {
       responsive: true,
       scales: {
-        xAxes: [{barPercentage: this.bankAccount.saldos.length / 5}]
+        xAxes: [{barPercentage: this.bankAccount.saldos.length / 5}],
+        yAxes: [{
+          display: true,
+          ticks: {
+              beginAtZero: true
+          }
+      }]
       }
     }
   }
