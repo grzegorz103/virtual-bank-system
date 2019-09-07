@@ -1,0 +1,15 @@
+<mat-card>
+    <div class="col-md-9 mx-auto">
+    <div style="display: block" [ngClass]="">
+    <canvas mdbChart
+        [chartType]="chartType"
+        [datasets]="chartDatasets"
+        [labels]="chartLabels"
+        [colors]="chartColors"
+        [options]="chartOptions"
+        [legend]="true"
+        (chartHover)="chartHovered($event)"
+        (chartClick)="chartClicked($event)">
+    </canvas>
+  </div></div>
+</mat-card>
