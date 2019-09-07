@@ -13,4 +13,8 @@ export class BankAccountService {
   findAll(){
     return this.http.get<BankAccount[]>(this.url);
   }
+
+  findById(id: number){
+    return this.http.get<BankAccount>(this.url + '/' + id);
+  }
 }
