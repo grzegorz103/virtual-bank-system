@@ -46,6 +46,7 @@ export class BankAccountDetailsComponent implements OnInit {
   public chartOptions: any = {
     responsive: true
   };
+
   public chartClicked(e: any): void { }
   public chartHovered(e: any): void { }
 
@@ -55,18 +56,25 @@ export class BankAccountDetailsComponent implements OnInit {
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
       this.bankAccountService.findById(this.id)
-        .subscribe(res => {this.bankAccount = res; this.fillChartData()});
+        .subscribe(res => { this.bankAccount = res; this.fillChartData() });
     })
   }
   ngOnInit(): void {
   }
 
-  fillChartData(){
-    let saldos = this.bankAccount.saldos.map(e=>e.balance);
+  fillChartData() {
+    let saldos = this.bankAccount.saldos.map(e => e.balance);
     this.chartDatasets = [{ data: saldos, label: 'Stan konta' }];
 
-    let saldoNames = this.bankAccount.saldos.map(e=>e.currencyType.currency);
+    let saldoNames = this.bankAccount.saldos.map(e => e.currencyType.currency);
     this.chartLabels = saldoNames;
+
+    this.chartOptions = {
+      responsive: true,
+      scales: {
+        xAxes: [{barPercentage: this.bankAccount.saldos.length / 5}]
+      }
+    }
   }
 
 }
