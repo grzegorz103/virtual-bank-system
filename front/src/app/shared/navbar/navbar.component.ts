@@ -13,7 +13,9 @@ export class NavbarComponent implements OnInit {
 
   isMobileView: boolean;
 
-  constructor() { }
+  constructor() {
+    this.isMobileView = window.innerWidth <= 768;
+   }
 
   ngOnInit() {
     window.onresize = () => this.isMobileView = window.innerWidth <= 768;
