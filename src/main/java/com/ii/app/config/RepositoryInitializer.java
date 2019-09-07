@@ -111,7 +111,7 @@ public class RepositoryInitializer
                                 BankAccType bankAccType3 = BankAccType.builder()
                                         .bankAccountType( BankAccountType.STUDENT )
                                         .exchangeCurrencyCommission( ( float ) constants.CURRENCY_CONVERT_COMMISSION )
-                                        .transactionComission( ( float ) constants.SINGLE_CURRENCY_TRANSFER_COMMISSION )
+                                        .transactionComission( ( float ) constants.STUDENT_CURRENCY_TRANSFER_COMMISSION )
                                         .build();
 
                                 bankAccountTypeRepository.save( bankAccType3 );
@@ -167,7 +167,7 @@ public class RepositoryInitializer
                                         .transactions( new HashSet<>() )
                                         .build();
 
-                                bankAccountRepository.save( bankAccount3);
+                                bankAccountRepository.save( bankAccount3 );
 
                                 Set<Saldo> saldos3 = currencyTypeRepository.findAll()
                                         .stream()

@@ -79,8 +79,9 @@ public class BankAccountServiceImpl implements BankAccountService
                         currencyTypeRepository.findByCurrency( Currency.PLN )
                                 .ifPresent( e -> saldoRepository.save( new Saldo( BigDecimal.ZERO, e, finalBankAccount ) ) );
                 }
-
-                return bankAccountMapper.entityToDTO( finalBankAccount );
+                BankAccount account = bankAccountRepository.findById( finalBankAccount.getId() ).get();
+                account.setSaldos( saldoRepository.findAll().stream().filter( e -> e.getBankAccount() == account ).collect( Collectors.toSet() ) );
+                return bankAccountMapper.entityToDTO( account );
         }
 
         @Override
