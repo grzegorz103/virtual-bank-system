@@ -26,7 +26,7 @@
 
       <ng-container matColumnDef="details">
         <th mat-header-cell *matHeaderCellDef>Wielowalutowe</th>
-        <td mat-cell *matCellDef="let element">   <button mat-raised-button color="primary">Szczegóły</button>
+        <td mat-cell *matCellDef="let element">   <button mat-raised-button color="primary" [routerLink]="['/bankAccounts', element.id, 'details']">Szczegóły</button>
         </td>
       </ng-container>
   
