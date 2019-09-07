@@ -16,7 +16,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatButtonModule, MatFormFieldModule, MatInputModule, MatCardModule, MatOptionModule, 
-  MatSelectModule, MatIconModule, MatTableModule } from '@angular/material';
+  MatSelectModule, MatIconModule, MatTableModule, MatProgressBar, MatProgressBarModule } from '@angular/material';
 import { BankAccountDetailsComponent } from './main/views/bank-account-details/bank-account-details.component';
 import { ChartsModule, WavesModule, MDBBootstrapModule } from 'angular-bootstrap-md'
 
@@ -47,7 +47,7 @@ import { ChartsModule, WavesModule, MDBBootstrapModule } from 'angular-bootstrap
     MatCardModule,
     MatIconModule,MatTableModule,
     ChartsModule,
-    WavesModule,
+    WavesModule,MatProgressBarModule
   ],
   providers: [BankAccountService],
   bootstrap: [AppComponent]
