@@ -17,6 +17,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatButtonModule, MatFormFieldModule, MatInputModule, MatCardModule, MatOptionModule, 
   MatSelectModule, MatIconModule, MatTableModule } from '@angular/material';
+import { BankAccountDetailsComponent } from './main/views/bank-account-details/bank-account-details.component';
+import { ChartsModule, WavesModule, MDBBootstrapModule } from 'angular-bootstrap-md'
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,7 +27,8 @@ import { MatButtonModule, MatFormFieldModule, MatInputModule, MatCardModule, Mat
     TransactionComponent,
     TransactionMultiCurrencyComponent,
     NavbarComponent,
-    ExchangeCurrencyComponent
+    ExchangeCurrencyComponent,
+    BankAccountDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -41,7 +45,9 @@ import { MatButtonModule, MatFormFieldModule, MatInputModule, MatCardModule, Mat
     MatOptionModule,
     MatSelectModule,
     MatCardModule,
-    MatIconModule,MatTableModule
+    MatIconModule,MatTableModule,
+    ChartsModule,
+    WavesModule,
   ],
   providers: [BankAccountService],
   bootstrap: [AppComponent]

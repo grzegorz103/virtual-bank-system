@@ -31,4 +31,10 @@ public class BankAccountController
         {
                 return bankAccountService.create( bankAccountIn );
         }
+
+        @GetMapping ("/{id}")
+        public BankAccountOut findById ( @PathVariable ("id") Long id )
+        {
+                return bankAccountService.findById( id );
+        }
 }

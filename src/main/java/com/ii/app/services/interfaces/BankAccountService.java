@@ -12,4 +12,6 @@ public interface BankAccountService
         List<BankAccountOut> findAll();
 
         List<BankAccountOut> findByUser();
+
+        BankAccountOut findById(Long id);
 }

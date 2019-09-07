@@ -98,4 +98,14 @@ public class BankAccountServiceImpl implements BankAccountService
         {
                 return null;
         }
+
+        @Override
+        public BankAccountOut findById ( Long id )
+        {
+                return bankAccountRepository.findById( id )
+                        .map( bankAccountMapper::entityToDTO )
+                        .orElseThrow( () -> new RuntimeException( "Not found" ) );
+        }
+
+
 }
