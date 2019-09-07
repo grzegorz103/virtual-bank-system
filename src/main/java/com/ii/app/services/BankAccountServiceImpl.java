@@ -3,6 +3,7 @@ package com.ii.app.services;
 import com.ii.app.dto.in.BankAccountIn;
 import com.ii.app.dto.out.BankAccountOut;
 import com.ii.app.mappers.BankAccountMapper;
+import com.ii.app.models.BankAccType;
 import com.ii.app.models.BankAccount;
 import com.ii.app.models.Saldo;
 import com.ii.app.models.enums.BankAccountType;
@@ -63,13 +64,8 @@ public class BankAccountServiceImpl implements BankAccountService
         {
                 BankAccount bankAccount = new BankAccount();
                 bankAccount.setNumber( RandomStringUtils.randomNumeric( constants.BANK_ACCOUNT_NUMBER_LENGTH ) );
-                bankAccount.setBankAccType(
-                        bankAccountTypeRepository.findByBankAccountType(
-                                bankAccountIn.isMultiCurrency()
-                                        ? BankAccountType.MULTI_CURRENCY
-                                        : BankAccountType.SINGLE_CURRENCY
-                        )
-                );
+                bankAccount.setBankAccType( bankAccountTypeRepository.findByBankAccountType( bankAccountIn.getBankAccountType() ) );
+
                 BankAccount finalBankAccount = bankAccountRepository.save( bankAccount );
 
                 if ( bankAccount.getBankAccType().getBankAccountType() == BankAccountType.MULTI_CURRENCY )
@@ -83,8 +79,9 @@ public class BankAccountServiceImpl implements BankAccountService
                         currencyTypeRepository.findByCurrency( Currency.PLN )
                                 .ifPresent( e -> saldoRepository.save( new Saldo( BigDecimal.ZERO, e, finalBankAccount ) ) );
                 }
-
-                return bankAccountMapper.entityToDTO( bankAccount );
+                BankAccount account = bankAccountRepository.findById( finalBankAccount.getId() ).get();
+                account.setSaldos( saldoRepository.findAll().stream().filter( e -> e.getBankAccount() == account ).collect( Collectors.toSet() ) );
+                return bankAccountMapper.entityToDTO( account );
         }
 
         @Override

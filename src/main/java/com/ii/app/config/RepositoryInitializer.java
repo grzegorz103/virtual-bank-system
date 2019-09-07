@@ -101,19 +101,27 @@ public class RepositoryInitializer
                                 bankAccountTypeRepository.save( bankAccType );
 
                                 BankAccType bankAccType2 = BankAccType.builder()
-                                        .bankAccountType( BankAccountType.SINGLE_CURRENCY )
+                                        .bankAccountType( BankAccountType.STANDARD )
                                         .exchangeCurrencyCommission( ( float ) constants.CURRENCY_CONVERT_COMMISSION )
                                         .transactionComission( ( float ) constants.SINGLE_CURRENCY_TRANSFER_COMMISSION )
                                         .build();
 
                                 bankAccountTypeRepository.save( bankAccType2 );
 
+                                BankAccType bankAccType3 = BankAccType.builder()
+                                        .bankAccountType( BankAccountType.STUDENT )
+                                        .exchangeCurrencyCommission( ( float ) constants.CURRENCY_CONVERT_COMMISSION )
+                                        .transactionComission( ( float ) constants.STUDENT_CURRENCY_TRANSFER_COMMISSION )
+                                        .build();
+
+                                bankAccountTypeRepository.save( bankAccType3 );
                         }
 
                         if ( bankAccountRepository.findAll().isEmpty() )
                         {
-                                BankAccType single = bankAccountTypeRepository.findByBankAccountType( BankAccountType.SINGLE_CURRENCY );
+                                BankAccType single = bankAccountTypeRepository.findByBankAccountType( BankAccountType.STANDARD );
                                 BankAccType multi = bankAccountTypeRepository.findByBankAccountType( BankAccountType.MULTI_CURRENCY );
+                                BankAccType student = bankAccountTypeRepository.findByBankAccountType( BankAccountType.STUDENT );
 
                                 BankAccount bankAccount = BankAccount.builder()
                                         .bankAccType( multi )
@@ -152,9 +160,30 @@ public class RepositoryInitializer
                                                 .build() ) )
                                         .collect( Collectors.toSet() );
 
+                                BankAccount bankAccount3 = BankAccount.builder()
+                                        .bankAccType( student )
+                                        .number( "342423" )
+                                        .saldos( new HashSet<>() )
+                                        .transactions( new HashSet<>() )
+                                        .build();
+
+                                bankAccountRepository.save( bankAccount3 );
+
+                                Set<Saldo> saldos3 = currencyTypeRepository.findAll()
+                                        .stream()
+                                        .filter( e -> e.getCurrency() == Currency.PLN )
+                                        .map( e -> saldoRepository.save( Saldo.builder()
+                                                .balance( new BigDecimal( 100f ) )
+                                                .currencyType( e )
+                                                .bankAccount( bankAccount3 )
+                                                .build() ) )
+                                        .collect( Collectors.toSet() );
+
+
                         }
 
-                        if(userRoleRepository.findAll().isEmpty()){
+                        if ( userRoleRepository.findAll().isEmpty() )
+                        {
                                 userRoleRepository.save( UserRole.builder().userType( UserRole.UserType.ROLE_EMPLOYEE ).build() );
                                 userRoleRepository.save( UserRole.builder().userType( UserRole.UserType.ROLE_USER ).build() );
                         }
