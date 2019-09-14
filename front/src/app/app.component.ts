@@ -14,5 +14,10 @@ export class AppComponent {
   faMoneyBillWave = faMoneyBillWave;
   faUniversity = faUniversity;
   faHandshake = faHandshake;
-  faHandHolding = faHandHolding;z
+  faHandHolding = faHandHolding;
+
+  change(){
+    alert('asd');
+    
+  }
 }
