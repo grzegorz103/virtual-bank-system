@@ -1,0 +1,45 @@
+<div class="example-container mat-elevation-z8">
+    <table mat-table [dataSource]="templates">
+
+        <ng-container matColumnDef="ID">
+            <th mat-header-cell *matHeaderCellDef>ID</th>
+            <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="sourceAccountNumber">
+            <th mat-header-cell *matHeaderCellDef>Źródłowy numer konta</th>
+            <td mat-cell *matCellDef="let element"> {{element.sourceAccountNumber}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="destinedAccountNumber">
+            <th mat-header-cell *matHeaderCellDef>Docelowy numer konta</th>
+            <td mat-cell *matCellDef="let element"> {{element.destinedAccountNumber}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="sourceCurrency">
+            <th mat-header-cell *matHeaderCellDef>Waluta</th>
+            <td mat-cell *matCellDef="let element">{{element.sourceCurrency}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="balance">
+            <th mat-header-cell *matHeaderCellDef>Kwota</th>
+            <td mat-cell *matCellDef="let element">{{element.balance}}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="create">
+            <th mat-header-cell *matHeaderCellDef>Przelew</th>
+            <td mat-cell *matCellDef="let element"><button mat-raised-button color="primary"
+                    [routerLink]="['/transactions', 'create']" [queryParams]="{defined: element.id}">Wykonaj</button>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row
+            *matHeaderRowDef="['ID', 'sourceAccountNumber', 'destinedAccountNumber', 'sourceCurrency', 'balance', 'create']; sticky: true">
+        </tr>
+        <tr mat-row
+            *matRowDef="let row; columns: ['ID', 'sourceAccountNumber', 'destinedAccountNumber', 'sourceCurrency', 'balance', 'create'];">
+        </tr>
+    </table>
+</div>

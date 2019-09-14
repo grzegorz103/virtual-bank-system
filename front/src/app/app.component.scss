@@ -41,6 +41,15 @@
     margin-left: 0;
   }
   
+  .single-panel{
+    color: black;
+    cursor: pointer;
+  }
+
+  .single-panel:hover{
+    background-color: silver;
+  }
+
   @media (min-width: 768px) {
     #sidebar-wrapper {
       margin-left: 0;
@@ -55,4 +64,5 @@
       margin-left: -15rem;
     }
   }
+  
   

@@ -16,6 +16,15 @@
             <fa-icon [icon]="faMoneyBillWave"></fa-icon> Rachunki bankowe
           </a>
         </mat-expansion-panel>
+
+        <mat-expansion-panel hideToggle="true" disabled="true">
+          <mat-expansion-panel-header class="single-panel">
+            <mat-panel-title>
+              Nowa wpłata
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+        </mat-expansion-panel>
+
         <mat-expansion-panel>
           <mat-expansion-panel-header>
             <mat-panel-title>
@@ -26,8 +35,8 @@
             Przelew standardowy
           </a> <a routerLink="transactions/create/multicurrency" class="list-group-item list-group-item-action ">
             Przelew wielowalutowy
-          </a><a routerLink="transactions/create/multicurrency" class="list-group-item list-group-item-action ">
-            Szablony
+          </a><a routerLink="transactions/defined" class="list-group-item list-group-item-action ">
+            Przelewy zdefiniowane
           </a>
         </mat-expansion-panel>
         <mat-expansion-panel>

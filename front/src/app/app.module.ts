@@ -18,7 +18,10 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatButtonModule, MatFormFieldModule, MatInputModule, MatCardModule, MatOptionModule, 
   MatSelectModule, MatIconModule, MatTableModule, MatProgressBar, MatProgressBarModule } from '@angular/material';
 import { BankAccountDetailsComponent } from './main/views/bank-account-details/bank-account-details.component';
-import { ChartsModule, WavesModule, MDBBootstrapModule } from 'angular-bootstrap-md'
+import { ChartsModule, WavesModule, MDBBootstrapModule } from 'angular-bootstrap-md';
+import { TemplateListComponent } from './main/views/transaction-templates/template-list/template-list.component';
+import { TemplateCreateComponent } from './main/views/transaction-templates/template-create/template-create.component';
+import { TemplateDetailsComponent } from './template-details/template-details.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +31,10 @@ import { ChartsModule, WavesModule, MDBBootstrapModule } from 'angular-bootstrap
     TransactionMultiCurrencyComponent,
     NavbarComponent,
     ExchangeCurrencyComponent,
-    BankAccountDetailsComponent
+    BankAccountDetailsComponent,
+    TemplateListComponent,
+    TemplateCreateComponent,
+    TemplateDetailsComponent,
   ],
   imports: [
     BrowserModule,
