@@ -1,4 +1,9 @@
 <div class="example-container mat-elevation-z8">
+    <h3 class="mx-2 mt-1">Przelewy zdefiniowane</h3>
+    <mat-divider></mat-divider>
+    <button mat-raised-button class="mt-3" style="background-color: #5cb85c; color: white"
+        routerLink="transactions/defined/create">Utwórz przelew zdefiniowany</button>
+
     <table mat-table [dataSource]="templates">
 
         <ng-container matColumnDef="ID">
