@@ -61,9 +61,7 @@ export class TransactionComponent implements OnInit {
   fillFormWithTemplate(definedTransfer: TransactionTemplate) {
     if (definedTransfer) {
       this.transactionForm.get('sourceAccountNumber').setValue(definedTransfer.sourceAccountNumber);
-      this.transactionForm.get('sourceCurrency').setValue(definedTransfer.sourceCurrency);
       this.transactionForm.get('destinedAccountNumber').setValue(definedTransfer.destinedAccountNumber);
-      this.transactionForm.get('destinedCurrency').setValue(definedTransfer.destinedCurrency);
       this.transactionForm.get('balance').setValue(definedTransfer.balance);
       this.transactionForm.get('title').setValue(definedTransfer.title);
     }
