@@ -12,4 +12,8 @@ public interface TransactionTemplateService
         List<TransactionTemplateOut> findAll ();
 
         TransactionTemplateOut findOneById ( Long id );
+
+        TransactionTemplateOut update ( Long id, TransactionTemplateIn transactionTemplateIn );
+
+        void remove(Long id);
 }

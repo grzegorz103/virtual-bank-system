@@ -18,4 +18,8 @@ export class TransactionTemplateService {
   findOneById(id: number){
     return this.http.get<TransactionTemplate>(this.url + '/' + id);
   }
+
+  create(template: TransactionTemplate){
+    return this.http.post<TransactionTemplate>(this.url, template);
+  }
 }
