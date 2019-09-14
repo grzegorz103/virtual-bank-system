@@ -29,7 +29,7 @@ export class TransactionComponent implements OnInit {
     this.transaction = new Transaction();
 
     this.transactionForm = this.fb.group({
-      sourceAccountNumber: ['', Validators.required],
+      sourceAccountNumber: ['321123', Validators.required],
       sourceCurrency: ['PLN', Validators.required],
       destinedAccountNumber: ['', Validators.required],
       destinedCurrency: ['PLN', Validators.required],

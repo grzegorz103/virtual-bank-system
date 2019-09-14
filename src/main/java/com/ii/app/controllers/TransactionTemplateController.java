@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping ("/api/transactiontemplate")
+@RequestMapping ("/api/transactiontemplates")
 public class TransactionTemplateController
 {
         private final TransactionTemplateService transactionTemplateService;
