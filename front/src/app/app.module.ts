@@ -21,6 +21,7 @@ import { BankAccountDetailsComponent } from './main/views/bank-account-details/b
 import { ChartsModule, WavesModule, MDBBootstrapModule } from 'angular-bootstrap-md';
 import { TemplateListComponent } from './main/views/transaction-templates/template-list/template-list.component';
 import { TemplateCreateComponent } from './main/views/transaction-templates/template-create/template-create.component';
+import { TemplateDetailsComponent } from './template-details/template-details.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { TemplateCreateComponent } from './main/views/transaction-templates/temp
     BankAccountDetailsComponent,
     TemplateListComponent,
     TemplateCreateComponent,
+    TemplateDetailsComponent,
   ],
   imports: [
     BrowserModule,
