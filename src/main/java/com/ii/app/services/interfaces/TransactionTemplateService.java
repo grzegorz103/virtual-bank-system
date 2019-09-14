@@ -10,4 +10,6 @@ public interface TransactionTemplateService
         TransactionTemplateOut create( TransactionTemplateIn transactionTemplateIn);
 
         List<TransactionTemplateOut> findAll ();
+
+        TransactionTemplateOut findOneById ( Long id );
 }

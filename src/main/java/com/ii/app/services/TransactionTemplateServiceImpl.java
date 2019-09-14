@@ -46,4 +46,12 @@ public class TransactionTemplateServiceImpl implements TransactionTemplateServic
                         .map( transactionTemplateMapper::entityToDTO )
                         .collect( Collectors.toList() );
         }
+
+        @Override
+        public TransactionTemplateOut findOneById ( Long id )
+        {
+                return transactionTemplateMapper.entityToDTO(
+                        transactionTemplateRepository.findById( id ).orElseThrow( () -> new RuntimeException( "Not found" ) )
+                );
+        }
 }

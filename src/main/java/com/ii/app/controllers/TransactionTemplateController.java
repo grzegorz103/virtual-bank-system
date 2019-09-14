@@ -32,4 +32,9 @@ public class TransactionTemplateController
         public List<TransactionTemplateOut> findAll(){
                 return transactionTemplateService.findAll();
         }
+
+        @GetMapping("/{id}")
+        public TransactionTemplateOut findOneById(@PathVariable("id") Long id){
+                return transactionTemplateService.findOneById(id);
+        }
 }

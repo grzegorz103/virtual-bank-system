@@ -15,4 +15,7 @@ export class TransactionTemplateService {
     return this.http.get<TransactionTemplate[]>(this.url);
   }
 
+  findOneById(id: number){
+    return this.http.get<TransactionTemplate>(this.url + '/' + id);
+  }
 }
