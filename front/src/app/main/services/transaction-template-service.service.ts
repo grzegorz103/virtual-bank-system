@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http/http';
+import { HttpClient } from '@angular/common/http';
+import { TransactionTemplate } from '../models/transaction-template';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TransactionTemplateServiceService {
+export class TransactionTemplateService {
 
   url = 'http://localhost:8080/api/transactiontemplates';
 

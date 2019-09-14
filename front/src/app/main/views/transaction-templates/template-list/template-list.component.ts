@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { TransactionTemplate } from 'src/app/main/models/transaction-template';
+import { TransactionTemplateService } from 'src/app/main/services/transaction-template-service.service';
 
 @Component({
   selector: 'app-template-list',
@@ -7,9 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TemplateListComponent implements OnInit {
 
-  constructor() { }
+  templates: TransactionTemplate[];
+
+  constructor(private transactionTemplateService: TransactionTemplateService) { }
 
   ngOnInit() {
+    this.fetchData();
   }
 
+  fetchData() {
+    this.transactionTemplateService.findAll().subscribe(res => this.templates = res);
+  }
 }

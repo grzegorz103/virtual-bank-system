@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TransactionTemplateServiceImpl implements TransactionTemplateService
@@ -34,5 +36,14 @@ public class TransactionTemplateServiceImpl implements TransactionTemplateServic
                 mapped.setCreateDate( currentTime );
                 mapped.setModificationDate( currentTime );
                 return transactionTemplateMapper.entityToDTO( transactionTemplateRepository.save( mapped ) );
+        }
+
+        @Override
+        public List<TransactionTemplateOut> findAll ()
+        {
+                return transactionTemplateRepository.findAll()
+                        .stream()
+                        .map( transactionTemplateMapper::entityToDTO )
+                        .collect( Collectors.toList() );
         }
 }

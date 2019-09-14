@@ -6,10 +6,9 @@ import com.ii.app.repositories.TransactionTemplateRepository;
 import com.ii.app.services.interfaces.TransactionService;
 import com.ii.app.services.interfaces.TransactionTemplateService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping ("/api/transactiontemplates")
@@ -27,5 +26,10 @@ public class TransactionTemplateController
         public TransactionTemplateOut create ( @RequestBody TransactionTemplateIn transactionTemplateIn )
         {
                 return transactionTemplateService.create( transactionTemplateIn );
+        }
+
+        @GetMapping
+        public List<TransactionTemplateOut> findAll(){
+                return transactionTemplateService.findAll();
         }
 }
