@@ -16,7 +16,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatButtonModule, MatFormFieldModule, MatInputModule, MatCardModule, MatOptionModule, 
-  MatSelectModule, MatIconModule, MatTableModule, MatProgressBar, MatProgressBarModule, MatDividerModule, MatDialogModule } from '@angular/material';
+  MatSelectModule, MatIconModule, MatTableModule, MatProgressBar, MatProgressBarModule, MatDividerModule, MatDialogModule, MatTabsModule, MatRadioButton, MatRadioModule, MatToolbarModule } from '@angular/material';
 import { BankAccountDetailsComponent } from './main/views/bank-account-details/bank-account-details.component';
 import { ChartsModule, WavesModule, MDBBootstrapModule } from 'angular-bootstrap-md';
 import { TemplateListComponent } from './main/views/transaction-templates/template-list/template-list.component';
@@ -58,6 +58,9 @@ import { DialogWindowComponent } from './main/misc/dialog-window/dialog-window.c
     WavesModule,MatProgressBarModule,
     MatDividerModule,
     MatDialogModule,
+    MatTabsModule,
+    MatRadioModule,
+    MatToolbarModule
   ],
   providers: [BankAccountService],
   entryComponents: [ DialogWindowComponent],

@@ -23,11 +23,14 @@ export class TemplateListComponent implements OnInit {
   }
 
   fetchData() {
-    this.transactionTemplateService.findAll().subscribe(res => this.templates = res);
+    this.transactionTemplateService.findAll().subscribe(res => {
+    this.templates = res;
+      this.templates.sort((o1, o2) => o1.id - o2.id);
+    });
   }
 
   openDialog(index?: any) {
-    let isCreating;
+    let isCreating: boolean;
     if (index) {
       isCreating = false;
       this.template = this.templates.find(e => e.id === index);
@@ -36,14 +39,14 @@ export class TemplateListComponent implements OnInit {
       this.template = new TransactionTemplate();
     }
     const dialogRef = this.dialog.open(DialogWindowComponent, {
-      width: '250px',
+      width: '50%',
       data: this.template
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (isCreating) {
         alert('kreat');
-        //   this.transactionTemplateService.create(this.template);
+        this.transactionTemplateService.create(this.template).subscribe(res => this.fetchData());
       } else {
         alert('edit');
         //this.transactionTemplateService.update(this.template.id, this.template);

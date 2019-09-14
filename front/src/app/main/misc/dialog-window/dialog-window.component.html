@@ -1,7 +1,25 @@
 <h1 mat-dialog-title>SZablon (dodac nazwe do szalbonow)</h1>
-<div mat-dialog-content>asd
+<div mat-dialog-content>
+    <mat-form-field style="width:100%">
+        <mat-label class="mt-2">Rachunek bankowy</mat-label>
+        <mat-select [(ngModel)]="data.sourceAccountNumber" (change)="changeCurrencyList()">
+            <mat-option *ngFor="let bankAccount of bankAccounts" [value]="bankAccount.number">
+                {{bankAccount.number}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="standardType">
+        <mat-radio-button class="example-radio-button" [value]="true">
+            Standardowy
+        </mat-radio-button>
+        <mat-radio-button class="example-radio-button"  [value]="false">
+            Wielowalutowy
+        </mat-radio-button>
+    </mat-radio-group>
+<p *ngIf="standardType === true">asd</p>
 </div>
 <div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">No Thanks</button>
-  <button mat-button [mat-dialog-close]="data.animal" cdkFocusInitial>Ok</button>
+    <button mat-button (click)="onNoClick()">No Thanks</button>
+    <button mat-button [mat-dialog-close]="data.animal" cdkFocusInitial>Ok</button>
 </div>

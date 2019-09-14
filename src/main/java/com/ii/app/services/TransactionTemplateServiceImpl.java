@@ -54,4 +54,16 @@ public class TransactionTemplateServiceImpl implements TransactionTemplateServic
                         transactionTemplateRepository.findById( id ).orElseThrow( () -> new RuntimeException( "Not found" ) )
                 );
         }
+
+        @Override
+        public TransactionTemplateOut update ( Long id, TransactionTemplateIn transactionTemplateIn )
+        {
+                return null;
+        }
+
+        @Override
+        public void remove ( Long id )
+        {
+
+        }
 }
