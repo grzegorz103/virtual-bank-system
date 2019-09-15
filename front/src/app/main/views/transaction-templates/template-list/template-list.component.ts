@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { TransactionTemplate } from 'src/app/main/models/transaction-template';
 import { TransactionTemplateService } from 'src/app/main/services/transaction-template-service.service';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatTableDataSource } from '@angular/material';
 import { DialogWindowComponent } from 'src/app/main/misc/dialog-window/dialog-window.component';
+import { SelectionModel } from '@angular/cdk/collections';
+import { forkJoin } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-template-list',
@@ -12,6 +15,7 @@ import { DialogWindowComponent } from 'src/app/main/misc/dialog-window/dialog-wi
 export class TemplateListComponent implements OnInit {
 
   templates: TransactionTemplate[];
+  selection = new SelectionModel<TransactionTemplate>(true, []);
 
   // do dodawania/edycji
   template: TransactionTemplate;
@@ -40,7 +44,7 @@ export class TemplateListComponent implements OnInit {
     }
     const dialogRef = this.dialog.open(DialogWindowComponent, {
       width: '50%',
-      data: {templateId: index}
+      data: { templateId: index }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -55,4 +59,30 @@ export class TemplateListComponent implements OnInit {
       }
     });
   }
+
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.templates.length;
+    return numSelected === numRows;
+  }
+
+  removeSelectedRows() {
+
+    let observables: Observable<any>[] = [];
+
+    this.selection.selected.forEach(item => {
+      let index: number = this.templates.findIndex(e => e === item);
+      observables.push(this.transactionTemplateService.removeById(item.id));
+    });
+
+    forkJoin(observables).subscribe(array => this.fetchData());
+    this.selection = new SelectionModel<TransactionTemplate>(true, []);
+  }
+  
+  masterToggle() {
+    this.isAllSelected() ?
+      this.selection.clear() :
+      this.templates.forEach(row => this.selection.select(row));
+  }
+
 }
