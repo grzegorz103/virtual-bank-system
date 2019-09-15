@@ -6,6 +6,7 @@ import { TransactionMultiCurrencyComponent } from './main/views/transaction-mult
 import { ExchangeCurrencyComponent } from './main/views/exchange-currency/exchange-currency.component';
 import { BankAccountDetailsComponent } from './main/views/bank-account-details/bank-account-details.component';
 import { TemplateListComponent } from './main/views/transaction-templates/template-list/template-list.component';
+import { TemplateCreateComponent } from './main/views/transaction-templates/template-create/template-create.component';
 
 
 const routes: Routes = [
@@ -13,6 +14,7 @@ const routes: Routes = [
   {path: 'transactions/create', component: TransactionComponent},
   {path: 'transactions/create/multicurrency', component: TransactionMultiCurrencyComponent},
   {path: 'transactions/defined', component: TemplateListComponent},
+  {path:'transactions/defined/create', component: TemplateCreateComponent},
   {path: 'bankAccounts/:id/details', component: BankAccountDetailsComponent},
   {path: 'exchange', component: ExchangeCurrencyComponent}
 ];

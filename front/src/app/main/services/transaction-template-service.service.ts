@@ -6,6 +6,7 @@ import { TransactionTemplate } from '../models/transaction-template';
   providedIn: 'root'
 })
 export class TransactionTemplateService {
+  
 
   url = 'http://localhost:8080/api/transactiontemplates';
 
@@ -17,5 +18,13 @@ export class TransactionTemplateService {
 
   findOneById(id: number){
     return this.http.get<TransactionTemplate>(this.url + '/' + id);
+  }
+
+  create(template: TransactionTemplate){
+    return this.http.post<TransactionTemplate>(this.url, template);
+  }
+
+  update(index: any, result: any) {
+  return this.http.put<TransactionTemplate>(this.url + '/' + index, result);
   }
 }

@@ -54,4 +54,29 @@ public class TransactionTemplateServiceImpl implements TransactionTemplateServic
                         transactionTemplateRepository.findById( id ).orElseThrow( () -> new RuntimeException( "Not found" ) )
                 );
         }
+
+        @Override
+        public TransactionTemplateOut update ( Long id, TransactionTemplateIn transactionTemplateIn )
+        {
+                TransactionTemplate fromDB = transactionTemplateRepository.findById( id )
+                        .orElseThrow( () -> new RuntimeException( "not found" ) );
+
+                fromDB.setModificationDate( Instant.now() );
+                fromDB.setBalance( transactionTemplateIn.getBalance() );
+                fromDB.setDestinedAccountNumber( transactionTemplateIn.getDestinedAccountNumber() );
+                fromDB.setDestinedCurrency( transactionTemplateIn.getDestinedCurrency() );
+                fromDB.setTitle( transactionTemplateIn.getTitle() );
+                fromDB.setSourceCurrency( transactionTemplateIn.getSourceCurrency() );
+                fromDB.setSourceAccountNumber( transactionTemplateIn.getSourceAccountNumber() );
+
+                return transactionTemplateMapper.entityToDTO( transactionTemplateRepository.save( fromDB ) );
+        }
+
+        @Override
+        public void remove ( Long id )
+        {
+                if(!transactionTemplateRepository.existsById( id ))
+                        throw new RuntimeException( "Not found" );
+                transactionTemplateRepository.deleteById( id );
+        }
 }
