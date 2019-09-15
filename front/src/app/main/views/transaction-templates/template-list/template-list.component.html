@@ -69,10 +69,10 @@
 
 
         <tr mat-header-row
-            *matHeaderRowDef="['select','ID', 'sourceAccountNumber', 'destinedAccountNumber', 'sourceCurrency', 'balance', 'create', 'edit']; sticky: true">
+            *matHeaderRowDef="['ID', 'sourceAccountNumber', 'destinedAccountNumber', 'sourceCurrency', 'balance', 'create', 'edit', 'select']; sticky: true">
         </tr>
         <tr mat-row
-            *matRowDef="let row; columns: ['select','ID', 'sourceAccountNumber', 'destinedAccountNumber', 'sourceCurrency', 'balance', 'create', 'edit'];">
+            *matRowDef="let row; columns: ['ID', 'sourceAccountNumber', 'destinedAccountNumber', 'sourceCurrency', 'balance', 'create', 'edit', 'select'];">
         </tr>
     </table>
 </div>

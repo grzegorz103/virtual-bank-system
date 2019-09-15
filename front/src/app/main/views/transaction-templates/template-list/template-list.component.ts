@@ -78,7 +78,7 @@ export class TemplateListComponent implements OnInit {
     forkJoin(observables).subscribe(array => this.fetchData());
     this.selection = new SelectionModel<TransactionTemplate>(true, []);
   }
-  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  
   masterToggle() {
     this.isAllSelected() ?
       this.selection.clear() :
