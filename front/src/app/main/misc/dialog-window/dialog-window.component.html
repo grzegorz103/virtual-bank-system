@@ -1,7 +1,10 @@
 <div mat-dialog-content>
     <div *ngIf="bankAccounts && template">
         <h1 mat-dialog-title>SZablon (dodac nazwe do szalbonow)</h1>
-        <mat-form-field style="width:100%">
+        <mat-form-field class="col-md-6">
+            <input matInput placeholder="Nazwa" [(ngModel)]="template.name" required>
+        </mat-form-field>
+        <mat-form-field class="col-12">
             <mat-label class="mt-2">Rachunek bankowy</mat-label>
             <mat-select [(ngModel)]="template.sourceAccountNumber" (change)="changeCurrencyList()">
                 <mat-option *ngFor="let bankAccount of bankAccounts" [value]="bankAccount.number">
@@ -20,8 +23,16 @@
                 Wielowalutowy
             </mat-radio-button>
         </mat-radio-group>
-        <mat-form-field style="width: 100%">
+        <mat-form-field class="col-12">
             <input matInput placeholder="Konto odbiorcy" [(ngModel)]="template.destinedAccountNumber" required>
+        </mat-form-field>
+
+        <mat-form-field class="col-md-6">
+            <input matInput placeholder="Kwota" [(ngModel)]="template.balance" required>
+        </mat-form-field>
+
+        <mat-form-field class="col-md-6">
+            <input matInput placeholder="Tytułem" [(ngModel)]="template.title" required>
         </mat-form-field>
         <p *ngIf="standardType === true">asd</p>
     </div>
@@ -29,7 +40,7 @@
         <mat-spinner class="mx-auto my-auto"></mat-spinner>
     </div>
 </div>
-<div mat-dialog-actions>
-    <button mat-button (click)="onNoClick()">No Thanks</button>
+<div mat-dialog-actions align="center">
     <button mat-button [mat-dialog-close]="template" cdkFocusInitial>Ok</button>
+    <button mat-button (click)="onNoClick()">Anuluj</button>
 </div>

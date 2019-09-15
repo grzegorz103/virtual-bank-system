@@ -18,6 +18,7 @@ export class DialogWindowComponent implements OnInit {
 
   bankAccounts: BankAccount[];
   standardType: boolean;
+  
   template: TransactionTemplate;
 
   constructor(
