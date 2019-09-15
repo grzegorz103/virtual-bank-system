@@ -33,7 +33,6 @@ public class TransactionTemplateServiceImpl implements TransactionTemplateServic
         {
                 TransactionTemplate mapped = transactionTemplateMapper.DTOtoEntity( transactionTemplateIn );
                 Instant currentTime = Instant.now();
-                System.out.println(currentTime.toString());
                 mapped.setCreateDate( currentTime );
                 mapped.setModificationDate( currentTime );
                 return transactionTemplateMapper.entityToDTO( transactionTemplateRepository.save( mapped ) );
@@ -60,15 +59,24 @@ public class TransactionTemplateServiceImpl implements TransactionTemplateServic
         public TransactionTemplateOut update ( Long id, TransactionTemplateIn transactionTemplateIn )
         {
                 TransactionTemplate fromDB = transactionTemplateRepository.findById( id )
-                        .orElseThrow( ()->new RuntimeException( "not found" ) );
+                        .orElseThrow( () -> new RuntimeException( "not found" ) );
 
                 fromDB.setModificationDate( Instant.now() );
-                return null;
+                fromDB.setBalance( transactionTemplateIn.getBalance() );
+                fromDB.setDestinedAccountNumber( transactionTemplateIn.getDestinedAccountNumber() );
+                fromDB.setDestinedCurrency( transactionTemplateIn.getDestinedCurrency() );
+                fromDB.setTitle( transactionTemplateIn.getTitle() );
+                fromDB.setSourceCurrency( transactionTemplateIn.getSourceCurrency() );
+                fromDB.setSourceAccountNumber( transactionTemplateIn.getSourceAccountNumber() );
+
+                return transactionTemplateMapper.entityToDTO( transactionTemplateRepository.save( fromDB ) );
         }
 
         @Override
         public void remove ( Long id )
         {
-
+                if(!transactionTemplateRepository.existsById( id ))
+                        throw new RuntimeException( "Not found" );
+                transactionTemplateRepository.deleteById( id );
         }
 }

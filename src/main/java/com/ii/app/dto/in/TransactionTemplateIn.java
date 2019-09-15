@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -14,6 +16,6 @@ public class TransactionTemplateIn
         private Currency sourceCurrency;
         private String destinedAccountNumber;
         private Currency destinedCurrency;
-        private float balance;
+        private BigDecimal balance;
         private String title;
 }
