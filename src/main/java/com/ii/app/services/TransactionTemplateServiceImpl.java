@@ -33,6 +33,7 @@ public class TransactionTemplateServiceImpl implements TransactionTemplateServic
         {
                 TransactionTemplate mapped = transactionTemplateMapper.DTOtoEntity( transactionTemplateIn );
                 Instant currentTime = Instant.now();
+                System.out.println(currentTime.toString());
                 mapped.setCreateDate( currentTime );
                 mapped.setModificationDate( currentTime );
                 return transactionTemplateMapper.entityToDTO( transactionTemplateRepository.save( mapped ) );
@@ -58,6 +59,10 @@ public class TransactionTemplateServiceImpl implements TransactionTemplateServic
         @Override
         public TransactionTemplateOut update ( Long id, TransactionTemplateIn transactionTemplateIn )
         {
+                TransactionTemplate fromDB = transactionTemplateRepository.findById( id )
+                        .orElseThrow( ()->new RuntimeException( "not found" ) );
+
+                fromDB.setModificationDate( Instant.now() );
                 return null;
         }
 
