@@ -24,7 +24,7 @@ export class TemplateListComponent implements OnInit {
 
   fetchData() {
     this.transactionTemplateService.findAll().subscribe(res => {
-    this.templates = res;
+      this.templates = res;
       this.templates.sort((o1, o2) => o1.id - o2.id);
     });
   }
@@ -33,23 +33,25 @@ export class TemplateListComponent implements OnInit {
     let isCreating: boolean;
     if (index) {
       isCreating = false;
-      this.template = this.templates.find(e => e.id === index);
+
     } else {
       isCreating = true;
       this.template = new TransactionTemplate();
     }
     const dialogRef = this.dialog.open(DialogWindowComponent, {
       width: '50%',
-      data: this.template
+      data: {templateId: index}
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (isCreating) {
-        alert('kreat');
-        this.transactionTemplateService.create(this.template).subscribe(res => this.fetchData());
-      } else {
-        alert('edit');
-        //this.transactionTemplateService.update(this.template.id, this.template);
+      if (result) {
+        if (isCreating) {
+          alert('kreat');
+          this.transactionTemplateService.create(result).subscribe(res => this.fetchData());
+        } else {
+          alert('edit');
+          this.transactionTemplateService.update(index, result).subscribe(res => this.fetchData());
+        }
       }
     });
   }
