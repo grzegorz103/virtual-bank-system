@@ -47,4 +47,9 @@ public class TransactionTemplateController
         {
                 return transactionTemplateService.update( id, transactionTemplateIn );
         }
+
+        @DeleteMapping("/{id}")
+        public void deleteById(@PathVariable("id") Long id){
+                transactionTemplateService.deleteById(id);
+        }
 }

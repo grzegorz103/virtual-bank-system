@@ -73,7 +73,7 @@ public class TransactionTemplateServiceImpl implements TransactionTemplateServic
         }
 
         @Override
-        public void remove ( Long id )
+        public void deleteById ( Long id )
         {
                 if(!transactionTemplateRepository.existsById( id ))
                         throw new RuntimeException( "Not found" );
