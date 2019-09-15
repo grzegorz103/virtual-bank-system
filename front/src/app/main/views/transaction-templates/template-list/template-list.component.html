@@ -1,18 +1,21 @@
 <div class="example-container mat-elevation-z8">
     <mat-toolbar>
         <h3>Przelewy zdefiniowane</h3>
-        <button mat-raised-button class="ml-auto" style="background-color: #5cb85c; color: white"
-        (click)="removeSelectedRows()">Usuy</button>
+        <div class="ml-auto">
+        <mat-slide-toggle (change)="switchDeleteStatus()" color="warn">Usuwanie</mat-slide-toggle>
 
-        <button mat-raised-button class="ml-auto" style="background-color: #5cb85c; color: white"
-            (click)="openDialog()">Utwórz przelew zdefiniowany</button>
+        <!-- <button mat-raised-button class="ml-auto" style="background-color: #5cb85c; color: white"
+            (click)="switchDeleteStatus()">Poo</button>
+ -->
+        <button mat-raised-button style="background-color: #5cb85c; color: white"
+            (click)="openDialog()">Utwórz przelew zdefiniowany</button></div>
     </mat-toolbar>
 
     <mat-divider></mat-divider>
 
     <table mat-table [(dataSource)]="templates">
 
-        <ng-container matColumnDef="select">
+        <ng-container matColumnDef="select" [style.display]="'none'">
             <th mat-header-cell *matHeaderCellDef>
                 <mat-checkbox (change)="$event ? masterToggle() : null"
                     [checked]="selection.hasValue() && isAllSelected()"
@@ -68,11 +71,14 @@
         </ng-container>
 
 
-        <tr mat-header-row
-            *matHeaderRowDef="['ID', 'sourceAccountNumber', 'destinedAccountNumber', 'sourceCurrency', 'balance', 'create', 'edit', 'select']; sticky: true">
+        <tr mat-header-row *matHeaderRowDef="headers; sticky: true">
         </tr>
-        <tr mat-row
-            *matRowDef="let row; columns: ['ID', 'sourceAccountNumber', 'destinedAccountNumber', 'sourceCurrency', 'balance', 'create', 'edit', 'select'];">
+        <tr mat-row *matRowDef="let row; columns: headers;">
         </tr>
     </table>
+    <mat-toolbar *ngIf="isRemoving">
+        <button mat-raised-button class="ml-auto" style="background-color: #5cb85c; color: white"
+            (click)="removeSelectedRows()">Usuy</button>
+
+    </mat-toolbar>
 </div>
