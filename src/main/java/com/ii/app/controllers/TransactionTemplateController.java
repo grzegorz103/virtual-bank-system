@@ -2,6 +2,7 @@ package com.ii.app.controllers;
 
 import com.ii.app.dto.in.TransactionTemplateIn;
 import com.ii.app.dto.out.TransactionTemplateOut;
+import com.ii.app.models.TransactionTemplate;
 import com.ii.app.repositories.TransactionTemplateRepository;
 import com.ii.app.services.interfaces.TransactionService;
 import com.ii.app.services.interfaces.TransactionTemplateService;
@@ -29,12 +30,21 @@ public class TransactionTemplateController
         }
 
         @GetMapping
-        public List<TransactionTemplateOut> findAll(){
+        public List<TransactionTemplateOut> findAll ()
+        {
                 return transactionTemplateService.findAll();
         }
 
-        @GetMapping("/{id}")
-        public TransactionTemplateOut findOneById(@PathVariable("id") Long id){
-                return transactionTemplateService.findOneById(id);
+        @GetMapping ("/{id}")
+        public TransactionTemplateOut findOneById ( @PathVariable ("id") Long id )
+        {
+                return transactionTemplateService.findOneById( id );
+        }
+
+        @PutMapping ("/{id}")
+        public TransactionTemplateOut updateById ( @PathVariable ("id") Long id,
+                                                   @RequestBody TransactionTemplateIn transactionTemplateIn )
+        {
+                return transactionTemplateService.update( id, transactionTemplateIn );
         }
 }

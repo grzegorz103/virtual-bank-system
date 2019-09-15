@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { TransactionTemplate } from 'src/app/main/models/transaction-template';
 import { TransactionTemplateService } from 'src/app/main/services/transaction-template-service.service';
+import { MatDialog } from '@angular/material';
+import { DialogWindowComponent } from 'src/app/main/misc/dialog-window/dialog-window.component';
 
 @Component({
   selector: 'app-template-list',
@@ -11,13 +13,46 @@ export class TemplateListComponent implements OnInit {
 
   templates: TransactionTemplate[];
 
-  constructor(private transactionTemplateService: TransactionTemplateService) { }
+  // do dodawania/edycji
+  template: TransactionTemplate;
+  constructor(private transactionTemplateService: TransactionTemplateService,
+    public dialog: MatDialog) { }
 
   ngOnInit() {
     this.fetchData();
   }
 
   fetchData() {
-    this.transactionTemplateService.findAll().subscribe(res => this.templates = res);
+    this.transactionTemplateService.findAll().subscribe(res => {
+      this.templates = res;
+      this.templates.sort((o1, o2) => o1.id - o2.id);
+    });
+  }
+
+  openDialog(index?: any) {
+    let isCreating: boolean;
+    if (index) {
+      isCreating = false;
+
+    } else {
+      isCreating = true;
+      this.template = new TransactionTemplate();
+    }
+    const dialogRef = this.dialog.open(DialogWindowComponent, {
+      width: '50%',
+      data: {templateId: index}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        if (isCreating) {
+          alert('kreat');
+          this.transactionTemplateService.create(result).subscribe(res => this.fetchData());
+        } else {
+          alert('edit');
+          this.transactionTemplateService.update(index, result).subscribe(res => this.fetchData());
+        }
+      }
+    });
   }
 }
