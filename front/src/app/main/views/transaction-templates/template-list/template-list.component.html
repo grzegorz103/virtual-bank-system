@@ -2,12 +2,29 @@
     <mat-toolbar>
         <h3>Przelewy zdefiniowane</h3>
         <button mat-raised-button class="ml-auto" style="background-color: #5cb85c; color: white"
+        (click)="removeSelectedRows()">Usuy</button>
+
+        <button mat-raised-button class="ml-auto" style="background-color: #5cb85c; color: white"
             (click)="openDialog()">Utwórz przelew zdefiniowany</button>
     </mat-toolbar>
 
     <mat-divider></mat-divider>
 
-    <table mat-table [dataSource]="templates">
+    <table mat-table [(dataSource)]="templates">
+
+        <ng-container matColumnDef="select">
+            <th mat-header-cell *matHeaderCellDef>
+                <mat-checkbox (change)="$event ? masterToggle() : null"
+                    [checked]="selection.hasValue() && isAllSelected()"
+                    [indeterminate]="selection.hasValue() && !isAllSelected()">
+                </mat-checkbox>
+            </th>
+            <td mat-cell *matCellDef="let row">
+                <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+                    [checked]="selection.isSelected(row)">
+                </mat-checkbox>
+            </td>
+        </ng-container>
 
         <ng-container matColumnDef="ID">
             <th mat-header-cell *matHeaderCellDef>ID</th>
@@ -50,11 +67,12 @@
             </td>
         </ng-container>
 
+
         <tr mat-header-row
-            *matHeaderRowDef="['ID', 'sourceAccountNumber', 'destinedAccountNumber', 'sourceCurrency', 'balance', 'create', 'edit']; sticky: true">
+            *matHeaderRowDef="['select','ID', 'sourceAccountNumber', 'destinedAccountNumber', 'sourceCurrency', 'balance', 'create', 'edit']; sticky: true">
         </tr>
         <tr mat-row
-            *matRowDef="let row; columns: ['ID', 'sourceAccountNumber', 'destinedAccountNumber', 'sourceCurrency', 'balance', 'create', 'edit'];">
+            *matRowDef="let row; columns: ['select','ID', 'sourceAccountNumber', 'destinedAccountNumber', 'sourceCurrency', 'balance', 'create', 'edit'];">
         </tr>
     </table>
 </div>

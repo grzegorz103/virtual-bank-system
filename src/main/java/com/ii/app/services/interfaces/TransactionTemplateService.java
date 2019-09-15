@@ -15,5 +15,5 @@ public interface TransactionTemplateService
 
         TransactionTemplateOut update ( Long id, TransactionTemplateIn transactionTemplateIn );
 
-        void remove(Long id);
+        void deleteById(Long id);
 }
