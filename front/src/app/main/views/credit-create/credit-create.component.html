@@ -6,15 +6,6 @@
         <form [formGroup]="form">
             <div class="col-md-10">
 
-                Kwota:
-                <ng5-slider [(value)]="balanceSliderValue" formControlName="totalBalance" (valueChange)="calculateInstallment($event)"
-                    [options]="balanceSlider"></ng5-slider>
-
-                Ilość wpłat:
-                <ng5-slider [(value)]="monthSliderValue" formControlName="totalInstallmentCount" (valueChange)="calculateInstallment($event)"
-                    [options]="monthSlider"></ng5-slider>
-
-                Wysokość wpłaty: {{ installmentValue }}
 
                 <mat-form-field style="width:100%">
                     <mat-label class="mt-2">Rachunek bankowy</mat-label>
@@ -33,9 +24,20 @@
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
+          
+                Kwota:
+                <ng5-slider [(value)]="balanceSliderValue" formControlName="totalBalance"
+                    (valueChange)="calculateInstallment($event)" [options]="balanceSlider"></ng5-slider>
 
-                <button mat-raised-button color="primary" (click)="createCredit()">Wyślij</button>
+                Ilość wpłat:
+                <ng5-slider [(value)]="monthSliderValue" formControlName="totalInstallmentCount"
+                    (valueChange)="calculateInstallment($event)" [options]="monthSlider"></ng5-slider>
+
+                Wysokość wpłaty: {{ installmentValue }}
             </div>
+            <mat-toolbar>
+                <button mat-raised-button color="primary" (click)="createCredit()">Wyślij</button>
+            </mat-toolbar>
         </form>
     </div>
     <div *ngIf="!bankAccounts">
