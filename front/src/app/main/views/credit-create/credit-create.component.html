@@ -6,9 +6,10 @@
         <form [formGroup]="form">
             <div class="col-md-10">
 
-
+                <div class="mt-2">Wybierz rachunek bankowy
+                </div>
                 <mat-form-field style="width:100%">
-                    <mat-label class="mt-2">Rachunek bankowy</mat-label>
+                    <mat-label>Rachunek bankowy</mat-label>
                     <mat-select [(ngModel)]="selectedBankAccount" [ngModelOptions]="{standalone: true}">
                         <mat-option *ngFor="let bankAccount of bankAccounts" [value]="bankAccount">
                             {{bankAccount.number}}
@@ -16,6 +17,9 @@
                     </mat-select>
                 </mat-form-field>
 
+                Saldo docelowe<span matTooltip="Rachunek bankowy, na który zostanie przekazana gotówka po zatwierdzeniu kredytu"
+                aria-label="Tooltip">
+                (?)</span>
                 <mat-form-field style="width:100%">
                     <mat-label class="mt-2">Saldo</mat-label>
                     <mat-select formControlName="destinedSaldoId" (selectionChange)="switchCurrencyType($event)">
