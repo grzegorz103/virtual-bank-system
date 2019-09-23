@@ -5,7 +5,9 @@ import com.ii.app.dto.out.CreditOut;
 import com.ii.app.mappers.CreditMapper;
 import com.ii.app.models.Credit;
 import com.ii.app.models.Saldo;
+import com.ii.app.models.enums.CreditStatus;
 import com.ii.app.repositories.CreditRepository;
+import com.ii.app.repositories.CreditStatusRepository;
 import com.ii.app.repositories.SaldoRepository;
 import com.ii.app.services.interfaces.CreditService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,14 +26,18 @@ public class CreditServiceImpl implements CreditService
 
         private final CreditMapper creditMapper;
 
+        private final CreditStatusRepository creditStatusRepository;
+
         @Autowired
         public CreditServiceImpl ( CreditRepository creditRepository,
                                    CreditMapper creditMapper,
-                                   SaldoRepository saldoRepository )
+                                   SaldoRepository saldoRepository,
+                                   CreditStatusRepository creditStatusRepository )
         {
                 this.creditRepository = creditRepository;
                 this.creditMapper = creditMapper;
                 this.saldoRepository = saldoRepository;
+                this.creditStatusRepository = creditStatusRepository;
         }
 
         @Override
@@ -47,6 +53,7 @@ public class CreditServiceImpl implements CreditService
                 mapped.setCurrency( destinedSaldo.getCurrencyType().getCurrency() );
                 mapped.setDestinedSaldo( destinedSaldo );
                 mapped.setInstallments( new HashSet<>() );
+                mapped.setCreditStatus(creditStatusRepository.findByCreditType( CreditStatus.CreditType.AWAITING ));
 
                 BigDecimal installmentAmount = new BigDecimal(
                         creditIn.getTotalBalance().floatValue() / creditIn.getTotalInstallmentCount()
