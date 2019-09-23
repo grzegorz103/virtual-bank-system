@@ -18,13 +18,13 @@
 
                 <mat-form-field style="width:100%">
                     <mat-label class="mt-2">Saldo</mat-label>
-                    <mat-select formControlName="destinedSaldoId">
+                    <mat-select formControlName="destinedSaldoId" (selectionChange)="switchCurrencyType($event)">
                         <mat-option *ngFor="let saldo of selectedBankAccount?.saldos" [value]="saldo.id">
                             {{ saldo.currencyType.currency}}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
-          
+
                 Kwota:
                 <ng5-slider [(value)]="balanceSliderValue" formControlName="totalBalance"
                     (valueChange)="calculateInstallment($event)" [options]="balanceSlider"></ng5-slider>
@@ -33,8 +33,12 @@
                 <ng5-slider [(value)]="monthSliderValue" formControlName="totalInstallmentCount"
                     (valueChange)="calculateInstallment($event)" [options]="monthSlider"></ng5-slider>
 
-                Wysokość wpłaty: {{ installmentValue }}
+                <div *ngIf="currencyType">
+                    Wysokość jednej wpłaty: {{ installmentValue | currency: currencyType }}
+                </div>
             </div>
+
+            <mat-divider></mat-divider>
             <mat-toolbar>
                 <button mat-raised-button color="primary" (click)="createCredit()">Wyślij</button>
             </mat-toolbar>

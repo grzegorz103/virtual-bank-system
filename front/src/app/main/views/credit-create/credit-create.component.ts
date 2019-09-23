@@ -32,6 +32,7 @@ export class CreditCreateComponent implements OnInit {
   bankAccounts: BankAccount[];
   form: FormGroup; 
   selectedBankAccount: BankAccount;
+  currencyType: string;
 
   constructor(private fb: FormBuilder,
     private bankAccountService: BankAccountService,
@@ -54,6 +55,10 @@ export class CreditCreateComponent implements OnInit {
   }
 
   calculateInstallment(event: any) {
-    this.installmentValue = Big(this.balanceSliderValue / this.monthSliderValue).round(2, 1);
+    this.installmentValue = Big(this.balanceSliderValue / this.monthSliderValue).round(2, 1).valueOf();
+  }
+
+  switchCurrencyType(event: any){
+    this.currencyType = event.source.selected.viewValue;
   }
 }
