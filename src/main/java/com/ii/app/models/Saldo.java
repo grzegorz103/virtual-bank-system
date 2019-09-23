@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Set;
 
 @Entity
 @Table (name = "saldos")
@@ -29,6 +30,10 @@ public class Saldo
         @ManyToOne
         @JoinColumn (name = "bank_account_id")
         private BankAccount bankAccount;
+
+        @OneToMany (mappedBy = "saldo", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+        @JsonIgnore
+        private Set<Credit> credits;
 
         public Saldo ( BigDecimal balance, CurrencyType currencyType, BankAccount bankAccount )
         {

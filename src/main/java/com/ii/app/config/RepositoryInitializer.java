@@ -137,6 +137,7 @@ public class RepositoryInitializer
                                         .map( e -> saldoRepository.save( Saldo.builder()
                                                 .balance( new BigDecimal( 100f ) )
                                                 .currencyType( e )
+                                                .credits( new HashSet<>() )
                                                 .bankAccount( bankAccount )
                                                 .build() ) )
                                         .collect( Collectors.toSet() );
@@ -157,6 +158,7 @@ public class RepositoryInitializer
                                                 .balance( new BigDecimal( 100f ) )
                                                 .currencyType( e )
                                                 .bankAccount( bankAccount2 )
+                                                .credits( new HashSet<>() )
                                                 .build() ) )
                                         .collect( Collectors.toSet() );
 
@@ -175,6 +177,7 @@ public class RepositoryInitializer
                                         .map( e -> saldoRepository.save( Saldo.builder()
                                                 .balance( new BigDecimal( 100f ) )
                                                 .currencyType( e )
+                                                .credits( new HashSet<>() )
                                                 .bankAccount( bankAccount3 )
                                                 .build() ) )
                                         .collect( Collectors.toSet() );

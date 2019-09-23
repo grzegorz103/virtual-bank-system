@@ -3,7 +3,7 @@
         <mat-toolbar>
             Przelewy zdefiniowane
             <div class="ml-auto">
-                <mat-slide-toggle (change)="switchDeleteStatus()" color="warn"><span
+                <mat-slide-toggle *ngIf="templates.length > 0" (change)="switchDeleteStatus()" color="warn"><span
                         style="font-size: 14px">Usuwanie</span></mat-slide-toggle>
 
                 <!-- <button mat-raised-button class="ml-auto" style="background-color: #5cb85c; color: white"
