@@ -7,11 +7,11 @@
             <div class="col-md-10">
 
                 Kwota:
-                <ng5-slider [(value)]="balanceSliderValue" (valueChange)="calculateInstallment($event)"
+                <ng5-slider [(value)]="balanceSliderValue" formControlName="totalBalance" (valueChange)="calculateInstallment($event)"
                     [options]="balanceSlider"></ng5-slider>
 
                 Ilość wpłat:
-                <ng5-slider [(value)]="monthSliderValue" (valueChange)="calculateInstallment($event)"
+                <ng5-slider [(value)]="monthSliderValue" formControlName="totalInstallmentCount" (valueChange)="calculateInstallment($event)"
                     [options]="monthSlider"></ng5-slider>
 
                 Wysokość wpłaty: {{ installmentValue }}

@@ -41,8 +41,6 @@ export class CreditCreateComponent implements OnInit {
         destinedSaldoId: '',
         totalBalance: '',
         totalInstallmentCount: '',
-        currency: '',
-        installmentAmount: ''
       });
     });
   }

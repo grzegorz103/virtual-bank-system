@@ -17,8 +17,4 @@ public class CreditIn
         private BigDecimal totalBalance;
 
         private Integer totalInstallmentCount;
-
-        private Currency currency;
-
-        private BigDecimal installmentAmount;
 }

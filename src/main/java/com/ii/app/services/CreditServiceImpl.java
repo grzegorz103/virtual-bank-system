@@ -42,11 +42,16 @@ public class CreditServiceImpl implements CreditService
 
                 Saldo destinedSaldo = saldoRepository.findById( creditIn.getDestinedSaldoId() )
                         .orElseThrow( () -> new RuntimeException( "Not found" ) );
-                if ( !Objects.equals(destinedSaldo.getCurrencyType().getCurrency(), creditIn.getCurrency()) )
-                        throw new RuntimeException( "Currency type mismatch" );
+
                 destinedSaldo.setBalance( destinedSaldo.getBalance().add( creditIn.getTotalBalance() ) );
+                mapped.setCurrency( destinedSaldo.getCurrencyType().getCurrency() );
                 mapped.setDestinedSaldo( destinedSaldo );
                 mapped.setInstallments( new HashSet<>() );
+
+                BigDecimal installmentAmount = new BigDecimal(
+                        creditIn.getTotalBalance().floatValue() / creditIn.getTotalInstallmentCount()
+                ).setScale( 2, BigDecimal.ROUND_UP );
+                mapped.setInstallmentAmount( installmentAmount );
 
                 return creditMapper.entityToDTO( creditRepository.save( mapped ) );
         }
