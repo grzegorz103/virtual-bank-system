@@ -1,6 +1,7 @@
 package com.ii.app.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ii.app.models.enums.Currency;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,6 +26,10 @@ public class Credit
         @ManyToOne
         @JoinColumn (name = "saldo_id")
         private Saldo destinedSaldo;
+
+        @Enumerated (EnumType.STRING)
+        @Column (name = "currency_type")
+        private Currency currency;
 
         @Column (name = "total_balance")
         private BigDecimal totalBalance;

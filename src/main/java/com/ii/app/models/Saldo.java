@@ -31,7 +31,7 @@ public class Saldo
         @JoinColumn (name = "bank_account_id")
         private BankAccount bankAccount;
 
-        @OneToMany (mappedBy = "saldo", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+        @OneToMany (mappedBy = "destinedSaldo", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
         @JsonIgnore
         private Set<Credit> credits;
 
