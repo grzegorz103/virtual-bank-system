@@ -1,10 +1,13 @@
-<mat-card>
+<div class="box mat-elevation-z8">
+    <mat-toolbar>
+        Przelew standardowy
+    </mat-toolbar>
     <mat-horizontal-stepper linear #stepper>
         <mat-step [stepControl]="transactionForm">
             <form [formGroup]="transactionForm">
                 <ng-template matStepLabel>Formularz</ng-template>
                 <div class="row">
-                    <div class="col-sm-12">
+                    <div class="col-sm-12 mb-1">
                         Wybierz rachunek bankowy
                     </div>
                 </div>
@@ -43,10 +46,10 @@
                         </mat-form-field>
                     </div>
                     <div class="col-sm-6">
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    Tytułem</div>
-                            </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                Tytułem</div>
+                        </div>
                         <mat-form-field style="width: 100%">
                             <input matInput placeholder="Tytuł" formControlName="title" required>
                         </mat-form-field>
@@ -80,7 +83,8 @@
                 </table>
                 <div>
                     <button mat-raised-button color="warn" class="mr-2" matStepperPrevious>Wstecz</button>
-                    <button mat-raised-button color="primary" (click)="createTransaction()" matStepperNext>Wyślij</button>
+                    <button mat-raised-button color="primary" (click)="createTransaction()"
+                        matStepperNext>Wyślij</button>
                 </div>
             </form>
         </mat-step>
@@ -93,4 +97,4 @@
             </div>
         </mat-step>
     </mat-horizontal-stepper>
-</mat-card>
+</div>

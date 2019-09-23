@@ -15,14 +15,19 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatStepperModule } from '@angular/material/stepper';
-import { MatButtonModule, MatFormFieldModule, MatInputModule, MatCardModule, MatOptionModule, 
-  MatSelectModule, MatIconModule, MatTableModule, MatProgressBar, MatProgressBarModule, MatDividerModule, MatDialogModule, MatTabsModule, MatRadioButton, MatRadioModule, MatToolbarModule, MatProgressSpinnerModule, MatCheckboxModule } from '@angular/material';
+import {
+  MatButtonModule, MatFormFieldModule, MatInputModule, MatCardModule, MatOptionModule,
+  MatSelectModule, MatIconModule, MatTableModule, MatProgressBar, MatProgressBarModule, MatDividerModule, MatDialogModule, MatTabsModule, MatRadioButton, MatRadioModule, MatToolbarModule, MatProgressSpinnerModule, MatCheckboxModule, MatSlideToggleModule
+} from '@angular/material';
 import { BankAccountDetailsComponent } from './main/views/bank-account-details/bank-account-details.component';
 import { ChartsModule, WavesModule, MDBBootstrapModule } from 'angular-bootstrap-md';
 import { TemplateListComponent } from './main/views/transaction-templates/template-list/template-list.component';
 import { TemplateCreateComponent } from './main/views/transaction-templates/template-create/template-create.component';
 import { TemplateDetailsComponent } from './template-details/template-details.component';
 import { DialogWindowComponent } from './main/misc/dialog-window/dialog-window.component';
+import { CreditCreateComponent } from './main/views/credit-create/credit-create.component';
+import { Ng5SliderModule } from 'ng5-slider';
+import { CreditService } from './main/services/credit.service';
 
 @NgModule({
   declarations: [
@@ -37,6 +42,7 @@ import { DialogWindowComponent } from './main/misc/dialog-window/dialog-window.c
     TemplateCreateComponent,
     TemplateDetailsComponent,
     DialogWindowComponent,
+    CreditCreateComponent,
   ],
   imports: [
     BrowserModule,
@@ -53,9 +59,9 @@ import { DialogWindowComponent } from './main/misc/dialog-window/dialog-window.c
     MatOptionModule,
     MatSelectModule,
     MatCardModule,
-    MatIconModule,MatTableModule,
+    MatIconModule, MatTableModule,
     ChartsModule,
-    WavesModule,MatProgressBarModule,
+    WavesModule, MatProgressBarModule,
     MatDividerModule,
     MatDialogModule,
     MatTabsModule,
@@ -63,9 +69,11 @@ import { DialogWindowComponent } from './main/misc/dialog-window/dialog-window.c
     MatProgressSpinnerModule,
     MatToolbarModule,
     MatCheckboxModule,
+    MatSlideToggleModule,
+    Ng5SliderModule,
   ],
-  providers: [BankAccountService],
-  entryComponents: [ DialogWindowComponent],
+  providers: [BankAccountService, CreditService],
+  entryComponents: [DialogWindowComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
