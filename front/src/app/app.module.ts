@@ -25,6 +25,8 @@ import { TemplateListComponent } from './main/views/transaction-templates/templa
 import { TemplateCreateComponent } from './main/views/transaction-templates/template-create/template-create.component';
 import { TemplateDetailsComponent } from './template-details/template-details.component';
 import { DialogWindowComponent } from './main/misc/dialog-window/dialog-window.component';
+import { CreditCreateComponent } from './main/views/credit-create/credit-create.component';
+import { Ng5SliderModule } from 'ng5-slider';
 
 @NgModule({
   declarations: [
@@ -39,6 +41,7 @@ import { DialogWindowComponent } from './main/misc/dialog-window/dialog-window.c
     TemplateCreateComponent,
     TemplateDetailsComponent,
     DialogWindowComponent,
+    CreditCreateComponent,
   ],
   imports: [
     BrowserModule,
@@ -65,7 +68,8 @@ import { DialogWindowComponent } from './main/misc/dialog-window/dialog-window.c
     MatProgressSpinnerModule,
     MatToolbarModule,
     MatCheckboxModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    Ng5SliderModule,
   ],
   providers: [BankAccountService],
   entryComponents: [DialogWindowComponent],

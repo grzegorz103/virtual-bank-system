@@ -29,6 +29,7 @@
     "hammerjs": "^2.0.8",
     "i": "^0.3.6",
     "jquery": "^1.9.1",
+    "ng5-slider": "^1.2.4",
     "ngx-bootstrap": "^5.1.1",
     "popper.js": "^1.12.3",
     "rxjs": "~6.4.0",

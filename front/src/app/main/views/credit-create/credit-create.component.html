@@ -1,0 +1,16 @@
+<div class="box mat-elevation-z8">
+    <mat-toolbar>
+        Nowy kredyt
+    </mat-toolbar>
+
+    <div class="col-md-10">
+
+        Kwota:
+        <ng5-slider [(value)]="balanceSliderValue" (valueChange)="calculateInstallment($event)" [options]="balanceSlider"></ng5-slider>
+
+        Ilość wpłat:
+        <ng5-slider [(value)]="monthSliderValue" (valueChange)="calculateInstallment($event)" [options]="monthSlider"></ng5-slider>
+
+        Wysokość wpłaty: {{ installmentValue }}
+    </div>
+</div>
