@@ -27,6 +27,7 @@ public class CreditStatus
         {
                 PAID,
                 CANCELED,
-                ACTIVE
+                ACTIVE,
+                AWAITING
         }
 }

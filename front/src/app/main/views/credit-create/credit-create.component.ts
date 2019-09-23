@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Options } from 'ng5-slider';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { BankAccountService } from '../../services/bank-account.service';
 import { BankAccount } from '../../models/bank-account';
+import { CreditService } from '../../services/credit.service';
 
 @Component({
   selector: 'app-credit-create',
@@ -28,17 +29,29 @@ export class CreditCreateComponent implements OnInit {
   installmentValue = 0;
 
   bankAccounts: BankAccount[];
-  form: FormGroup;
+  form: FormGroup; 
+  selectedBankAccount: BankAccount;
 
   constructor(private fb: FormBuilder,
-    private bankAccountService: BankAccountService) {
+    private bankAccountService: BankAccountService,
+    private creditService: CreditService) {
     bankAccountService.findAll().subscribe(res => {
       this.bankAccounts = res;
-      this.form = this.fb.group()
-    })
+      this.form = this.fb.group({
+        destinedSaldoId: '',
+        totalBalance: '',
+        totalInstallmentCount: '',
+        currency: '',
+        installmentAmount: ''
+      });
+    });
   }
 
   ngOnInit() {
+  }
+
+  createCredit() {
+    this.creditService.create(this.form.value).subscribe(res => alert('Utowrzono'));
   }
 
   calculateInstallment(event: any) {

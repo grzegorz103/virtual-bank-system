@@ -27,6 +27,7 @@ import { TemplateDetailsComponent } from './template-details/template-details.co
 import { DialogWindowComponent } from './main/misc/dialog-window/dialog-window.component';
 import { CreditCreateComponent } from './main/views/credit-create/credit-create.component';
 import { Ng5SliderModule } from 'ng5-slider';
+import { CreditService } from './main/services/credit.service';
 
 @NgModule({
   declarations: [
@@ -71,7 +72,7 @@ import { Ng5SliderModule } from 'ng5-slider';
     MatSlideToggleModule,
     Ng5SliderModule,
   ],
-  providers: [BankAccountService],
+  providers: [BankAccountService, CreditService],
   entryComponents: [DialogWindowComponent],
   bootstrap: [AppComponent]
 })

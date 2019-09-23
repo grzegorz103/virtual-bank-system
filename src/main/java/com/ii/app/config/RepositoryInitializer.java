@@ -198,6 +198,7 @@ public class RepositoryInitializer
                         if ( creditStatusRepository.findAll().isEmpty() )
                         {
                                 creditStatusRepository.save( CreditStatus.builder().creditType( CreditStatus.CreditType.ACTIVE ).build() );
+                                creditStatusRepository.save( CreditStatus.builder().creditType( CreditStatus.CreditType.AWAITING ).build() );
                                 creditStatusRepository.save( CreditStatus.builder().creditType( CreditStatus.CreditType.CANCELED ).build() );
                                 creditStatusRepository.save( CreditStatus.builder().creditType( CreditStatus.CreditType.PAID ).build() );
                         }
