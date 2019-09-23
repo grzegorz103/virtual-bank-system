@@ -3,10 +3,7 @@ package com.ii.app.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ii.app.models.enums.CreditStatus;
 import com.ii.app.models.enums.Currency;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -14,7 +11,7 @@ import java.util.Set;
 
 @Entity
 @Table (name = "credits")
-@Data
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder

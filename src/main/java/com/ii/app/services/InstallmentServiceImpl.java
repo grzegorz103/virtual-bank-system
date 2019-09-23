@@ -52,6 +52,7 @@ public class InstallmentServiceImpl implements InstallmentService
                 Installment mapped = installmentMapper.dtoToEntity( installmentIn );
                 Credit credit = creditRepository.findById( installmentIn.getCreditId() ).orElseThrow( () -> new RuntimeException( "Not found" ) );
                 Saldo sourceSaldo = saldoRepository.findById( installmentIn.getSourceSaldoId() ).orElseThrow( () -> new RuntimeException( "Not found" ) );
+
                 if ( !Objects.equals( sourceSaldo.getCurrencyType().getCurrency().name(), installmentIn.getCurrency().name() ) )
                 {
                         throw new RuntimeException( "Invalid source saldo currency type" );
@@ -63,10 +64,13 @@ public class InstallmentServiceImpl implements InstallmentService
                 {
                         throw new RuntimeException( "Insufficient balance" );
                 }
+
                 sourceSaldo.setBalance( sourceSaldo.getBalance().subtract( installmentAmount ) );
                 credit.setTotalInstallmentCount( credit.getTotalInstallmentCount() + 1 );
                 credit.setBalancePaid( credit.getBalancePaid().add( installmentAmount ) );
                 mapped.setPayDate( Instant.now() );
+                mapped.setCredit( credit );
+                mapped.setAmount( installmentAmount );
 
                 if ( credit.getBalancePaid().compareTo( credit.getTotalBalance() ) >= 0 )
                 {
