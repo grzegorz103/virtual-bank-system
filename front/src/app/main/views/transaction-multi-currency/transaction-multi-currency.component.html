@@ -1,4 +1,6 @@
-
+<mat-toolbar>
+    Przelew wielowalutowy
+</mat-toolbar>
 <select [(ngModel)]="transaction.sourceAccountNumber" (change)="changeCurrencyList()" name="sourceAccNumber">
     <option *ngFor="let bankAccount of bankAccounts" [ngValue]="bankAccount.number">{{ bankAccount.number }}</option>
 </select>

@@ -16,6 +16,8 @@ export class TemplateListComponent implements OnInit {
 
   templates: TransactionTemplate[];
   selection = new SelectionModel<TransactionTemplate>(true, []);
+  headers = ['ID', 'sourceAccountNumber', 'destinedAccountNumber', 'sourceCurrency', 'balance', 'create', 'edit'];
+  isRemoving = false;
 
   // do dodawania/edycji
   template: TransactionTemplate;
@@ -78,11 +80,21 @@ export class TemplateListComponent implements OnInit {
     forkJoin(observables).subscribe(array => this.fetchData());
     this.selection = new SelectionModel<TransactionTemplate>(true, []);
   }
-  
+
   masterToggle() {
     this.isAllSelected() ?
       this.selection.clear() :
       this.templates.forEach(row => this.selection.select(row));
+  }
+
+  switchDeleteStatus() {
+    this.isRemoving = !this.isRemoving;
+
+    if (this.isRemoving) {
+      this.headers = ['ID', 'sourceAccountNumber', 'destinedAccountNumber', 'sourceCurrency', 'balance', 'create', 'edit', 'select'];
+    } else {
+      this.headers = ['ID', 'sourceAccountNumber', 'destinedAccountNumber', 'sourceCurrency', 'balance', 'create', 'edit'];
+    }
   }
 
 }
