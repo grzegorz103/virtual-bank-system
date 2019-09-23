@@ -5,6 +5,7 @@ import com.ii.app.models.BankAccount;
 import com.ii.app.models.CurrencyType;
 import com.ii.app.models.Saldo;
 import com.ii.app.models.enums.BankAccountType;
+import com.ii.app.models.enums.CreditStatus;
 import com.ii.app.models.enums.Currency;
 import com.ii.app.models.user.UserRole;
 import com.ii.app.repositories.*;
@@ -35,6 +36,9 @@ public class RepositoryInitializer
         private final Constants constants;
 
         private final UserRoleRepository userRoleRepository;
+
+        @Autowired
+        private CreditStatusRepository creditStatusRepository;
 
         @Autowired
         public RepositoryInitializer ( BankAccountRepository bankAccountRepository,
@@ -189,6 +193,13 @@ public class RepositoryInitializer
                         {
                                 userRoleRepository.save( UserRole.builder().userType( UserRole.UserType.ROLE_EMPLOYEE ).build() );
                                 userRoleRepository.save( UserRole.builder().userType( UserRole.UserType.ROLE_USER ).build() );
+                        }
+
+                        if ( creditStatusRepository.findAll().isEmpty() )
+                        {
+                                creditStatusRepository.save( CreditStatus.builder().creditType( CreditStatus.CreditType.ACTIVE ).build() );
+                                creditStatusRepository.save( CreditStatus.builder().creditType( CreditStatus.CreditType.CANCELED ).build() );
+                                creditStatusRepository.save( CreditStatus.builder().creditType( CreditStatus.CreditType.PAID ).build() );
                         }
                 };
         }
