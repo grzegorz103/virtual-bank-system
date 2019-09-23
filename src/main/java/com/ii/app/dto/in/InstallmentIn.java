@@ -5,20 +5,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class CreditIn
+public class InstallmentIn
 {
-        private Long destinedSaldoId;
-
-        private BigDecimal totalBalance;
-
-        private Integer totalInstallmentCount;
+        // stad zostanie pobrana kwota do wplaty
+        private Long sourceSaldoId;
 
         private Currency currency;
 
-        private BigDecimal installmentAmount;
+        private Long creditId;
 }

@@ -1,6 +1,7 @@
 package com.ii.app.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ii.app.models.enums.CreditStatus;
 import com.ii.app.models.enums.Currency;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -48,4 +49,8 @@ public class Credit
         @OneToMany (mappedBy = "credit", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
         @JsonIgnore
         private Set<Installment> installments;
+
+        @ManyToOne (fetch = FetchType.EAGER)
+        @JoinColumn (name = "status_id")
+        private CreditStatus creditStatus;
 }
