@@ -31,7 +31,6 @@ import { CreditService } from './main/services/credit.service';
 import { IndexComponent } from './shared/index/index.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-
 @NgModule({
   declarations: [
     AppComponent,

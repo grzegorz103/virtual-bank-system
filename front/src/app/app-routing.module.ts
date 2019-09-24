@@ -13,7 +13,8 @@ import { IndexComponent } from './shared/index/index.component';
 
 const routes: Routes = [
   { path: 'core', loadChildren: './main/main.module#MainModule' },
-  { path: '**', loadChildren: './shared/shared.module#SharedModule' },
+  { path: 'shared', loadChildren: './shared/shared.module#SharedModule' },
+  { path: '**', redirectTo: 'shared'}
 ];
 
 @NgModule({
