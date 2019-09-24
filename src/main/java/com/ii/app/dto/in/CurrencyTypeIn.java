@@ -1,16 +1,17 @@
 package com.ii.app.dto.in;
 
-import com.ii.app.models.enums.Currency;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 public class CurrencyTypeIn
 {
-        private Currency currency;
+        private String currency;
 
-        private float exchangeRate;
+        private BigDecimal exchangeRate;
 }

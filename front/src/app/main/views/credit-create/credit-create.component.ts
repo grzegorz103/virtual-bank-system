@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { BankAccountService } from '../../services/bank-account.service';
 import { BankAccount } from '../../models/bank-account';
 import { CreditService } from '../../services/credit.service';
+import Big from 'big.js';
 
 @Component({
   selector: 'app-credit-create',
@@ -31,6 +32,7 @@ export class CreditCreateComponent implements OnInit {
   bankAccounts: BankAccount[];
   form: FormGroup; 
   selectedBankAccount: BankAccount;
+  currencyType: string;
 
   constructor(private fb: FormBuilder,
     private bankAccountService: BankAccountService,
@@ -53,6 +55,10 @@ export class CreditCreateComponent implements OnInit {
   }
 
   calculateInstallment(event: any) {
-    this.installmentValue = this.balanceSliderValue / this.monthSliderValue;
+    this.installmentValue = Big(this.balanceSliderValue / this.monthSliderValue).round(2, 1).valueOf();
+  }
+
+  switchCurrencyType(event: any){
+    this.currencyType = event.source.selected.viewValue;
   }
 }

@@ -34,7 +34,7 @@ export class ExchangeCurrencyComponent implements OnInit {
     this.currencyList = this.bankAccounts
       .find(e => e.number === this.exchangeCurrency.sourceBankAccNumber)
       .saldos
-      .map(e => String(e.currencyType.currency))
+      .map(e => String(e.currencyType.name))
   }
 
 }

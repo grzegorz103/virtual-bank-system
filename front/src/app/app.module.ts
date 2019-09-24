@@ -28,26 +28,18 @@ import { DialogWindowComponent } from './main/misc/dialog-window/dialog-window.c
 import { CreditCreateComponent } from './main/views/credit-create/credit-create.component';
 import { Ng5SliderModule } from 'ng5-slider';
 import { CreditService } from './main/services/credit.service';
+import { IndexComponent } from './shared/index/index.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
     AppComponent,
-    BankAccountListComponent,
-    TransactionComponent,
-    TransactionMultiCurrencyComponent,
     NavbarComponent,
-    ExchangeCurrencyComponent,
-    BankAccountDetailsComponent,
-    TemplateListComponent,
-    TemplateCreateComponent,
-    TemplateDetailsComponent,
-    DialogWindowComponent,
-    CreditCreateComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule,
+    HttpClientModule, MatCardModule,
     BrowserAnimationsModule,
     FormsModule,
     FontAwesomeModule,
@@ -71,9 +63,10 @@ import { CreditService } from './main/services/credit.service';
     MatCheckboxModule,
     MatSlideToggleModule,
     Ng5SliderModule,
+    MatTooltipModule,
   ],
-  providers: [BankAccountService, CreditService],
-  entryComponents: [DialogWindowComponent],
+  providers: [],
+  entryComponents: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

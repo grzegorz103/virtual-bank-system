@@ -5,10 +5,10 @@ import com.ii.app.dto.out.CreditOut;
 import com.ii.app.models.Credit;
 import org.mapstruct.Mapper;
 
-@Mapper (componentModel = "spring")
+@Mapper (componentModel = "spring", uses = CreditStatusMapper.class)
 public interface CreditMapper
 {
-        Credit DTOtoEntity ( CreditIn creditIn);
+        Credit DTOtoEntity ( CreditIn creditIn );
 
         CreditOut entityToDTO ( Credit credit );
 }

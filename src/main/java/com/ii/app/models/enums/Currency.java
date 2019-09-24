@@ -1,6 +1,6 @@
 package com.ii.app.models.enums;
 
-public enum Currency
+/*public enum Currency
 {
         PLN, // zlotowki
         USD, // dolar amerykanski
@@ -8,3 +8,4 @@ public enum Currency
         CHF, // frank szwajcarski
         GBP // funt szterling
 }
+*/

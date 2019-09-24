@@ -1,5 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container">
+    <div class="bg-dark text-white sidebar-heading" routerLink="/">Wirtualny bank</div>
    <!--  <a class="navbar-brand" routerLink="/">Index</a>
     --> <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
       aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -9,11 +10,11 @@
       <ul class="navbar-nav w-100 justify-content-end">
 
         <li class="nav-item active">
-          <a class="nav-link" routerLink="transactions/create">Logowanie</a>
+          <a class="nav-link" routerLink="login">Logowanie</a>
         </li>
 
         <li class="nav-item active">
-          <a class="nav-link" routerLink="transactions/create">Rejestracja</a>
+          <a class="nav-link" routerLink="register">Rejestracja</a>
         </li>
         <li *ngIf="isMobileView" class="nav-item active">
           <a class="nav-link" routerLink="bankAccounts">Podsumowanie<span class="sr-only">(current)</span></a>

@@ -1,7 +1,6 @@
 package com.ii.app.dto;
 
 import com.ii.app.models.BankAccount;
-import com.ii.app.models.enums.Currency;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,9 +16,9 @@ import java.math.BigDecimal;
 public class TransactionDTO
 {
         private String sourceAccountNumber;
-        private Currency sourceCurrency;
+        private String sourceCurrency;
         private String destinedAccountNumber;
-        private Currency destinedCurrency;
+        private String destinedCurrency;
         private float balance;
         private String title;
 }

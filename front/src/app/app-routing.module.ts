@@ -8,17 +8,13 @@ import { BankAccountDetailsComponent } from './main/views/bank-account-details/b
 import { TemplateListComponent } from './main/views/transaction-templates/template-list/template-list.component';
 import { TemplateCreateComponent } from './main/views/transaction-templates/template-create/template-create.component';
 import { CreditCreateComponent } from './main/views/credit-create/credit-create.component';
+import { IndexComponent } from './shared/index/index.component';
 
 
 const routes: Routes = [
-  { path: 'bankAccounts', component: BankAccountListComponent },
-  { path: 'transactions/create', component: TransactionComponent },
-  { path: 'transactions/create/multicurrency', component: TransactionMultiCurrencyComponent },
-  { path: 'transactions/defined', component: TemplateListComponent },
-  { path: 'transactions/defined/create', component: TemplateCreateComponent },
-  { path: 'bankAccounts/:id/details', component: BankAccountDetailsComponent },
-  { path: 'exchange', component: ExchangeCurrencyComponent },
-  { path: 'credits/create', component: CreditCreateComponent},
+  { path: 'core', loadChildren: './main/main.module#MainModule' },
+  { path: '', loadChildren: './shared/shared.module#SharedModule' },
+  { path: '**', redirectTo: 'shared'}
 ];
 
 @NgModule({

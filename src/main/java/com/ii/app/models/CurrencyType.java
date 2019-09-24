@@ -1,7 +1,6 @@
 package com.ii.app.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.ii.app.models.enums.Currency;
 import lombok.*;
 
 import javax.persistence.*;
@@ -20,9 +19,7 @@ public class CurrencyType
         @GeneratedValue (strategy = GenerationType.IDENTITY)
         private Long id;
 
-        @Enumerated (EnumType.STRING)
-        @Column (name = "currency_type")
-        private Currency currency;
+        private String name;
 
         private float exchangeRate;
 
