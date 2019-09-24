@@ -11,7 +11,7 @@ public class CurrencyTypeOut
 {
         private Long id;
 
-        private String currency;
+        private String name;
 
         private float exchangeRate;
 }

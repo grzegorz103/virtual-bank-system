@@ -1,5 +1,6 @@
 package com.ii.app.services;
 
+import com.ii.app.dto.in.CurrencyTypeIn;
 import com.ii.app.dto.out.CurrencyTypeOut;
 import com.ii.app.mappers.CurrencyTypeMapper;
 import com.ii.app.repositories.CurrencyTypeRepository;
@@ -7,6 +8,7 @@ import com.ii.app.services.interfaces.CurrencyTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,5 +35,23 @@ public class CurrencyTypeServiceImpl implements CurrencyTypeService
                         .stream()
                         .map( currencyTypeMapper::entityToDTO )
                         .collect( Collectors.toList() );
+        }
+
+        @Override
+        public CurrencyTypeOut create (@NotNull CurrencyTypeIn currencyTypeIn )
+        {
+                return null;
+        }
+
+        @Override
+        public CurrencyTypeOut update ( CurrencyTypeIn currencyTypeIn )
+        {
+                return null;
+        }
+
+        @Override
+        public void deleteById ( Long id )
+        {
+
         }
 }
