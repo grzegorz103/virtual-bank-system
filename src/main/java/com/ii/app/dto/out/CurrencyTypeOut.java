@@ -1,6 +1,5 @@
 package com.ii.app.dto.out;
 
-import com.ii.app.models.enums.Currency;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,7 +11,7 @@ public class CurrencyTypeOut
 {
         private Long id;
 
-        private Currency currency;
+        private String currency;
 
         private float exchangeRate;
 }

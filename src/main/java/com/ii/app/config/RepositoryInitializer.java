@@ -6,7 +6,6 @@ import com.ii.app.models.CurrencyType;
 import com.ii.app.models.Saldo;
 import com.ii.app.models.enums.BankAccountType;
 import com.ii.app.models.enums.CreditStatus;
-import com.ii.app.models.enums.Currency;
 import com.ii.app.models.user.UserRole;
 import com.ii.app.repositories.*;
 import com.ii.app.utils.Constants;
@@ -16,10 +15,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Configuration
@@ -63,27 +59,27 @@ public class RepositoryInitializer
                         if ( currencyTypeRepository.findAll().isEmpty() )
                         {
                                 CurrencyType pln = CurrencyType.builder()
-                                        .currency( Currency.PLN )
+                                        .name( "PLN" )
                                         .exchangeRate( 1f )
                                         .build();
 
                                 CurrencyType usd = CurrencyType.builder()
-                                        .currency( Currency.USD )
+                                        .name("USD")
                                         .exchangeRate( 3.88f )
                                         .build();
 
                                 CurrencyType eur = CurrencyType.builder()
-                                        .currency( Currency.EUR )
+                                        .name("EUR" )
                                         .exchangeRate( 4.23f )
                                         .build();
 
                                 CurrencyType chf = CurrencyType.builder()
-                                        .currency( Currency.CHF )
+                                        .name( "CHF" )
                                         .exchangeRate( 2.31f )
                                         .build();
 
                                 CurrencyType gbp = CurrencyType.builder()
-                                        .currency( Currency.GBP )
+                                        .name( "GBP" )
                                         .exchangeRate( 5.60f )
                                         .build();
 
@@ -177,7 +173,7 @@ public class RepositoryInitializer
 
                                 Set<Saldo> saldos3 = currencyTypeRepository.findAll()
                                         .stream()
-                                        .filter( e -> e.getCurrency() == Currency.PLN )
+                                        .filter( e -> Objects.equals( e.getName(), "PLN" ) )
                                         .map( e -> saldoRepository.save( Saldo.builder()
                                                 .balance( new BigDecimal( 100f ) )
                                                 .currencyType( e )

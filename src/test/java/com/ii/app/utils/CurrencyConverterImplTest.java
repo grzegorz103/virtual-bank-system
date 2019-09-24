@@ -1,7 +1,6 @@
 package com.ii.app.utils;
 
 import com.ii.app.models.CurrencyType;
-import com.ii.app.models.enums.Currency;
 import org.junit.Test;
 
 import java.math.BigDecimal;
@@ -16,8 +15,8 @@ public class CurrencyConverterImplTest
         public void convertCurrencyTest ()
         {
                 CurrencyConverterImpl converter = new CurrencyConverterImpl();
-                CurrencyType source = new CurrencyType( 1L, Currency.CHF, 3.5f, null );
-                CurrencyType dest = new CurrencyType( 1L, Currency.PLN, 1f, null );
+                CurrencyType source = new CurrencyType( 1L, "PLN", 3.5f, null );
+                CurrencyType dest = new CurrencyType( 1L, "PLN", 1f, null );
 
                 float res = converter.convertCurrency( 10, source, dest ).floatValue();
 
@@ -28,8 +27,8 @@ public class CurrencyConverterImplTest
         public void convertSignedCurrencyTest ()
         {
                 CurrencyConverterImpl converter = new CurrencyConverterImpl();
-                CurrencyType source = new CurrencyType( 1L, Currency.CHF, 3.5f, null );
-                CurrencyType dest = new CurrencyType( 1L, Currency.PLN, 1f, null );
+                CurrencyType source = new CurrencyType( 1L, "CHF", 3.5f, null );
+                CurrencyType dest = new CurrencyType( 1L, "CHF", 1f, null );
 
                 float res = converter.convertCurrency( -5, source, dest ).floatValue();
 
