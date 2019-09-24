@@ -1,7 +1,6 @@
 package com.ii.app.dto.out;
 
 import com.ii.app.models.CurrencyType;
-import com.ii.app.models.enums.Currency;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,5 +14,5 @@ public class ExchangeCurrencyOut
 {
         private BigDecimal balance;
 
-        private Currency destCurrency;
+        private String destCurrency;
 }

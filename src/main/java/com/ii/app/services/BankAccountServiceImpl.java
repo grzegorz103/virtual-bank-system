@@ -3,11 +3,9 @@ package com.ii.app.services;
 import com.ii.app.dto.in.BankAccountIn;
 import com.ii.app.dto.out.BankAccountOut;
 import com.ii.app.mappers.BankAccountMapper;
-import com.ii.app.models.BankAccType;
 import com.ii.app.models.BankAccount;
 import com.ii.app.models.Saldo;
 import com.ii.app.models.enums.BankAccountType;
-import com.ii.app.models.enums.Currency;
 import com.ii.app.repositories.BankAccountRepository;
 import com.ii.app.repositories.BankAccountTypeRepository;
 import com.ii.app.repositories.CurrencyTypeRepository;
@@ -21,9 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -76,7 +71,7 @@ public class BankAccountServiceImpl implements BankAccountService
                                 );
                 } else
                 {
-                        currencyTypeRepository.findByCurrency( Currency.PLN )
+                        currencyTypeRepository.findByName( "PLN" )
                                 .ifPresent( e -> saldoRepository.save( new Saldo( BigDecimal.ZERO, e, finalBankAccount ) ) );
                 }
                 BankAccount account = bankAccountRepository.findById( finalBankAccount.getId() ).get();

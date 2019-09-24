@@ -50,7 +50,7 @@ public class CreditServiceImpl implements CreditService
                         .orElseThrow( () -> new RuntimeException( "Not found" ) );
 
                 destinedSaldo.setBalance( destinedSaldo.getBalance().add( creditIn.getTotalBalance() ) );
-                mapped.setCurrency( destinedSaldo.getCurrencyType().getCurrency() );
+                mapped.setCurrency( destinedSaldo.getCurrencyType().getName() );
                 mapped.setDestinedSaldo( destinedSaldo );
                 mapped.setInstallments( new HashSet<>() );
                 mapped.setCreditStatus(creditStatusRepository.findByCreditType( CreditStatus.CreditType.AWAITING ));

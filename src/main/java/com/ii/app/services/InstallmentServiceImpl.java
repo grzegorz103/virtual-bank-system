@@ -53,7 +53,7 @@ public class InstallmentServiceImpl implements InstallmentService
                 Credit credit = creditRepository.findById( installmentIn.getCreditId() ).orElseThrow( () -> new RuntimeException( "Not found" ) );
                 Saldo sourceSaldo = saldoRepository.findById( installmentIn.getSourceSaldoId() ).orElseThrow( () -> new RuntimeException( "Not found" ) );
 
-                if ( !Objects.equals( sourceSaldo.getCurrencyType().getCurrency().name(), installmentIn.getCurrency().name() ) )
+                if ( !Objects.equals( sourceSaldo.getCurrencyType().getName(), installmentIn.getCurrency() ) )
                 {
                         throw new RuntimeException( "Invalid source saldo currency type" );
                 }

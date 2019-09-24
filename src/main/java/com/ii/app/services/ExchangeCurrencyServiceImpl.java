@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.Objects;
 
 @Service
 public class ExchangeCurrencyServiceImpl implements ExchangeCurrencyService
@@ -66,7 +67,7 @@ public class ExchangeCurrencyServiceImpl implements ExchangeCurrencyService
 
                 Saldo sourceSaldo = sourceBankAcc.getSaldos()
                         .stream()
-                        .filter( e -> e.getCurrencyType().getCurrency() == exchangeCurrencyIn.getSourceCurrency() )
+                        .filter( e -> Objects.equals( e.getCurrencyType().getName(), exchangeCurrencyIn.getSourceCurrency() ) )
                         .findFirst()
                         .orElseThrow( () -> new RuntimeException( "not found" ) );
 
@@ -76,7 +77,7 @@ public class ExchangeCurrencyServiceImpl implements ExchangeCurrencyService
 
                 Saldo destSaldo = sourceBankAcc.getSaldos()
                         .stream()
-                        .filter( e -> e.getCurrencyType().getCurrency() == exchangeCurrencyIn.getDestCurrency() )
+                        .filter( e -> Objects.equals( e.getCurrencyType().getName(), exchangeCurrencyIn.getDestCurrency() ) )
                         .findFirst()
                         .orElseThrow( () -> new RuntimeException( "not found" ) );
 
@@ -114,8 +115,8 @@ public class ExchangeCurrencyServiceImpl implements ExchangeCurrencyService
         @Override
         public BigDecimal calculate ( ExchangeCurrencyIn exchangeCurrencyIn )
         {
-                CurrencyType sourceCurrencyType = currencyTypeRepository.findByCurrency( exchangeCurrencyIn.getSourceCurrency() ).orElseThrow( () -> new RuntimeException( "Nie znaleziono" ) );
-                CurrencyType destCurrencyType = currencyTypeRepository.findByCurrency( exchangeCurrencyIn.getDestCurrency() ).orElseThrow( () -> new RuntimeException( "Nie znaleziono" ) );
+                CurrencyType sourceCurrencyType = currencyTypeRepository.findByName( exchangeCurrencyIn.getSourceCurrency() ).orElseThrow( () -> new RuntimeException( "Nie znaleziono" ) );
+                CurrencyType destCurrencyType = currencyTypeRepository.findByName( exchangeCurrencyIn.getDestCurrency() ).orElseThrow( () -> new RuntimeException( "Nie znaleziono" ) );
 
                 return currencyConverter.convertCurrency(
                         exchangeCurrencyIn.getBalance(),

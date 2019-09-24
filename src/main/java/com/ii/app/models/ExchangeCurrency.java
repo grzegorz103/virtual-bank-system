@@ -1,8 +1,10 @@
 package com.ii.app.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.ii.app.models.enums.Currency;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -26,10 +28,10 @@ public class ExchangeCurrency
         private BankAccount bankAccount;
 
         @Column (name = "source_currency")
-        private Currency sourceCurrency;
+        private String sourceCurrency;
 
         @Column (name = "destined_currency")
-        private Currency destCurrency;
+        private String destCurrency;
 
         @Column (name = "balance")
         private float balance;

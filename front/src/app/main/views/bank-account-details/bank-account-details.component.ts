@@ -66,7 +66,7 @@ export class BankAccountDetailsComponent implements OnInit {
     let saldos = this.bankAccount.saldos.map(e => e.balance);
     this.chartDatasets = [{ data: saldos, label: 'Stan konta' }];
 
-    let saldoNames = this.bankAccount.saldos.map(e => e.currencyType.currency);
+    let saldoNames = this.bankAccount.saldos.map(e => e.currencyType.name);
     this.chartLabels = saldoNames;
 
     this.chartOptions = {

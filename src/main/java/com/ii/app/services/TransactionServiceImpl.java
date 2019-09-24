@@ -8,7 +8,6 @@ import com.ii.app.models.CurrencyType;
 import com.ii.app.models.Saldo;
 import com.ii.app.models.Transaction;
 import com.ii.app.models.enums.BankAccountType;
-import com.ii.app.models.enums.Currency;
 import com.ii.app.repositories.BankAccountRepository;
 import com.ii.app.repositories.CurrencyTypeRepository;
 import com.ii.app.repositories.SaldoRepository;
@@ -66,8 +65,8 @@ public class TransactionServiceImpl implements TransactionService
         {
                 final Transaction transaction = new Transaction();
 
-                final CurrencyType sourceCurrency = currencyTypeRepository.findByCurrency( transactionDTO.getSourceCurrency() ).orElseThrow( () -> new RuntimeException( "Currency type not found" ) );
-                final CurrencyType destCurrency = currencyTypeRepository.findByCurrency( transactionDTO.getDestinedCurrency() ).orElseThrow( () -> new RuntimeException( "asd" ) );
+                final CurrencyType sourceCurrency = currencyTypeRepository.findByName( transactionDTO.getSourceCurrency() ).orElseThrow( () -> new RuntimeException( "Currency type not found" ) );
+                final CurrencyType destCurrency = currencyTypeRepository.findByName( transactionDTO.getDestinedCurrency() ).orElseThrow( () -> new RuntimeException( "asd" ) );
                 final BankAccount destinedBankAccount = bankAccountRepository.findByNumber( transactionDTO.getDestinedAccountNumber() ).orElseThrow( () -> new RuntimeException( "Bank account does not exists" ) );
                 final BankAccount sourceBankAccount = bankAccountRepository.findByNumber( transactionDTO.getSourceAccountNumber() ).get();
 
@@ -83,7 +82,7 @@ public class TransactionServiceImpl implements TransactionService
                         .filter( Objects::nonNull )
                         .filter( e -> e.getCurrencyType() == destCurrency )
                         .findFirst()
-                        .orElse( destinedBankAccount.getSaldos().stream().filter( e -> e.getCurrencyType().getCurrency() == Currency.PLN ).findFirst().get() );
+                        .orElse( destinedBankAccount.getSaldos().stream().filter( e -> Objects.equals( e.getCurrencyType().getName(), "PLN" ) ).findFirst().get() );
 
                 if ( sourceSaldo.getBalance().floatValue() < transactionDTO.getBalance() )
                         throw new RuntimeException( "Source saldo has no required balance" );
