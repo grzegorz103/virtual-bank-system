@@ -29,23 +29,13 @@ import { CreditCreateComponent } from './main/views/credit-create/credit-create.
 import { Ng5SliderModule } from 'ng5-slider';
 import { CreditService } from './main/services/credit.service';
 import { IndexComponent } from './shared/index/index.component';
- import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    BankAccountListComponent,
-    TransactionComponent,
-    TransactionMultiCurrencyComponent,
     NavbarComponent,
-    ExchangeCurrencyComponent,
-    BankAccountDetailsComponent,
-    TemplateListComponent,
-    TemplateCreateComponent,
-    TemplateDetailsComponent,
-    DialogWindowComponent,
-    CreditCreateComponent,
     IndexComponent
   ],
   imports: [
@@ -77,8 +67,8 @@ import { IndexComponent } from './shared/index/index.component';
     Ng5SliderModule,
     MatTooltipModule,
   ],
-  providers: [BankAccountService, CreditService],
-  entryComponents: [DialogWindowComponent],
+  providers: [],
+  entryComponents: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
