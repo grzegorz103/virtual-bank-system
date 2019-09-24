@@ -1,0 +1,8 @@
+.background {
+    width: 100%;
+    height: 91vh;
+    background: url('../../../assets/main-theme.jpg') no-repeat;
+    background-size: cover;
+    color: white;
+    text-align: center;
+ }
