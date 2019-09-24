@@ -2,7 +2,6 @@ package com.ii.app.dto.in;
 
 import com.ii.app.models.BankAccount;
 import com.ii.app.models.CurrencyType;
-import com.ii.app.models.enums.Currency;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,7 +15,7 @@ public class ExchangeCurrencyIn
 
         private String sourceBankAccNumber;
 
-        private Currency sourceCurrency;
+        private String sourceCurrency;
 
-        private Currency destCurrency;
+        private String destCurrency;
 }

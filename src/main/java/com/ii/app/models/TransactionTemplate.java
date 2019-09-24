@@ -1,6 +1,5 @@
 package com.ii.app.models;
 
-import com.ii.app.models.enums.Currency;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,13 +25,13 @@ public class TransactionTemplate
         private String sourceAccountNumber;
 
         @Column (name = "source_currency")
-        private Currency sourceCurrency;
+        private String sourceCurrency;
 
         @Column (name = "destined_account_number")
         private String destinedAccountNumber;
 
         @Column (name = "destined_currency")
-        private Currency destinedCurrency;
+        private String destinedCurrency;
 
         @Column (name = "balance")
         private BigDecimal balance;

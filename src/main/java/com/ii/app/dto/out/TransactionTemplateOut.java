@@ -1,6 +1,5 @@
 package com.ii.app.dto.out;
 
-import com.ii.app.models.enums.Currency;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,11 +16,11 @@ public class TransactionTemplateOut
 
         private String sourceAccountNumber;
 
-        private Currency sourceCurrency;
+        private String sourceCurrency;
 
         private String destinedAccountNumber;
 
-        private Currency destinedCurrency;
+        private String destinedCurrency;
 
         private BigDecimal balance;
 
