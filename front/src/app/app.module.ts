@@ -36,7 +36,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
   declarations: [
     AppComponent,
     NavbarComponent,
-    IndexComponent
   ],
   imports: [
     BrowserModule,

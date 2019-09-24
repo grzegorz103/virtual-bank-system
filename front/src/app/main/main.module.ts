@@ -42,7 +42,6 @@ import { CreditService } from './services/credit.service';
   imports: [
     CommonModule,
     MainRoutingModule,
-    MainRoutingModule,
     HttpClientModule, MatCardModule,
     FormsModule,
     FontAwesomeModule,
