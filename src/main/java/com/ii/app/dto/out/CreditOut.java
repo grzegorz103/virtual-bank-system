@@ -14,7 +14,7 @@ public class CreditOut
 {
         private Long id;
 
-  //      private Saldo destinedSaldo;
+        //      private Saldo destinedSaldo;
 
         private BigDecimal totalBalance;
 
@@ -24,5 +24,6 @@ public class CreditOut
 
         private Integer totalInstallmentCount;
 
+        private CreditStatusOut creditStatus;
 //        private Set<Installment> installments;
 }

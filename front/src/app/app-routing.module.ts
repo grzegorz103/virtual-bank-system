@@ -8,6 +8,7 @@ import { BankAccountDetailsComponent } from './main/views/bank-account-details/b
 import { TemplateListComponent } from './main/views/transaction-templates/template-list/template-list.component';
 import { TemplateCreateComponent } from './main/views/transaction-templates/template-create/template-create.component';
 import { CreditCreateComponent } from './main/views/credit-create/credit-create.component';
+import { IndexComponent } from './shared/index/index.component';
 
 
 const routes: Routes = [
@@ -19,6 +20,7 @@ const routes: Routes = [
   { path: 'bankAccounts/:id/details', component: BankAccountDetailsComponent },
   { path: 'exchange', component: ExchangeCurrencyComponent },
   { path: 'credits/create', component: CreditCreateComponent},
+  { path: '*', component: IndexComponent}
 ];
 
 @NgModule({

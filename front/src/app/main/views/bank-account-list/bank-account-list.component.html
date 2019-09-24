@@ -1,35 +1,36 @@
-
 <div class="example-container mat-elevation-z8">
-    <table mat-table [dataSource]="bankAccounts">
-  
-       <ng-container matColumnDef="ID">
-        <th mat-header-cell *matHeaderCellDef>ID</th>
-        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
-      </ng-container>
+  <table mat-table [dataSource]="bankAccounts">
 
-      
-      <ng-container matColumnDef="numer">
-        <th mat-header-cell *matHeaderCellDef>Numer</th>
-        <td mat-cell *matCellDef="let element"> {{element.number}} </td>
-      </ng-container>
-      
-      <ng-container matColumnDef="multiCurrency">
-        <th mat-header-cell *matHeaderCellDef>Wielowalutowe</th>
-        <td mat-cell *matCellDef="let element"> {{element.multiCurrency}} </td>
-      </ng-container>
+    <ng-container matColumnDef="ID">
+      <th mat-header-cell *matHeaderCellDef>ID</th>
+      <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+    </ng-container>
 
-      <ng-container matColumnDef="saldos">
-        <th mat-header-cell *matHeaderCellDef>Salda</th>
-        <td mat-cell *matCellDef="let element"> <span *ngFor="let saldo of element.saldos">{{saldo.balance}} </span> </td>
-      </ng-container>
 
-      <ng-container matColumnDef="details">
-        <th mat-header-cell *matHeaderCellDef>Wielowalutowe</th>
-        <td mat-cell *matCellDef="let element">   <button mat-raised-button color="primary" [routerLink]="['/bankAccounts', element.id, 'details']">Szczegóły</button>
-        </td>
-      </ng-container>
-  
-      <tr mat-header-row *matHeaderRowDef="['ID', 'numer', 'multiCurrency', 'saldos', 'details']; sticky: true"></tr>
-      <tr mat-row *matRowDef="let row; columns: ['ID', 'numer', 'multiCurrency', 'saldos', 'details'];"></tr>
-    </table>
-  </div>
+    <ng-container matColumnDef="numer">
+      <th mat-header-cell *matHeaderCellDef>Numer</th>
+      <td mat-cell *matCellDef="let element"> {{element.number}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="multiCurrency">
+      <th mat-header-cell *matHeaderCellDef>Wielowalutowe</th>
+      <td mat-cell *matCellDef="let element"> {{element.multiCurrency}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="saldos">
+      <th mat-header-cell *matHeaderCellDef>Salda</th>
+      <td mat-cell *matCellDef="let element"> <span
+          *ngFor="let saldo of element.saldos">{{saldo.balance | currency: saldo.currencyType.currency}}, </span> </td>
+    </ng-container>
+
+    <ng-container matColumnDef="details">
+      <th mat-header-cell *matHeaderCellDef>Wielowalutowe</th>
+      <td mat-cell *matCellDef="let element"> <button mat-raised-button color="primary"
+          [routerLink]="['/bankAccounts', element.id, 'details']">Szczegóły</button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="['ID', 'numer', 'multiCurrency', 'saldos', 'details']; sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['ID', 'numer', 'multiCurrency', 'saldos', 'details'];"></tr>
+  </table>
+</div>
