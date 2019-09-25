@@ -6,6 +6,7 @@ import { IndexComponent } from './index/index.component';
 import { SharedComponent } from './shared.component';
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
+import { MatCardModule } from '@angular/material';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { LoginComponent } from './login/login.component';
   ],
   imports: [
     CommonModule,
-    SharedRoutingModule
+    SharedRoutingModule,
+    MatCardModule
   ]
 })
 export class SharedModule { }
