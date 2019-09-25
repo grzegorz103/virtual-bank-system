@@ -1,5 +1,6 @@
 package com.ii.app.dto.out;
 
+import com.ii.app.models.BankAccType;
 import com.ii.app.models.Saldo;
 import com.ii.app.models.Transaction;
 import lombok.AllArgsConstructor;
@@ -17,7 +18,7 @@ public class BankAccountOut
         
         private String number;
 
-        private boolean multiCurrency;
+        private BankAccTypeOut bankAccType;
 
         private Set<SaldoOut> saldos;
 }

@@ -32,4 +32,10 @@ public class TransactionController
         {
                 return transactionService.findAll();
         }
+
+        @GetMapping ("/byAccount/{id}")
+        public List<TransactionOut> findAllByBankAccountId ( @PathVariable ("id") Long id )
+        {
+                return transactionService.findAllByBankAccountId( id );
+        }
 }

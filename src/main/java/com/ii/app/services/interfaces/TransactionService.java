@@ -11,4 +11,6 @@ public interface TransactionService
         Transaction create ( TransactionDTO transactionDTO );
 
         List<TransactionOut> findAll ();
+
+        List<TransactionOut> findAllByBankAccountId(Long bankAccountId);
 }
