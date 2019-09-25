@@ -15,4 +15,7 @@ export class TransactionService {
     return this.http.post<Transaction>(this.url, transaction);
   }
 
+  findAllByBankAccountId(bankAccountId: number){
+    return this.http.get<Transaction[]>(this.url);
+  }
 }

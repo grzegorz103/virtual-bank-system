@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { BankAccount } from '../../models/bank-account';
 import { BankAccountService } from '../../services/bank-account.service';
 import { ActivatedRoute } from '@angular/router';
+import { Transaction } from '../../models/transaction';
+import { TransactionService } from '../../services/transaction.service';
 
 @Component({
   selector: 'app-bank-account-details',
@@ -13,15 +15,14 @@ export class BankAccountDetailsComponent implements OnInit {
   bankAccount: BankAccount;
   id: number;
 
-  public chartType: string = 'bar';
-
-  public chartDatasets: Array<any> = [
-    { data: [65, 59, 80, 81, 56, 55], label: 'My First dataset' }
+  chartType: string = 'bar';
+  chartDatasets: Array<any> = [
+    { data: [65, 59, 80, 81, 56, 55], label: 'Salda' }
   ];
 
-  public chartLabels: Array<any> = ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'];
-
-  public chartColors: Array<any> = [
+  transactions: Transaction[];
+  chartLabels: Array<any> = ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'];
+  chartColors: Array<any> = [
     {
       backgroundColor: [
         'rgba(255, 99, 132, 0.2)',
@@ -43,22 +44,27 @@ export class BankAccountDetailsComponent implements OnInit {
     }
   ];
 
-  public chartOptions: any = {
+  chartOptions: any = {
     responsive: true
   };
 
-  public chartClicked(e: any): void { }
+  public chartClicked(e: any): void { /* console.log(e.active[0]._index)  */}
   public chartHovered(e: any): void { }
 
 
   constructor(private bankAccountService: BankAccountService,
+    private transactionService: TransactionService,
     private activatedRoute: ActivatedRoute) {
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
       this.bankAccountService.findById(this.id)
         .subscribe(res => { this.bankAccount = res; this.fillChartData() });
+
+      this.transactionService.findAllByBankAccountId(this.id)
+        .subscribe(res => this.transactions = res);
     })
   }
+
   ngOnInit(): void {
   }
 
@@ -72,13 +78,13 @@ export class BankAccountDetailsComponent implements OnInit {
     this.chartOptions = {
       responsive: true,
       scales: {
-        xAxes: [{barPercentage: this.bankAccount.saldos.length / 5}],
+        xAxes: [{ barPercentage: this.bankAccount.saldos.length / 5 }],
         yAxes: [{
           display: true,
           ticks: {
-              beginAtZero: true
+            beginAtZero: true
           }
-      }]
+        }]
       }
     }
   }

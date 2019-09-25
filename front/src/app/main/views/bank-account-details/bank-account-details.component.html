@@ -13,5 +13,8 @@
     </canvas>
   </div></div>
 
-  Historia transakcji
+  <mat-toolbar>Historia transakcji</mat-toolbar>
+  <div *ngFor="let transaction of transactions">
+    {{ transaction.id }}
+  </div>
 </mat-card>
