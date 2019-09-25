@@ -2,7 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { BankAccount } from '../../models/bank-account';
 import { BankAccountService } from '../../services/bank-account.service';
 import { ActivatedRoute } from '@angular/router';
+import { Transaction } from '../../models/transaction';
+import { TransactionService } from '../../services/transaction.service';
+import { MatTableDataSource } from '@angular/material';
+import { TransactionHistory } from '../../models/transaction-history';
+import { TransactionIn } from '../../models/history-element';
 
+class A implements TransactionHistory {
+  id = 2;
+  dupa = 'asd'
+}
 @Component({
   selector: 'app-bank-account-details',
   templateUrl: './bank-account-details.component.html',
@@ -13,15 +22,16 @@ export class BankAccountDetailsComponent implements OnInit {
   bankAccount: BankAccount;
   id: number;
 
-  public chartType: string = 'bar';
-
-  public chartDatasets: Array<any> = [
-    { data: [65, 59, 80, 81, 56, 55], label: 'My First dataset' }
+  chartType: string = 'bar';
+  chartDatasets: Array<any> = [
+    { data: [65, 59, 80, 81, 56, 55], label: 'Salda' }
   ];
 
-  public chartLabels: Array<any> = ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'];
+  transactions: MatTableDataSource<TransactionHistory>;
+  historyColumns: string[];
 
-  public chartColors: Array<any> = [
+  chartLabels: Array<any> = ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'];
+  chartColors: Array<any> = [
     {
       backgroundColor: [
         'rgba(255, 99, 132, 0.2)',
@@ -43,22 +53,42 @@ export class BankAccountDetailsComponent implements OnInit {
     }
   ];
 
-  public chartOptions: any = {
+  chartOptions: any = {
     responsive: true
   };
 
-  public chartClicked(e: any): void { }
+  public chartClicked(e: any): void { /* console.log(e.active[0]._index)  */ }
   public chartHovered(e: any): void { }
 
 
   constructor(private bankAccountService: BankAccountService,
+    private transactionService: TransactionService,
     private activatedRoute: ActivatedRoute) {
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
       this.bankAccountService.findById(this.id)
-        .subscribe(res => { this.bankAccount = res; this.fillChartData() });
+        .subscribe(res => {
+          this.bankAccount = res;
+          this.fillChartData();
+          // transactionType to przelew/ wplata itp
+          this.historyColumns = this.bankAccount.bankAccType.bankAccountType === 'MULTI_CURRENCY'
+            ? ['id', 'transactionType', 'sourceAccNr', 'destAccNr', 'date', 'balance']
+            : ['id', 'transactionType', 'sourceAccNr', 'destAccNr', 'date', 'balance', 'sourceCurrency', 'destCurrency'];
+
+          this.transactionService.findAllByBankAccountId(this.id)
+            .subscribe(res => {
+              let resMapped: TransactionIn[];
+              resMapped = res.map(e => new TransactionIn(e, this.bankAccount.bankAccType.bankAccountType));
+         
+              this.transactions = new MatTableDataSource<TransactionHistory>();
+              resMapped.forEach(e => this.transactions.data.push(e));
+              this.transactions.data.push(new A());
+            });
+        });
+
     })
   }
+
   ngOnInit(): void {
   }
 
@@ -72,15 +102,19 @@ export class BankAccountDetailsComponent implements OnInit {
     this.chartOptions = {
       responsive: true,
       scales: {
-        xAxes: [{barPercentage: this.bankAccount.saldos.length / 5}],
+        xAxes: [{ barPercentage: this.bankAccount.saldos.length / 5 }],
         yAxes: [{
           display: true,
           ticks: {
-              beginAtZero: true
+            beginAtZero: true
           }
-      }]
+        }]
       }
     }
+  }
+
+  getObjectType(object) {
+    return object.constructor.name;
   }
 
 }
