@@ -138,6 +138,15 @@ public class TransactionServiceImpl implements TransactionService
                         .collect( Collectors.toList() );
         }
 
+        @Override
+        public List<TransactionOut> findAllByBankAccountId ( Long bankAccountId )
+        {
+                return transactionRepository.findAllBySourceBankAccount_IdOrDestinedBankAccount_Id( bankAccountId )
+                        .stream()
+                        .map( transactionMapper::entityToDTO )
+                        .collect( Collectors.toList() );
+        }
+
         /*
         private BigDecimal convertCurrency ( float currency, CurrencyType sourceCurrency, CurrencyType destinedCurrency )
         {
