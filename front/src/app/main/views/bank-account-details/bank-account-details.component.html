@@ -26,12 +26,12 @@
         </ng-container>
 
         <ng-container matColumnDef="sourceAccNr">
-          <th mat-header-cell *matHeaderCellDef> No. </th>
-          <td mat-cell *matCellDef="let element"> {{element.id}}</td>
+          <th mat-header-cell *matHeaderCellDef> Konto źródłowe </th>
+          <td mat-cell *matCellDef="let element"> <div *ngIf="getObjectType(element) === 'TransactionIn'">{{element.sourceBankAccount.number}}</div></td>
         </ng-container>
 
         <ng-container matColumnDef="destAccNr">
-          <th mat-header-cell *matHeaderCellDef> No. </th>
+          <th mat-header-cell *matHeaderCellDef> Kondo docelowe. </th>
           <td mat-cell *matCellDef="let element"> {{element.id}}</td>
         </ng-container>
 

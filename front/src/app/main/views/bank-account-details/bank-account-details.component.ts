@@ -6,6 +6,7 @@ import { Transaction } from '../../models/transaction';
 import { TransactionService } from '../../services/transaction.service';
 import { MatTableDataSource } from '@angular/material';
 import { TransactionHistory } from '../../models/transaction-history';
+import { TransactionIn } from '../../models/history-element';
 
 class A implements TransactionHistory {
   id = 2;
@@ -73,15 +74,18 @@ export class BankAccountDetailsComponent implements OnInit {
           this.historyColumns = this.bankAccount.bankAccType.bankAccountType === 'MULTI_CURRENCY'
             ? ['id', 'transactionType', 'sourceAccNr', 'destAccNr', 'date', 'balance']
             : ['id', 'transactionType', 'sourceAccNr', 'destAccNr', 'date', 'balance', 'sourceCurrency', 'destCurrency'];
-          console.log(this.bankAccount.bankAccType.bankAccountType);
+
+          this.transactionService.findAllByBankAccountId(this.id)
+            .subscribe(res => {
+              let resMapped: TransactionIn[];
+              resMapped = res.map(e => new TransactionIn(e, this.bankAccount.bankAccType.bankAccountType));
+         
+              this.transactions = new MatTableDataSource<TransactionHistory>();
+              resMapped.forEach(e => this.transactions.data.push(e));
+              this.transactions.data.push(new A());
+            });
         });
 
-      this.transactionService.findAllByBankAccountId(this.id)
-        .subscribe(res => {
-          this.transactions = new MatTableDataSource<TransactionHistory>(res as Transaction[]);
-          this.transactions.data.push(new A());
-          this.transactions.data.forEach(e => console.log(typeof (e)))
-        });
     })
   }
 
@@ -107,6 +111,10 @@ export class BankAccountDetailsComponent implements OnInit {
         }]
       }
     }
+  }
+
+  getObjectType(object) {
+    return object.constructor.name;
   }
 
 }
