@@ -38,4 +38,12 @@ public class Transaction
         @ManyToOne
         @JoinColumn (name = "destined_bank_account_id")
         private BankAccount destinedBankAccount;
+
+        @ManyToOne
+        @JoinColumn(name="source_currency_type_id")
+        private CurrencyType sourceCurrencyType;
+
+        @ManyToOne
+        @JoinColumn(name="destined_currency_type_id")
+        private CurrencyType destinedCurrencyType;
 }

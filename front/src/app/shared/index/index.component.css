@@ -6,3 +6,17 @@
     color: white;
     text-align: center;
  }
+
+ .green-button{
+    background-color: green;
+    height:40px !important;
+    width: 100px !important; 
+    color: white;
+ }
+
+ .blue-button{
+     background-color: #234099;
+     color: white;
+     height:40px !important;
+     width: 100px !important;
+ }

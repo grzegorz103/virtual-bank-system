@@ -22,8 +22,10 @@ import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.Instant;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service ("transactionService")
@@ -125,6 +127,8 @@ public class TransactionServiceImpl implements TransactionService
                 transaction.setDestinedBankAccount( destinedBankAccount );
                 transaction.setSourceBankAccount( sourceBankAccount );
                 transaction.setTitle( transactionDTO.getTitle() );
+                transaction.setSourceCurrencyType( sourceCurrency );
+                transaction.setDestinedCurrencyType( destCurrency );
 
                 return transactionRepository.save( transaction );
         }
@@ -141,8 +145,9 @@ public class TransactionServiceImpl implements TransactionService
         @Override
         public List<TransactionOut> findAllByBankAccountId ( Long bankAccountId )
         {
-                return transactionRepository.findAllBySourceBankAccount_IdOrDestinedBankAccount_Id( bankAccountId )
+                return transactionRepository.findTransactionsByBankAccountId( bankAccountId )
                         .stream()
+                        .sorted( ( o1, o2 ) -> o2.getDate().compareTo( o1.getDate() ) )
                         .map( transactionMapper::entityToDTO )
                         .collect( Collectors.toList() );
         }
