@@ -7,7 +7,7 @@ import { TransactionService } from '../../services/transaction.service';
 import { MatTableDataSource } from '@angular/material';
 import { TransactionHistory } from '../../models/transaction-history';
 import { TransactionIn } from '../../models/history-element';
-
+import { faArrowCircleDown, faArrowCircleUp } from '@fortawesome/free-solid-svg-icons';
 class A implements TransactionHistory {
   id = 2;
   dupa = 'asd'
@@ -26,6 +26,9 @@ export class BankAccountDetailsComponent implements OnInit {
   chartDatasets: Array<any> = [
     { data: [65, 59, 80, 81, 56, 55], label: 'Salda' }
   ];
+
+  faArrowCircleUp = faArrowCircleUp;
+  faArrowCircleDown = faArrowCircleDown;
 
   transactions: MatTableDataSource<TransactionHistory>;
   historyColumns: string[];
@@ -79,7 +82,7 @@ export class BankAccountDetailsComponent implements OnInit {
             .subscribe(res => {
               let resMapped: TransactionIn[];
               resMapped = res.map(e => new TransactionIn(e, this.bankAccount.bankAccType.bankAccountType));
-         
+
               this.transactions = new MatTableDataSource<TransactionHistory>();
               resMapped.forEach(e => this.transactions.data.push(e));
               this.transactions.data.push(new A());
