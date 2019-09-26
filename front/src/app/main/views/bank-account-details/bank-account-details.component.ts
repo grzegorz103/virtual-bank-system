@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { BankAccount } from '../../models/bank-account';
 import { BankAccountService } from '../../services/bank-account.service';
 import { ActivatedRoute } from '@angular/router';
 import { Transaction } from '../../models/transaction';
 import { TransactionService } from '../../services/transaction.service';
-import { MatTableDataSource } from '@angular/material';
+import { MatTableDataSource, MatPaginator } from '@angular/material';
 import { TransactionHistory } from '../../models/transaction-history';
 import { TransactionIn } from '../../models/history-element';
 import { faArrowCircleDown, faArrowCircleUp } from '@fortawesome/free-solid-svg-icons';
@@ -19,8 +19,10 @@ class A implements TransactionHistory {
 })
 export class BankAccountDetailsComponent implements OnInit {
 
+
   bankAccount: BankAccount;
   id: number;
+  isLoading = true;
 
   chartType: string = 'bar';
   chartDatasets: Array<any> = [
@@ -30,7 +32,7 @@ export class BankAccountDetailsComponent implements OnInit {
   faArrowCircleUp = faArrowCircleUp;
   faArrowCircleDown = faArrowCircleDown;
 
-  transactions: MatTableDataSource<TransactionHistory>;
+  transactions = new MatTableDataSource<TransactionHistory>();
   historyColumns: string[];
 
   chartLabels: Array<any> = ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'];
@@ -56,6 +58,9 @@ export class BankAccountDetailsComponent implements OnInit {
     }
   ];
 
+  @ViewChild(MatPaginator, { static: true })
+  paginator: MatPaginator;
+
   chartOptions: any = {
     responsive: true
   };
@@ -80,12 +85,13 @@ export class BankAccountDetailsComponent implements OnInit {
 
           this.transactionService.findAllByBankAccountId(this.id)
             .subscribe(res => {
+              this.isLoading = false;
               let resMapped: TransactionIn[];
               resMapped = res.map(e => new TransactionIn(e, this.bankAccount.bankAccType.bankAccountType));
 
-              this.transactions = new MatTableDataSource<TransactionHistory>();
               resMapped.forEach(e => this.transactions.data.push(e));
               this.transactions.data.push(new A());
+              this.transactions.paginator = this.paginator;
             });
         });
 
