@@ -147,7 +147,7 @@ public class TransactionServiceImpl implements TransactionService
         {
                 return transactionRepository.findTransactionsByBankAccountId( bankAccountId )
                         .stream()
-                        .sorted( Comparator.comparing( Transaction::getDate ) )
+                        .sorted( ( o1, o2 ) -> o2.getDate().compareTo( o1.getDate() ) )
                         .map( transactionMapper::entityToDTO )
                         .collect( Collectors.toList() );
         }
