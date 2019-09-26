@@ -14,5 +14,5 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long>
                 "JOIN t.sourceBankAccount s " +
                 "JOIN t.destinedBankAccount d " +
                 "WHERE s.id = :id OR d.id = :id")
-        List<Transaction> findAllBySourceBankAccount_IdOrDestinedBankAccount_Id ( @Param ("id") Long id );
+        List<Transaction> findTransactionsByBankAccountId ( @Param ("id") Long id );
 }

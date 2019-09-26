@@ -4,7 +4,7 @@ import { BankAccountService } from '../../services/bank-account.service';
 import { ActivatedRoute } from '@angular/router';
 import { Transaction } from '../../models/transaction';
 import { TransactionService } from '../../services/transaction.service';
-import { MatTableDataSource, MatPaginator } from '@angular/material';
+import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 import { TransactionHistory } from '../../models/transaction-history';
 import { TransactionIn } from '../../models/history-element';
 import { faArrowCircleDown, faArrowCircleUp } from '@fortawesome/free-solid-svg-icons';
@@ -60,6 +60,9 @@ export class BankAccountDetailsComponent implements OnInit {
 
   @ViewChild(MatPaginator, { static: true })
   paginator: MatPaginator;
+
+  @ViewChild(MatSort, {static: true})
+   sort: MatSort;
 
   chartOptions: any = {
     responsive: true
