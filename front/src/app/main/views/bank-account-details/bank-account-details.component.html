@@ -26,11 +26,11 @@
             <div *ngIf="getObjectType(element) === 'TransactionIn'">
               Przelew
               <span *ngIf="element.sourceBankAccount.number !== element.destinedBankAccount.number">
-                <fa-icon *ngIf="element.sourceBankAccount.number === bankAccount.number" matTooltip="Przelew wychodzący" style="color: red"
-                  [icon]="faArrowCircleUp">
+                <fa-icon *ngIf="element.sourceBankAccount.number === bankAccount.number" matTooltip="Przelew wychodzący"
+                  style="color: red" [icon]="faArrowCircleUp">
                 </fa-icon>
-                <fa-icon *ngIf="element.destinedBankAccount.number === bankAccount.number" matTooltip="Przelew przychodzący" style="color: green"
-                  [icon]="faArrowCircleDown">
+                <fa-icon *ngIf="element.destinedBankAccount.number === bankAccount.number"
+                  matTooltip="Przelew przychodzący" style="color: green" [icon]="faArrowCircleDown">
                 </fa-icon>
               </span>
             </div>
@@ -53,6 +53,17 @@
             <div *ngIf="getObjectType(element) === 'TransactionIn'">{{element.destinedBankAccount.number}}</div>
           </td>
         </ng-container>
+<!-- 
+        <ng-container *ngIf="bankAccount.bankAccType.bankAccountType === 'MULTI_CURRENCY'"
+          matColumnDef="sourceCurrency">
+          <th mat-header-cell *matHeaderCellDef> Waluta źródłowa </th>
+          <td mat-cell *matCellDef="let element"> {{element.id}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="destCurrency">
+          <th mat-header-cell *matHeaderCellDef> No. </th>
+          <td mat-cell *matCellDef="let element"> {{element.id}}</td>
+        </ng-container> -->
 
         <ng-container matColumnDef="date">
           <th mat-header-cell *matHeaderCellDef> Data </th>
@@ -61,18 +72,10 @@
 
         <ng-container matColumnDef="balance">
           <th mat-header-cell *matHeaderCellDef> Kwota </th>
-          <td mat-cell *matCellDef="let element"> {{element.balance}}</td>
+          <td mat-cell *matCellDef="let element"> {{element.balance | currency : element.destinedCurrencyType.name}}</td>
         </ng-container>
 
-        <ng-container matColumnDef="sourceCurrency">
-          <th mat-header-cell *matHeaderCellDef> No. </th>
-          <td mat-cell *matCellDef="let element"> {{element.id}}</td>
-        </ng-container>
 
-        <ng-container matColumnDef="destCurrency">
-          <th mat-header-cell *matHeaderCellDef> No. </th>
-          <td mat-cell *matCellDef="let element"> {{element.id}}</td>
-        </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="historyColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: historyColumns;"></tr>

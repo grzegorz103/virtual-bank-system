@@ -27,4 +27,8 @@ public class TransactionOut
         private String title;
 
         private BankAccount destinedBankAccount;
+
+        private CurrencyTypeOut sourceCurrencyType;
+
+        private CurrencyTypeOut destinedCurrencyType;
 }
