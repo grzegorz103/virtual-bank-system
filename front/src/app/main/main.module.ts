@@ -16,7 +16,7 @@ import { DialogWindowComponent } from './misc/dialog-window/dialog-window.compon
 import { CreditCreateComponent } from './views/credit-create/credit-create.component';
 import { AppRoutingModule } from '../app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
-import { MatCardModule, MatExpansionModule, MatStepperModule, MatButtonModule, MatFormFieldModule, MatInputModule, MatOptionModule, MatSelectModule, MatIconModule, MatTableModule, MatProgressBarModule, MatDividerModule, MatDialogModule, MatTabsModule, MatRadioModule, MatProgressSpinnerModule, MatToolbarModule, MatCheckboxModule, MatSlideToggleModule, MatTooltipModule } from '@angular/material';
+import { MatCardModule, MatExpansionModule, MatStepperModule, MatButtonModule, MatFormFieldModule, MatInputModule, MatOptionModule, MatSelectModule, MatIconModule, MatTableModule, MatProgressBarModule, MatDividerModule, MatDialogModule, MatTabsModule, MatRadioModule, MatProgressSpinnerModule, MatToolbarModule, MatCheckboxModule, MatSlideToggleModule, MatTooltipModule, MatPaginatorModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -66,6 +66,7 @@ import { CreditService } from './services/credit.service';
     MatSlideToggleModule,
     Ng5SliderModule,
     MatTooltipModule,
+    MatPaginatorModule,
   ],
   providers: [BankAccountService, CreditService],
   entryComponents: [DialogWindowComponent],

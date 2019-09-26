@@ -63,7 +63,7 @@
             <ng-container matColumnDef="create">
                 <th mat-header-cell *matHeaderCellDef>Przelew</th>
                 <td mat-cell *matCellDef="let element"><button mat-raised-button color="primary"
-                        [routerLink]="['/transactions', 'create']"
+                        [routerLink]="['/core/transactions', 'create']"
                         [queryParams]="{defined: element.id}">Wykonaj</button>
                 </td>
             </ng-container>
