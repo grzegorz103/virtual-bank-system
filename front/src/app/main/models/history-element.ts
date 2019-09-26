@@ -23,6 +23,7 @@ export class TransactionIn implements TransactionHistory {
         this.destinedCurrencyType = transaction.destinedCurrencyType;
         this.title = transaction.title;
         this.date = transaction.date;
+        this.balanceWithCommission = transaction.balanceWithCommission;
         this.type = type;
     }
 }

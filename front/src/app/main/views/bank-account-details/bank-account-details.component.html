@@ -74,7 +74,15 @@
           <th mat-header-cell *matHeaderCellDef> Kwota </th>
           <td mat-cell *matCellDef="let element">
             <div *ngIf="getObjectType(element) === 'TransactionIn'">
-              {{element.balance | currency : element.destinedCurrencyType.name}}</div>
+              <div *ngIf="element.sourceBankAccount.number !== element.destinedBankAccount.number">
+                <div *ngIf="element.sourceBankAccount.number === bankAccount.number">
+                  {{element.balance | currency : element.destinedCurrencyType.name}}
+                </div>
+                <div *ngIf="element.destinedBankAccount.number === bankAccount.number">{{balanceWithCommission}}
+                  {{element.balanceWithCommission | currency : element.destinedCurrencyType.name}}
+                </div>
+              </div>
+            </div>
           </td>
         </ng-container>
 
