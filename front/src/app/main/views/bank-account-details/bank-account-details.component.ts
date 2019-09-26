@@ -61,8 +61,8 @@ export class BankAccountDetailsComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true })
   paginator: MatPaginator;
 
-  @ViewChild(MatSort, {static: true})
-   sort: MatSort;
+  @ViewChild(MatSort, { static: true })
+  sort: MatSort;
 
   chartOptions: any = {
     responsive: true
@@ -105,7 +105,11 @@ export class BankAccountDetailsComponent implements OnInit {
   }
 
   fillChartData() {
-    let saldos = this.bankAccount.saldos.map(e => e.balance);
+    this.bankAccount
+      .saldos
+      .sort((o1, o2) => o1.currencyType.name.localeCompare(o2.currencyType.name));
+   
+      let saldos = this.bankAccount.saldos.map(e => e.balance);
     this.chartDatasets = [{ data: saldos, label: 'Stan konta' }];
 
     let saldoNames = this.bankAccount.saldos.map(e => e.currencyType.name);
