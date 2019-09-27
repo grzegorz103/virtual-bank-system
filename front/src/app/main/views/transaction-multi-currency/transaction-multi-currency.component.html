@@ -1,22 +1,6 @@
 <mat-toolbar>
     Przelew wielowalutowy
 </mat-toolbar>
-<select [(ngModel)]="transaction.sourceAccountNumber" (change)="changeCurrencyList()" name="sourceAccNumber">
-    <option *ngFor="let bankAccount of bankAccounts" [ngValue]="bankAccount.number">{{ bankAccount.number }}</option>
-</select>
-<select [(ngModel)]="transaction.sourceCurrency" name="sourceCurrency">
-    <option *ngFor="let currency of currencyList" [ngValue]="currency">{{ currency }}</option>
-</select>
-
-<select [(ngModel)]="transaction.destinedCurrency" name="destinedCurrency">
-    <option *ngFor="let currency of currencyList" [ngValue]="currency">{{ currency }}</option>
-</select>
-<input type="text" [(ngModel)]="transaction.destinedAccountNumber">
-
-<input type="text" [(ngModel)]="transaction.balance">
-<input type="text" [(ngModel)]="transaction.title">
-
-<button type="button" (click)="createTransaction()">Przelew</button>
 
 <div *ngIf="bankAccounts && currencyTypes">
     <mat-horizontal-stepper linear #stepper>
