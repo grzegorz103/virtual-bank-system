@@ -16,7 +16,7 @@ export class TemplateListComponent implements OnInit {
 
   templates: TransactionTemplate[];
   selection = new SelectionModel<TransactionTemplate>(true, []);
-  headers = ['ID', 'sourceAccountNumber', 'destinedAccountNumber', 'sourceCurrency', 'balance', 'create', 'edit'];
+  headers = ['ID', 'name', 'sourceAccountNumber', 'destinedAccountNumber', 'sourceCurrency', 'balance', 'create', 'edit'];
   isRemoving = false;
 
   // do dodawania/edycji
@@ -91,9 +91,9 @@ export class TemplateListComponent implements OnInit {
     this.isRemoving = !this.isRemoving;
 
     if (this.isRemoving) {
-      this.headers = ['ID', 'sourceAccountNumber', 'destinedAccountNumber', 'sourceCurrency', 'balance', 'create', 'edit', 'select'];
+      this.headers = ['ID', 'name', 'sourceAccountNumber', 'destinedAccountNumber', 'sourceCurrency', 'balance', 'create', 'edit', 'select'];
     } else {
-      this.headers = ['ID', 'sourceAccountNumber', 'destinedAccountNumber', 'sourceCurrency', 'balance', 'create', 'edit'];
+      this.headers = ['ID', 'name', 'sourceAccountNumber', 'destinedAccountNumber', 'sourceCurrency', 'balance', 'create', 'edit'];
     }
   }
 
