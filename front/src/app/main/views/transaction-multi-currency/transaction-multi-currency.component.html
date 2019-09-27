@@ -42,30 +42,24 @@
                 </div>
 
                 <div class="row">
-                        <div class="col-sm-12 mb-1">
+                    <div class="col-md-6">
+                        <div class="mb-1">
                             Waluta źródłowa:
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12 col-md-8">
-                            <mat-form-field style="width:100%">
-                                <mat-label class="mt-2">Waluta docelowa</mat-label>
-                                <mat-select formControlName="sourceCurrency">
-                                    <mat-option *ngFor="let currency of currencyList" [value]="currency">
-                                        {{ currency }}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
+                        <mat-form-field style="width:100%">
+                            <mat-label class="mt-2">Waluta docelowa</mat-label>
+                            <mat-select formControlName="sourceCurrency">
+                                <mat-option *ngFor="let currency of currencyList" [value]="currency">
+                                    {{ currency }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
                     </div>
 
-                <div class="row">
-                    <div class="col-sm-12 mb-1">
-                        Waluta docelowa:
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12 col-md-8">
+                    <div class="col-md-6">
+                        <div class="mb-1">
+                            Waluta docelowa:
+                        </div>
                         <mat-form-field style="width:100%">
                             <mat-label class="mt-2">Waluta docelowa</mat-label>
                             <mat-select formControlName="destinedCurrency">
@@ -76,6 +70,7 @@
                         </mat-form-field>
                     </div>
                 </div>
+
                 <hr>
                 Na rachunek
                 <div class="row">
