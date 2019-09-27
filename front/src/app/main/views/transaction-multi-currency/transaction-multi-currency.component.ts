@@ -54,11 +54,15 @@ export class TransactionMultiCurrencyComponent implements OnInit {
     }
 
     this.bankAccountService.findAll()
-      .subscribe(res => this.bankAccounts = res);
+      .subscribe(res => {
+        this.bankAccounts = res;
+        this.changeCurrencyList();
+      });
     this.transaction = new Transaction();
 
     this.currencyTypeService.findAll()
       .subscribe(res => this.currencyTypes = res);
+
   }
 
   // przenioslem z konstruktora
@@ -72,6 +76,8 @@ export class TransactionMultiCurrencyComponent implements OnInit {
       this.transactionForm.get('destinedAccountNumber').setValue(definedTransfer.destinedAccountNumber);
       this.transactionForm.get('balance').setValue(definedTransfer.balance);
       this.transactionForm.get('title').setValue(definedTransfer.title);
+      this.transactionForm.get('sourceCurrency').setValue(definedTransfer.sourceCurrency);
+      this.transactionForm.get('destinedCurrency').setValue(definedTransfer.destinedCurrency);
     }
   }
 
@@ -82,10 +88,13 @@ export class TransactionMultiCurrencyComponent implements OnInit {
   }
 
   changeCurrencyList() {
-    this.currencyList = this.bankAccounts
-      .find(e => e.number === this.transactionForm.get('sourceAccountNumber').value)
-      .saldos
-      .map(e => String(e.currencyType.name));
+    const sourceAccNumberVal = this.transactionForm.get('sourceAccountNumber').value;
+    if (sourceAccNumberVal) {
+      this.currencyList = this.bankAccounts
+        .find(e => e.number === sourceAccNumberVal)
+        .saldos
+        .map(e => String(e.currencyType.name));
+    }
   }
-
+  
 }
