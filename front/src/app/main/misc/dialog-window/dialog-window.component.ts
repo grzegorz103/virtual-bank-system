@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA, MatRadioChange } from '@angular/material';
 import { TransactionTemplate } from '../../models/transaction-template';
 import { BankAccountService } from '../../services/bank-account.service';
 import { BankAccount } from '../../models/bank-account';
@@ -18,8 +18,10 @@ export class DialogWindowComponent implements OnInit {
 
   bankAccounts: BankAccount[];
   standardType: boolean;
-  
+  title: string;
   template: TransactionTemplate;
+  currencyList: string[];
+  bankAccountsForCombobox: BankAccount[];
 
   constructor(
     public dialogRef: MatDialogRef<DialogWindowComponent>,
@@ -30,12 +32,19 @@ export class DialogWindowComponent implements OnInit {
     if (data.templateId) {
       this.transactiontemplateService.findOneById(data.templateId).subscribe(res => {
         this.template = res;
+        this.title = 'Edycja przelewu zdefiniowanego';
       });
     } else {
       this.template = new TransactionTemplate();
+      this.template.multiCurrency = false;
+      this.template.destinedCurrency = 'PLN';
+      this.template.sourceCurrency = 'PLN';
+      this.title = 'Tworzenie przelewu zdefiniowanego';
     }
+
     this.bankAccountService.findAll().subscribe(res => {
       this.bankAccounts = res;
+      this.fillBankAccounts(this.template.multiCurrency);
     });
   }
 
@@ -46,5 +55,36 @@ export class DialogWindowComponent implements OnInit {
   ngOnInit() {
   }
 
+  changeSourceDestCurrencyType($event: MatRadioChange) {
+    if ($event) {
+      if (!this.template.multiCurrency) {
+        this.fillBankAccounts(false);
 
+      } else {
+        this.fillBankAccounts(true);
+      }
+      this.template.destinedCurrency = 'PLN';
+      this.template.sourceCurrency = 'PLN';
+    }
+  }
+
+  fillBankAccounts(onlyMultiCurrency: boolean) {
+    if (onlyMultiCurrency) {
+      this.bankAccountsForCombobox = this.bankAccounts
+        .filter(e => e.bankAccType.bankAccountType === 'MULTI_CURRENCY');
+    } else {
+      this.bankAccountsForCombobox = this.bankAccounts
+        .filter(e => e.bankAccType.bankAccountType !== 'MULTI_CURRENCY');
+    }
+    this.changeCurrencyList();
+  }
+
+  changeCurrencyList() {
+    if (this.template.sourceAccountNumber) {
+      this.currencyList = this.bankAccounts
+        .find(e => e.number === this.template.sourceAccountNumber)
+        .saldos
+        .map(e => String(e.currencyType.name));
+    }
+  }
 }

@@ -17,4 +17,6 @@ public class TransactionTemplateIn
         private String destinedCurrency;
         private BigDecimal balance;
         private String title;
+        private Boolean multiCurrency;
+        private String templateName;
 }

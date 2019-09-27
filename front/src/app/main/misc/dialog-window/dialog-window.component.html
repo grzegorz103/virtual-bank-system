@@ -1,13 +1,14 @@
 <div mat-dialog-content>
     <div *ngIf="bankAccounts && template">
-        <h1 mat-dialog-title>SZablon (dodac nazwe do szalbonow)</h1>
+        <h1 mat-dialog-title>{{ title }}</h1>
         <mat-form-field class="col-md-6">
-            <input matInput placeholder="Nazwa" [(ngModel)]="template.name" required>
+            <input matInput placeholder="Nazwa" [(ngModel)]="template.templateName" required>
         </mat-form-field>
+
         <mat-form-field class="col-12">
             <mat-label class="mt-2">Rachunek bankowy</mat-label>
-            <mat-select [(ngModel)]="template.sourceAccountNumber" (change)="changeCurrencyList()">
-                <mat-option *ngFor="let bankAccount of bankAccounts" [value]="bankAccount.number">
+            <mat-select [(ngModel)]="template.sourceAccountNumber" (selectionChange)="changeCurrencyList()">
+                <mat-option *ngFor="let bankAccount of bankAccountsForCombobox" [value]="bankAccount.number">
                     {{bankAccount.number}}
                 </mat-option>
             </mat-select>
@@ -15,14 +16,24 @@
 
         <label id="example-radio-group-label">Typ przelewu:</label>
         <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
-            [(ngModel)]="standardType">
-            <mat-radio-button class="example-radio-button" [value]="true">
+            [(ngModel)]="template.multiCurrency" (change)="changeSourceDestCurrencyType($event)">
+            <mat-radio-button class="example-radio-button" [value]="false">
                 Standardowy
             </mat-radio-button>
-            <mat-radio-button class="example-radio-button" [value]="false">
+            <mat-radio-button class="example-radio-button" [value]="true">
                 Wielowalutowy
             </mat-radio-button>
         </mat-radio-group>
+
+        <mat-form-field class="col-12" *ngIf="template.multiCurrency">
+                <mat-label class="mt-2">Saldo źródłowe</mat-label>
+                <mat-select [(ngModel)]="template.sourceCurrency">
+                    <mat-option *ngFor="let currency of currencyList" [value]="currency">
+                        {{ currency }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
         <mat-form-field class="col-12">
             <input matInput placeholder="Konto odbiorcy" [(ngModel)]="template.destinedAccountNumber" required>
         </mat-form-field>
@@ -34,7 +45,6 @@
         <mat-form-field class="col-md-6">
             <input matInput placeholder="Tytułem" [(ngModel)]="template.title" required>
         </mat-form-field>
-        <p *ngIf="standardType === true">asd</p>
     </div>
     <div *ngIf="!bankAccounts || !template">
         <mat-spinner class="mx-auto my-auto"></mat-spinner>

@@ -68,6 +68,7 @@ public class TransactionTemplateServiceImpl implements TransactionTemplateServic
                 fromDB.setTitle( transactionTemplateIn.getTitle() );
                 fromDB.setSourceCurrency( transactionTemplateIn.getSourceCurrency() );
                 fromDB.setSourceAccountNumber( transactionTemplateIn.getSourceAccountNumber() );
+                fromDB.setMultiCurrency( transactionTemplateIn.getMultiCurrency() );
 
                 return transactionTemplateMapper.entityToDTO( transactionTemplateRepository.save( fromDB ) );
         }

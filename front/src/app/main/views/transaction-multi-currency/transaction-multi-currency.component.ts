@@ -86,8 +86,6 @@ export class TransactionMultiCurrencyComponent implements OnInit {
       .find(e => e.number === this.transactionForm.get('sourceAccountNumber').value)
       .saldos
       .map(e => String(e.currencyType.name));
-    this.currencyList.forEach(e => console.log(e));
-    console.log('f');
   }
 
 }
