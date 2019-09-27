@@ -29,4 +29,8 @@ public class TransactionTemplateOut
         private Instant createDate;
 
         private Instant modificationDate;
+        
+        private Boolean multiCurrency;
+
+        private String templateName;
 }

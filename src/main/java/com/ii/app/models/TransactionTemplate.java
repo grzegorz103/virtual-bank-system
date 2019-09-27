@@ -44,4 +44,10 @@ public class TransactionTemplate
 
         @Column (name = "modification_date")
         private Instant modificationDate;
+
+        @Column(name="multi_currency")
+        private Boolean multiCurrency;
+
+        @Column(name="template_name")
+        private String templateName;
 }

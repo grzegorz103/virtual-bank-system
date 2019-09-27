@@ -8,5 +8,6 @@ export class TransactionTemplate {
     title: string;
     createDate: Date;
     modificationDate: Date;
-    name: string;
+    multiCurrency: boolean;
+    templateName: string;
 }

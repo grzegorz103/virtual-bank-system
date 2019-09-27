@@ -128,7 +128,7 @@ public class TransactionServiceImpl implements TransactionService
                 transaction.setSourceBankAccount( sourceBankAccount );
                 transaction.setTitle( transactionDTO.getTitle() );
                 transaction.setSourceCurrencyType( sourceCurrency );
-                transaction.setDestinedCurrencyType( destCurrency );
+                transaction.setDestinedCurrencyType( destSaldo.getCurrencyType() );
 
                 return transactionRepository.save( transaction );
         }

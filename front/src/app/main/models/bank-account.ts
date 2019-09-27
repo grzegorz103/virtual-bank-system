@@ -1,5 +1,5 @@
 import { Saldo } from './saldo';
-import { BankAccType } from './bank-acc-type';
+import { BankAccType } from './bank-acc-type'
 
 export class BankAccount {
     id: number;
