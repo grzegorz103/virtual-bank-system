@@ -1,6 +1,8 @@
 <div mat-dialog-content>
     <div *ngIf="bankAccounts && template">
-        <h1 mat-dialog-title>{{ title }}</h1>
+        <mat-toolbar>
+            <h1 mat-dialog-title>{{ title }}</h1>
+        </mat-toolbar>
         <mat-form-field class="col-md-6">
             <input matInput placeholder="Nazwa" [(ngModel)]="template.templateName" required>
         </mat-form-field>
@@ -15,7 +17,7 @@
         </mat-form-field>
 
         <label id="example-radio-group-label">Typ przelewu:</label>
-        <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
+        <mat-radio-group  [color]="'primary'" aria-labelledby="example-radio-group-label" class="example-radio-group" [color]="primary"
             [(ngModel)]="template.multiCurrency" (change)="changeSourceDestCurrencyType($event)">
             <mat-radio-button class="example-radio-button" [value]="false">
                 Standardowy
@@ -26,13 +28,13 @@
         </mat-radio-group>
 
         <mat-form-field class="col-12" *ngIf="template.multiCurrency">
-                <mat-label class="mt-2">Saldo źródłowe</mat-label>
-                <mat-select [(ngModel)]="template.sourceCurrency">
-                    <mat-option *ngFor="let currency of currencyList" [value]="currency">
-                        {{ currency }}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
+            <mat-label class="mt-2">Saldo źródłowe</mat-label>
+            <mat-select [(ngModel)]="template.sourceCurrency">
+                <mat-option *ngFor="let currency of currencyList" [value]="currency">
+                    {{ currency }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
 
         <mat-form-field class="col-12">
             <input matInput placeholder="Konto odbiorcy" [(ngModel)]="template.destinedAccountNumber" required>
