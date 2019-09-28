@@ -3,6 +3,8 @@ import { BankAccountService } from '../../services/bank-account.service';
 import { BankAccount } from '../../models/bank-account';
 import { TransactionService } from '../../services/transaction.service';
 import { Transaction } from '../../models/transaction';
+import { BankAccType } from '../../models/bank-acc-type';
+import { BankAccountTypeService } from '../../services/bank-account-type.service';
 
 @Component({
   selector: 'app-bank-account-list',
@@ -17,11 +19,17 @@ export class BankAccountListComponent implements OnInit {
   // dla comboboxa przy wykonywaniu przelewu
   currencyList: string[];
 
+  bankAccountTypes: BankAccType[];
+
   constructor(private bankAccountService: BankAccountService,
-    private transactionService: TransactionService) {
+    private transactionService: TransactionService,
+    private bankAccountTypeService: BankAccountTypeService) {
     this.bankAccountService.findAll()
       .subscribe(res => this.bankAccounts = res);
     this.transaction = new Transaction();
+
+
+    this.fetchBankAccountTypes();
   }
 
   ngOnInit() {
@@ -37,5 +45,10 @@ export class BankAccountListComponent implements OnInit {
       .find(e => e.number === this.transaction.sourceAccountNumber)
       .saldos
       .map(e => String(e.currencyType.name))
+  }
+
+  fetchBankAccountTypes() {
+    this.bankAccountTypeService.findAll()
+      .subscribe(res => this.bankAccountTypes = res);
   }
 }
