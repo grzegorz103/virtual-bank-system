@@ -32,7 +32,7 @@ export class BankAccountListComponent implements OnInit {
     this.transaction = new Transaction();
     this.fetchBankAccounts();
     this.fetchBankAccountTypes();
-    this.bankAccountForm = fb.group({bankAccountType : ['', Validators.required]});
+    this.bankAccountForm = fb.group({ bankAccountType: ['', Validators.required] });
   }
 
   ngOnInit() {
@@ -69,6 +69,10 @@ export class BankAccountListComponent implements OnInit {
   }
 
   createBankAccount() {
+    if (this.selectedIndex < 0 || this.selectedIndex >= this.bankAccountTypes.length) {
+      alert('Niepoprawna wartosc')
+      return;
+    }
     this.bankAccountService.create(this.bankAccountForm.value)
       .subscribe(res => this.fetchBankAccounts());
   }
