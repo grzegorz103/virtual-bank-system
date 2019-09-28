@@ -1,4 +1,17 @@
 <div class="example-container mat-elevation-z8">
+  <mat-toolbar>Rachunki bankowe
+    <div class="ml-auto">
+      <button class="ml-1" mat-raised-button style="background-color: #5cb85c; color: white" data-toggle="collapse"
+        href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+        Utwórz
+      </button>
+    </div>
+  </mat-toolbar>
+  <div class="collapse" id="collapseExample">
+    <div class="card card-body">
+     Wybierz rodzaj rachunku bankowego:
+    </div>
+  </div>
   <table mat-table [dataSource]="bankAccounts">
 
     <ng-container matColumnDef="ID">
