@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class BankAccountTypeService {
 
-  url = 'http://localhost:8080/bankaccounttypes';
+  url = 'http://localhost:8080/api/bankaccounttypes';
 
   constructor(private http: HttpClient) { }
 

@@ -9,7 +9,29 @@
   </mat-toolbar>
   <div class="collapse" id="collapseExample">
     <div class="card card-body">
-     Wybierz rodzaj rachunku bankowego:
+      Wybierz rodzaj rachunku bankowego:
+      <table class="table table-sm">
+        <thead>
+          <tr>
+            <th scope="col">Rodzaj</th>
+            <th scope="col">Prowizja przelew</th>
+            <th scope="col">Prowizja wymiany walut</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let bankAccountType of bankAccountTypes">
+            <td>
+              <span *ngIf="bankAccountType.bankAccountType === 'MULTI_CURRENCY'">Wielowalutowe</span>
+              <span *ngIf="bankAccountType.bankAccountType === 'STANDARD'">Standardowe</span>
+              <span *ngIf="bankAccountType.bankAccountType === 'STUDENT'">Studenckie</span>
+            </td>
+            <td>{{ bankAccountType.transactionComission}}</td>
+            <td>{{ bankAccountType.exchangeCurrencyCommission }}</td>
+          </tr>
+        </tbody>
+      </table>
+      Po akceptacji pracownika rachunek zostanie utworzony
+      <button mat-raised-button color="primary" class="mx-auto w-30" (click)="create()">Utwórz</button>
     </div>
   </div>
   <table mat-table [dataSource]="bankAccounts">

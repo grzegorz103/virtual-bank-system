@@ -17,4 +17,8 @@ export class BankAccountService {
   findById(id: number){
     return this.http.get<BankAccount>(this.url + '/' + id);
   }
+
+  create(bankAccount: BankAccount){
+    return this.http.post<BankAccount>(this.url, bankAccount);
+  }
 }

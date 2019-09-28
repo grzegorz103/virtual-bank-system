@@ -20,16 +20,16 @@ export class BankAccountListComponent implements OnInit {
   currencyList: string[];
 
   bankAccountTypes: BankAccType[];
+  bankAccountForm: BankAccount;
 
   constructor(private bankAccountService: BankAccountService,
     private transactionService: TransactionService,
     private bankAccountTypeService: BankAccountTypeService) {
-    this.bankAccountService.findAll()
-      .subscribe(res => this.bankAccounts = res);
+
     this.transaction = new Transaction();
-
-
+    this.fetchBankAccounts();
     this.fetchBankAccountTypes();
+    this.bankAccountForm = new BankAccount();
   }
 
   ngOnInit() {
@@ -47,8 +47,18 @@ export class BankAccountListComponent implements OnInit {
       .map(e => String(e.currencyType.name))
   }
 
+  fetchBankAccounts() {
+    this.bankAccountService.findAll()
+      .subscribe(res => this.bankAccounts = res);
+  }
+
   fetchBankAccountTypes() {
     this.bankAccountTypeService.findAll()
       .subscribe(res => this.bankAccountTypes = res);
+  }
+
+  createBankAccount() {
+    this.bankAccountService.create(this.bankAccountForm)
+      .subscribe(res => this.fetchBankAccounts());
   }
 }
