@@ -3,6 +3,9 @@ import { BankAccountService } from '../../services/bank-account.service';
 import { BankAccount } from '../../models/bank-account';
 import { TransactionService } from '../../services/transaction.service';
 import { Transaction } from '../../models/transaction';
+import { BankAccType } from '../../models/bank-acc-type';
+import { BankAccountTypeService } from '../../services/bank-account-type.service';
+import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-bank-account-list',
@@ -17,11 +20,19 @@ export class BankAccountListComponent implements OnInit {
   // dla comboboxa przy wykonywaniu przelewu
   currencyList: string[];
 
+  bankAccountTypes: BankAccType[];
+  bankAccountForm: FormGroup;
+  selectedIndex: number = -1;
+
   constructor(private bankAccountService: BankAccountService,
-    private transactionService: TransactionService) {
-    this.bankAccountService.findAll()
-      .subscribe(res => this.bankAccounts = res);
+    private transactionService: TransactionService,
+    private bankAccountTypeService: BankAccountTypeService,
+    private fb: FormBuilder) {
+
     this.transaction = new Transaction();
+    this.fetchBankAccounts();
+    this.fetchBankAccountTypes();
+    this.bankAccountForm = fb.group({ bankAccountType: ['', Validators.required] });
   }
 
   ngOnInit() {
@@ -37,5 +48,32 @@ export class BankAccountListComponent implements OnInit {
       .find(e => e.number === this.transaction.sourceAccountNumber)
       .saldos
       .map(e => String(e.currencyType.name))
+  }
+
+  fetchBankAccounts() {
+    this.bankAccountService.findAll()
+      .subscribe(res => this.bankAccounts = res);
+  }
+
+  fetchBankAccountTypes() {
+    this.bankAccountTypeService.findAll()
+      .subscribe(res => this.bankAccountTypes = res);
+  }
+
+  changeBankAccountFormType(index: number) {
+
+    if (index >= 0 && index < this.bankAccountTypes.length) {
+      this.selectedIndex = index;
+      this.bankAccountForm.get('bankAccountType').setValue(this.bankAccountTypes[index].bankAccountType);
+    }
+  }
+
+  createBankAccount() {
+    if (this.selectedIndex < 0 || this.selectedIndex >= this.bankAccountTypes.length) {
+      alert('Niepoprawna wartosc')
+      return;
+    }
+    this.bankAccountService.create(this.bankAccountForm.value)
+      .subscribe(res => this.fetchBankAccounts());
   }
 }
