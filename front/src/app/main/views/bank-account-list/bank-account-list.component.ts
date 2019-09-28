@@ -5,6 +5,7 @@ import { TransactionService } from '../../services/transaction.service';
 import { Transaction } from '../../models/transaction';
 import { BankAccType } from '../../models/bank-acc-type';
 import { BankAccountTypeService } from '../../services/bank-account-type.service';
+import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-bank-account-list',
@@ -20,16 +21,18 @@ export class BankAccountListComponent implements OnInit {
   currencyList: string[];
 
   bankAccountTypes: BankAccType[];
-  bankAccountForm: BankAccount;
+  bankAccountForm: FormGroup;
+  selectedIndex: number = -1;
 
   constructor(private bankAccountService: BankAccountService,
     private transactionService: TransactionService,
-    private bankAccountTypeService: BankAccountTypeService) {
+    private bankAccountTypeService: BankAccountTypeService,
+    private fb: FormBuilder) {
 
     this.transaction = new Transaction();
     this.fetchBankAccounts();
     this.fetchBankAccountTypes();
-    this.bankAccountForm = new BankAccount();
+    this.bankAccountForm = fb.group({bankAccountType : ['', Validators.required]});
   }
 
   ngOnInit() {
@@ -57,8 +60,16 @@ export class BankAccountListComponent implements OnInit {
       .subscribe(res => this.bankAccountTypes = res);
   }
 
+  changeBankAccountFormType(index: number) {
+
+    if (index >= 0 && index < this.bankAccountTypes.length) {
+      this.selectedIndex = index;
+      this.bankAccountForm.get('bankAccountType').setValue(this.bankAccountTypes[index].bankAccountType);
+    }
+  }
+
   createBankAccount() {
-    this.bankAccountService.create(this.bankAccountForm)
+    this.bankAccountService.create(this.bankAccountForm.value)
       .subscribe(res => this.fetchBankAccounts());
   }
 }

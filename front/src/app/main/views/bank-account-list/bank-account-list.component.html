@@ -19,7 +19,9 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let bankAccountType of bankAccountTypes">
+          <tr *ngFor="let bankAccountType of bankAccountTypes; let i = index" style="cursor: pointer"
+            class="{{ i === selectedIndex ? 'selected' : ''}}"
+            (click)="changeBankAccountFormType(i)">
             <td>
               <span *ngIf="bankAccountType.bankAccountType === 'MULTI_CURRENCY'">Wielowalutowe</span>
               <span *ngIf="bankAccountType.bankAccountType === 'STANDARD'">Standardowe</span>
@@ -31,7 +33,7 @@
         </tbody>
       </table>
       Po akceptacji pracownika rachunek zostanie utworzony
-      <button mat-raised-button color="primary" class="mx-auto w-30" (click)="create()">Utwórz</button>
+      <button mat-raised-button color="primary" class="mx-auto w-30" (click)="createBankAccount()">Utwórz</button>
     </div>
   </div>
   <table mat-table [dataSource]="bankAccounts">
