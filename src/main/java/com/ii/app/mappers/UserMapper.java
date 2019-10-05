@@ -5,10 +5,9 @@ import com.ii.app.dto.out.UserOut;
 import com.ii.app.models.user.User;
 import org.mapstruct.Mapper;
 
-@Mapper (componentModel = "spring", uses = AddressMapper.class)
-public interface UserMapper
-{
-        User userInToUser ( UserIn userIn );
+@Mapper(componentModel = "spring", uses = AddressMapper.class)
+public interface UserMapper {
+    User userInToUser(UserIn userIn);
 
-        UserOut userToUserOut ( User user );
+    UserOut userToUserOut(User user);
 }

@@ -2,28 +2,33 @@ package com.ii.app.controllers;
 
 import com.ii.app.dto.in.UserIn;
 import com.ii.app.dto.out.UserOut;
+import com.ii.app.models.user.JwtToken;
 import com.ii.app.services.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping ("/api/users")
-public class UserController
-{
-        private final UserService userService;
+@RequestMapping("/api/users")
+public class UserController {
+    private final UserService userService;
 
-        @Autowired
-        public UserController ( UserService userService )
-        {
-                this.userService = userService;
-        }
+    @Autowired
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
-        @PostMapping
-        public UserOut create ( @RequestBody UserIn userIn )
-        {
-                return userService.create( userIn );
-        }
+    @PostMapping
+    public UserOut create(@RequestBody UserIn userIn) {
+        return userService.create(userIn);
+    }
+
+    @PostMapping("/auth")
+    public JwtToken attemptAuthentication(@RequestParam("login") String login,
+                                          @RequestParam("password") String password) {
+        System.out.println("ASDSDASDADS");
+        return userService.attemptAuthentication(login, password);
+    //return "asd";
+    }
 }

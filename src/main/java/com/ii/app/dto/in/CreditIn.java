@@ -1,6 +1,5 @@
 package com.ii.app.dto.in;
 
-import com.ii.app.models.enums.Currency;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
