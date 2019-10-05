@@ -17,6 +17,6 @@ export class TransactionService {
   }
 
   findAllByBankAccountId(bankAccountId: number){
-    return this.http.get<TransactionIn[]>(this.url);
+    return this.http.get<TransactionIn[]>(this.url + '/byAccount/' + bankAccountId);
   }
 }

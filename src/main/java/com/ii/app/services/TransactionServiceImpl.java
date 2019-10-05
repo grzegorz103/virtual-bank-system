@@ -28,83 +28,80 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-@Service ("transactionService")
-public class TransactionServiceImpl implements TransactionService
-{
-        private final CurrencyTypeRepository currencyTypeRepository;
+@Service("transactionService")
+public class TransactionServiceImpl implements TransactionService {
+    private final CurrencyTypeRepository currencyTypeRepository;
 
-        private final BankAccountRepository bankAccountRepository;
+    private final BankAccountRepository bankAccountRepository;
 
-        private final SaldoRepository saldoRepository;
+    private final SaldoRepository saldoRepository;
 
-        private final TransactionRepository transactionRepository;
+    private final TransactionRepository transactionRepository;
 
-        private final TransactionMapper transactionMapper;
+    private final TransactionMapper transactionMapper;
 
-        private final Constants constants;
+    private final Constants constants;
 
-        private final CurrencyConverter currencyConverter;
+    private final CurrencyConverter currencyConverter;
 
-        @Autowired
-        public TransactionServiceImpl ( CurrencyTypeRepository currencyTypeRepository,
-                                        BankAccountRepository bankAccountRepository,
-                                        SaldoRepository saldoRepository,
-                                        Constants constants,
-                                        TransactionRepository transactionRepository,
-                                        TransactionMapper transactionMapper, CurrencyConverter currencyConverter )
-        {
-                this.currencyTypeRepository = currencyTypeRepository;
-                this.bankAccountRepository = bankAccountRepository;
-                this.saldoRepository = saldoRepository;
-                this.constants = constants;
-                this.transactionRepository = transactionRepository;
-                this.transactionMapper = transactionMapper;
-                this.currencyConverter = currencyConverter;
-        }
+    @Autowired
+    public TransactionServiceImpl(CurrencyTypeRepository currencyTypeRepository,
+                                  BankAccountRepository bankAccountRepository,
+                                  SaldoRepository saldoRepository,
+                                  Constants constants,
+                                  TransactionRepository transactionRepository,
+                                  TransactionMapper transactionMapper, CurrencyConverter currencyConverter) {
+        this.currencyTypeRepository = currencyTypeRepository;
+        this.bankAccountRepository = bankAccountRepository;
+        this.saldoRepository = saldoRepository;
+        this.constants = constants;
+        this.transactionRepository = transactionRepository;
+        this.transactionMapper = transactionMapper;
+        this.currencyConverter = currencyConverter;
+    }
 
-        @Override
-        public Transaction create ( @NotNull TransactionDTO transactionDTO )
-        {
-                final Transaction transaction = new Transaction();
+    @Override
+    public Transaction create(@NotNull TransactionDTO transactionDTO) {
+        final Transaction transaction = new Transaction();
 
-                final CurrencyType sourceCurrency = currencyTypeRepository.findByName( transactionDTO.getSourceCurrency() ).orElseThrow( () -> new RuntimeException( "Currency type not found" ) );
-                final CurrencyType destCurrency = currencyTypeRepository.findByName( transactionDTO.getDestinedCurrency() ).orElseThrow( () -> new RuntimeException( "asd" ) );
-                final BankAccount destinedBankAccount = bankAccountRepository.findByNumber( transactionDTO.getDestinedAccountNumber() ).orElseThrow( () -> new RuntimeException( "Bank account does not exists" ) );
-                final BankAccount sourceBankAccount = bankAccountRepository.findByNumber( transactionDTO.getSourceAccountNumber() ).get();
+        final CurrencyType sourceCurrency = currencyTypeRepository.findByName(transactionDTO.getSourceCurrency()).orElseThrow(() -> new RuntimeException("Currency type not found"));
+        final CurrencyType destCurrency = currencyTypeRepository.findByName(transactionDTO.getDestinedCurrency()).orElseThrow(() -> new RuntimeException("asd"));
+        final BankAccount destinedBankAccount = bankAccountRepository.findByNumber(transactionDTO.getDestinedAccountNumber()).orElseThrow(() -> new RuntimeException("Bank account does not exists"));
+        final BankAccount sourceBankAccount = bankAccountRepository.findByNumber(transactionDTO.getSourceAccountNumber()).get();
 
-                final Saldo sourceSaldo = sourceBankAccount.getSaldos()
-                        .stream()
-                        .filter( Objects::nonNull )
-                        .filter( e -> e.getCurrencyType() == sourceCurrency )
-                        .findFirst()
-                        .get();
+        final Saldo sourceSaldo = sourceBankAccount.getSaldos()
+            .stream()
+            .filter(Objects::nonNull)
+            .filter(e -> e.getCurrencyType() == sourceCurrency)
+            .findFirst()
+            .get();
 
-                final Saldo destSaldo = destinedBankAccount.getSaldos()
-                        .stream()
-                        .filter( Objects::nonNull )
-                        .filter( e -> e.getCurrencyType() == destCurrency )
-                        .findFirst()
-                        .orElse( destinedBankAccount.getSaldos().stream().filter( e -> Objects.equals( e.getCurrencyType().getName(), "PLN" ) ).findFirst().get() );
+        final Saldo destSaldo = destinedBankAccount.getSaldos()
+            .stream()
+            .filter(Objects::nonNull)
+            .filter(e -> e.getCurrencyType() == destCurrency)
+            .findFirst()
+            .orElse(destinedBankAccount.getSaldos().stream().filter(e -> Objects.equals(e.getCurrencyType().getName(), "PLN")).findFirst().get());
 
-                if ( sourceSaldo.getBalance().floatValue() < transactionDTO.getBalance() )
-                        throw new RuntimeException( "Source saldo has no required balance" );
+        if (sourceSaldo.getBalance().floatValue() < transactionDTO.getBalance())
+            throw new RuntimeException("Source saldo has no required balance");
 
-                boolean sourceMultiCurrency = sourceBankAccount.getBankAccType().getBankAccountType() == BankAccountType.MULTI_CURRENCY;
+        boolean sourceMultiCurrency = sourceBankAccount.getBankAccType().getBankAccountType() == BankAccountType.MULTI_CURRENCY;
 
-                final BigDecimal balance = currencyConverter.convertCurrency(
-                        transactionDTO.getBalance(),
-                        sourceCurrency,
-                        destSaldo.getCurrencyType()
-                );
+        final BigDecimal balance = currencyConverter.convertCurrency(
+            transactionDTO.getBalance(),
+            sourceCurrency,
+            destSaldo.getCurrencyType()
+        );
 
-                final BigDecimal balanceWithCommission = BigDecimal.valueOf(
-                        balance.doubleValue() - ((sourceBankAccount.getBankAccType().getTransactionComission() / 100d) * balance.doubleValue()
-                        )
-                ).setScale( BigDecimal.ROUND_DOWN, 2 );
+        final BigDecimal balanceWithCommission = BigDecimal.valueOf(
+            balance.doubleValue() - ((sourceBankAccount.getBankAccType().getTransactionComission() / 100d) * balance.doubleValue()
+            )
+        ).setScale(BigDecimal.ROUND_DOWN, 2);
 
-                sourceSaldo.setBalance( sourceSaldo.getBalance().subtract( BigDecimal.valueOf( transactionDTO.getBalance() ) ) );
+        sourceSaldo.setBalance(sourceSaldo.getBalance().subtract(BigDecimal.valueOf(transactionDTO.getBalance())));
 
-                destSaldo.setBalance( destSaldo.getBalance().add( balanceWithCommission ) );
+        destSaldo.setBalance(destSaldo.getBalance().add(balanceWithCommission));
 
          /*       destinedBankAccount.getSaldos()
                         .stream()
@@ -121,36 +118,33 @@ public class TransactionServiceImpl implements TransactionService
                                 saldoRepository.save( e );
                         } );
 */
-                transaction.setBalance( BigDecimal.valueOf( transactionDTO.getBalance() ) );
-                transaction.setBalanceWithCommission( balanceWithCommission );
-                transaction.setDate( Instant.now() );
-                transaction.setDestinedBankAccount( destinedBankAccount );
-                transaction.setSourceBankAccount( sourceBankAccount );
-                transaction.setTitle( transactionDTO.getTitle() );
-                transaction.setSourceCurrencyType( sourceCurrency );
-                transaction.setDestinedCurrencyType( destSaldo.getCurrencyType() );
+        transaction.setBalance(BigDecimal.valueOf(transactionDTO.getBalance()));
+        transaction.setBalanceWithCommission(balanceWithCommission);
+        transaction.setDate(Instant.now());
+        transaction.setDestinedBankAccount(destinedBankAccount);
+        transaction.setSourceBankAccount(sourceBankAccount);
+        transaction.setTitle(transactionDTO.getTitle());
+        transaction.setSourceCurrencyType(sourceCurrency);
+        transaction.setDestinedCurrencyType(destSaldo.getCurrencyType());
 
-                return transactionRepository.save( transaction );
-        }
+        return transactionRepository.save(transaction);
+    }
 
-        @Override
-        public List<TransactionOut> findAll ()
-        {
-                return transactionRepository.findAll()
-                        .stream()
-                        .map( transactionMapper::entityToDTO )
-                        .collect( Collectors.toList() );
-        }
+    @Override
+    public List<TransactionOut> findAll() {
+        return transactionRepository.findAll()
+            .stream()
+            .map(transactionMapper::entityToDTO)
+            .collect(Collectors.toList());
+    }
 
-        @Override
-        public List<TransactionOut> findAllByBankAccountId ( Long bankAccountId )
-        {
-                return transactionRepository.findTransactionsByBankAccountId( bankAccountId )
-                        .stream()
-                        .sorted( ( o1, o2 ) -> o2.getDate().compareTo( o1.getDate() ) )
-                        .map( transactionMapper::entityToDTO )
-                        .collect( Collectors.toList() );
-        }
+    @Override
+    public List<TransactionOut> findAllByBankAccountId(Long bankAccountId) {
+        return transactionRepository.findTransactionsByBankAccountId(bankAccountId)
+            .stream()
+            .map(transactionMapper::entityToDTO)
+            .collect(Collectors.toList());
+    }
 
         /*
         private BigDecimal convertCurrency ( float currency, CurrencyType sourceCurrency, CurrencyType destinedCurrency )
