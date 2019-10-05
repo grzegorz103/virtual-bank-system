@@ -76,6 +76,18 @@ public class RepositoryInitializer {
             }
 
             if (userRepository.findAll().isEmpty()) {
+                Address address = Address.builder()
+                    .city("Warszawa")
+                    .houseNumber("10")
+                    .name("Jan")
+                    .surname("Kowalski")
+                    .phoneNumber("662003004")
+                    .postCode("03-100")
+                    .street("Warszawska")
+                    .build();
+
+                addressRepository.save(address);
+
                 User user = User.builder()
                     .credentials(false)
                     .email("jan@kowalski.pl")
@@ -87,22 +99,22 @@ public class RepositoryInitializer {
                     .transactionTemplates(new HashSet<>())
                     .identifier("11111111")
                     .bankAccounts(new HashSet<>())
+                    .address(address)
                     .build();
 
                 userRepository.save(user);
 
-                Address address = Address.builder()
-                    .city("Warszawa")
-                    .houseNumber("10")
-                    .name("Jan")
-                    .surname("Kowalski")
-                    .phoneNumber("662003004")
-                    .postCode("03-100")
-                    .street("Warszawska")
+                Address address2 = Address.builder()
+                    .city("Poznań")
+                    .houseNumber("32")
+                    .name("Kamil")
+                    .surname("Kamilski")
+                    .phoneNumber("521033104")
+                    .postCode("60-201")
+                    .street("Poznańska")
                     .build();
 
-                address.setUser(user);
-                addressRepository.save(address);
+                addressRepository.save(address2);
 
                 User user2 = User.builder()
                     .credentials(false)
@@ -115,50 +127,38 @@ public class RepositoryInitializer {
                     .transactionTemplates(new HashSet<>())
                     .identifier("22222222")
                     .bankAccounts(new HashSet<>())
-                    .build();
-
-                userRepository.save(user2);
-
-                Address address2 = Address.builder()
-                    .city("Poznań")
-                    .houseNumber("32")
-                    .name("Kamil")
-                    .surname("Kamilski")
-                    .phoneNumber("521033104")
-                    .postCode("60-201")
-                    .street("Poznańska")
-                    .build();
-
-                address.setUser(user2);
-                addressRepository.save(address2);
-
-                User user3 = User.builder()
-                    .credentials(false)
-                    .email("kamil@kamilski.pl")
-                    .enabled(true)
-                    .expired(false)
-                    .locked(false)
-                    .password(encoder.encode("kamilski"))
-                    .userRoles(Collections.singleton(userRoleRepository.findByUserType(UserRole.UserType.ROLE_EMPLOYEE)))
-                    .transactionTemplates(new HashSet<>())
-                    .identifier("22222222")
-                    .bankAccounts(new HashSet<>())
+                    .address(address)
                     .build();
 
                 userRepository.save(user2);
 
                 Address address3 = Address.builder()
-                    .city("Poznań")
-                    .houseNumber("32")
-                    .name("Kamil")
-                    .surname("Kamilski")
-                    .phoneNumber("521033104")
-                    .postCode("60-201")
-                    .street("Poznańska")
+                    .city("Gdynia")
+                    .houseNumber("92")
+                    .name("Jakub")
+                    .surname("Jakubski")
+                    .phoneNumber("692193823")
+                    .postCode("50-221")
+                    .street("Gdyńska")
                     .build();
 
-                address.setUser(user2);
-                addressRepository.save(address2);
+                addressRepository.save(address3);
+
+                User user3 = User.builder()
+                    .credentials(false)
+                    .email("jakub@jakubski.pl")
+                    .enabled(true)
+                    .expired(false)
+                    .locked(false)
+                    .password(encoder.encode("jakubski"))
+                    .userRoles(Collections.singleton(userRoleRepository.findByUserType(UserRole.UserType.ROLE_EMPLOYEE)))
+                    .transactionTemplates(new HashSet<>())
+                    .identifier("33333333")
+                    .bankAccounts(new HashSet<>())
+                    .address(address3)
+                    .build();
+
+                userRepository.save(user3);
             }
 
             if (currencyTypeRepository.findAll().isEmpty()) {
