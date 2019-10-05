@@ -78,6 +78,7 @@ public class BankAccountServiceImpl implements BankAccountService {
 
     @Override
     public List<BankAccountOut> findAll() {
+        System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal().getClass().getName());
         return bankAccountRepository.findAll()
             .stream()
             .map(bankAccountMapper::entityToDTO)

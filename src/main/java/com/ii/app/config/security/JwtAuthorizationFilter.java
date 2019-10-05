@@ -1,5 +1,7 @@
 package com.ii.app.config.security;
 
+import com.ii.app.models.user.User;
+import com.ii.app.services.interfaces.UserService;
 import io.jsonwebtoken.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +60,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
                         .get("rol"))
                         .stream()
                         .map(e -> new SimpleGrantedAuthority((String) e))
-                        .collect(Collectors.toSet())
+                        .collect(Collectors.toList())
                 );
             }
         }

@@ -14,11 +14,15 @@ import com.ii.app.utils.Constants;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -31,25 +35,21 @@ public class UserServiceImpl implements UserService {
 
     private final UserMapper userMapper;
 
-    private final BCryptPasswordEncoder encoder;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     private final Constants CONSTANTS;
-
-    private final JwtTokenGenerator jwtTokenGenerator;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository,
                            UserRoleRepository userRoleRepository,
                            UserMapper userMapper,
-                           BCryptPasswordEncoder encoder,
-                           Constants CONSTANTS,
-                           JwtTokenGenerator jwtTokenGenerator) {
+                           BCryptPasswordEncoder passwordEncoder,
+                           Constants CONSTANTS) {
         this.userRepository = userRepository;
         this.userRoleRepository = userRoleRepository;
         this.userMapper = userMapper;
-        this.encoder = encoder;
         this.CONSTANTS = CONSTANTS;
-        this.jwtTokenGenerator = jwtTokenGenerator;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService {
         mapped.setEnabled(true);
         mapped.setIdentifier(RandomStringUtils.randomNumeric(CONSTANTS.USER_IDENTIFIER_LENGTH));
         mapped.setUserRoles(Collections.singleton(userRoleRepository.findByUserType(UserRole.UserType.ROLE_USER)));
-        mapped.setPassword(encoder.encode(userIn.getPassword()));
+        mapped.setPassword(passwordEncoder.encode(userIn.getPassword()));
 
         return userMapper.userToUserOut(userRepository.save(mapped));
     }
@@ -73,21 +73,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public JwtToken attemptAuthentication(String login, String password) {
-        User u = userRepository.findByIdentifier(login)
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        return userRepository.findByIdentifier(s)
             .orElseThrow(() -> new UsernameNotFoundException("Not found"));
-
-        if (Objects.equals(u.getUsername(), login) && encoder.matches(password, u.getPassword())) {
-            return new JwtToken(jwtTokenGenerator.generate(u.getUsername(),
-                u.getUserRoles()
-                    .stream()
-                    .map(e -> e.getUserType()
-                        .name()
-                    ).collect(Collectors.toList()))
-            );
-        }
-
-        throw new UsernameNotFoundException("Incorrect data");
     }
-
 }
