@@ -5,7 +5,7 @@ import com.ii.app.dto.out.UserOut;
 import com.ii.app.models.user.JwtToken;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-public interface UserService extends UserDetailsService
+public interface UserService
 {
         UserOut create ( UserIn userIn );
 

@@ -90,10 +90,4 @@ public class UserServiceImpl implements UserService {
         throw new UsernameNotFoundException("Incorrect data");
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        System.out.println("XCXCXCXC");
-        return userRepository.findByIdentifier(s)
-            .orElseThrow(() -> new UsernameNotFoundException("Not found"));
-    }
 }
