@@ -1,8 +1,10 @@
 package com.ii.app.services;
 
+import com.ii.app.config.security.JwtTokenGenerator;
 import com.ii.app.dto.in.UserIn;
 import com.ii.app.dto.out.UserOut;
 import com.ii.app.mappers.UserMapper;
+import com.ii.app.models.user.JwtToken;
 import com.ii.app.models.user.User;
 import com.ii.app.models.user.UserRole;
 import com.ii.app.repositories.UserRepository;
@@ -18,6 +20,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -28,18 +32,24 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
 
     private final BCryptPasswordEncoder encoder;
-    @Autowired
-    private Constants CONSTANTS;
+
+    private final Constants CONSTANTS;
+
+    private final JwtTokenGenerator jwtTokenGenerator;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository,
                            UserRoleRepository userRoleRepository,
                            UserMapper userMapper,
-                           BCryptPasswordEncoder encoder) {
+                           BCryptPasswordEncoder encoder,
+                           Constants CONSTANTS,
+                           JwtTokenGenerator jwtTokenGenerator) {
         this.userRepository = userRepository;
         this.userRoleRepository = userRoleRepository;
         this.userMapper = userMapper;
         this.encoder = encoder;
+        this.CONSTANTS = CONSTANTS;
+        this.jwtTokenGenerator = jwtTokenGenerator;
     }
 
     @Override
@@ -63,16 +73,26 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean isLoginCorrect(String login, String password) {
+    public JwtToken attemptAuthentication(String login, String password) {
         User u = userRepository.findByIdentifier(login)
             .orElseThrow(() -> new UsernameNotFoundException("Not found"));
 
-        return u.getUsername().equals(login)
-            && encoder.matches(password, u.getPassword());
+        if (Objects.equals(u.getUsername(), login) && encoder.matches(password, u.getPassword())) {
+            return new JwtToken(jwtTokenGenerator.generate(u.getUsername(),
+                u.getUserRoles()
+                    .stream()
+                    .map(e -> e.getUserType()
+                        .name()
+                    ).collect(Collectors.toList()))
+            );
+        }
+
+        throw new UsernameNotFoundException("Incorrect data");
     }
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        System.out.println("XCXCXCXC");
         return userRepository.findByIdentifier(s)
             .orElseThrow(() -> new UsernameNotFoundException("Not found"));
     }

@@ -52,13 +52,14 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
                 .getBody()
                 .getSubject();
 
-            List<SimpleGrantedAuthority> authorities = ((List<?>) parsedToken.getBody()
-                .get("rol")).stream()
-                .map(authority -> new SimpleGrantedAuthority((String) authority))
-                .collect(Collectors.toList());
-
             if (StringUtils.isNotEmpty(username)) {
-                return new UsernamePasswordAuthenticationToken(username, null, authorities);
+                return new UsernamePasswordAuthenticationToken(username, null,
+                    ((List<?>) parsedToken.getBody()
+                        .get("rol"))
+                        .stream()
+                        .map(e -> new SimpleGrantedAuthority((String) e))
+                        .collect(Collectors.toSet())
+                );
             }
         }
 
