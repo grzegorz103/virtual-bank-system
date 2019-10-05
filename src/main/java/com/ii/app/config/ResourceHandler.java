@@ -1,6 +1,8 @@
 package com.ii.app.config;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
@@ -15,4 +17,9 @@ public class ResourceHandler extends WebMvcConfigurerAdapter
                 registry.addResourceHandler("/webjars/**")
                         .addResourceLocations("classpath:/META-INF/resources/webjars/");
         }
+        @Bean
+        public BCryptPasswordEncoder passwordEncoder() {
+                return new BCryptPasswordEncoder();
+        }
+
 }

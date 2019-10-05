@@ -24,11 +24,4 @@ public class UserController {
         return userService.create(userIn);
     }
 
-    @PostMapping("/auth")
-    public JwtToken attemptAuthentication(@RequestParam("login") String login,
-                                          @RequestParam("password") String password) {
-        System.out.println("ASDSDASDADS");
-        return userService.attemptAuthentication(login, password);
-    //return "asd";
-    }
 }
