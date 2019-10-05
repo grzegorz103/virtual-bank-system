@@ -86,8 +86,6 @@ public class RepositoryInitializer {
                     .street("Warszawska")
                     .build();
 
-                addressRepository.save(address);
-
                 User user = User.builder()
                     .credentials(false)
                     .email("jan@kowalski.pl")
@@ -114,7 +112,6 @@ public class RepositoryInitializer {
                     .street("Poznańska")
                     .build();
 
-                addressRepository.save(address2);
 
                 User user2 = User.builder()
                     .credentials(false)
@@ -127,7 +124,7 @@ public class RepositoryInitializer {
                     .transactionTemplates(new HashSet<>())
                     .identifier("22222222")
                     .bankAccounts(new HashSet<>())
-                    .address(address)
+                    .address(address2)
                     .build();
 
                 userRepository.save(user2);
@@ -141,8 +138,6 @@ public class RepositoryInitializer {
                     .postCode("50-221")
                     .street("Gdyńska")
                     .build();
-
-                addressRepository.save(address3);
 
                 User user3 = User.builder()
                     .credentials(false)

@@ -8,6 +8,9 @@ import com.ii.app.models.user.UserRole;
 import com.ii.app.repositories.UserRepository;
 import com.ii.app.repositories.UserRoleRepository;
 import com.ii.app.services.interfaces.UserService;
+import com.ii.app.utils.Constants;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.RandomUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -25,6 +28,8 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
 
     private final BCryptPasswordEncoder encoder;
+    @Autowired
+    private Constants CONSTANTS;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository,
@@ -43,6 +48,7 @@ public class UserServiceImpl implements UserService {
         mapped.setLocked(false);
         mapped.setCredentials(false);
         mapped.setEnabled(true);
+        mapped.setIdentifier(RandomStringUtils.randomNumeric(CONSTANTS.USER_IDENTIFIER_LENGTH));
         mapped.setUserRoles(Collections.singleton(userRoleRepository.findByUserType(UserRole.UserType.ROLE_USER)));
         mapped.setPassword(encoder.encode(userIn.getPassword()));
 
