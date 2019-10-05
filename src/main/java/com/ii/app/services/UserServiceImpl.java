@@ -17,63 +17,57 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 
 @Service
-public class UserServiceImpl implements UserService
-{
-        private final UserRepository userRepository;
+public class UserServiceImpl implements UserService {
+    private final UserRepository userRepository;
 
-        private final UserRoleRepository userRoleRepository;
+    private final UserRoleRepository userRoleRepository;
 
-        private final UserMapper userMapper;
+    private final UserMapper userMapper;
 
-        private final BCryptPasswordEncoder encoder;
+    private final BCryptPasswordEncoder encoder;
 
-        @Autowired
-        public UserServiceImpl ( UserRepository userRepository,
-                                 UserRoleRepository userRoleRepository,
-                                 UserMapper userMapper,
-                                 BCryptPasswordEncoder encoder )
-        {
-                this.userRepository = userRepository;
-                this.userRoleRepository = userRoleRepository;
-                this.userMapper = userMapper;
-                this.encoder = encoder;
-        }
+    @Autowired
+    public UserServiceImpl(UserRepository userRepository,
+                           UserRoleRepository userRoleRepository,
+                           UserMapper userMapper,
+                           BCryptPasswordEncoder encoder) {
+        this.userRepository = userRepository;
+        this.userRoleRepository = userRoleRepository;
+        this.userMapper = userMapper;
+        this.encoder = encoder;
+    }
 
-        @Override
-        public UserOut create ( UserIn userIn )
-        {
-                User mapped = userMapper.userInToUser( userIn );
-                mapped.setLocked( false );
-                mapped.setCredentials( false );
-                mapped.setEnabled( true );
-                mapped.setUserRoles( Collections.singleton( userRoleRepository.findByUserType( UserRole.UserType.ROLE_USER ) ) );
-                mapped.setPassword( encoder.encode( userIn.getPassword() ) );
+    @Override
+    public UserOut create(UserIn userIn) {
+        User mapped = userMapper.userInToUser(userIn);
+        mapped.setLocked(false);
+        mapped.setCredentials(false);
+        mapped.setEnabled(true);
+        mapped.setUserRoles(Collections.singleton(userRoleRepository.findByUserType(UserRole.UserType.ROLE_USER)));
+        mapped.setPassword(encoder.encode(userIn.getPassword()));
 
-                return userMapper.userToUserOut( userRepository.save( mapped ) );
-        }
+        return userMapper.userToUserOut(userRepository.save(mapped));
+    }
 
-        @Override
-        public UserOut getByUsername ( String username )
-        {
-                return userRepository.findByUsername( username )
-                        .map( userMapper::userToUserOut )
-                        .orElseThrow( () -> new UsernameNotFoundException( "Not found" ) );
-        }
+    @Override
+    public UserOut getByUsername(String username) {
+        return userRepository.findByIdentifier(username)
+            .map(userMapper::userToUserOut)
+            .orElseThrow(() -> new UsernameNotFoundException("Not found"));
+    }
 
-        @Override
-        public boolean isLoginCorrect ( String login, String password )
-        {
-                User u = userRepository.findByUsername( login )
-                        .orElseThrow( () -> new UsernameNotFoundException( "Not found" ) );
+    @Override
+    public boolean isLoginCorrect(String login, String password) {
+        User u = userRepository.findByIdentifier(login)
+            .orElseThrow(() -> new UsernameNotFoundException("Not found"));
 
-                return u.getUsername().equals( login )
-                        && encoder.matches( password, u.getPassword() );
-        }
+        return u.getUsername().equals(login)
+            && encoder.matches(password, u.getPassword());
+    }
 
-        @Override
-        public UserDetails loadUserByUsername ( String s ) throws UsernameNotFoundException
-        {
-                return userRepository.findByUsername( s )
-                        .orElseThrow( () -> new UsernameNotFoundException( "Not found" ) );
-        }
+    @Override
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        return userRepository.findByIdentifier(s)
+            .orElseThrow(() -> new UsernameNotFoundException("Not found"));
+    }
 }
