@@ -24,83 +24,75 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
-public class BankAccountServiceImpl implements BankAccountService
-{
-        private final BankAccountMapper bankAccountMapper;
+public class BankAccountServiceImpl implements BankAccountService {
+    private final BankAccountMapper bankAccountMapper;
 
-        private final BankAccountRepository bankAccountRepository;
+    private final BankAccountRepository bankAccountRepository;
 
-        private final BankAccountTypeRepository bankAccountTypeRepository;
+    private final BankAccountTypeRepository bankAccountTypeRepository;
 
-        private final SaldoRepository saldoRepository;
+    private final SaldoRepository saldoRepository;
 
-        private final CurrencyTypeRepository currencyTypeRepository;
+    private final CurrencyTypeRepository currencyTypeRepository;
 
-        private final Constants constants;
+    private final Constants constants;
 
-        @Autowired
-        public BankAccountServiceImpl ( BankAccountMapper bankAccountMapper,
-                                        BankAccountRepository bankAccountRepository,
-                                        Constants constants,
-                                        SaldoRepository saldoRepository,
-                                        CurrencyTypeRepository currencyTypeRepository,
-                                        BankAccountTypeRepository bankAccountTypeRepository )
-        {
-                this.bankAccountMapper = bankAccountMapper;
-                this.bankAccountRepository = bankAccountRepository;
-                this.constants = constants;
-                this.saldoRepository = saldoRepository;
-                this.currencyTypeRepository = currencyTypeRepository;
-                this.bankAccountTypeRepository = bankAccountTypeRepository;
+    @Autowired
+    public BankAccountServiceImpl(BankAccountMapper bankAccountMapper,
+                                  BankAccountRepository bankAccountRepository,
+                                  Constants constants,
+                                  SaldoRepository saldoRepository,
+                                  CurrencyTypeRepository currencyTypeRepository,
+                                  BankAccountTypeRepository bankAccountTypeRepository) {
+        this.bankAccountMapper = bankAccountMapper;
+        this.bankAccountRepository = bankAccountRepository;
+        this.constants = constants;
+        this.saldoRepository = saldoRepository;
+        this.currencyTypeRepository = currencyTypeRepository;
+        this.bankAccountTypeRepository = bankAccountTypeRepository;
+    }
+
+    @Override
+    public BankAccountOut create(@NotNull BankAccountIn bankAccountIn) {
+        BankAccount bankAccount = new BankAccount();
+        bankAccount.setNumber(RandomStringUtils.randomNumeric(constants.BANK_ACCOUNT_NUMBER_LENGTH));
+        bankAccount.setBankAccType(bankAccountTypeRepository.findByBankAccountType(bankAccountIn.getBankAccountType()));
+
+        BankAccount finalBankAccount = bankAccountRepository.save(bankAccount);
+
+        if (bankAccount.getBankAccType().getBankAccountType() == BankAccountType.MULTI_CURRENCY) {
+            currencyTypeRepository.findAll()
+                .forEach(e ->
+                    saldoRepository.save(new Saldo(BigDecimal.ZERO, e, finalBankAccount))
+                );
+        } else {
+            currencyTypeRepository.findByName("PLN")
+                .ifPresent(e -> saldoRepository.save(new Saldo(BigDecimal.ZERO, e, finalBankAccount)));
         }
+        BankAccount account = bankAccountRepository.findById(finalBankAccount.getId()).get();
+        account.setSaldos(saldoRepository.findAll().stream().filter(e -> e.getBankAccount() == account).collect(Collectors.toSet()));
+        return bankAccountMapper.entityToDTO(account);
+    }
 
-        @Override
-        public BankAccountOut create ( @NotNull BankAccountIn bankAccountIn )
-        {
-                BankAccount bankAccount = new BankAccount();
-                bankAccount.setNumber( RandomStringUtils.randomNumeric( constants.BANK_ACCOUNT_NUMBER_LENGTH ) );
-                bankAccount.setBankAccType( bankAccountTypeRepository.findByBankAccountType( bankAccountIn.getBankAccountType() ) );
+    @Override
+    public List<BankAccountOut> findAll() {
+        return bankAccountRepository.findAll()
+            .stream()
+            .map(bankAccountMapper::entityToDTO)
+            .collect(Collectors.toList());
+    }
 
-                BankAccount finalBankAccount = bankAccountRepository.save( bankAccount );
+    @Override
+    public List<BankAccountOut> findByUser() {
+        return null;
+    }
 
-                if ( bankAccount.getBankAccType().getBankAccountType() == BankAccountType.MULTI_CURRENCY )
-                {
-                        currencyTypeRepository.findAll()
-                                .forEach( e ->
-                                        saldoRepository.save( new Saldo( BigDecimal.ZERO, e, finalBankAccount ) )
-                                );
-                } else
-                {
-                        currencyTypeRepository.findByName( "PLN" )
-                                .ifPresent( e -> saldoRepository.save( new Saldo( BigDecimal.ZERO, e, finalBankAccount ) ) );
-                }
-                BankAccount account = bankAccountRepository.findById( finalBankAccount.getId() ).get();
-                account.setSaldos( saldoRepository.findAll().stream().filter( e -> e.getBankAccount() == account ).collect( Collectors.toSet() ) );
-                return bankAccountMapper.entityToDTO( account );
-        }
-
-        @Override
-        public List<BankAccountOut> findAll ()
-        {
-                return bankAccountRepository.findAll()
-                        .stream()
-                        .map( bankAccountMapper::entityToDTO )
-                        .collect( Collectors.toList() );
-        }
-
-        @Override
-        public List<BankAccountOut> findByUser ()
-        {
-                return null;
-        }
-
-        @Override
-        public BankAccountOut findById ( Long id )
-        {
-                return bankAccountRepository.findById( id )
-                        .map( bankAccountMapper::entityToDTO )
-                        .orElseThrow( () -> new RuntimeException( "Not found" ) );
-        }
+    @Override
+    public BankAccountOut findById(Long id) {
+        return bankAccountRepository.findById(id)
+            .map(bankAccountMapper::entityToDTO)
+            .orElseThrow(() -> new RuntimeException("Not found"));
+    }
 
 
 }
