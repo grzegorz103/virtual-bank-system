@@ -22,7 +22,7 @@ import { MatCardModule, MatButtonModule, MatToolbarModule, MatInputModule } from
     MatCardModule,
     MatButtonModule,
     MatToolbarModule,
-    MatInputModule
+    MatInputModule,
   ]
 })
 export class SharedModule { }

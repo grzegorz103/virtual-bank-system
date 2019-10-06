@@ -2,6 +2,21 @@
     <mat-toolbar>Rejestracja</mat-toolbar>
     <div class="mt-2">
         <div class="row">
+            <div class="col-6">
+                <mat-form-field>
+                    <input matInput placeholder="Hasło">
+                </mat-form-field>
+            </div>
+            <div class="col-6">
+                <mat-form-field>
+                    <input matInput placeholder="Potwierdzenie hasła">
+                </mat-form-field>
+            </div>
+        </div>
+
+        <hr/>
+
+        <div class="row">
             <div class="col-md-4">
                 <mat-form-field>
                     <input matInput placeholder="Imię">
@@ -45,4 +60,7 @@
             </div>
         </div>
     </div>
+    
+    <button mat-raised-button style="text-align: center" class="bg-success text-white">Wyślij</button>
+
 </mat-card>
