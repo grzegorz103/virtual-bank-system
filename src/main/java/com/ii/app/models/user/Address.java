@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.Instant;
 
 @Entity
 @Table(name = "addresses")
@@ -43,4 +44,6 @@ public class Address {
     @OneToOne(mappedBy = "address")
     private User user;
 
+    @Column(name="date_of_birth")
+    private Instant dateOfBirth;
 }

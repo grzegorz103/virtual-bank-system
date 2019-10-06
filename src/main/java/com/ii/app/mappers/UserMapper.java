@@ -8,6 +8,5 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring", uses = AddressMapper.class)
 public interface UserMapper {
     User userInToUser(UserIn userIn);
-
     UserOut userToUserOut(User user);
 }
