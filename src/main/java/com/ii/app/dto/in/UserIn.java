@@ -7,13 +7,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class UserIn
-{
-        private String identifier;
+public class UserIn {
+    private String password;
 
-        private String password;
+    private String confirmPassword;
 
-        private String email;
+    private String email;
 
-        private AddressIn address;
+    private AddressIn address;
 }
