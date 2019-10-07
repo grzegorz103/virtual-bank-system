@@ -3,11 +3,12 @@ package com.ii.app.services.interfaces;
 import com.ii.app.dto.in.BankAccountIn;
 import com.ii.app.dto.out.BankAccountOut;
 
+import java.security.Principal;
 import java.util.List;
 
 public interface BankAccountService
 {
-        BankAccountOut create( BankAccountIn bankAccountIn);
+        BankAccountOut create( BankAccountIn bankAccountIn,  String userIdentifier);
 
         List<BankAccountOut> findAll();
 

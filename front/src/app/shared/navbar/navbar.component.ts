@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../services/auth.service';
 
 
 declare const $: any;
@@ -13,7 +14,7 @@ export class NavbarComponent implements OnInit {
 
   isMobileView: boolean;
 
-  constructor() {
+  constructor(private authService: AuthService) {
     this.isMobileView = window.innerWidth <= 768;
    }
 
