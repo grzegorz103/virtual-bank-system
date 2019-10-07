@@ -30,6 +30,12 @@ import { Ng5SliderModule } from 'ng5-slider';
 import { CreditService } from './main/services/credit.service';
 import { IndexComponent } from './shared/index/index.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { JwtModule } from "@auth0/angular-jwt";
+
+
+export function tokenGetter() {
+  return localStorage.getItem("token");
+}
 
 @NgModule({
   declarations: [
@@ -64,6 +70,11 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatSlideToggleModule,
     Ng5SliderModule,
     MatTooltipModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter
+      }
+    })
   ],
   providers: [],
   entryComponents: [],
