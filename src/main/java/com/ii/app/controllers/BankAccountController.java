@@ -20,7 +20,6 @@ public class BankAccountController {
     }
 
     @GetMapping
-    @Secured("ROLE_USER")
     public List<BankAccountOut> findAll() {
         return bankAccountService.findAll();
     }

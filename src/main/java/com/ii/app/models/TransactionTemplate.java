@@ -52,6 +52,6 @@ public class TransactionTemplate {
     private String templateName;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = true)
     private User user;
 }
