@@ -1,1 +1,14 @@
-<p>login works!</p>
+<div class="main-div">
+    <mat-card>
+        <mat-toolbar>Logowanie</mat-toolbar>
+        <form [formGroup]="form" (ngSubmit)="login()">
+            <mat-form-field class="mt-2">
+                <input matInput placeholder="Identyfikator" type="number" formControlName="username">
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput placeholder="Hasło" type="password" formControlName="password">
+            </mat-form-field>
+            <button mat-raised-button class="bg-success text-white">Zaloguj</button>
+        </form>
+    </mat-card>
+</div>

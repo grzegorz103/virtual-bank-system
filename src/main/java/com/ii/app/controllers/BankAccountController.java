@@ -5,6 +5,7 @@ import com.ii.app.dto.out.BankAccountOut;
 import com.ii.app.services.interfaces.BankAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,9 +26,17 @@ public class BankAccountController {
         return bankAccountService.findAll();
     }
 
+    @GetMapping("/byUser")
+    @Secured("ROLE_USER")
+    public List<BankAccountOut> findByUser(){
+        return bankAccountService.findByUser();
+    }
+
     @PostMapping
-    public BankAccountOut create(@RequestBody BankAccountIn bankAccountIn) {
-        return bankAccountService.create(bankAccountIn);
+    @Secured("ROLE_USER")
+    public BankAccountOut create(@RequestBody BankAccountIn bankAccountIn,
+                                 @AuthenticationPrincipal String username) {
+        return bankAccountService.create(bankAccountIn, username);
     }
 
     @GetMapping("/{id}")

@@ -51,7 +51,7 @@ export class BankAccountListComponent implements OnInit {
   }
 
   fetchBankAccounts() {
-    this.bankAccountService.findAll()
+    this.bankAccountService.findByUser()
       .subscribe(res => this.bankAccounts = res);
   }
 

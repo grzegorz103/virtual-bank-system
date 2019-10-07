@@ -55,8 +55,9 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             .map(GrantedAuthority::getAuthority)
             .collect(Collectors.toList());
 
+        response.addHeader("Access-Control-Expose-Headers", "Authorization");
         response.addHeader(
-            SecurityConstants.TOKEN_HEADER, SecurityConstants.TOKEN_PREFIX + JwtTokenGenerator.generate(user.getUsername(), authorities)
+            SecurityConstants.TOKEN_HEADER, JwtTokenGenerator.generate(user.getUsername(), authorities)
         );
     }
 }

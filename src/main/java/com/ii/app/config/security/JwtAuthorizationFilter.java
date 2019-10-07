@@ -54,7 +54,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
                 .getBody()
                 .getSubject();
 
-            if (StringUtils.isNotEmpty(username)) {
+            if (StringUtils.isNotBlank(username)) {
                 return new UsernamePasswordAuthenticationToken(username, null,
                     ((List<?>) parsedToken.getBody()
                         .get("rol"))
