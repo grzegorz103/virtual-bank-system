@@ -1,6 +1,7 @@
 package com.ii.app.models.user;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -42,6 +43,7 @@ public class Address {
     private String phoneNumber;
 
     @OneToOne(mappedBy = "address")
+    @JsonIgnore
     private User user;
 
     @Column(name="date_of_birth")

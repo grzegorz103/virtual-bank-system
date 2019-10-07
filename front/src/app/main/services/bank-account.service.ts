@@ -18,6 +18,10 @@ export class BankAccountService {
     return this.http.get<BankAccount>(this.url + '/' + id);
   }
 
+  findByUser(){
+    return this.http.get<BankAccount[]>(this.url+'/byUser');
+  }
+
   create(bankAccount: BankAccount){
     return this.http.post<BankAccount>(this.url, bankAccount);
   }

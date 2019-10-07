@@ -9,6 +9,7 @@ import { BankAccountDetailsComponent } from './views/bank-account-details/bank-a
 import { ExchangeCurrencyComponent } from './views/exchange-currency/exchange-currency.component';
 import { CreditCreateComponent } from './views/credit-create/credit-create.component';
 import { MainComponent } from './main.component';
+import { CoreGuardService } from './misc/guard/core-guard.service';
 
 
 const routes: Routes = [
@@ -25,7 +26,8 @@ const routes: Routes = [
         { path: 'bankAccounts/:id/details', component: BankAccountDetailsComponent },
         { path: 'exchange', component: ExchangeCurrencyComponent },
         { path: 'credits/create', component: CreditCreateComponent },
-      ]
+      ],
+      canActivate: [CoreGuardService]
   }]
   ;
 
