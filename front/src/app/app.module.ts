@@ -72,7 +72,8 @@ export function tokenGetter() {
     MatTooltipModule,
     JwtModule.forRoot({
       config: {
-        tokenGetter: tokenGetter
+        tokenGetter: tokenGetter,
+        whitelistedDomains: ['localhost:8080'],
       }
     })
   ],

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../services/user.service';
 import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +15,8 @@ export class LoginComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
     private userService: UserService,
-    private authService: AuthService) {
+    private authService: AuthService,
+    private router: Router) {
     this.form = this.fb.group({
       username: ['', Validators.required],
       password: ['', Validators.required]
@@ -29,6 +31,8 @@ export class LoginComponent implements OnInit {
       .subscribe(res => {
         if (res) {
           this.authService.saveToken(res.headers.get('Authorization'));
+          alert('Zalogowano');
+          this.router.navigateByUrl('/core/bankAccounts');
         }
       });
   }
