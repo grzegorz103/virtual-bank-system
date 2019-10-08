@@ -1,1 +1,87 @@
-<mat-toolbar>Zarządzanie pracownikami</mat-toolbar>
+
+    <mat-toolbar>Zarządzanie pracownikami</mat-toolbar>
+    <form [formGroup]="form" (ngSubmit)="sendRegisterForm()">
+        <div class="mt-2">
+            <div class="row">
+                <div class="col-6">
+                    <mat-form-field>
+                        <input matInput placeholder="Hasło" type="password" formControlName="password">
+                    </mat-form-field>
+                </div>
+                <div class="col-6">
+                    <mat-form-field>
+                        <input matInput placeholder="Potwierdzenie hasła" type="password"
+                            formControlName="confirmPassword">
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-8">
+                    <mat-form-field>
+                        <input matInput placeholder="Adres email" type="email" formControlName="email">
+                    </mat-form-field>
+                </div>
+                <div class="col-4">
+
+                    <div formGroupName="address">
+                        <mat-form-field>
+                            <input matInput [matDatepicker]="picker" placeholder="Data urodzenia"
+                                formControlName="dateOfBirth">
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+
+            <hr />
+
+            <div formGroupName="address">
+                <div class="row">
+                    <div class="col-md-4">
+                        <mat-form-field>
+                            <input matInput placeholder="Imię" formControlName="name">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                        <mat-form-field>
+                            <input matInput placeholder="Nazwisko" formControlName="surname">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                        <mat-form-field>
+                            <input matInput placeholder="Nr telefonu" type="number" formControlName="phoneNumber">
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-6">
+                        <mat-form-field>
+                            <input matInput placeholder="Miejscowość">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-6">
+                        <mat-form-field>
+                            <input matInput placeholder="Ulica">
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-6">
+                        <mat-form-field>
+                            <input matInput placeholder="Numer mieszkania">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-6">
+                        <mat-form-field>
+                            <input matInput placeholder="Kod pocztowy">
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <button mat-raised-button class="bg-success text-white">Wyślij</button>
+        </div>
+    </form>

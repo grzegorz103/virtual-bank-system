@@ -4,10 +4,11 @@ import { CommonModule } from '@angular/common';
 import { AdminRoutingModule } from './admin-routing.module';
 import { StatisticsComponent } from './statistics/statistics.component';
 import { AdminComponent } from './admin.component';
-import { MatToolbarModule, MatTableModule, MatButtonModule } from '@angular/material';
+import { MatToolbarModule, MatTableModule, MatButtonModule, MatFormFieldModule, MatDatepickerModule, MatNativeDateModule, MatInputModule } from '@angular/material';
 import { EmployeeListComponent } from './employee-list/employee-list.component';
 import { SupportListComponent } from './support-list/support-list.component';
 import { ChartsModule, WavesModule } from 'angular-bootstrap-md';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -21,6 +22,10 @@ import { ChartsModule, WavesModule } from 'angular-bootstrap-md';
     MatToolbarModule,
     MatButtonModule,
     MatTableModule, ChartsModule, WavesModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatDatepickerModule,
+    MatNativeDateModule,MatInputModule
   ]
 })
 export class AdminModule { }
