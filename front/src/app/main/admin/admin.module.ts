@@ -4,9 +4,10 @@ import { CommonModule } from '@angular/common';
 import { AdminRoutingModule } from './admin-routing.module';
 import { StatisticsComponent } from './statistics/statistics.component';
 import { AdminComponent } from './admin.component';
-import { MatToolbarModule, MatTableModule } from '@angular/material';
+import { MatToolbarModule, MatTableModule, MatButtonModule } from '@angular/material';
 import { EmployeeListComponent } from './employee-list/employee-list.component';
 import { SupportListComponent } from './support-list/support-list.component';
+import { ChartsModule, WavesModule } from 'angular-bootstrap-md';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { SupportListComponent } from './support-list/support-list.component';
     CommonModule,
     AdminRoutingModule,
     MatToolbarModule,
-    MatTableModule
+    MatButtonModule,
+    MatTableModule, ChartsModule, WavesModule,
   ]
 })
 export class AdminModule { }

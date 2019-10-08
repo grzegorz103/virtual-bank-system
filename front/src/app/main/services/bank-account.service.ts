@@ -18,6 +18,10 @@ export class BankAccountService {
     return this.http.get<BankAccount>(this.url + '/' + id);
   }
 
+  getCountByBankAccountTypeId(bankAccountTypeId: number) {
+    return this.http.get<number>(this.url + '/' + bankAccountTypeId + '/accountCount');
+  }
+
   findByUser() {
     return this.http.get<BankAccount[]>(this.url + '/byUser');
   }

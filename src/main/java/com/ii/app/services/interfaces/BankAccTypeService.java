@@ -4,7 +4,6 @@ import com.ii.app.dto.out.BankAccTypeOut;
 
 import java.util.List;
 
-public interface BankAccTypeService
-{
-        List<BankAccTypeOut> findAll();
+public interface BankAccTypeService {
+    List<BankAccTypeOut> findAll();
 }
