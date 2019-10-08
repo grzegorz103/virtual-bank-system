@@ -18,16 +18,40 @@ const routes: Routes = [
     component: MainComponent,
     children:
       [
-        { path: 'bankAccounts', component: BankAccountListComponent },
-        { path: 'transactions/create', component: TransactionComponent },
-        { path: 'transactions/create/multicurrency', component: TransactionMultiCurrencyComponent },
-        { path: 'transactions/defined', component: TemplateListComponent },
-        { path: 'transactions/defined/create', component: TemplateCreateComponent },
-        { path: 'bankAccounts/:id/details', component: BankAccountDetailsComponent },
-        { path: 'exchange', component: ExchangeCurrencyComponent },
-        { path: 'credits/create', component: CreditCreateComponent },
+        {
+          path: 'bankAccounts', component: BankAccountListComponent,
+          canActivate: [CoreGuardService]
+        },
+        {
+          path: 'transactions/create', component: TransactionComponent,
+          canActivate: [CoreGuardService]
+        },
+        {
+          path: 'transactions/create/multicurrency', component: TransactionMultiCurrencyComponent,
+          canActivate: [CoreGuardService]
+        },
+        {
+          path: 'transactions/defined', component: TemplateListComponent,
+          canActivate: [CoreGuardService]
+        },
+        {
+          path: 'transactions/defined/create', component: TemplateCreateComponent,
+          canActivate: [CoreGuardService]
+        },
+        {
+          path: 'bankAccounts/:id/details', component: BankAccountDetailsComponent,
+          canActivate: [CoreGuardService]
+        },
+        {
+          path: 'exchange', component: ExchangeCurrencyComponent,
+          canActivate: [CoreGuardService]
+        },
+        {
+          path: 'credits/create', component: CreditCreateComponent,
+          canActivate: [CoreGuardService]
+        },
+        { path: 'admin', loadChildren: './admin/admin.module#AdminModule' },
       ],
-      canActivate: [CoreGuardService]
   }]
   ;
 

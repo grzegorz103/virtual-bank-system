@@ -52,6 +52,8 @@
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
+                        <p *ngIf="transactionForm.get('destinedCurrency').value && transactionForm.get('destinedCurrency').value !== 'PLN'" class="info-text">W przypadku braku salda o walucie docelowej, waluta zostanie przekonwertowana na PLN</p>
+                     
                     </div>
                 </div>
 

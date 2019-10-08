@@ -8,6 +8,7 @@ import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
 import { MatCardModule, MatButtonModule, MatToolbarModule, MatInputModule, MatDatepickerModule, MatNativeDateModule } from '@angular/material';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AuthService } from './services/auth.service';
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule,
     MatDatepickerModule,
     MatNativeDateModule
-  ]
+  ],
+  providers: []
 })
 export class SharedModule { }

@@ -6,23 +6,27 @@ import { HttpClient } from '@angular/common/http';
 })
 export class BankAccountService {
 
-  url='http://localhost:8080/api/bankaccount';
+  url = 'http://localhost:8080/api/bankaccount';
 
   constructor(private http: HttpClient) { }
 
-  findAll(){
+  findAll() {
     return this.http.get<BankAccount[]>(this.url);
   }
 
-  findById(id: number){
+  findById(id: number) {
     return this.http.get<BankAccount>(this.url + '/' + id);
   }
 
-  findByUser(){
-    return this.http.get<BankAccount[]>(this.url+'/byUser');
+  getCountByBankAccountTypeId(bankAccountTypeId: number) {
+    return this.http.get<number>(this.url + '/' + bankAccountTypeId + '/accountCount');
   }
 
-  create(bankAccount: BankAccount){
+  findByUser() {
+    return this.http.get<BankAccount[]>(this.url + '/byUser');
+  }
+
+  create(bankAccount: BankAccount) {
     return this.http.post<BankAccount>(this.url, bankAccount);
   }
 }

@@ -24,6 +24,7 @@ import { ChartsModule, WavesModule } from 'angular-bootstrap-md';
 import { Ng5SliderModule } from 'ng5-slider';
 import { BankAccountService } from './services/bank-account.service';
 import { CreditService } from './services/credit.service';
+import { AuthService } from '../shared/services/auth.service';
 
 
 @NgModule({

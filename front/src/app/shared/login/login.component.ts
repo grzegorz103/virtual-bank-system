@@ -32,7 +32,9 @@ export class LoginComponent implements OnInit {
       .subscribe(res => {
         if (res) {
           this.authService.saveToken(res.headers.get('Authorization'));
+          this.authService.setUserRoles();
           alert('Zalogowano');
+          console.log(this.authService.getUserRoles());
           this.router.navigateByUrl('/core/bankAccounts');
         }
       });

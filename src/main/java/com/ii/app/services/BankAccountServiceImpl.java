@@ -11,15 +11,12 @@ import com.ii.app.services.interfaces.BankAccountService;
 import com.ii.app.utils.Constants;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
-import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -102,6 +99,11 @@ public class BankAccountServiceImpl implements BankAccountService {
         return bankAccountRepository.findById(id)
             .map(bankAccountMapper::entityToDTO)
             .orElseThrow(() -> new RuntimeException("Not found"));
+    }
+
+    @Override
+    public Long findBankAccountCountByType(Long id) {
+        return bankAccountRepository.countByBankAccType(bankAccountTypeRepository.findById(id).orElseThrow(() -> new RuntimeException("Not found")));
     }
 
 
