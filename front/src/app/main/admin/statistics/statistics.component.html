@@ -1,1 +1,32 @@
-<mat-toolbar>Statystyki</mat-toolbar>
+<div class="box mat-elevation-z8">
+    <mat-toolbar>Statystyki</mat-toolbar>
+    Rodzaje rachunków bankowych
+    <div *ngIf="bankAccountTypes">
+        <table mat-table [dataSource]="bankAccountTypes" class="mat-elevation-z8">
+
+            <!-- Position Column -->
+            <ng-container matColumnDef="bankAccountType">
+                <th mat-header-cell *matHeaderCellDef> Rodzaj </th>
+                <td mat-cell *matCellDef="let element"> <span
+                        *ngIf="element.bankAccountType === 'MULTI_CURRENCY'">Wielowalutowe</span>
+                    <span *ngIf="element.bankAccountType === 'STANDARD'">Standardowe</span>
+                    <span *ngIf="element.bankAccountType === 'STUDENT'">Studenckie</span>
+                </td>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="transactionComission">
+                <th mat-header-cell *matHeaderCellDef> Prowizja od przelewu </th>
+                <td mat-cell *matCellDef="let element"> {{element.transactionComission}}% </td>
+            </ng-container>
+
+            <!-- Weight Column -->
+            <ng-container matColumnDef="exchangeCurrencyCommission">
+                <th mat-header-cell *matHeaderCellDef> Prowizja wymiany walut </th>
+                <td mat-cell *matCellDef="let element"> {{element.exchangeCurrencyCommission + '%' > 0 ? element.exchangeCurrencyCommission : '-'}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="bankAccountTypesColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: bankAccountTypesColumns;"></tr>
+        </table>
+    </div>

@@ -16,7 +16,7 @@ export class AuthService {
     }
   }
 
-  getDecodedToken(): string {
+  getDecodedToken() {
     return this.helper.decodeToken(this.getToken());
   }
 
@@ -30,5 +30,25 @@ export class AuthService {
 
   getToken(): string {
     return localStorage.getItem('token');
+  }
+
+  setUserRoles() {
+    localStorage.setItem('userRoles', JSON.stringify(this.getDecodedToken().rol));
+  }
+
+  getUserRoles() {
+    return JSON.parse(localStorage.getItem('userRoles'));
+  }
+
+  hasAdminRole() {
+    return this.getUserRoles().some(role => role === 'ROLE_ADMIN');
+  }
+
+  hasUserRole() {
+    return this.getUserRoles().some(role => role === 'ROLE_USER');
+  }
+
+  hasEmployeeRole() {
+    return this.getUserRoles().some(role => role === 'ROLE_EMPLOYEE');
   }
 }

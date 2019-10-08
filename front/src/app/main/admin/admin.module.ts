@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { AdminRoutingModule } from './admin-routing.module';
 import { StatisticsComponent } from './statistics/statistics.component';
 import { AdminComponent } from './admin.component';
-import { MatToolbarModule } from '@angular/material';
+import { MatToolbarModule, MatTableModule } from '@angular/material';
 
 
 @NgModule({
@@ -13,7 +13,8 @@ import { MatToolbarModule } from '@angular/material';
   imports: [
     CommonModule,
     AdminRoutingModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatTableModule
   ]
 })
 export class AdminModule { }
