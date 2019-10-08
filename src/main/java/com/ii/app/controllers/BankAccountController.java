@@ -28,7 +28,7 @@ public class BankAccountController {
 
     @GetMapping("/byUser")
     @Secured("ROLE_USER")
-    public List<BankAccountOut> findByUser(){
+    public List<BankAccountOut> findByUser() {
         return bankAccountService.findByUser();
     }
 
@@ -42,5 +42,11 @@ public class BankAccountController {
     @GetMapping("/{id}")
     public BankAccountOut findById(@PathVariable("id") Long id) {
         return bankAccountService.findById(id);
+    }
+
+    @GetMapping("/{id}/accountCount")
+    @Secured("ROLE_ADMIN")
+    public Long getBankAccountCountByType(@PathVariable("id") Long id) {
+        return bankAccountService.findBankAccountCountByType(id);
     }
 }

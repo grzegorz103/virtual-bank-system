@@ -3,6 +3,7 @@ import { faMoneyBillWave, faHands } from '@fortawesome/free-solid-svg-icons';
 import { faUniversity } from '@fortawesome/free-solid-svg-icons';
 import { faHandshake } from '@fortawesome/free-solid-svg-icons';
 import { faHandHolding } from '@fortawesome/free-solid-svg-icons';
+import { AuthService } from '../shared/services/auth.service';
 
 @Component({
   selector: 'app-main',
@@ -16,7 +17,7 @@ export class MainComponent implements OnInit {
   faHandshake = faHandshake;
   faHandHolding = faHandHolding;
 
-  constructor() { }
+  constructor(private authService: AuthService) { console.log(authService.getUserRoles() + "asd")}
 
   ngOnInit() {
   }

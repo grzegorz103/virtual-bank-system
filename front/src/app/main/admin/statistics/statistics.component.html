@@ -1,0 +1,47 @@
+<div class="box mat-elevation-z8">
+    <mat-toolbar>Statystyki</mat-toolbar>
+    Rodzaje rachunków bankowych
+    <div *ngIf="bankAccountTypes">
+        <table mat-table [dataSource]="bankAccountTypes">
+
+            <!-- Position Column -->
+            <ng-container matColumnDef="bankAccountType">
+                <th mat-header-cell *matHeaderCellDef> Rodzaj </th>
+                <td mat-cell *matCellDef="let element"> <span
+                        *ngIf="element.bankAccountType === 'MULTI_CURRENCY'">Wielowalutowe</span>
+                    <span *ngIf="element.bankAccountType === 'STANDARD'">Standardowe</span>
+                    <span *ngIf="element.bankAccountType === 'STUDENT'">Studenckie</span>
+                </td>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="transactionComission">
+                <th mat-header-cell *matHeaderCellDef> Prowizja od przelewu </th>
+                <td mat-cell *matCellDef="let element"> {{element.transactionComission}}% </td>
+            </ng-container>
+
+            <!-- Weight Column -->
+            <ng-container matColumnDef="exchangeCurrencyCommission">
+                <th mat-header-cell *matHeaderCellDef> Prowizja wymiany walut </th>
+                <td mat-cell *matCellDef="let element">
+                    {{element.exchangeCurrencyCommission > 0 ? element.exchangeCurrencyCommission + '%' : '-'}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="edit">
+                <th mat-header-cell *matHeaderCellDef> Prowizja wymiany walut </th>
+                <td mat-cell *matCellDef="let element">
+                    <button mat-raised-button color="primary" class="mr-2">Edytuj</button>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="bankAccountTypesColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: bankAccountTypesColumns;"></tr>
+        </table>
+
+        <div style="display: block" *ngIf="chartDatasets && chartDatasets[0].data.length === bankAccountTypes.length">
+            <canvas mdbChart [chartType]="chartType" [datasets]="chartDatasets" [labels]="chartLabels"
+                [colors]="chartColors" [options]="chartOptions" [legend]="true" (chartHover)="chartHovered($event)"
+                (chartClick)="chartClicked($event)">
+            </canvas>
+        </div>
+    </div>
