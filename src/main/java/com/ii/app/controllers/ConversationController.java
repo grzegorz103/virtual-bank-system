@@ -14,8 +14,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/conversations")
 public class ConversationController {
+    private final ConversationService conversationService;
+
     @Autowired
-    private ConversationService conversationService;
+    public ConversationController(ConversationService conversationService) {
+        this.conversationService = conversationService;
+    }
 
     @GetMapping
     @Secured("ROLE_ADMIN")
@@ -23,13 +27,13 @@ public class ConversationController {
         return conversationService.findAll();
     }
 
-    @GetMapping
+    @GetMapping("/employeeToAdmin")
     @Secured({"ROLE_ADMIN", "ROLE_EMPLOYEE"})
     public List<ConversationOut> findAllEmployeeAdminDirection() {
         return conversationService.findByConversationDirection(ConversationDirection.ConversationDirectionType.EMPLOYEE_TO_ADMIN);
     }
 
-    @GetMapping
+    @GetMapping("/userToEmployee")
     @Secured({"ROLE_USER", "ROLE_EMPLOYEE"})
     public List<ConversationOut> findAllUserToEmployeeDirection() {
         return conversationService.findByConversationDirection(ConversationDirection.ConversationDirectionType.USER_TO_EMPLOYEE);

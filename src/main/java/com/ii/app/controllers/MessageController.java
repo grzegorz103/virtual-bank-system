@@ -28,7 +28,7 @@ public class MessageController {
     }
 
     @PostMapping
-    @Secured("isAuthenticated()")
+    @PreAuthorize("isAuthenticated()")
     public MessageOut create(@RequestBody MessageIn messageIn) {
         return messageService.create(messageIn);
     }

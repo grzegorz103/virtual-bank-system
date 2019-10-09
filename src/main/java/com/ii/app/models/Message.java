@@ -28,4 +28,8 @@ public class Message {
 
     @Column(name = "date")
     private Instant date;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 }
