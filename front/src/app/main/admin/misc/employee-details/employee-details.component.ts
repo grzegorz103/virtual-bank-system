@@ -19,7 +19,7 @@ export class EmployeeDetailsComponent implements OnInit {
 
     if (data) {
       this.user = data;
-    };
+    }
   }
 
 

@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, NgForm } from '@angular/forms';
 import { UserService } from 'src/app/shared/services/user.service';
 import { User } from '../../models/user';
-import { MatPaginator, MatSort, MatDialog } from '@angular/material';
+import { MatPaginator, MatSort, MatDialog, MatTableDataSource } from '@angular/material';
 import { EmployeeAddComponent } from '../misc/employee-add/employee-add.component';
 import { EmployeeDetailsComponent } from '../misc/employee-details/employee-details.component';
 
@@ -14,7 +14,7 @@ import { EmployeeDetailsComponent } from '../misc/employee-details/employee-deta
 export class EmployeeListComponent implements OnInit {
 
   form: FormGroup;
-  employeeList: User[];
+  employeeList = new MatTableDataSource<User>();
   isLoading = true;
 
   employeeTabColumns = ['id', 'email', 'locked', 'details', 'edit'];
@@ -24,6 +24,8 @@ export class EmployeeListComponent implements OnInit {
 
   @ViewChild(MatSort, { static: true })
   sort: MatSort;
+
+  @ViewChild('formDirective', { static: true }) private formDirective: NgForm;
 
   constructor(private fb: FormBuilder,
     public dialog: MatDialog,
@@ -44,7 +46,8 @@ export class EmployeeListComponent implements OnInit {
   fetchEmployees() {
     this.userService.findByUserType('ROLE_EMPLOYEE').subscribe(res => {
       this.isLoading = false;
-      this.employeeList = res;
+      this.employeeList.data = res;
+      this.employeeList.paginator = this.paginator;
     });
   }
 
@@ -62,11 +65,16 @@ export class EmployeeListComponent implements OnInit {
   }
 
   sendRegisterForm() {
-    this.userService.createEmployee(this.form.value).subscribe(res => alert('Dodano pracownika'));
+    this.userService.createEmployee(this.form.value).subscribe(res => {
+      alert('Dodano pracownika');
+      this.form.reset();
+      this.formDirective.resetForm();
+      this.fetchEmployees();
+    });
   }
 
   openEditDialog(userId: string) {
-    let user = this.employeeList.find(e => e.id === userId);
+    let user = this.employeeList.data.find(e => e.id === userId);
 
     if (user) {
       const dialogRef = this.dialog.open(EmployeeAddComponent, {
@@ -84,7 +92,7 @@ export class EmployeeListComponent implements OnInit {
   }
 
   openDetailsDialog(userId: string) {
-    let user = this.employeeList.find(e => e.id === userId);
+    let user = this.employeeList.data.find(e => e.id === userId);
     if (user) {
       console.log(userId);
       this.dialog.open(EmployeeDetailsComponent, {

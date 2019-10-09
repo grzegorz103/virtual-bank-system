@@ -1,3 +1,25 @@
-<p>employee-details works!</p>
+<mat-toolbar>Szczegóły pracownika</mat-toolbar>
+<table class="table table-hover">
+    <tr>
+        <td class="divider">Identyfikator </td>
+        <td>{{ user.identifier }}</td>
+    </tr>
+    <tr>
+        <td class="divider">Email </td>
+        <td>{{ user.email }}</td>
+    </tr>
+    <tr>
+        <td class="divider">Imię i nazwisko </td>
+        <td>{{ user.address.name }} {{ user.address.surname }}</td>
+    </tr>
+    <tr>
+        <td class="divider">Adres </td>
+        <td>{{ user.address.city }} {{ user.address.street }} {{ user.address.houseNumber }} {{ user.address.postCode }}
+        </td>
+    </tr>
 
-{{user?.identifier}}
+    <tr>
+        <td class="divider">Data urodzenia </td>
+        <td>{{ user.address.dateOfBirth }}</td>
+    </tr>
+</table>
