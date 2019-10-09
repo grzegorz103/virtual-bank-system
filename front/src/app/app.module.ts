@@ -31,8 +31,6 @@ import { CreditService } from './main/services/credit.service';
 import { IndexComponent } from './shared/index/index.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { JwtModule } from "@auth0/angular-jwt";
-
-
 export function tokenGetter() {
   return localStorage.getItem("token");
 }

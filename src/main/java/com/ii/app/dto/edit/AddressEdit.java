@@ -10,6 +10,8 @@ import java.time.Instant;
 @AllArgsConstructor
 @Data
 public class AddressEdit {
+    private Long id;
+
     private String city;
 
     private String street;

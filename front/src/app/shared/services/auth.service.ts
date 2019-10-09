@@ -51,4 +51,12 @@ export class AuthService {
   hasEmployeeRole() {
     return this.getUserRoles().some(role => role === 'ROLE_EMPLOYEE');
   }
+
+  clearLocalStorage(){
+    localStorage.clear();
+  }
+
+  clearSessionStorage(){
+    sessionStorage.clear();
+  }
 }

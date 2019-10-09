@@ -13,7 +13,7 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
         "JOIN t.sourceBankAccount s " +
         "JOIN t.destinedBankAccount d " +
         "WHERE s.id = :id OR d.id = :id " +
-        "ORDER BY t.date ASC"
+        "ORDER BY t.date DESC"
     )
     List<Transaction> findTransactionsByBankAccountId(@Param("id") Long id);
 }
