@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { UserService } from 'src/app/shared/services/user.service';
+import { User } from '../../models/user';
+import { MatPaginator, MatSort } from '@angular/material';
 
 @Component({
   selector: 'app-employee-list',
@@ -10,6 +12,16 @@ import { UserService } from 'src/app/shared/services/user.service';
 export class EmployeeListComponent implements OnInit {
 
   form: FormGroup;
+  employeeList: User[];
+  isLoading = true;
+
+  employeeTabColumns = ['id', 'email', 'locked', 'details'];
+
+  @ViewChild(MatPaginator, { static: true })
+  paginator: MatPaginator;
+
+  @ViewChild(MatSort, { static: true })
+  sort: MatSort;
 
   constructor(private fb: FormBuilder,
     private userService: UserService) {
@@ -23,9 +35,15 @@ export class EmployeeListComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.fetchEmployees();
   }
 
-  fetchEmployees(){}
+  fetchEmployees() {
+    this.userService.findByUserType('ROLE_ADMIN').subscribe(res => {
+      this.isLoading = false;
+      this.employeeList = res;
+    });
+  }
 
   getAddressGroup(): FormGroup {
     return this.fb.group({

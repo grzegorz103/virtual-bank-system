@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { User } from 'src/app/main/models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -16,5 +17,9 @@ export class UserService {
 
   login(username: string, password: string) {
     return this.http.get(this.url + '/authenticate?username=' + username + '&password=' + password, { observe: 'response' });
+  }
+
+  findByUserType(userType: string){
+    return this.http.get<User[]>(this.url + '/users/' + userType);
   }
 }
