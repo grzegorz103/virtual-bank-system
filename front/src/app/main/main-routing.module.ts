@@ -50,7 +50,12 @@ const routes: Routes = [
           path: 'credits/create', component: CreditCreateComponent,
           canActivate: [CoreGuardService]
         },
-        { path: 'admin', loadChildren: './admin/admin.module#AdminModule' },
+        {
+          path: 'admin', loadChildren: './admin/admin.module#AdminModule',
+        },
+        {
+          path: 'employee', loadChildren: './employee/employee.module#EmployeeModule',
+        }
       ],
   }]
   ;
