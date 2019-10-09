@@ -5,6 +5,8 @@ import com.ii.app.models.BankAccount;
 import com.ii.app.models.CurrencyType;
 import com.ii.app.models.Saldo;
 import com.ii.app.models.enums.BankAccountType;
+import com.ii.app.models.enums.ConversationDirection;
+import com.ii.app.models.enums.ConversationStatus;
 import com.ii.app.models.enums.CreditStatus;
 import com.ii.app.models.user.Address;
 import com.ii.app.models.user.User;
@@ -42,6 +44,12 @@ public class RepositoryInitializer {
     private final CreditStatusRepository creditStatusRepository;
 
     private final BCryptPasswordEncoder encoder;
+
+    @Autowired
+    private ConversationStatusRepository conversationStatusRepository;
+
+    @Autowired
+    private ConversationDirectionRepository conversationDirectionRepository;
 
     @Autowired
     public RepositoryInitializer(BankAccountRepository bankAccountRepository,
@@ -291,7 +299,17 @@ public class RepositoryInitializer {
                 creditStatusRepository.save(CreditStatus.builder().creditType(CreditStatus.CreditType.CANCELED).build());
                 creditStatusRepository.save(CreditStatus.builder().creditType(CreditStatus.CreditType.PAID).build());
             }
-        }
-            ;
+
+            if (conversationDirectionRepository.findAll().isEmpty()) {
+                conversationDirectionRepository.save(ConversationDirection.builder().conversationDirectionType(ConversationDirection.ConversationDirectionType.EMPLOYEE_TO_ADMIN).build());
+                conversationDirectionRepository.save(ConversationDirection.builder().conversationDirectionType(ConversationDirection.ConversationDirectionType.USER_TO_EMPLOYEE).build());
+            }
+
+            if(conversationStatusRepository.findAll().isEmpty()){
+                conversationStatusRepository.save(ConversationStatus.builder().conversationType(ConversationStatus.ConversationType.ACTIVE).build());
+                conversationStatusRepository.save(ConversationStatus.builder().conversationType(ConversationStatus.ConversationType.DELETED).build());
+                conversationStatusRepository.save(ConversationStatus.builder().conversationType(ConversationStatus.ConversationType.RESOLVED).build());
+            }
+        };
     }
 }
