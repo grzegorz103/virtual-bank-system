@@ -43,20 +43,20 @@ public class UserServiceImpl implements UserService {
 
     private final Constants CONSTANTS;
 
-    @Autowired
-    private AddressService addressService;
+    private final AddressService addressService;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository,
                            UserRoleRepository userRoleRepository,
                            UserMapper userMapper,
                            BCryptPasswordEncoder passwordEncoder,
-                           Constants CONSTANTS) {
+                           Constants CONSTANTS, AddressService addressService) {
         this.userRepository = userRepository;
         this.userRoleRepository = userRoleRepository;
         this.userMapper = userMapper;
         this.CONSTANTS = CONSTANTS;
         this.passwordEncoder = passwordEncoder;
+        this.addressService = addressService;
     }
 
     @Override
@@ -109,6 +109,19 @@ public class UserServiceImpl implements UserService {
         }
 
         return userMapper.userToUserOut(userRepository.save(user));
+    }
+
+    @Override
+    public UserOut createEmployee(UserIn userIn) {
+        User mapped = userMapper.userInToUser(userIn);
+        mapped.setLocked(false);
+        mapped.setCredentials(false);
+        mapped.setEnabled(true);
+        mapped.setIdentifier(RandomStringUtils.randomNumeric(CONSTANTS.USER_IDENTIFIER_LENGTH));
+        mapped.setUserRoles(Collections.singleton(userRoleRepository.findByUserType(UserRole.UserType.ROLE_EMPLOYEE)));
+        mapped.setPassword(passwordEncoder.encode(userIn.getPassword()));
+
+        return userMapper.userToUserOut(userRepository.save(mapped));
     }
 
     @Override

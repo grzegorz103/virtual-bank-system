@@ -1,129 +1,135 @@
-<mat-toolbar>Zarządzanie pracownikami</mat-toolbar>
+<div class="box mat-elevation-z8">
+    <mat-toolbar>Zarządzanie pracownikami</mat-toolbar>
 
+    <div [hidden]="isLoading" class="mat-elevation-z1">
+        <table mat-table [dataSource]="employeeList">
 
-<div [hidden]="isLoading" class="mat-elevation-z1">
-    <table mat-table [dataSource]="employeeList">
+            <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef> Identyfikator </th>
+                <td mat-cell *matCellDef="let element"> {{element.identifier}}</td>
+            </ng-container>
 
-        <ng-container matColumnDef="id">
-            <th mat-header-cell *matHeaderCellDef> Identyfikator </th>
-            <td mat-cell *matCellDef="let element"> {{element.identifier}}</td>
-        </ng-container>
+            <ng-container matColumnDef="email">
+                <th mat-header-cell *matHeaderCellDef> Email </th>
+                <td mat-cell *matCellDef="let element"> {{element.email}}
+                </td>
+            </ng-container>
 
-        <ng-container matColumnDef="email">
-            <th mat-header-cell *matHeaderCellDef> Email </th>
-            <td mat-cell *matCellDef="let element"> {{element.email}}
-            </td>
-        </ng-container>
+            <ng-container matColumnDef="locked">
+                <th mat-header-cell *matHeaderCellDef> Zablokowany </th>
+                <td mat-cell *matCellDef="let element">
+                    {{element.locked ? 'Tak' : 'Nie'}}
+                </td>
+            </ng-container>
 
-        <ng-container matColumnDef="locked">
-            <th mat-header-cell *matHeaderCellDef> Zablokowany </th>
-            <td mat-cell *matCellDef="let element">
-                {{element.locked ? 'Tak' : 'Nie'}}
-            </td>
-        </ng-container>
+            <ng-container matColumnDef="details">
+                <th mat-header-cell *matHeaderCellDef> Szczegóły </th>
+                <td mat-cell *matCellDef="let element">
+                    <button mat-raised-button color="primary" (click)="openDetailsDialog(element.id)">Wyświetl</button>
+                </td>
+            </ng-container>
 
-        <ng-container matColumnDef="details">
-            <th mat-header-cell *matHeaderCellDef> Szczegóły </th>
-            <td mat-cell *matCellDef="let element">
-                <button mat-raised-button color="primary">Wyświetl</button>
-            </td>
-        </ng-container>
-
-        <ng-container matColumnDef="edit">
+            <ng-container matColumnDef="edit">
                 <th mat-header-cell *matHeaderCellDef> Edycja </th>
                 <td mat-cell *matCellDef="let element">
                     <button mat-raised-button color="primary" (click)="openEditDialog(element.id)">Edytuj</button>
                 </td>
             </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="employeeTabColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: employeeTabColumns;"></tr>
-    </table>
-    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+            <tr mat-header-row *matHeaderRowDef="employeeTabColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: employeeTabColumns;"></tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 
-</div>
-
-<form [formGroup]="form" (ngSubmit)="sendRegisterForm()">
-    <div class="mt-2">
-        <div class="row">
-            <div class="col-6">
-                <mat-form-field>
-                    <input matInput placeholder="Hasło" type="password" formControlName="password">
-                </mat-form-field>
-            </div>
-            <div class="col-6">
-                <mat-form-field>
-                    <input matInput placeholder="Potwierdzenie hasła" type="password" formControlName="confirmPassword">
-                </mat-form-field>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-8">
-                <mat-form-field>
-                    <input matInput placeholder="Adres email" type="email" formControlName="email">
-                </mat-form-field>
-            </div>
-            <div class="col-4">
-
-                <div formGroupName="address">
-                    <mat-form-field>
-                        <input matInput [matDatepicker]="picker" placeholder="Data urodzenia"
-                            formControlName="dateOfBirth">
-                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                        <mat-datepicker #picker></mat-datepicker>
-                    </mat-form-field>
-                </div>
-            </div>
-        </div>
-
-        <hr />
-
-        <div formGroupName="address">
-            <div class="row">
-                <div class="col-md-4">
-                    <mat-form-field>
-                        <input matInput placeholder="Imię" formControlName="name">
-                    </mat-form-field>
-                </div>
-                <div class="col-md-4">
-                    <mat-form-field>
-                        <input matInput placeholder="Nazwisko" formControlName="surname">
-                    </mat-form-field>
-                </div>
-                <div class="col-md-4">
-                    <mat-form-field>
-                        <input matInput placeholder="Nr telefonu" type="number" formControlName="phoneNumber">
-                    </mat-form-field>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-6">
-                    <mat-form-field>
-                        <input matInput placeholder="Miejscowość">
-                    </mat-form-field>
-                </div>
-                <div class="col-6">
-                    <mat-form-field>
-                        <input matInput placeholder="Ulica">
-                    </mat-form-field>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-6">
-                    <mat-form-field>
-                        <input matInput placeholder="Numer mieszkania">
-                    </mat-form-field>
-                </div>
-                <div class="col-6">
-                    <mat-form-field>
-                        <input matInput placeholder="Kod pocztowy">
-                    </mat-form-field>
-                </div>
-            </div>
-        </div>
-        <button mat-raised-button class="bg-success text-white">Wyślij</button>
     </div>
-</form>
+
+    <hr />
+
+    <mat-toolbar>Dodawanie pracownika</mat-toolbar>
+
+    <form [formGroup]="form" (ngSubmit)="sendRegisterForm()">
+        <div class="mt-2 px-3">
+            <div class="row">
+                <div class="col-6">
+                    <mat-form-field>
+                        <input matInput placeholder="Hasło" type="password" formControlName="password">
+                    </mat-form-field>
+                </div>
+                <div class="col-6">
+                    <mat-form-field>
+                        <input matInput placeholder="Potwierdzenie hasła" type="password"
+                            formControlName="confirmPassword">
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-8">
+                    <mat-form-field>
+                        <input matInput placeholder="Adres email" type="email" formControlName="email">
+                    </mat-form-field>
+                </div>
+                <div class="col-4">
+
+                    <div formGroupName="address">
+                        <mat-form-field>
+                            <input matInput [matDatepicker]="picker" placeholder="Data urodzenia"
+                                formControlName="dateOfBirth">
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+
+            <hr />
+
+            <div formGroupName="address">
+                <div class="row">
+                    <div class="col-md-4">
+                        <mat-form-field>
+                            <input matInput placeholder="Imię" formControlName="name">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                        <mat-form-field>
+                            <input matInput placeholder="Nazwisko" formControlName="surname">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                        <mat-form-field>
+                            <input matInput placeholder="Nr telefonu" type="number" formControlName="phoneNumber">
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-6">
+                        <mat-form-field>
+                            <input matInput placeholder="Miejscowość" formControlName="city">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-6">
+                        <mat-form-field>
+                            <input matInput placeholder="Ulica" formControlName="street">
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-6">
+                        <mat-form-field>
+                            <input matInput placeholder="Numer mieszkania" formControlName="houseNumber">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-6">
+                        <mat-form-field>
+                            <input matInput placeholder="Kod pocztowy" formControlName="postCode">
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <button mat-raised-button class="bg-success text-white" class="text-center">Wyślij</button>
+        </div>
+    </form>
+</div>

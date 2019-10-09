@@ -1,7 +1,7 @@
 import { Address } from './address';
 
 export class User {
-    ID: number;
+    id: string;
     identifier: string;
     email: string;
     locked: boolean;

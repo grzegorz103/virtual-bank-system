@@ -19,4 +19,6 @@ public interface UserService extends UserDetailsService {
     UserOut findById(Long id);
 
     UserOut update(Long id, UserEdit userEdit);
+
+    UserOut createEmployee(UserIn userIn);
 }

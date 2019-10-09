@@ -28,6 +28,12 @@ public class UserController {
         return userService.create(userIn);
     }
 
+    @PostMapping("/create/employee")
+    @Secured("ROLE_ADMIN")
+    public UserOut createEmployee(@RequestBody UserIn userIn){
+        return userService.createEmployee(userIn);
+    }
+
     @GetMapping("/type/{type}")
     public List<UserOut> findByUserType(@PathVariable("type") UserRole.UserType userType) {
         return userService.findAllByUserType(userType);

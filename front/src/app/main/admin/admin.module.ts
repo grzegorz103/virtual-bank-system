@@ -10,13 +10,14 @@ import { SupportListComponent } from './support-list/support-list.component';
 import { ChartsModule, WavesModule } from 'angular-bootstrap-md';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { EmployeeAddComponent } from './misc/employee-add/employee-add.component';
+import { EmployeeDetailsComponent } from './misc/employee-details/employee-details.component';
 
 
 @NgModule({
   declarations: [StatisticsComponent,
     EmployeeListComponent,
     SupportListComponent,
-    EmployeeAddComponent,
+    EmployeeAddComponent, EmployeeDetailsComponent,
     AdminComponent],
   imports: [
     CommonModule,
@@ -31,6 +32,6 @@ import { EmployeeAddComponent } from './misc/employee-add/employee-add.component
     FormsModule, MatDialogModule,
     MatNativeDateModule, MatInputModule
   ],
-  entryComponents: [EmployeeAddComponent]
+  entryComponents: [EmployeeAddComponent, EmployeeDetailsComponent]
 })
 export class AdminModule { }
