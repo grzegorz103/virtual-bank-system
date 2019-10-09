@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -70,6 +71,14 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByIdentifier(username)
             .map(userMapper::userToUserOut)
             .orElseThrow(() -> new UsernameNotFoundException("Not found"));
+    }
+
+    @Override
+    public List<UserOut> findAllByUserType(UserRole.UserType userType) {
+        return userRepository.findAllByUserType(userType)
+            .stream()
+            .map(userMapper::userToUserOut)
+            .collect(Collectors.toList());
     }
 
     @Override

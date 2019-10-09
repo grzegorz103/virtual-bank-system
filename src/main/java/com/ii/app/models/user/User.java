@@ -60,6 +60,7 @@ public class User implements UserDetails {
     private Set<BankAccount> bankAccounts;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<TransactionTemplate> transactionTemplates;
 
     /* lokaty

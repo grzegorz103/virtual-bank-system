@@ -97,7 +97,7 @@ public class TransactionServiceImpl implements TransactionService {
         final BigDecimal balanceWithCommission = BigDecimal.valueOf(
             balance.doubleValue() - ((sourceBankAccount.getBankAccType().getTransactionComission() / 100d) * balance.doubleValue()
             )
-        ).setScale(BigDecimal.ROUND_DOWN, 2);
+        ).setScale(2, RoundingMode.DOWN);
 
         sourceSaldo.setBalance(sourceSaldo.getBalance().subtract(BigDecimal.valueOf(transactionDTO.getBalance())));
 
