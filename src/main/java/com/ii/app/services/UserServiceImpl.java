@@ -1,6 +1,7 @@
 package com.ii.app.services;
 
 import com.ii.app.config.security.JwtTokenGenerator;
+import com.ii.app.dto.edit.UserEdit;
 import com.ii.app.dto.in.UserIn;
 import com.ii.app.dto.out.UserOut;
 import com.ii.app.mappers.UserMapper;
@@ -9,6 +10,7 @@ import com.ii.app.models.user.User;
 import com.ii.app.models.user.UserRole;
 import com.ii.app.repositories.UserRepository;
 import com.ii.app.repositories.UserRoleRepository;
+import com.ii.app.services.interfaces.AddressService;
 import com.ii.app.services.interfaces.UserService;
 import com.ii.app.utils.Constants;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -39,6 +41,9 @@ public class UserServiceImpl implements UserService {
     private final BCryptPasswordEncoder passwordEncoder;
 
     private final Constants CONSTANTS;
+
+    @Autowired
+    private AddressService addressService;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository,
@@ -79,6 +84,22 @@ public class UserServiceImpl implements UserService {
             .stream()
             .map(userMapper::userToUserOut)
             .collect(Collectors.toList());
+    }
+
+    @Override
+    public UserOut findById(Long id) {
+        return userRepository.findById(id)
+            .map(userMapper::userToUserOut)
+            .orElseThrow(() -> new RuntimeException("Not found"));
+    }
+
+    @Override
+    public UserOut update(Long id, UserEdit userEdit) {
+        User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("Not foud"));
+        user.setEmail(userEdit.getEmail().trim());
+        user.setIdentifier(userEdit.getIdentifier());
+        addressService.update(userEdit.getId(), userEdit.getAddress());
+        return userMapper.userToUserOut(userRepository.save(user));
     }
 
     @Override

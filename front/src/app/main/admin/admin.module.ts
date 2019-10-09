@@ -8,13 +8,15 @@ import { MatToolbarModule, MatTableModule, MatButtonModule, MatFormFieldModule, 
 import { EmployeeListComponent } from './employee-list/employee-list.component';
 import { SupportListComponent } from './support-list/support-list.component';
 import { ChartsModule, WavesModule } from 'angular-bootstrap-md';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { EmployeeAddComponent } from './misc/employee-add/employee-add.component';
 
 
 @NgModule({
   declarations: [StatisticsComponent,
     EmployeeListComponent,
     SupportListComponent,
+    EmployeeAddComponent,
     AdminComponent],
   imports: [
     CommonModule,
@@ -26,7 +28,9 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatFormFieldModule,
     MatDatepickerModule,
     MatPaginatorModule,
+    FormsModule,
     MatNativeDateModule,MatInputModule
-  ]
+  ],
+  entryComponents: [EmployeeAddComponent]
 })
 export class AdminModule { }

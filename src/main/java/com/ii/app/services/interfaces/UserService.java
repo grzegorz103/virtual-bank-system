@@ -1,5 +1,6 @@
 package com.ii.app.services.interfaces;
 
+import com.ii.app.dto.edit.UserEdit;
 import com.ii.app.dto.in.UserIn;
 import com.ii.app.dto.out.UserOut;
 import com.ii.app.models.user.JwtToken;
@@ -14,4 +15,8 @@ public interface UserService extends UserDetailsService {
     UserOut getByUsername(String username);
 
     List<UserOut> findAllByUserType(UserRole.UserType userType);
+
+    UserOut findById(Long id);
+
+    UserOut update(Long id, UserEdit userEdit);
 }

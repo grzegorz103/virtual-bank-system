@@ -19,7 +19,15 @@ export class UserService {
     return this.http.get(this.url + '/authenticate?username=' + username + '&password=' + password, { observe: 'response' });
   }
 
-  findByUserType(userType: string){
-    return this.http.get<User[]>(this.url + '/users/' + userType);
+  findByUserType(userType: string) {
+    return this.http.get<User[]>(this.url + '/users/type/' + userType);
+  }
+
+  findById(id: string) {
+    return this.http.get<User>(this.url + '/users/' + id);
+  }
+
+  update(id: string, user: User){
+    return this.http.put<User>(this.url + '/users/' + id, user);
   }
 }

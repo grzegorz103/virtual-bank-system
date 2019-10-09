@@ -2,7 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { UserService } from 'src/app/shared/services/user.service';
 import { User } from '../../models/user';
-import { MatPaginator, MatSort } from '@angular/material';
+import { MatPaginator, MatSort, MatDialog } from '@angular/material';
+import { EmployeeAddComponent } from '../misc/employee-add/employee-add.component';
 
 @Component({
   selector: 'app-employee-list',
@@ -15,7 +16,7 @@ export class EmployeeListComponent implements OnInit {
   employeeList: User[];
   isLoading = true;
 
-  employeeTabColumns = ['id', 'email', 'locked', 'details'];
+  employeeTabColumns = ['id', 'email', 'locked', 'details', 'edit'];
 
   @ViewChild(MatPaginator, { static: true })
   paginator: MatPaginator;
@@ -24,6 +25,7 @@ export class EmployeeListComponent implements OnInit {
   sort: MatSort;
 
   constructor(private fb: FormBuilder,
+    public dialog: MatDialog,
     private userService: UserService) {
     this.form = this.fb.group({
       username: ['', Validators.required],
@@ -62,5 +64,17 @@ export class EmployeeListComponent implements OnInit {
     this.userService.create(this.form.value).subscribe(res => alert('Dziekujemy za rejestracje'));
   }
 
+  openEditDialog(userId: string) {
+    const dialogRef = this.dialog.open(EmployeeAddComponent, {
+      width: '50%',
+      data: { id: userId }
+    });
 
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.userService.update(userId, result
+          .subscribe(res => this.fetchEmployees()));
+      }
+    });
+  }
 }

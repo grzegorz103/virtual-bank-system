@@ -8,11 +8,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class UserOut
-{
-        private String username;
+public class UserOut {
+    private Long ID;
 
-        private String email;
+    private String username;
 
-        private AddressOut address;
+    private String email;
+
+    private AddressOut address;
 }

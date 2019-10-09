@@ -1,0 +1,16 @@
+<div *ngIf="user">
+    <mat-toolbar>Edycja pracownika</mat-toolbar>
+    <div class="row">
+        <div class="col-8">
+            <mat-form-field>
+                <input matInput placeholder="Imię" type="text" [(ngModel)]="user.username">
+            </mat-form-field>
+        </div>
+        
+        <div class="col-8">
+                <mat-form-field>
+                    <input matInput placeholder="Miasto" type="text" [(ngModel)]="user.address.city">
+                </mat-form-field>
+            </div>
+    </div>
+</div>
