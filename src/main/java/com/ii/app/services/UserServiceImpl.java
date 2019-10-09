@@ -15,6 +15,7 @@ import com.ii.app.services.interfaces.UserService;
 import com.ii.app.utils.Constants;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -96,9 +97,17 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserOut update(Long id, UserEdit userEdit) {
         User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("Not foud"));
-        user.setEmail(userEdit.getEmail().trim());
-        user.setIdentifier(userEdit.getIdentifier());
-        addressService.update(userEdit.getId(), userEdit.getAddress());
+
+        if (StringUtils.isNotBlank(userEdit.getEmail()))
+            user.setEmail(userEdit.getEmail().trim());
+
+        if (StringUtils.isNotBlank(userEdit.getIdentifier()))
+            user.setIdentifier(userEdit.getIdentifier().trim());
+
+        if (userEdit.getAddress() != null) {
+            addressService.update(userEdit.getAddress().getId(), userEdit.getAddress());
+        }
+
         return userMapper.userToUserOut(userRepository.save(user));
     }
 

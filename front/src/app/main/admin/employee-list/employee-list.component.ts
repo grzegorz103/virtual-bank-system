@@ -66,14 +66,14 @@ export class EmployeeListComponent implements OnInit {
 
   openEditDialog(userId: string) {
     const dialogRef = this.dialog.open(EmployeeAddComponent, {
-      width: '50%',
+      width: window.innerWidth > 768 ? '50%' : '85%',
       data: { id: userId }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.userService.update(userId, result
-          .subscribe(res => this.fetchEmployees()));
+        this.userService.update(userId, result)
+          .subscribe(res => this.fetchEmployees());
       }
     });
   }

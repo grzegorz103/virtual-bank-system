@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 public class UserOut {
     private Long ID;
 
-    private String username;
+    private String identifier;
 
     private String email;
 
