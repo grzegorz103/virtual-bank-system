@@ -2,10 +2,7 @@ package com.ii.app.models.user;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.ii.app.models.BankAccount;
-import com.ii.app.models.Credit;
-import com.ii.app.models.Saldo;
-import com.ii.app.models.TransactionTemplate;
+import com.ii.app.models.*;
 import com.sun.istack.internal.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -62,6 +59,10 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<TransactionTemplate> transactionTemplates;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Set<Conversation> conversations;
 
     /* lokaty
     @OneToMany (mappedBy = "bankAccount", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
