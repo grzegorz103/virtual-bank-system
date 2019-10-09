@@ -1,0 +1,61 @@
+<div *ngIf="user">
+    <mat-toolbar>Edycja pracownika</mat-toolbar>
+    <div class="row">
+        <div class="col-6">
+            <mat-form-field>
+                <input matInput placeholder="Identyfikator" type="text" [(ngModel)]="user.identifier">
+            </mat-form-field>
+        </div>
+
+        <div class="col-6">
+            <mat-form-field>
+                <input matInput placeholder="Email" type="email" [(ngModel)]="user.email">
+            </mat-form-field>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-5">
+            <mat-form-field>
+                <input matInput placeholder="Imię" type="text" [(ngModel)]="user.address.name">
+            </mat-form-field>
+        </div>
+
+        <div class="col-5">
+            <mat-form-field>
+                <input matInput placeholder="Nazwisko" type="text" [(ngModel)]="user.address.surname">
+            </mat-form-field>
+        </div>
+
+        <div class="col-2">
+            <mat-form-field>
+                <input matInput placeholder="Kod pocztowy" type="text" [(ngModel)]="user.address.postCode">
+            </mat-form-field>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-5">
+            <mat-form-field>
+                <input matInput placeholder="Miasto" type="text" [(ngModel)]="user.address.city">
+            </mat-form-field>
+        </div>
+
+        <div class="col-5">
+            <mat-form-field>
+                <input matInput placeholder="Ulica" type="text" [(ngModel)]="user.address.street">
+            </mat-form-field>
+        </div>
+
+        <div class="col-2">
+            <mat-form-field>
+                <input matInput placeholder="Nr mieszkania" type="text" [(ngModel)]="user.address.houseNumber">
+            </mat-form-field>
+        </div>
+    </div>
+</div>
+<div mat-dialog-actions align="center">
+    <button mat-button [mat-dialog-close]="user" cdkFocusInitial>Zapisz</button>
+    <button mat-button (click)="onNoClick()">Anuluj</button>
+</div>

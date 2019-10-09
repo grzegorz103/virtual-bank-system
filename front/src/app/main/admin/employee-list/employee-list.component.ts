@@ -1,6 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormGroup, FormBuilder, Validators, NgForm } from '@angular/forms';
 import { UserService } from 'src/app/shared/services/user.service';
+import { User } from '../../models/user';
+import { MatPaginator, MatSort, MatDialog, MatTableDataSource } from '@angular/material';
+import { EmployeeAddComponent } from '../misc/employee-add/employee-add.component';
+import { EmployeeDetailsComponent } from '../misc/employee-details/employee-details.component';
 
 @Component({
   selector: 'app-employee-list',
@@ -10,8 +14,21 @@ import { UserService } from 'src/app/shared/services/user.service';
 export class EmployeeListComponent implements OnInit {
 
   form: FormGroup;
+  employeeList = new MatTableDataSource<User>();
+  isLoading = true;
+
+  employeeTabColumns = ['id', 'email', 'locked', 'details', 'edit'];
+
+  @ViewChild(MatPaginator, { static: true })
+  paginator: MatPaginator;
+
+  @ViewChild(MatSort, { static: true })
+  sort: MatSort;
+
+  @ViewChild('formDirective', { static: true }) private formDirective: NgForm;
 
   constructor(private fb: FormBuilder,
+    public dialog: MatDialog,
     private userService: UserService) {
     this.form = this.fb.group({
       username: ['', Validators.required],
@@ -23,9 +40,16 @@ export class EmployeeListComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.fetchEmployees();
   }
 
-  fetchEmployees(){}
+  fetchEmployees() {
+    this.userService.findByUserType('ROLE_EMPLOYEE').subscribe(res => {
+      this.isLoading = false;
+      this.employeeList.data = res;
+      this.employeeList.paginator = this.paginator;
+    });
+  }
 
   getAddressGroup(): FormGroup {
     return this.fb.group({
@@ -41,8 +65,41 @@ export class EmployeeListComponent implements OnInit {
   }
 
   sendRegisterForm() {
-    this.userService.create(this.form.value).subscribe(res => alert('Dziekujemy za rejestracje'));
+    this.userService.createEmployee(this.form.value).subscribe(res => {
+      alert('Dodano pracownika');
+      this.form.reset();
+      this.formDirective.resetForm();
+      this.fetchEmployees();
+    });
   }
 
+  openEditDialog(userId: string) {
+    let user = this.employeeList.data.find(e => e.id === userId);
+
+    if (user) {
+      const dialogRef = this.dialog.open(EmployeeAddComponent, {
+        width: window.innerWidth > 768 ? '50%' : '85%',
+        data: { id: userId }
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          this.userService.update(userId, result)
+            .subscribe(res => this.fetchEmployees());
+        }
+      });
+    }
+  }
+
+  openDetailsDialog(userId: string) {
+    let user = this.employeeList.data.find(e => e.id === userId);
+    if (user) {
+      console.log(userId);
+      this.dialog.open(EmployeeDetailsComponent, {
+        width: window.innerWidth > 768 ? '50%' : '85%',
+        data: user
+      });
+    }
+  }
 
 }

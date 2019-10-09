@@ -21,7 +21,8 @@ export class LoginComponent implements OnInit {
       username: ['', Validators.required],
       password: ['', Validators.required]
     });
-    this.authService.clearToken();
+    this.authService.clearLocalStorage();
+    this.authService.clearSessionStorage();
   }
 
   ngOnInit() {

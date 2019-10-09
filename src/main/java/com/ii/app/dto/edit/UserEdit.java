@@ -1,19 +1,15 @@
-package com.ii.app.dto.out;
+package com.ii.app.dto.edit;
 
-import com.ii.app.dto.in.AddressIn;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
-public class UserOut {
-    private Long ID;
-
+public class UserEdit {
+    private Long id;
     private String identifier;
-
     private String email;
-
-    private AddressOut address;
+    private AddressEdit address;
 }
