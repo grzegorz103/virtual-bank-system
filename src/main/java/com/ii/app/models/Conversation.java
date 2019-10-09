@@ -1,6 +1,7 @@
 package com.ii.app.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ii.app.models.enums.ConversationDirection;
 import com.ii.app.models.enums.ConversationStatus;
 import com.ii.app.models.user.User;
 import lombok.AllArgsConstructor;
@@ -38,7 +39,11 @@ public class Conversation {
     @JoinColumn(name = "conversation_status_id")
     private ConversationStatus conversationStatus;
 
+    @ManyToOne
+    @JoinColumn(name = "conversation_direction_id")
+    private ConversationDirection conversationDirection;
+
     @OneToMany(mappedBy = "conversation", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
-    private Set<Message> saldos;
+    private Set<Message> messages;
 }
