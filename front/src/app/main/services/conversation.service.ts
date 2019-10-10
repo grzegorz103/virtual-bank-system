@@ -7,23 +7,27 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ConversationService {
 
-  url ='http://localhost:8080/api/conversations';
+  url = 'http://localhost:8080/api/conversations';
 
   constructor(private http: HttpClient) { }
 
-  findUserEmployeeConversations(){
+  findUserEmployeeConversations() {
     return this.http.get<Conversation[]>(this.url + '/userToEmployee');
   }
 
-  findByUser(){
+  findByUser() {
     return this.http.get<Conversation[]>(this.url + '/my');
   }
-  
-  findEmployeeAdminConversations(){
+
+  findEmployeeAdminConversations() {
     return this.http.get<Conversation[]>(this.url + '/employeeToAdmin');
   }
 
-  create(conversation: string){
+  create(conversation: string) {
     return this.http.post<Conversation>(this.url, conversation);
+  }
+
+  findById(id: string) {
+    return this.http.get<Conversation>(this.url + '/id/' + id);
   }
 }

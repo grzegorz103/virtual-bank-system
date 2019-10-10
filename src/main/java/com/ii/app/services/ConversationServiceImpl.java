@@ -111,4 +111,9 @@ public class ConversationServiceImpl implements ConversationService {
             .map(conversationMapper::entityToDTO)
             .collect(Collectors.toList());
     }
+
+    @Override
+    public ConversationOut findById(Long id) {
+        return conversationMapper.entityToDTO(conversationRepository.findById(id).orElseThrow(()->new RuntimeException("Not found")));
+    }
 }

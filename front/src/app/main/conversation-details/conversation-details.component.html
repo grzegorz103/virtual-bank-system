@@ -1,6 +1,15 @@
 <div *ngIf="messages" class="mt-3">
+    <div *ngIf="conversation">
+        <p>Temat: {{ conversation.topic }}</p>
+        <p>{{ conversation.user.address.name }} {{ conversation.user.address.ssurname }}</p>
+    </div>
+    <hr />
     <div *ngFor="let message of messages">
-            <mat-card  [ngClass]="message.user.identifier === authService.getUserIdentifier() ? 'my-message' : 'other-message'">{{ message.message}} </mat-card>
+        <mat-card
+            [ngClass]="message.user.identifier === authService.getUserIdentifier() ? 'my-message' : 'other-message'">
+            {{ message.message}}
+            <div class="date-text">{{ message.date }}</div>
+        </mat-card>
     </div>
 </div>
 <div *ngIf="messages && messages.length === 0">

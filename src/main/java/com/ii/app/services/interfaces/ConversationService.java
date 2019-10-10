@@ -14,4 +14,6 @@ public interface ConversationService {
     List<ConversationOut> findByConversationDirection(ConversationDirection.ConversationDirectionType conversationDirectionType);
 
     List<ConversationOut> findByCurrentUser();
+
+    ConversationOut findById(Long id);
 }

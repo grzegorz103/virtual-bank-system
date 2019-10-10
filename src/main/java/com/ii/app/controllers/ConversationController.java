@@ -51,4 +51,9 @@ public class ConversationController {
         return conversationService.create(conversationIn);
     }
 
+    @GetMapping("/id/{id}")
+    @PreAuthorize("isAuthenticated()")
+    public ConversationOut findById(@PathVariable("id") Long id){
+        return conversationService.findById(id);
+    }
 }

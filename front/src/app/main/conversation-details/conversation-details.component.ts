@@ -4,6 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { MessageService } from '../services/message.service';
 import { FormBuilder, FormGroup, Validators, NgForm } from '@angular/forms';
 import { AuthService } from 'src/app/shared/services/auth.service';
+import { ConversationService } from '../services/conversation.service';
+import { Conversation } from '../models/conversation';
 
 @Component({
   selector: 'app-conversation-details',
@@ -15,19 +17,27 @@ export class ConversationDetailsComponent implements OnInit {
   messages: Message[];
   conversationId: string;
   replyForm: FormGroup;
+  conversation: Conversation;
 
   @ViewChild('formDirective', { static: true }) private formDirective: NgForm;
 
   constructor(private route: ActivatedRoute,
     private fb: FormBuilder,
     private authService: AuthService,
+    private conversationService: ConversationService,
     private messageService: MessageService) {
     this.conversationId = this.route.snapshot.paramMap.get('id');
   }
 
   ngOnInit() {
+    this.fetchConversation();
     this.fetchMessages();
     this.createReplyForm();
+  }
+
+  fetchConversation() {
+    this.conversationService.findById(this.conversationId)
+      .subscribe(res => this.conversation = res);
   }
 
   fetchMessages() {

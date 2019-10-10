@@ -14,6 +14,7 @@ public class ConversationOut {
     private Long id;
     private Instant creationDate;
     private String topic;
+    private UserOut user;
     private ConversationStatusOut conversationStatus;
     private ConversationDirectionOut conversationDirection;
 }
