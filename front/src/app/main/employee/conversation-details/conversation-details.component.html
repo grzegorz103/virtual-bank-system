@@ -1,1 +1,22 @@
-{{ messages?.length}}
+<div *ngIf="messages">
+    <div *ngFor="let message of messages">
+        {{ message.message}}
+    </div>
+</div>
+<div *ngIf="messages && messages.length === 0">
+    Brak wiadomości
+</div>
+
+<hr />
+
+<mat-toolbar>
+    Odpowiedz
+</mat-toolbar>
+<form [formGroup]="replyForm" #formDirective="ngForm" (ngSubmit)="sendReply()">
+    <div class="col-sm-12 col-md-8">
+        <mat-form-field style="width: 100%">
+            <input matInput placeholder="Treść" formControlName="message" required>
+        </mat-form-field>
+    </div>
+    <button mat-raised-button color="primary">Wyświetl</button>
+</form>

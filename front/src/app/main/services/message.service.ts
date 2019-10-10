@@ -14,4 +14,8 @@ export class MessageService {
   findByConversationId(conversationId: string){
     return this.http.get<Message[]>(this.url + '/conversation/' + conversationId);
   }
+
+  create(message: string){
+    return this.http.post<Message>(this.url, message);
+  }
 }
