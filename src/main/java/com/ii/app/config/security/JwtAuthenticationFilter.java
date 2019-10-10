@@ -2,6 +2,7 @@ package com.ii.app.config.security;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.hibernate.usertype.UserType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -49,7 +50,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                             HttpServletResponse response,
                                             FilterChain filterChain,
                                             Authentication authentication) {
-        UserDetails user = ((UserDetails) authentication.getPrincipal());
+        com.ii.app.models.user.User user = ((com.ii.app.models.user.User) authentication.getPrincipal());
         List<String> authorities = user.getAuthorities()
             .stream()
             .map(GrantedAuthority::getAuthority)
@@ -57,7 +58,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         response.addHeader("Access-Control-Expose-Headers", "Authorization");
         response.addHeader(
-            SecurityConstants.TOKEN_HEADER, JwtTokenGenerator.generate(user.getUsername(), authorities)
+            SecurityConstants.TOKEN_HEADER, JwtTokenGenerator.generate(user.getUsername(), user.getIdentifier(), authorities)
         );
     }
 }

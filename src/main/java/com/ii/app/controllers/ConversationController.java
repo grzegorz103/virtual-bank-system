@@ -3,6 +3,7 @@ package com.ii.app.controllers;
 import com.ii.app.dto.in.ConversationIn;
 import com.ii.app.dto.out.ConversationOut;
 import com.ii.app.models.enums.ConversationDirection;
+import com.ii.app.models.enums.ConversationStatus;
 import com.ii.app.services.interfaces.ConversationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
@@ -39,11 +40,27 @@ public class ConversationController {
         return conversationService.findByConversationDirection(ConversationDirection.ConversationDirectionType.USER_TO_EMPLOYEE);
     }
 
+    @GetMapping("/my")
+    @PreAuthorize("isAuthenticated()")
+    public List<ConversationOut> findByCurrentUser() {
+        return conversationService.findByCurrentUser();
+    }
+
     @PostMapping
     @PreAuthorize("isAuthenticated()")
     public ConversationOut create(@RequestBody ConversationIn conversationIn) {
         return conversationService.create(conversationIn);
     }
 
+    @GetMapping("/id/{id}")
+    @PreAuthorize("isAuthenticated()")
+    public ConversationOut findById(@PathVariable("id") Long id) {
+        return conversationService.findById(id);
+    }
 
+    @PatchMapping("/{id}")
+    @Secured({"ROLE_ADMIN", "ROLE_EMPLOYEE"})
+    public ConversationOut changeStatus(@PathVariable("id") Long id) {
+        return conversationService.changeStatus(id);
+    }
 }

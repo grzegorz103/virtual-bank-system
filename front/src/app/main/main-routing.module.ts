@@ -10,6 +10,8 @@ import { ExchangeCurrencyComponent } from './views/exchange-currency/exchange-cu
 import { CreditCreateComponent } from './views/credit-create/credit-create.component';
 import { MainComponent } from './main.component';
 import { CoreGuardService } from './misc/guard/core-guard.service';
+import { UserSupportComponent } from './user-support/user-support.component';
+import { ConversationDetailsComponent } from './conversation-details/conversation-details.component';
 
 
 const routes: Routes = [
@@ -49,6 +51,13 @@ const routes: Routes = [
         {
           path: 'credits/create', component: CreditCreateComponent,
           canActivate: [CoreGuardService]
+        },
+        {
+          path: 'support', component: UserSupportComponent,
+          canActivate: [CoreGuardService]
+        },
+        {
+          path: 'conversation/:id', component: ConversationDetailsComponent
         },
         {
           path: 'admin', loadChildren: './admin/admin.module#AdminModule',
