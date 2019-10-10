@@ -1,5 +1,6 @@
 package com.ii.app.dto.out;
 
+import com.ii.app.models.enums.ConversationStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,7 +13,7 @@ import java.time.Instant;
 public class ConversationOut {
     private Long id;
     private Instant creationDate;
-    private String description;
     private String topic;
-
+    private ConversationStatusOut conversationStatus;
+    private ConversationDirectionOut conversationDirection;
 }

@@ -8,6 +8,5 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring", uses={ConversationDirectionMapper.class, ConversationStatusMapper.class})
     public interface ConversationMapper {
     Conversation DTOtoEntity (ConversationIn conversationIn );
-
     ConversationOut entityToDTO (Conversation conversation );
 }

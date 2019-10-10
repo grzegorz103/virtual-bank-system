@@ -39,11 +39,16 @@ public class ConversationController {
         return conversationService.findByConversationDirection(ConversationDirection.ConversationDirectionType.USER_TO_EMPLOYEE);
     }
 
+    @GetMapping("/my")
+    @PreAuthorize("isAuthenticated()")
+    public List<ConversationOut> findByCurrentUser(){
+    return conversationService.findByCurrentUser();
+    }
+
     @PostMapping
     @PreAuthorize("isAuthenticated()")
     public ConversationOut create(@RequestBody ConversationIn conversationIn) {
         return conversationService.create(conversationIn);
     }
-
 
 }

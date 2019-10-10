@@ -12,4 +12,6 @@ public interface ConversationService {
     List<ConversationOut> findAll();
 
     List<ConversationOut> findByConversationDirection(ConversationDirection.ConversationDirectionType conversationDirectionType);
+
+    List<ConversationOut> findByCurrentUser();
 }

@@ -8,6 +8,7 @@ import com.ii.app.mappers.ConversationMapper;
 import com.ii.app.models.Conversation;
 import com.ii.app.models.enums.ConversationDirection;
 import com.ii.app.models.enums.ConversationStatus;
+import com.ii.app.models.user.User;
 import com.ii.app.repositories.ConversationDirectionRepository;
 import com.ii.app.repositories.ConversationRepository;
 import com.ii.app.repositories.ConversationStatusRepository;
@@ -81,6 +82,15 @@ public class ConversationServiceImpl implements ConversationService {
     public List<ConversationOut> findByConversationDirection(ConversationDirection.ConversationDirectionType conversationDirectionType) {
         ConversationDirection conversationDirection = conversationDirectionRepository.findByConversationDirectionType(conversationDirectionType);
         return conversationRepository.findAllByConversationDirection(conversationDirection)
+            .stream()
+            .map(conversationMapper::entityToDTO)
+            .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ConversationOut> findByCurrentUser() {
+        User currentUser = userRepository.findByIdentifier(SecurityContextHolder.getContext().getAuthentication().getName()).orElseThrow(()->new RuntimeException("User not fuond"));
+        return conversationRepository.findAllByUser(currentUser)
             .stream()
             .map(conversationMapper::entityToDTO)
             .collect(Collectors.toList());
