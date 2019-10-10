@@ -2,6 +2,7 @@ package com.ii.app.models;
 
 import com.ii.app.models.user.User;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +12,7 @@ import java.time.Instant;
 @Entity
 @Table(name = "messages")
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Message {

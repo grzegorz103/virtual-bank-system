@@ -52,11 +52,19 @@ export class AuthService {
     return this.getUserRoles().some(role => role === 'ROLE_EMPLOYEE');
   }
 
-  clearLocalStorage(){
+  clearLocalStorage() {
     localStorage.clear();
   }
 
-  clearSessionStorage(){
+  clearSessionStorage() {
     sessionStorage.clear();
+  }
+
+  setUserIdentifier() {
+    localStorage.setItem('identifier', JSON.parse(this.getDecodedToken().id));
+  }
+
+  getUserIdentifier() {
+    return localStorage.getItem('identifier');
   }
 }

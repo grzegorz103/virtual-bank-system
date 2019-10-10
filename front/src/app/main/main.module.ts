@@ -25,6 +25,8 @@ import { Ng5SliderModule } from 'ng5-slider';
 import { BankAccountService } from './services/bank-account.service';
 import { CreditService } from './services/credit.service';
 import { AuthService } from '../shared/services/auth.service';
+import { ConversationDetailsComponent } from './conversation-details/conversation-details.component';
+import { UserSupportComponent } from './user-support/user-support.component';
 
 
 @NgModule({
@@ -39,6 +41,11 @@ import { AuthService } from '../shared/services/auth.service';
     TemplateDetailsComponent,
     DialogWindowComponent,
     CreditCreateComponent,
+    ConversationDetailsComponent,
+    UserSupportComponent
+  ],
+  exports: [
+    ConversationDetailsComponent
   ],
   imports: [
     CommonModule,

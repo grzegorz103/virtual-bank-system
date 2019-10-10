@@ -30,7 +30,7 @@ import { EmployeeDetailsComponent } from './misc/employee-details/employee-detai
     MatDatepickerModule,
     MatPaginatorModule,
     FormsModule, MatDialogModule,
-    MatNativeDateModule, MatInputModule
+    MatNativeDateModule, MatInputModule,
   ],
   entryComponents: [EmployeeAddComponent, EmployeeDetailsComponent]
 })
