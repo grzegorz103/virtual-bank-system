@@ -30,4 +30,8 @@ export class ConversationService {
   findById(id: string) {
     return this.http.get<Conversation>(this.url + '/id/' + id);
   }
+
+  changeStatus(id: number) {
+    return this.http.patch<Conversation>(this.url + '/' + id , null);
+  }
 }

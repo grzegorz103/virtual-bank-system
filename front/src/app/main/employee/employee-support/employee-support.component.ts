@@ -52,12 +52,17 @@ export class EmployeeSupportComponent implements OnInit {
 
   sendConversation() {
     this.conversationService.create(this.conversationForm.value)
-      .subscribe(res =>{
-      alert('Wysłano zgłoszenie');
+      .subscribe(res => {
+        alert('Wysłano zgłoszenie');
         this.fetchMyConversations();
         this.conversationForm.reset();
         this.formDirective.resetForm();
       });
+  }
+
+  changeStatus(id: number) {
+    this.conversationService.changeStatus(id)
+      .subscribe(res => this.fetchUserConversations());
   }
 
 }

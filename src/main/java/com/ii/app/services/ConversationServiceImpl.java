@@ -114,6 +114,22 @@ public class ConversationServiceImpl implements ConversationService {
 
     @Override
     public ConversationOut findById(Long id) {
-        return conversationMapper.entityToDTO(conversationRepository.findById(id).orElseThrow(()->new RuntimeException("Not found")));
+        return conversationMapper.entityToDTO(conversationRepository.findById(id).orElseThrow(() -> new RuntimeException("Not found")));
+    }
+
+    @Override
+    public ConversationOut changeStatus(Long id) {
+        Conversation conversation = conversationRepository.findById(id).orElseThrow(() -> new RuntimeException("Not found"));
+
+        switch (conversation.getConversationStatus().getConversationType()) {
+            case ACTIVE:
+                conversation.setConversationStatus(conversationStatusRepository.findByConversationType(ConversationStatus.ConversationType.RESOLVED));
+                break;
+            case RESOLVED:
+                conversation.setConversationStatus(conversationStatusRepository.findByConversationType(ConversationStatus.ConversationType.ACTIVE));
+                break;
+        }
+
+        return conversationMapper.entityToDTO(conversationRepository.save(conversation));
     }
 }

@@ -22,4 +22,9 @@ export class SupportListComponent implements OnInit {
     this.conversationService.findEmployeeAdminConversations()
     .subscribe(res=>this.conversations = res);
   }
+
+  changeStatus(id: number) {
+    this.conversationService.changeStatus(id)
+      .subscribe(res => this.fetchConversations());
+  }
 }
