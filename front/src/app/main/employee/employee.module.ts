@@ -27,8 +27,7 @@ import { MainModule } from '../main.module';
     MatFormFieldModule,
     MatToolbarModule,
     MatButtonModule,
-    MatTableModule,
-    MainModule
+    MatTableModule
   ]
 })
 export class EmployeeModule { }

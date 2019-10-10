@@ -15,8 +15,7 @@ const routes: Routes = [
       [
         { path: 'stat', component: StatisticsComponent },
         { path: 'employees', component: EmployeeListComponent },
-        { path: 'support', component: SupportListComponent },
-        { path: 'conversation/:id', component: ConversationDetailsComponent }
+        { path: 'support', component: SupportListComponent }
       ],
   }]
   ;
