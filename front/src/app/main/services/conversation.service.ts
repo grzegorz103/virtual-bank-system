@@ -18,4 +18,12 @@ export class ConversationService {
   findByUser(){
     return this.http.get<Conversation[]>(this.url + '/my');
   }
+  
+  findEmployeeAdminConversations(){
+    return this.http.get<Conversation[]>(this.url + '/employeeToAdmin');
+  }
+
+  create(conversation: string){
+    return this.http.post<Conversation>(this.url, conversation);
+  }
 }

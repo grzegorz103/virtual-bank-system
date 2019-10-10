@@ -63,7 +63,7 @@
         <ng-container matColumnDef="details">
             <th mat-header-cell *matHeaderCellDef> Wyświetl </th>
             <td mat-cell *matCellDef="let element">
-                <button mat-raised-button [routerLink]="['/core/employee/conversation', 'element.id']"
+                <button mat-raised-button [routerLink]="['/core/employee/conversation', element.id]"
                     color="primary">Wyświetl</button>
             </td>
         </ng-container>
@@ -76,3 +76,18 @@
 </div>
 
 <mat-toolbar>Utwórz zgłoszenie</mat-toolbar>
+
+<form [formGroup]="conversationForm" #formDirective="ngForm" (ngSubmit)="sendConversation()">
+    <div class="col-sm-12 col-md-8">
+        <mat-form-field style="width: 100%">
+            <input matInput placeholder="Temat" formControlName="topic" required>
+        </mat-form-field>
+    </div>
+
+    <div class="col-sm-12 col-md-8">
+        <mat-form-field style="width: 100%">
+            <input matInput placeholder="Temat" formControlName="description" required>
+        </mat-form-field>
+    </div>
+    <button mat-raised-button color="primary">Wyślij</button>
+</form>

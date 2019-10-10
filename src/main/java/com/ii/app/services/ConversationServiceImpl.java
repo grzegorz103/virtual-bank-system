@@ -6,13 +6,11 @@ import com.ii.app.dto.out.ConversationOut;
 import com.ii.app.dto.out.MessageOut;
 import com.ii.app.mappers.ConversationMapper;
 import com.ii.app.models.Conversation;
+import com.ii.app.models.Message;
 import com.ii.app.models.enums.ConversationDirection;
 import com.ii.app.models.enums.ConversationStatus;
 import com.ii.app.models.user.User;
-import com.ii.app.repositories.ConversationDirectionRepository;
-import com.ii.app.repositories.ConversationRepository;
-import com.ii.app.repositories.ConversationStatusRepository;
-import com.ii.app.repositories.UserRepository;
+import com.ii.app.repositories.*;
 import com.ii.app.services.interfaces.ConversationService;
 import com.ii.app.services.interfaces.MessageService;
 import com.ii.app.services.interfaces.UserService;
@@ -34,6 +32,8 @@ public class ConversationServiceImpl implements ConversationService {
 
     private final UserRepository userRepository;
 
+    private final MessageRepository messageRepository;
+
     private final ConversationDirectionRepository conversationDirectionRepository;
 
     private final ConversationStatusRepository conversationStatusRepository;
@@ -43,23 +43,27 @@ public class ConversationServiceImpl implements ConversationService {
                                    ConversationMapper conversationMapper,
                                    UserRepository userRepository,
                                    ConversationDirectionRepository conversationDirectionRepository,
-                                   ConversationStatusRepository conversationStatusRepository) {
+                                   ConversationStatusRepository conversationStatusRepository,
+                                   MessageRepository messageRepository) {
         this.conversationRepository = conversationRepository;
         this.conversationMapper = conversationMapper;
         this.userRepository = userRepository;
         this.conversationDirectionRepository = conversationDirectionRepository;
         this.conversationStatusRepository = conversationStatusRepository;
+        this.messageRepository = messageRepository;
     }
 
     @Override
     public ConversationOut create(@NotNull ConversationIn conversationIn) {
         Conversation mapped = conversationMapper.DTOtoEntity(conversationIn);
-        mapped.setMessages(new HashSet<>());
-        mapped.setUser(userRepository.findByIdentifier(
+        User currentUser = userRepository.findByIdentifier(
             SecurityContextHolder.getContext()
                 .getAuthentication()
                 .getName())
-            .orElseThrow(() -> new RuntimeException("Not found")));
+            .orElseThrow(() -> new RuntimeException("Not found"));
+
+        mapped.setMessages(new HashSet<>());
+        mapped.setUser(currentUser);
         mapped.setCreationDate(Instant.now());
         mapped.setConversationDirection(conversationDirectionRepository.findByConversationDirectionType(
             conversationIn.getConversationDirectionType())
@@ -67,6 +71,18 @@ public class ConversationServiceImpl implements ConversationService {
         mapped.setConversationStatus(conversationStatusRepository.findByConversationType(
             conversationIn.getConversationType()
         ));
+
+        conversationRepository.save(mapped);
+
+        messageRepository.save(
+            Message.builder()
+                .conversation(mapped)
+                .date(Instant.now())
+                .user(currentUser)
+                .message(conversationIn.getDescription())
+                .build()
+        );
+
         return conversationMapper.entityToDTO(conversationRepository.save(mapped));
     }
 
@@ -89,7 +105,7 @@ public class ConversationServiceImpl implements ConversationService {
 
     @Override
     public List<ConversationOut> findByCurrentUser() {
-        User currentUser = userRepository.findByIdentifier(SecurityContextHolder.getContext().getAuthentication().getName()).orElseThrow(()->new RuntimeException("User not fuond"));
+        User currentUser = userRepository.findByIdentifier(SecurityContextHolder.getContext().getAuthentication().getName()).orElseThrow(() -> new RuntimeException("User not fuond"));
         return conversationRepository.findAllByUser(currentUser)
             .stream()
             .map(conversationMapper::entityToDTO)

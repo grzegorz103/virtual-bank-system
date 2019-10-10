@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Conversation } from '../../models/conversation';
+import { ConversationService } from '../../services/conversation.service';
 
 @Component({
   selector: 'app-support-list',
@@ -7,9 +9,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SupportListComponent implements OnInit {
 
-  constructor() { }
+  conversations: Conversation[];
+  conversationColumns = ['topic', 'creationDate', 'status', 'details']
+
+  constructor(private conversationService: ConversationService) { }
 
   ngOnInit() {
+    this.fetchConversations();
   }
 
+  fetchConversations(){
+    this.conversationService.findEmployeeAdminConversations()
+    .subscribe(res=>this.conversations = res);
+  }
 }
