@@ -7,15 +7,13 @@ import { SummaryComponent } from './summary/summary.component';
 import { MatPaginatorModule, MatCardModule, MatFormFieldModule, MatToolbarModule, MatTableModule, MatButtonModule, MatInputModule } from '@angular/material';
 import { ReactiveFormsModule } from '@angular/forms';
 import { EmployeeSupportComponent } from './employee-support/employee-support.component';
-import { ConversationDetailsComponent } from './conversation-details/conversation-details.component';
-
+import { MainModule } from '../main.module';
 
 @NgModule({
   declarations: [
     EmployeeComponent,
     SummaryComponent,
     EmployeeSupportComponent,
-    ConversationDetailsComponent
   ],
   imports: [
     CommonModule,
@@ -29,7 +27,8 @@ import { ConversationDetailsComponent } from './conversation-details/conversatio
     MatFormFieldModule,
     MatToolbarModule,
     MatButtonModule,
-    MatTableModule
+    MatTableModule,
+    MainModule
   ]
 })
 export class EmployeeModule { }

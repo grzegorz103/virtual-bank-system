@@ -11,6 +11,7 @@ import { ChartsModule, WavesModule } from 'angular-bootstrap-md';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { EmployeeAddComponent } from './misc/employee-add/employee-add.component';
 import { EmployeeDetailsComponent } from './misc/employee-details/employee-details.component';
+import { MainModule } from '../main.module';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { EmployeeDetailsComponent } from './misc/employee-details/employee-detai
     MatDatepickerModule,
     MatPaginatorModule,
     FormsModule, MatDialogModule,
-    MatNativeDateModule, MatInputModule
+    MatNativeDateModule, MatInputModule,
+    MainModule
   ],
   entryComponents: [EmployeeAddComponent, EmployeeDetailsComponent]
 })

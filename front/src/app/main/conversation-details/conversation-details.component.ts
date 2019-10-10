@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Message } from '../../models/message';
+import { Message } from '../models/message';
 import { ActivatedRoute } from '@angular/router';
-import { MessageService } from '../../services/message.service';
+import { MessageService } from '../services/message.service';
 import { FormBuilder, FormGroup, Validators, NgForm } from '@angular/forms';
 import { AuthService } from 'src/app/shared/services/auth.service';
 
