@@ -3,6 +3,7 @@ import { Message } from '../../models/message';
 import { ActivatedRoute } from '@angular/router';
 import { MessageService } from '../../services/message.service';
 import { FormBuilder, FormGroup, Validators, NgForm } from '@angular/forms';
+import { AuthService } from 'src/app/shared/services/auth.service';
 
 @Component({
   selector: 'app-conversation-details',
@@ -19,6 +20,7 @@ export class ConversationDetailsComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
     private fb: FormBuilder,
+    private authService: AuthService,
     private messageService: MessageService) {
     this.conversationId = this.route.snapshot.paramMap.get('id');
   }
