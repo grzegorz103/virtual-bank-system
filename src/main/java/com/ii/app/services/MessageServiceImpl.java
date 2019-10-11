@@ -9,6 +9,8 @@ import com.ii.app.repositories.MessageRepository;
 import com.ii.app.repositories.UserRepository;
 import com.ii.app.services.interfaces.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -52,10 +54,8 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public List<MessageOut> findAllByConversationId(Long conversationId) {
-        return messageRepository.findAllByConversation_Id(conversationId)
-            .stream()
-            .map(messageMapper::entityToDTO)
-            .collect(Collectors.toList());
+    public Page<MessageOut> findAllByConversationId(Pageable pageable, Long conversationId) {
+        return messageRepository.findAllByConversation_Id(pageable, conversationId)
+            .map(messageMapper::entityToDTO);
     }
 }

@@ -124,6 +124,16 @@
                 <mat-expansion-panel *ngIf="authService.hasEmployeeRole()" hideToggle="true" disabled="true">
                         <mat-expansion-panel-header class="single-panel">
                             <mat-panel-title>
+                                <a routerLink="employee/payment/create" class="list-group-item list-group-item-action ">
+                                    Wpłaty
+                                </a>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                    </mat-expansion-panel>
+
+                <mat-expansion-panel *ngIf="authService.hasEmployeeRole()" hideToggle="true" disabled="true">
+                        <mat-expansion-panel-header class="single-panel">
+                            <mat-panel-title>
                                 <a routerLink="employee/users" class="list-group-item list-group-item-action ">
                                     Użytkownicy
                                 </a>

@@ -16,4 +16,6 @@ public class UserOut {
     private String email;
 
     private AddressOut address;
+
+    private boolean locked;
 }

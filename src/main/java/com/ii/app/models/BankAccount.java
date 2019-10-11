@@ -31,6 +31,10 @@ public class BankAccount {
     @JsonIgnore
     private Set<Transaction> transactions;
 
+    @OneToMany(mappedBy = "destinedBankAccount", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Set<Payment> payments;
+
     @OneToMany(mappedBy = "bankAccount", fetch = FetchType.EAGER)
     private Set<ExchangeCurrency> exchanges;
 

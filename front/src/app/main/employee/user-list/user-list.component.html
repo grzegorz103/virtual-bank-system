@@ -1,0 +1,14 @@
+<mat-toolbar>Zarządzanie użytkownikami</mat-toolbar>
+<form class="example-form" [formGroup]="searchForm" (ngSubmit)="searchUser()">
+    <mat-form-field>
+        <input matInput placeholder="Identyfikator" type="number" formControlName="identifier">
+    </mat-form-field>
+
+    {{user?.identifier}}
+    <button mat-raised-button class="bg-success text-white mb-2">Szukaj</button>
+</form>
+
+<div *ngIf="user">
+    <button mat-raised-button *ngIf="user.locked" class="bg-success text-white mb-2" (click)="changeUserStatus()">Odblokuj</button>
+    <button mat-raised-button *ngIf="!user.locked" class="bg-danger text-white mb-2" (click)="changeUserStatus()">Zablokuj</button>
+</div>
