@@ -62,6 +62,7 @@ public class TransactionTemplateServiceImpl implements TransactionTemplateServic
             .orElseThrow(() -> new RuntimeException("not found"));
 
         fromDB.setModificationDate(Instant.now());
+        fromDB.setTemplateName(transactionTemplateIn.getTemplateName());
         fromDB.setBalance(transactionTemplateIn.getBalance());
         fromDB.setDestinedAccountNumber(transactionTemplateIn.getDestinedAccountNumber());
         fromDB.setDestinedCurrency(transactionTemplateIn.getDestinedCurrency());
