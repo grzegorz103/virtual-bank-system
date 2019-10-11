@@ -14,10 +14,13 @@ import { Conversation, PageWrapper } from '../models/conversation';
 })
 export class ConversationDetailsComponent implements OnInit {
 
-  messages: PageWrapper<Message>;
+  messages: Message[];
   conversationId: string;
   replyForm: FormGroup;
   conversation: Conversation;
+  currentPage = 0;
+  totalElementCount = 0;
+  isLoading = false;
 
   @ViewChild('formDirective', { static: true }) private formDirective: NgForm;
 
@@ -41,8 +44,26 @@ export class ConversationDetailsComponent implements OnInit {
   }
 
   fetchMessages() {
-    this.messageService.findByConversationId(this.conversationId)
-      .subscribe(res => this.messages = res);
+    this.messageService.findByConversationId(this.conversationId, this.currentPage)
+      .subscribe(res => {
+        this.messages = res.content.reverse();
+        this.totalElementCount = res.totalElements;
+      });
+  }
+
+  loadMoreMessages() {
+    if (this.messages.length === this.totalElementCount) {
+      return;
+    }
+    this.isLoading = true;
+    
+    this.messageService.findByConversationId(this.conversationId, ++this.currentPage)
+      .subscribe(res => {
+        const temp = this.messages;
+        this.messages = res.content.reverse();
+        this.messages.push(...temp);
+        this.isLoading = false;
+      });
   }
 
   createReplyForm() {

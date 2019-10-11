@@ -10,13 +10,13 @@ export class MessageService {
 
   url = 'http://localhost:8080/api/messages'
 
-  constructor(private http:HttpClient) { }
+  constructor(private http: HttpClient) { }
 
-  findByConversationId(conversationId: string){
-    return this.http.get<PageWrapper<Message>>(this.url + '/conversation/' + conversationId);
+  findByConversationId(conversationId: string, page: number) {
+    return this.http.get<PageWrapper<Message>>(this.url + '/conversation/' + conversationId + '?size=2&page=' + page + '&sort=date,desc');
   }
 
-  create(message: string){
+  create(message: string) {
     return this.http.post<Message>(this.url, message);
   }
 }

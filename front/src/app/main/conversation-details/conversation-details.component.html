@@ -5,7 +5,14 @@
             <p>{{ conversation.user.address.name }} {{ conversation.user.address.surname }}</p>
         </div>
         <hr />
-        <div *ngFor="let message of messages.content">
+        <div class="d-flex justify-content-center">
+            <mat-chip-list class="mb-2">
+                <mat-chip (click)="loadMoreMessages()">Pokaż wcześniejsze wiadomości</mat-chip>
+            </mat-chip-list>
+        </div>
+        <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
+
+        <div *ngFor="let message of messages">
             <mat-card
                 [ngClass]="message.user.identifier === authService.getUserIdentifier() ? 'my-message' : 'other-message'">
                 {{ message.message}}
