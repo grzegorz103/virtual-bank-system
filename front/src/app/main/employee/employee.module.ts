@@ -9,13 +9,15 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { EmployeeSupportComponent } from './employee-support/employee-support.component';
 import { MainModule } from '../main.module';
 import { PaymentCreateComponent } from './payment-create/payment-create.component';
+import { UserListComponent } from './user-list/user-list.component';
 
 @NgModule({
   declarations: [
     EmployeeComponent,
     SummaryComponent,
     EmployeeSupportComponent,
-    PaymentCreateComponent
+    PaymentCreateComponent,
+    UserListComponent
   ],
   imports: [
     CommonModule,

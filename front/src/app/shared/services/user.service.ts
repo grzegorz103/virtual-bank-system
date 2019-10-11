@@ -34,4 +34,12 @@ export class UserService {
   update(id: string, user: User) {
     return this.http.put<User>(this.url + '/users/' + id, user);
   }
+
+  changeStatus(id: string) {
+    return this.http.patch<User>(this.url + '/users/' + id + '/status', null);
+  }
+
+  findByIdentifier(identifier: string){
+    return this.http.get<User>(this.url +'/users/byIdentifier/' + identifier);
+  }
 }

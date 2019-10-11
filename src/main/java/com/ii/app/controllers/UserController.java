@@ -30,7 +30,7 @@ public class UserController {
 
     @PostMapping("/create/employee")
     @Secured("ROLE_ADMIN")
-    public UserOut createEmployee(@RequestBody UserIn userIn){
+    public UserOut createEmployee(@RequestBody UserIn userIn) {
         return userService.createEmployee(userIn);
     }
 
@@ -48,5 +48,15 @@ public class UserController {
     public UserOut update(@PathVariable("id") Long id,
                           @RequestBody UserEdit userEdit) {
         return userService.update(id, userEdit);
+    }
+
+    @GetMapping("/byIdentifier/{identifier}")
+    public UserOut findByIdentifier(@PathVariable("identifier") String identifier) {
+        return userService.findByIdentifier(identifier);
+    }
+
+    @PatchMapping("/{id}/status")
+    public UserOut changeLockStatus(@PathVariable("id") Long id) {
+        return userService.changeStatus(id);
     }
 }
