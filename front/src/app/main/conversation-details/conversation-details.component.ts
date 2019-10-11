@@ -5,7 +5,7 @@ import { MessageService } from '../services/message.service';
 import { FormBuilder, FormGroup, Validators, NgForm } from '@angular/forms';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { ConversationService } from '../services/conversation.service';
-import { Conversation } from '../models/conversation';
+import { Conversation, PageWrapper } from '../models/conversation';
 
 @Component({
   selector: 'app-conversation-details',
@@ -14,7 +14,7 @@ import { Conversation } from '../models/conversation';
 })
 export class ConversationDetailsComponent implements OnInit {
 
-  messages: Message[];
+  messages: PageWrapper<Message>;
   conversationId: string;
   replyForm: FormGroup;
   conversation: Conversation;

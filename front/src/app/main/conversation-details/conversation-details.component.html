@@ -5,7 +5,7 @@
             <p>{{ conversation.user.address.name }} {{ conversation.user.address.surname }}</p>
         </div>
         <hr />
-        <div *ngFor="let message of messages">
+        <div *ngFor="let message of messages.content">
             <mat-card
                 [ngClass]="message.user.identifier === authService.getUserIdentifier() ? 'my-message' : 'other-message'">
                 {{ message.message}}
