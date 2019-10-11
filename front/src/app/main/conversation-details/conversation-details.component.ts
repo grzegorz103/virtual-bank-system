@@ -5,7 +5,7 @@ import { MessageService } from '../services/message.service';
 import { FormBuilder, FormGroup, Validators, NgForm } from '@angular/forms';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { ConversationService } from '../services/conversation.service';
-import { Conversation } from '../models/conversation';
+import { Conversation, PageWrapper } from '../models/conversation';
 
 @Component({
   selector: 'app-conversation-details',
@@ -18,6 +18,9 @@ export class ConversationDetailsComponent implements OnInit {
   conversationId: string;
   replyForm: FormGroup;
   conversation: Conversation;
+  currentPage = 0;
+  totalElementCount = 0;
+  isLoading = false;
 
   @ViewChild('formDirective', { static: true }) private formDirective: NgForm;
 
@@ -41,8 +44,26 @@ export class ConversationDetailsComponent implements OnInit {
   }
 
   fetchMessages() {
-    this.messageService.findByConversationId(this.conversationId)
-      .subscribe(res => this.messages = res);
+    this.messageService.findByConversationId(this.conversationId, this.currentPage)
+      .subscribe(res => {
+        this.messages = res.content.reverse();
+        this.totalElementCount = res.totalElements;
+      });
+  }
+
+  loadMoreMessages() {
+    if (this.messages.length >= this.totalElementCount) {
+      return;
+    }
+    this.isLoading = true;
+
+    this.messageService.findByConversationId(this.conversationId, ++this.currentPage)
+      .subscribe(res => {
+        const temp = this.messages;
+        this.messages = res.content.reverse();
+        this.messages.push(...temp);
+        this.isLoading = false;
+      });
   }
 
   createReplyForm() {
@@ -59,9 +80,10 @@ export class ConversationDetailsComponent implements OnInit {
     this.messageService.create(this.replyForm.value)
       .subscribe(res => {
         alert('Dodano odpowiedź');
-        this.replyForm.reset();
+        this.createReplyForm();
+        // this.replyForm.reset();
         this.formDirective.resetForm();
-        this.fetchMessages();
+        this.messages.push(res);
       });
   }
 }

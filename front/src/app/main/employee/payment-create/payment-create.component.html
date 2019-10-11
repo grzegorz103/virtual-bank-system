@@ -1,0 +1,37 @@
+<div class="box mat-elevation-z8">
+    <mat-toolbar>Wpłaty</mat-toolbar>
+    <hr />
+    <div class="col-12">
+        Dodaj nową wpłatę
+
+        <div *ngIf="bankAccounts">
+            <form class="example-form" [formGroup]="paymentForm"(ngSubmit)="sendPaymentForm()">
+                <mat-form-field class="example-full-width">
+                    <input type="text" placeholder="Rachunek bankowy" aria-label="Number" matInput
+                        formControlName="destinedBankAccountNumber" [matAutocomplete]="auto">
+                    <mat-autocomplete #auto="matAutocomplete">
+                        <mat-option *ngFor="let account of filteredBankAccounts | async" [value]="account.number">
+                            {{account.number}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Waluta</mat-label>
+                    <mat-select formControlName="sourceCurrencyType">
+                        <mat-option *ngFor="let currency of currencyList" [value]="currency">
+                            {{currency}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <input matInput placeholder="Kwota" type="number" formControlName="balance">
+                </mat-form-field>
+
+                <button mat-raised-button class="bg-success text-white mb-2">Wyślij</button>
+
+            </form>
+        </div>
+    </div>
+</div>

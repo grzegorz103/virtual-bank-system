@@ -81,15 +81,15 @@
 <mat-toolbar>Utwórz zgłoszenie</mat-toolbar>
 
 <form [formGroup]="conversationForm" #formDirective="ngForm" (ngSubmit)="sendConversation()">
-    <div class="col-sm-12 col-md-8">
+    <div class="col-12">
         <mat-form-field style="width: 100%">
             <input matInput placeholder="Temat" formControlName="topic" required>
         </mat-form-field>
     </div>
 
-    <div class="col-sm-12 col-md-8">
+    <div class="col-12">
         <mat-form-field style="width: 100%">
-            <input matInput placeholder="Temat" formControlName="description" required>
+            <textarea matInput placeholder="Opis" formControlName="description" required></textarea>
         </mat-form-field>
     </div>
     <button mat-raised-button color="primary">Wyślij</button>

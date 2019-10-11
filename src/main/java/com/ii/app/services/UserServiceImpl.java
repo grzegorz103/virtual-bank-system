@@ -125,6 +125,26 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserOut changeStatus(Long id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (user.isLocked()) {
+            user.setLocked(false);
+        } else if (!user.isLocked()) {
+            user.setLocked(true);
+        }
+
+        return userMapper.userToUserOut(userRepository.save(user));
+    }
+
+    @Override
+    public UserOut findByIdentifier(String identifier) {
+        return userMapper.userToUserOut(
+            userRepository.findByIdentifier(identifier).orElseThrow(() -> new RuntimeException("User not found"))
+        );
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         return userRepository.findByIdentifier(s)
             .orElseThrow(() -> new UsernameNotFoundException("Not found"));
