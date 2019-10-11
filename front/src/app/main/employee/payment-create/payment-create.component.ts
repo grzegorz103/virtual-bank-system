@@ -4,6 +4,7 @@ import { BankAccountService } from '../../services/bank-account.service';
 import { Observable } from 'rxjs';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { map, startWith } from 'rxjs/operators';
+import { PaymentService } from '../../services/payment.service';
 
 @Component({
   selector: 'app-payment-create',
@@ -18,6 +19,7 @@ export class PaymentCreateComponent implements OnInit {
   currencyList: string[];
 
   constructor(private bankAccountService: BankAccountService,
+    private paymentService: PaymentService,
     private fb: FormBuilder) {
     this.createPaymentForm();
   }
@@ -59,8 +61,18 @@ export class PaymentCreateComponent implements OnInit {
     if (selectedAccount) {
       this.currencyList = selectedAccount.saldos
         .map(e => e.currencyType.name);
-    }else{
+    } else {
       this.currencyList = [];
     }
+  }
+
+  sendPaymentForm(){
+    if(this.paymentForm.invalid){
+      return;
+    }
+    this.paymentService.create(this.paymentForm.value).subscribe(res=>{
+      alert('Wpłacono');
+      this.createPaymentForm();
+    });
   }
 }

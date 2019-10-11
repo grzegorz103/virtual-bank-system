@@ -6,7 +6,7 @@
         </div>
         <hr />
         <div class="d-flex justify-content-center">
-            <mat-chip-list class="mb-2">
+            <mat-chip-list class="mb-2" *ngIf="this.messages.length < totalElementCount">
                 <mat-chip (click)="loadMoreMessages()">Pokaż wcześniejsze wiadomości</mat-chip>
             </mat-chip-list>
         </div>
