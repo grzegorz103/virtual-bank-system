@@ -52,11 +52,11 @@ export class ConversationDetailsComponent implements OnInit {
   }
 
   loadMoreMessages() {
-    if (this.messages.length === this.totalElementCount) {
+    if (this.messages.length >= this.totalElementCount) {
       return;
     }
     this.isLoading = true;
-    
+
     this.messageService.findByConversationId(this.conversationId, ++this.currentPage)
       .subscribe(res => {
         const temp = this.messages;
@@ -80,9 +80,10 @@ export class ConversationDetailsComponent implements OnInit {
     this.messageService.create(this.replyForm.value)
       .subscribe(res => {
         alert('Dodano odpowiedź');
-        this.replyForm.reset();
+        this.createReplyForm();
+        // this.replyForm.reset();
         this.formDirective.resetForm();
-        this.fetchMessages();
+        this.messages.push(res);
       });
   }
 }
