@@ -27,6 +27,7 @@ import { CreditService } from './services/credit.service';
 import { AuthService } from '../shared/services/auth.service';
 import { ConversationDetailsComponent } from './conversation-details/conversation-details.component';
 import { UserSupportComponent } from './user-support/user-support.component';
+import { MomentModule } from 'angular2-moment';
 
 
 @NgModule({
@@ -55,6 +56,7 @@ import { UserSupportComponent } from './user-support/user-support.component';
     FontAwesomeModule,
     MatExpansionModule,
     ReactiveFormsModule,
+    MomentModule,
     MatStepperModule, MatButtonModule,
     MatFormFieldModule,
     MatInputModule,

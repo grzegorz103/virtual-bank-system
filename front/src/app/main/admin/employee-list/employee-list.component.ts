@@ -44,7 +44,7 @@ export class EmployeeListComponent implements OnInit {
   }
 
   fetchEmployees() {
-    this.userService.findByUserType('ROLE_EMPLOYEE').subscribe(res => {
+    this.userService.findByUserType('ROLE_EMPLOYEE', false).subscribe(res => {
       this.isLoading = false;
       this.employeeList.data = res;
       this.employeeList.paginator = this.paginator;

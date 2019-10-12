@@ -53,7 +53,7 @@ export class TransactionMultiCurrencyComponent implements OnInit {
         .subscribe(res => this.fillFormWithTemplate(res));
     }
 
-    this.bankAccountService.findAll()
+    this.bankAccountService.findByUser()
       .subscribe(res => {
         this.bankAccounts = res;
         this.changeCurrencyList();
