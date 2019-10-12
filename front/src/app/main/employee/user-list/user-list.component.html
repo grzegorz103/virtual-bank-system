@@ -1,63 +1,86 @@
-<mat-toolbar>Nowi użytkownicy</mat-toolbar>
-<div [hidden]="isLoading || (userList && userList.data.length === 0)" class="mat-elevation-z1">
-    <table mat-table [dataSource]="userList">
+<div class="box mat-elevation-z8 ">
+    <mat-toolbar>Nowi użytkownicy</mat-toolbar>
 
-        <ng-container matColumnDef="id">
-            <th mat-header-cell *matHeaderCellDef> Identyfikator </th>
-            <td mat-cell *matCellDef="let element"> {{element.identifier}}</td>
-        </ng-container>
+    <div [hidden]="isLoading || (userList && userList.data.length === 0)">
+        <table mat-table [dataSource]="userList">
 
-        <ng-container matColumnDef="email">
-            <th mat-header-cell *matHeaderCellDef> Email </th>
-            <td mat-cell *matCellDef="let element"> {{element.email}}
-            </td>
-        </ng-container>
+            <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef> Identyfikator </th>
+                <td mat-cell *matCellDef="let element"> {{element.identifier}}</td>
+            </ng-container>
 
-        <ng-container matColumnDef="details">
-            <th mat-header-cell *matHeaderCellDef> Szczegóły </th>
-            <td mat-cell *matCellDef="let element">
-                <button mat-raised-button class="bg-primary text-white"
-                    (click)="openDetailsDialog(element.id)">Wyświetl</button>
-            </td>
-        </ng-container>
+            <ng-container matColumnDef="email">
+                <th mat-header-cell *matHeaderCellDef> Email </th>
+                <td mat-cell *matCellDef="let element"> {{element.email}}
+                </td>
+            </ng-container>
 
-        <ng-container matColumnDef="edit">
-            <th mat-header-cell *matHeaderCellDef> Edycja </th>
-            <td mat-cell *matCellDef="let element">
-                <button mat-raised-button color="primary" (click)="openEditDialog(element.id)">Edytuj</button>
-            </td>
-        </ng-container>
+            <ng-container matColumnDef="details">
+                <th mat-header-cell *matHeaderCellDef> Szczegóły </th>
+                <td mat-cell *matCellDef="let element">
+                    <button mat-raised-button class="bg-primary text-white"
+                        (click)="openDetailsDialog(element.id)">Wyświetl</button>
+                </td>
+            </ng-container>
 
-        <ng-container matColumnDef="activate">
-            <th mat-header-cell *matHeaderCellDef> Aktywuj </th>
-            <td mat-cell *matCellDef="let element">
-                <button mat-raised-button class="bg-success text-white"
-                    (click)="activateUser(element.id)">Aktywuj</button>
-            </td>
-        </ng-container>
+            <ng-container matColumnDef="edit">
+                <th mat-header-cell *matHeaderCellDef> Edycja </th>
+                <td mat-cell *matCellDef="let element">
+                    <button mat-raised-button color="primary" (click)="openEditDialog(element.id)">Edytuj</button>
+                </td>
+            </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="newUsersTabColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: newUsersTabColumns;"></tr>
-    </table>
-    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
-</div>
-<div *ngIf="userList && userList.data.length === 0">
-    Brak użytkowników oczekujących na aktywację
-</div>
-<hr />
-<mat-toolbar>Zarządzanie użytkownikami</mat-toolbar>
-<form class="example-form" [formGroup]="searchForm" (ngSubmit)="searchUser()">
-    <mat-form-field>
-        <input matInput placeholder="Identyfikator" type="number" formControlName="identifier">
-    </mat-form-field>
+            <ng-container matColumnDef="activate">
+                <th mat-header-cell *matHeaderCellDef> Aktywuj </th>
+                <td mat-cell *matCellDef="let element">
+                    <button mat-raised-button class="bg-success text-white"
+                        (click)="activateUser(element.id)">Aktywuj</button>
+                </td>
+            </ng-container>
 
-    {{user?.identifier}}
-    <button mat-raised-button class="bg-success text-white mb-2">Szukaj</button>
-</form>
+            <tr mat-header-row *matHeaderRowDef="newUsersTabColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: newUsersTabColumns;"></tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+    </div>
+    <div class="col-12" *ngIf="userList && userList.data.length === 0">
+        Brak użytkowników oczekujących na aktywację
+    </div>
+    <hr />
+    <mat-toolbar>Zarządzanie użytkownikami</mat-toolbar>
+    <form class="example-form" [formGroup]="searchForm" (ngSubmit)="searchUser()">
+        <div class="col-12">
+            <mat-form-field>
+                <input matInput placeholder="Identyfikator" type="number" formControlName="identifier">
+            </mat-form-field>
+            <button mat-raised-button class="bg-success text-white mb-2 ml-2">Szukaj</button>
+        </div>
+    </form>
 
-<div *ngIf="user">
-    <button mat-raised-button *ngIf="user.locked" class="bg-success text-white mb-2"
-        (click)="changeUserStatus()">Odblokuj</button>
-    <button mat-raised-button *ngIf="!user.locked" class="bg-danger text-white mb-2"
-        (cslick)="changeUserStatus()">Zablokuj</button>
+    <div *ngIf="user">
+
+        <table class="table table-hover">
+            <tr>
+                <td class="divider">Identyfikator: </td>
+                <td>{{ user.identifier }}</td>
+            </tr>
+            <tr>
+                <td class="divider">Imię i nazwisko: </td>
+                <td>{{ user.address.name }} {{ user.address.surname }}</td>
+            </tr>
+            <tr>
+                <td class="divider">Adres: </td>
+                <td>{{ user.address.street }} {{ user.address.houseNumber }} {{ user.address.postCode }} {{ user.address.city }}</td>
+            </tr>
+            <tr>
+                <td class="divider">Zablokuj</td>
+                <td>
+                <button mat-raised-button *ngIf="user.locked" class="bg-success text-white"
+                    (click)="changeUserStatus()">Odblokuj</button>
+                <button mat-raised-button *ngIf="!user.locked" class="bg-danger text-white"
+                    (click)="changeUserStatus()">Zablokuj</button>
+                </td>
+            </tr>
+        </table>
+    </div>
 </div>
