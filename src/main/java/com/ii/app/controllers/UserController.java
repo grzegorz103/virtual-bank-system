@@ -65,4 +65,9 @@ public class UserController {
     public UserOut changeLockStatus(@PathVariable("id") Long id) {
         return userService.changeStatus(id);
     }
+
+    @PatchMapping("/{id}/activate")
+    public UserOut changeEnableStatus(@PathVariable("id") Long id){
+        return userService.changeEnableStatus(id);
+    }
 }

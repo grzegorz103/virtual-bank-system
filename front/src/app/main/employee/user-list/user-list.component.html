@@ -1,46 +1,50 @@
 <mat-toolbar>Nowi użytkownicy</mat-toolbar>
-<div [hidden]="isLoading" class="mat-elevation-z1">
-        <table mat-table [dataSource]="userList">
+<div [hidden]="isLoading || (userList && userList.data.length === 0)" class="mat-elevation-z1">
+    <table mat-table [dataSource]="userList">
 
-            <ng-container matColumnDef="id">
-                <th mat-header-cell *matHeaderCellDef> Identyfikator </th>
-                <td mat-cell *matCellDef="let element"> {{element.identifier}}</td>
-            </ng-container>
+        <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef> Identyfikator </th>
+            <td mat-cell *matCellDef="let element"> {{element.identifier}}</td>
+        </ng-container>
 
-            <ng-container matColumnDef="email">
-                <th mat-header-cell *matHeaderCellDef> Email </th>
-                <td mat-cell *matCellDef="let element"> {{element.email}}
-                </td>
-            </ng-container>
+        <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef> Email </th>
+            <td mat-cell *matCellDef="let element"> {{element.email}}
+            </td>
+        </ng-container>
 
-            <ng-container matColumnDef="locked">
-                <th mat-header-cell *matHeaderCellDef> Zablokowany </th>
-                <td mat-cell *matCellDef="let element">
-                    {{element.locked ? 'Tak' : 'Nie'}}
-                </td>
-            </ng-container>
+        <ng-container matColumnDef="details">
+            <th mat-header-cell *matHeaderCellDef> Szczegóły </th>
+            <td mat-cell *matCellDef="let element">
+                <button mat-raised-button class="bg-primary text-white"
+                    (click)="openDetailsDialog(element.id)">Wyświetl</button>
+            </td>
+        </ng-container>
 
-            <ng-container matColumnDef="details">
-                <th mat-header-cell *matHeaderCellDef> Szczegóły </th>
-                <td mat-cell *matCellDef="let element">
-                    <button mat-raised-button color="primary" (click)="openDetailsDialog(element.id)">Wyświetl</button>
-                </td>
-            </ng-container>
+        <ng-container matColumnDef="edit">
+            <th mat-header-cell *matHeaderCellDef> Edycja </th>
+            <td mat-cell *matCellDef="let element">
+                <button mat-raised-button color="primary" (click)="openEditDialog(element.id)">Edytuj</button>
+            </td>
+        </ng-container>
 
-            <ng-container matColumnDef="edit">
-                <th mat-header-cell *matHeaderCellDef> Edycja </th>
-                <td mat-cell *matCellDef="let element">
-                    <button mat-raised-button color="primary" (click)="openEditDialog(element.id)">Edytuj</button>
-                </td>
-            </ng-container>
+        <ng-container matColumnDef="activate">
+            <th mat-header-cell *matHeaderCellDef> Aktywuj </th>
+            <td mat-cell *matCellDef="let element">
+                <button mat-raised-button class="bg-success text-white"
+                    (click)="activateUser(element.id)">Aktywuj</button>
+            </td>
+        </ng-container>
 
-            <tr mat-header-row *matHeaderRowDef="newUsersTabColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: newUsersTabColumns;"></tr>
-        </table>
-        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
-
-    </div>
-<hr/>
+        <tr mat-header-row *matHeaderRowDef="newUsersTabColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: newUsersTabColumns;"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+</div>
+<div *ngIf="userList && userList.data.length === 0">
+    Brak użytkowników oczekujących na aktywację
+</div>
+<hr />
 <mat-toolbar>Zarządzanie użytkownikami</mat-toolbar>
 <form class="example-form" [formGroup]="searchForm" (ngSubmit)="searchUser()">
     <mat-form-field>
@@ -52,6 +56,8 @@
 </form>
 
 <div *ngIf="user">
-    <button mat-raised-button *ngIf="user.locked" class="bg-success text-white mb-2" (click)="changeUserStatus()">Odblokuj</button>
-    <button mat-raised-button *ngIf="!user.locked" class="bg-danger text-white mb-2" (cslick)="changeUserStatus()">Zablokuj</button>
+    <button mat-raised-button *ngIf="user.locked" class="bg-success text-white mb-2"
+        (click)="changeUserStatus()">Odblokuj</button>
+    <button mat-raised-button *ngIf="!user.locked" class="bg-danger text-white mb-2"
+        (cslick)="changeUserStatus()">Zablokuj</button>
 </div>

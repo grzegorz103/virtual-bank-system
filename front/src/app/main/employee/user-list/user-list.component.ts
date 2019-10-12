@@ -18,7 +18,7 @@ export class UserListComponent implements OnInit {
   userList = new MatTableDataSource<User>();
   isLoading = true;
 
-  newUsersTabColumns = ['id', 'email', 'locked', 'details', 'edit'];
+  newUsersTabColumns = ['id', 'email', 'details', 'edit', 'activate'];
 
   @ViewChild(MatPaginator, { static: true })
   paginator: MatPaginator;
@@ -59,13 +59,13 @@ export class UserListComponent implements OnInit {
   fetchNewUsers() {
     this.userService.findByUserType('ROLE_USER', true)
       .subscribe(res => {
-        this.userList.data.push(...res);
+        this.userList.data = res;
         this.userList.paginator = this.paginator;
         this.isLoading = false;
       })
   }
 
-  
+
   openEditDialog(userId: string) {
     let user = this.userList.data.find(e => e.id === userId);
 
@@ -93,5 +93,10 @@ export class UserListComponent implements OnInit {
         data: user
       });
     }
+  }
+
+  activateUser(userId:string){
+      this.userService.changeActivateStatus(userId)
+    .subscribe(res=>this.fetchNewUsers());
   }
 }

@@ -27,4 +27,6 @@ public interface UserService extends UserDetailsService {
     UserOut findByIdentifier(String identifier);
 
     List<UserOut> findAllByUserTypeAndNotEnabled(UserRole.UserType userType);
+
+    UserOut changeEnableStatus(Long id);
 }

@@ -43,4 +43,8 @@ export class UserService {
   findByIdentifier(identifier: string){
     return this.http.get<User>(this.url +'/users/byIdentifier/' + identifier);
   }
+
+   changeActivateStatus(userId: string) {
+    return this.http.patch<User>(this.url + '/users/' + userId + '/activate', null);
+  }
 }
