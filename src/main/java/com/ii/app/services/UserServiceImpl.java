@@ -145,6 +145,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<UserOut> findAllByUserTypeAndNotEnabled(UserRole.UserType userType) {
+        return userRepository.findAllByUserTypeAndNotEnabled(userType)
+            .stream()
+            .map(userMapper::userToUserOut)
+            .collect(Collectors.toList());
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         return userRepository.findByIdentifier(s)
             .orElseThrow(() -> new UsernameNotFoundException("Not found"));

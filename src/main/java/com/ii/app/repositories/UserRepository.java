@@ -19,4 +19,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
         "JOIN u.userRoles ur " +
         "WHERE ur.userType = :userType")
     List<User> findAllByUserType(@Param("userType") UserRole.UserType userType);
+
+    @Query("SELECT u " +
+        "FROM User u " +
+        "JOIN u.userRoles ur " +
+        "WHERE ur.userType = :userType " +
+        "AND u.enabled = false")
+    List<User> findAllByUserTypeAndNotEnabled(@Param("userType") UserRole.UserType userType);
 }
