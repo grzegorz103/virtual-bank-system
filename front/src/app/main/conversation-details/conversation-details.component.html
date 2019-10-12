@@ -16,7 +16,10 @@
             <mat-card
                 [ngClass]="message.user.identifier === authService.getUserIdentifier() ? 'my-message' : 'other-message'">
                 {{ message.message}}
-                <div class="date-text">{{ message.date | amTimeAgo}}</div>
+                <div class="date-text d-flex justify-content-end">
+                    <div matTooltip="{{message.date | amDateFormat: 'LL HH:mm'}}">{{ message.date | amTimeAgo}}
+                    </div>
+                </div>
             </mat-card>
         </div>
     </div>
