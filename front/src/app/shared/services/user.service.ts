@@ -23,8 +23,9 @@ export class UserService {
     return this.http.get(this.url + '/authenticate?username=' + username + '&password=' + password, { observe: 'response' });
   }
 
-  findByUserType(userType: string) {
-    return this.http.get<User[]>(this.url + '/users/type/' + userType);
+  findByUserType(userType: string, disabledOnly?: boolean) {
+    const queryParams = disabledOnly ? '?disabledOnly=yes' : '';
+    return this.http.get<User[]>(this.url + '/users/type/' + userType + queryParams );
   }
 
   findById(id: string) {
@@ -41,5 +42,9 @@ export class UserService {
 
   findByIdentifier(identifier: string){
     return this.http.get<User>(this.url +'/users/byIdentifier/' + identifier);
+  }
+
+   changeActivateStatus(userId: string) {
+    return this.http.patch<User>(this.url + '/users/' + userId + '/activate', null);
   }
 }

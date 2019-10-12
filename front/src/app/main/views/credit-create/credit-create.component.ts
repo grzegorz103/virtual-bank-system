@@ -37,7 +37,7 @@ export class CreditCreateComponent implements OnInit {
   constructor(private fb: FormBuilder,
     private bankAccountService: BankAccountService,
     private creditService: CreditService) {
-    bankAccountService.findAll().subscribe(res => {
+    bankAccountService.findByUser().subscribe(res => {
       this.bankAccounts = res;
       this.form = this.fb.group({
         destinedSaldoId: '',

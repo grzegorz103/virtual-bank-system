@@ -64,7 +64,7 @@ public class UserServiceImpl implements UserService {
         User mapped = userMapper.userInToUser(userIn);
         mapped.setLocked(false);
         mapped.setCredentials(false);
-        mapped.setEnabled(true);
+        mapped.setEnabled(false);
         mapped.setIdentifier(RandomStringUtils.randomNumeric(CONSTANTS.USER_IDENTIFIER_LENGTH));
         mapped.setUserRoles(Collections.singleton(userRoleRepository.findByUserType(UserRole.UserType.ROLE_USER)));
         mapped.setPassword(passwordEncoder.encode(userIn.getPassword()));
@@ -142,6 +142,27 @@ public class UserServiceImpl implements UserService {
         return userMapper.userToUserOut(
             userRepository.findByIdentifier(identifier).orElseThrow(() -> new RuntimeException("User not found"))
         );
+    }
+
+    @Override
+    public List<UserOut> findAllByUserTypeAndNotEnabled(UserRole.UserType userType) {
+        return userRepository.findAllByUserTypeAndNotEnabled(userType)
+            .stream()
+            .map(userMapper::userToUserOut)
+            .collect(Collectors.toList());
+    }
+
+    @Override
+    public UserOut changeEnableStatus(Long id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (user.isEnabled()) {
+            user.setEnabled(false);
+        } else if (!user.isEnabled()) {
+            user.setEnabled(true);
+        }
+
+        return userMapper.userToUserOut(userRepository.save(user));
     }
 
     @Override

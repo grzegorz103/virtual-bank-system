@@ -12,6 +12,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/users")
@@ -35,8 +36,13 @@ public class UserController {
     }
 
     @GetMapping("/type/{type}")
-    public List<UserOut> findByUserType(@PathVariable("type") UserRole.UserType userType) {
-        return userService.findAllByUserType(userType);
+    public List<UserOut> findByUserType(@PathVariable("type") UserRole.UserType userType,
+                                        @RequestParam("disabledOnly")  Optional<String> disabledOnly ){
+      if(disabledOnly.isPresent()){
+          return userService.findAllByUserTypeAndNotEnabled(userType);
+      }else{
+          return userService.findAllByUserType(userType);
+      }
     }
 
     @GetMapping("/{id}")
@@ -58,5 +64,10 @@ public class UserController {
     @PatchMapping("/{id}/status")
     public UserOut changeLockStatus(@PathVariable("id") Long id) {
         return userService.changeStatus(id);
+    }
+
+    @PatchMapping("/{id}/activate")
+    public UserOut changeEnableStatus(@PathVariable("id") Long id){
+        return userService.changeEnableStatus(id);
     }
 }
