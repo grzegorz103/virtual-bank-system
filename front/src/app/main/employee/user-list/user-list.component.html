@@ -34,8 +34,8 @@
                 </td>
             </ng-container>
 
-            <tr mat-header-row *matHeaderRowDef="employeeTabColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: employeeTabColumns;"></tr>
+            <tr mat-header-row *matHeaderRowDef="newUsersTabColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: newUsersTabColumns;"></tr>
         </table>
         <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 

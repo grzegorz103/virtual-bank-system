@@ -4,12 +4,13 @@ import { CommonModule } from '@angular/common';
 import { EmployeeRoutingModule } from './employee-routing.module';
 import { EmployeeComponent } from './employee.component';
 import { SummaryComponent } from './summary/summary.component';
-import { MatPaginatorModule, MatCardModule, MatFormFieldModule, MatToolbarModule, MatTableModule, MatButtonModule, MatInputModule, MatAutocompleteModule, MatOptionModule, MatSelectModule } from '@angular/material';
-import { ReactiveFormsModule } from '@angular/forms';
+import { MatPaginatorModule, MatCardModule, MatFormFieldModule, MatToolbarModule, MatTableModule, MatButtonModule, MatInputModule, MatAutocompleteModule, MatOptionModule, MatSelectModule, MatDialogModule } from '@angular/material';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { EmployeeSupportComponent } from './employee-support/employee-support.component';
-import { MainModule } from '../main.module';
 import { PaymentCreateComponent } from './payment-create/payment-create.component';
 import { UserListComponent } from './user-list/user-list.component';
+import { UserDialogComponent } from './misc/user-dialog/user-dialog.component';
+import { UserEditDialogComponent } from './misc/user-edit-dialog/user-edit-dialog.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { UserListComponent } from './user-list/user-list.component';
     SummaryComponent,
     EmployeeSupportComponent,
     PaymentCreateComponent,
-    UserListComponent
+    UserListComponent,
+    UserDialogComponent, UserEditDialogComponent
   ],
   imports: [
     CommonModule,
@@ -28,6 +30,8 @@ import { UserListComponent } from './user-list/user-list.component';
     MatPaginatorModule,
     ReactiveFormsModule,
     MatCardModule,
+    FormsModule,
+    MatDialogModule,
     MatFormFieldModule,
     MatToolbarModule,
     MatButtonModule,
@@ -35,6 +39,7 @@ import { UserListComponent } from './user-list/user-list.component';
     MatAutocompleteModule,
     MatSelectModule,
     MatOptionModule
-  ]
+  ],
+  entryComponents: [UserDialogComponent, UserEditDialogComponent]
 })
 export class EmployeeModule { }
