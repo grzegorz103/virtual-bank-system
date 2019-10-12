@@ -67,7 +67,7 @@
 
         <ng-container matColumnDef="date">
           <th mat-header-cell *matHeaderCellDef> Data </th>
-          <td mat-cell *matCellDef="let element"> {{element.date | date: 'd/M/yy hh:mm:ss Z'}}</td>
+          <td mat-cell *matCellDef="let element"> <div matTooltip="{{element.date | amDateFormat: 'LL HH:mm'}}">{{element.date | amTimeAgo}}</div></td>
         </ng-container>
 
         <ng-container matColumnDef="balance">
