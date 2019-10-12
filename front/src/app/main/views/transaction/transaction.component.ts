@@ -47,7 +47,7 @@ export class TransactionComponent implements OnInit {
         .subscribe(res => this.fillFormWithTemplate(res));
     }
 
-    this.bankAccountService.findAll()
+    this.bankAccountService.findByUser()
       .subscribe(res => this.bankAccounts = res);
     this.transaction = new Transaction();
 

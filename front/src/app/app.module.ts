@@ -31,6 +31,7 @@ import { CreditService } from './main/services/credit.service';
 import { IndexComponent } from './shared/index/index.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { JwtModule } from "@auth0/angular-jwt";
+import 'moment/locale/pl';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -81,4 +82,6 @@ export function tokenGetter() {
   entryComponents: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+
+}

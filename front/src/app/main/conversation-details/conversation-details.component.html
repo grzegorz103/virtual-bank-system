@@ -16,7 +16,7 @@
             <mat-card
                 [ngClass]="message.user.identifier === authService.getUserIdentifier() ? 'my-message' : 'other-message'">
                 {{ message.message}}
-                <div class="date-text">{{ message.date }}</div>
+                <div class="date-text">{{ message.date | amTimeAgo}}</div>
             </mat-card>
         </div>
     </div>
