@@ -1,5 +1,6 @@
 package com.ii.app.controllers;
 
+import com.ii.app.dto.edit.PasswordEdit;
 import com.ii.app.dto.edit.UserEdit;
 import com.ii.app.dto.in.UserIn;
 import com.ii.app.dto.out.UserOut;
@@ -11,6 +12,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -69,5 +71,16 @@ public class UserController {
     @PatchMapping("/{id}/activate")
     public UserOut changeEnableStatus(@PathVariable("id") Long id){
         return userService.changeEnableStatus(id);
+    }
+
+    @GetMapping("/auth/current")
+    @PreAuthorize("isAuthenticated()")
+    public UserOut findCurrentUser(){
+        return userService.findCurrentUser();
+    }
+
+    @PatchMapping("/password/edit")
+    public UserOut updatePassword(@Valid @RequestBody PasswordEdit passwordEdit){
+        return userService.updatePassword(passwordEdit);
     }
 }
