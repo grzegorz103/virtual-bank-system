@@ -16,6 +16,7 @@ export class ExchangePageComponent implements OnInit {
   exchangeCurrency: ExchangeCurrency;
   currencyList: string[];
   faArrowRight = faArrowRight;
+  convertedValue: string;
 
   constructor(private exchangeCurrencyService: ExchangeCurrencyService,
     private bankAccountService: BankAccountService) { }
@@ -37,5 +38,16 @@ export class ExchangePageComponent implements OnInit {
       .find(e => e.number === this.exchangeCurrency.sourceBankAccNumber)
       .saldos
       .map(e => String(e.currencyType.name));
+    }
+
+    calculate(){
+      if(this.exchangeCurrency.balance <= 0){
+        alert('Kwota musi być większa od 0');
+      }
+      this.exchangeCurrencyService.calculate(this.exchangeCurrency)
+      .subscribe(res=>this.convertedValue = res);
+    }
+
+    convert(){
     }
 }
