@@ -5,14 +5,24 @@
 
 <div *ngIf="bankAccounts">
     <div *ngIf="bankAccounts.length > 0">
-        <mat-form-field style="width:100%">
-            <mat-label class="mt-2">Rachunek bankowy</mat-label>
-            <mat-select [(ngModel)]="exchangeCurrency.sourceBankAccNumber" (selectionChange)="changeCurrencyList()">
-                <mat-option *ngFor="let bankAccount of bankAccounts" [value]="bankAccount.number">
-                    {{bankAccount.number}}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
+        <div class="row">
+            <div class="col-8">
+                <mat-form-field style="width:100%">
+                    <mat-label class="mt-2">Rachunek bankowy</mat-label>
+                    <mat-select [(ngModel)]="exchangeCurrency.sourceBankAccNumber"
+                        (selectionChange)="changeCurrencyList()">
+                        <mat-option *ngFor="let bankAccount of bankAccounts" [value]="bankAccount.number">
+                            {{bankAccount.number}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-4">
+                <mat-form-field style="width: 100%">
+                    <input matInput type="text" placeholder="Kwota" [(ngModel)]="exchangeCurrency.balance">
+                </mat-form-field>
+            </div>
+        </div>
 
         <div class="row">
             <div class="col-5">
@@ -40,12 +50,12 @@
                     </mat-select>
                 </mat-form-field>
             </div>
-            <mat-form-field style="width: 100%">
-                <input matInput type="text" [(ngModel)]="exchangeCurrency.balance">
-            </mat-form-field>
         </div>
 
-
+            <div class="d-flex justify-content-center">
+                <button mat-raised-button color="primary" (click)="calculate()">Przelicz</button>
+                <button mat-raised-button class="bg-success text-white ml-2" (click)="convert()">Konwertuj</button>
+            </div>
     </div>
 
     <div *ngIf="bankAccounts.length === 0">
