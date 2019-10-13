@@ -13,6 +13,7 @@ import { CoreGuardService } from './misc/guard/core-guard.service';
 import { UserSupportComponent } from './user-support/user-support.component';
 import { ConversationDetailsComponent } from './conversation-details/conversation-details.component';
 import { ProfileEditComponent } from './profile-edit/profile-edit.component';
+import { ExchangePageComponent } from './views/exchange-page/exchange-page.component';
 
 
 const routes: Routes = [
@@ -46,7 +47,7 @@ const routes: Routes = [
           canActivate: [CoreGuardService]
         },
         {
-          path: 'exchange', component: ExchangeCurrencyComponent,
+          path: 'exchange', component: ExchangePageComponent,
           canActivate: [CoreGuardService]
         },
         {
@@ -61,6 +62,7 @@ const routes: Routes = [
           path: 'profile', component: ProfileEditComponent,
           canActivate: [CoreGuardService]
         },
+       // {path: 'excha'}
         {
           path: 'conversation/:id', component: ConversationDetailsComponent
         },

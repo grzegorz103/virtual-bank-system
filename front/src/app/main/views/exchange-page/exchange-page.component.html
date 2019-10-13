@@ -1,0 +1,58 @@
+<mat-toolbar>Wymiana walut <div
+        matTooltip="Umożliwia darmową wymianę waluty na wybraną. Tylko dla rachunków wielowalutowych" class="ml-2">(?)
+    </div>
+</mat-toolbar>
+
+<div *ngIf="bankAccounts">
+    <div *ngIf="bankAccounts.length > 0">
+        <mat-form-field style="width:100%">
+            <mat-label class="mt-2">Rachunek bankowy</mat-label>
+            <mat-select [(ngModel)]="exchangeCurrency.sourceBankAccNumber" (selectionChange)="changeCurrencyList()">
+                <mat-option *ngFor="let bankAccount of bankAccounts" [value]="bankAccount.number">
+                    {{bankAccount.number}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <div class="row">
+            <div class="col-5">
+                <mat-form-field style="width:100%">
+                    <mat-label class="mt-2">Waluta źródłowa</mat-label>
+                    <mat-select [(ngModel)]="exchangeCurrency.sourceCurrency">
+                        <mat-option *ngFor="let currency of currencyList" [value]="currency">
+                            {{ currency }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-2">
+                <div class="d-flex justify-content-center mt-2">
+                    <fa-icon [icon]="faArrowRight" style="font-size: 18px"></fa-icon>
+                </div>
+            </div>
+            <div class="col-5">
+                <mat-form-field style="width:100%">
+                    <mat-label class="mt-2">Waluta docelowa</mat-label>
+                    <mat-select [(ngModel)]="exchangeCurrency.destCurrency">
+                        <mat-option *ngFor="let currency of currencyList" [value]="currency">
+                            {{ currency }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <mat-form-field style="width: 100%">
+                <input matInput type="text" [(ngModel)]="exchangeCurrency.balance">
+            </mat-form-field>
+        </div>
+
+
+    </div>
+
+    <div *ngIf="bankAccounts.length === 0">
+        Brak wielowalutowych rachunków
+    </div>
+</div>
+
+<div *ngIf="!bankAccounts">
+    <mat-spinner></mat-spinner>
+</div>

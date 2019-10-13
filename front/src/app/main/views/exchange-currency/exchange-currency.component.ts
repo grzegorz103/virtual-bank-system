@@ -3,7 +3,6 @@ import { ExchangeCurrency } from '../../models/exchange-currency';
 import { ExchangeCurrencyService } from '../../services/exchange-currency.service';
 import { BankAccount } from '../../models/bank-account';
 import { BankAccountService } from '../../services/bank-account.service';
-
 @Component({
   selector: 'app-exchange-currency',
   templateUrl: './exchange-currency.component.html',
