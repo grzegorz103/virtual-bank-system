@@ -1,0 +1,85 @@
+<div *ngIf="user">
+    <mat-toolbar>Dane adresowe</mat-toolbar>
+    <div class="row">
+        <div class="col-6">
+            {{ user.identifier }}
+        </div>
+
+        <div class="col-6">
+            <mat-form-field>
+                <input matInput placeholder="Email" type="email" [(ngModel)]="user.email">
+            </mat-form-field>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-5">
+            <mat-form-field>
+                <input matInput placeholder="Imię" type="text" [(ngModel)]="user.address.name">
+            </mat-form-field>
+        </div>
+
+        <div class="col-5">
+            <mat-form-field>
+                <input matInput placeholder="Nazwisko" type="text" [(ngModel)]="user.address.surname">
+            </mat-form-field>
+        </div>
+
+        <div class="col-2">
+            <mat-form-field>
+                <input matInput placeholder="Kod pocztowy" type="text" [(ngModel)]="user.address.postCode">
+            </mat-form-field>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-5">
+            <mat-form-field>
+                <input matInput placeholder="Miasto" type="text" [(ngModel)]="user.address.city">
+            </mat-form-field>
+        </div>
+
+        <div class="col-5">
+            <mat-form-field>
+                <input matInput placeholder="Ulica" type="text" [(ngModel)]="user.address.street">
+            </mat-form-field>
+        </div>
+
+        <div class="col-2">
+            <mat-form-field>
+                <input matInput placeholder="Nr mieszkania" type="text" [(ngModel)]="user.address.houseNumber">
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+            <div class="col-12">
+                <p style="font-size: 13px">W razie potrzeby zmiany adresy, należy utworzyć zgłoszenie</p>
+            </div>
+        </div>
+    <mat-toolbar>
+        Edycja hasła
+    </mat-toolbar>
+    <form [formGroup]="passwordForm" (ngSubmit)="sendPasswordEditForm()">
+        <div class="row">
+            <div class="col-6">
+                <mat-form-field>
+                    <input matInput placeholder="Nowe hasło" type="password" formControlName="password">
+                </mat-form-field>
+            </div>
+
+            <div class="col-6">
+                <mat-form-field>
+                    <input matInput placeholder="Potwierdź hasło" type="password" formControlName="confirmPassword">
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="d-flex justify-content-center">
+            <button mat-raised-button class="bg-success text-white mb-2">Wyślij</button>
+        </div>
+    </form>
+</div>
+
+<div *ngIf="!user">
+    <mat-spinner></mat-spinner>
+</div>

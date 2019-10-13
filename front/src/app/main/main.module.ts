@@ -28,6 +28,8 @@ import { AuthService } from '../shared/services/auth.service';
 import { ConversationDetailsComponent } from './conversation-details/conversation-details.component';
 import { UserSupportComponent } from './user-support/user-support.component';
 import { MomentModule } from 'angular2-moment';
+import { ProfileEditComponent } from './profile-edit/profile-edit.component';
+import { ExchangePageComponent } from './views/exchange-page/exchange-page.component';
 
 
 @NgModule({
@@ -43,7 +45,9 @@ import { MomentModule } from 'angular2-moment';
     DialogWindowComponent,
     CreditCreateComponent,
     ConversationDetailsComponent,
-    UserSupportComponent
+    UserSupportComponent,
+    ExchangePageComponent,
+    ProfileEditComponent
   ],
   exports: [
     ConversationDetailsComponent
