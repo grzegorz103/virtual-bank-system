@@ -56,19 +56,20 @@
         Edycja hasła
     </mat-toolbar>
     <div class="row">
-        <div class="col-6">
-            <mat-form-field>
-                <input matInput placeholder="Nowe hasło" type="text">
-            </mat-form-field>
-        </div>
+        <form [formGroup]="passwordForm" (ngSubmit)="sendPasswordEditForm()">
+            <div class="col-6">
+                <mat-form-field>
+                    <input matInput placeholder="Nowe hasło" type="password" formControlName="password">
+                </mat-form-field>
+            </div>
 
-        <div class="col-6">
-            <mat-form-field>
-                <input matInput placeholder="Potwierdź hasło" type="text">
-            </mat-form-field>
-        </div> 
-        <button mat-raised-button (click)="sendPasswordEditForm()" class="bg-success text-white mb-2">Wyślij</button>
-
+            <div class="col-6">
+                <mat-form-field>
+                    <input matInput placeholder="Potwierdź hasło" type="password" formControlName="confirmPassword">
+                </mat-form-field>
+            </div>
+            <button mat-raised-button class="bg-success text-white mb-2">Wyślij</button>
+        </form>
     </div>
 </div>
 
