@@ -25,7 +25,7 @@ export class UserService {
 
   findByUserType(userType: string, disabledOnly?: boolean) {
     const queryParams = disabledOnly ? '?disabledOnly=yes' : '';
-    return this.http.get<User[]>(this.url + '/users/type/' + userType + queryParams );
+    return this.http.get<User[]>(this.url + '/users/type/' + userType + queryParams);
   }
 
   findById(id: string) {
@@ -40,11 +40,20 @@ export class UserService {
     return this.http.patch<User>(this.url + '/users/' + id + '/status', null);
   }
 
-  findByIdentifier(identifier: string){
-    return this.http.get<User>(this.url +'/users/byIdentifier/' + identifier);
+  findByIdentifier(identifier: string) {
+    return this.http.get<User>(this.url + '/users/byIdentifier/' + identifier);
   }
 
-   changeActivateStatus(userId: string) {
+  changeActivateStatus(userId: string) {
     return this.http.patch<User>(this.url + '/users/' + userId + '/activate', null);
   }
+
+  findCurrentUser() {
+    return this.http.get<User>(this.url + '/users/auth/current');
+  }
+
+  editPassword(value: string) {
+    return this.http.patch<User>(this.url + '/users/password/edit', value);
+  }
+
 }

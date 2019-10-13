@@ -1,5 +1,6 @@
 package com.ii.app.services.interfaces;
 
+import com.ii.app.dto.edit.PasswordEdit;
 import com.ii.app.dto.edit.UserEdit;
 import com.ii.app.dto.in.UserIn;
 import com.ii.app.dto.out.UserOut;
@@ -12,7 +13,7 @@ import java.util.List;
 public interface UserService extends UserDetailsService {
     UserOut create(UserIn userIn);
 
-    UserOut getByUsername(String username);
+    UserOut findCurrentUser();
 
     List<UserOut> findAllByUserType(UserRole.UserType userType);
 
@@ -29,4 +30,6 @@ public interface UserService extends UserDetailsService {
     List<UserOut> findAllByUserTypeAndNotEnabled(UserRole.UserType userType);
 
     UserOut changeEnableStatus(Long id);
+
+    UserOut updatePassword(PasswordEdit passwordEdit);
 }

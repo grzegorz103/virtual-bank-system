@@ -1,6 +1,7 @@
 package com.ii.app.services;
 
 import com.ii.app.config.security.JwtTokenGenerator;
+import com.ii.app.dto.edit.PasswordEdit;
 import com.ii.app.dto.edit.UserEdit;
 import com.ii.app.dto.in.UserIn;
 import com.ii.app.dto.out.UserOut;
@@ -20,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -73,10 +75,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserOut getByUsername(String username) {
-        return userRepository.findByIdentifier(username)
+    public UserOut findCurrentUser() {
+        return userRepository.findByIdentifier(SecurityContextHolder.getContext().getAuthentication().getName())
             .map(userMapper::userToUserOut)
-            .orElseThrow(() -> new UsernameNotFoundException("Not found"));
+            .orElseThrow(() -> new RuntimeException("User not found"));
     }
 
     @Override
@@ -161,6 +163,19 @@ public class UserServiceImpl implements UserService {
         } else if (!user.isEnabled()) {
             user.setEnabled(true);
         }
+
+        return userMapper.userToUserOut(userRepository.save(user));
+    }
+
+    @Override
+    public UserOut updatePassword(PasswordEdit passwordEdit) {
+        if (!StringUtils.equals(passwordEdit.getPassword(), passwordEdit.getConfirmPassword())) {
+            throw new RuntimeException("Provided passwords does not match");
+        }
+        User user = userRepository.findByIdentifier(SecurityContextHolder.getContext().getAuthentication().getName())
+            .orElseThrow(() -> new RuntimeException("User not found"));
+
+        user.setPassword(passwordEncoder.encode(passwordEdit.getPassword()));
 
         return userMapper.userToUserOut(userRepository.save(user));
     }
