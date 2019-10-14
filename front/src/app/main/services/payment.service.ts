@@ -11,7 +11,12 @@ export class PaymentService {
 
   constructor(private http: HttpClient) { }
 
-  create(payment: string){
+  create(payment: string) {
     return this.http.post<Payment>(this.url, payment);
   }
+
+  findAllByBankAccountId(id: number) {
+    return this.http.get<Payment[]>(this.url + '/account/' + id);
+  }
+
 }
