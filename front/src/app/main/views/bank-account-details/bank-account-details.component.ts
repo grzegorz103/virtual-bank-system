@@ -8,10 +8,10 @@ import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 import { TransactionHistory } from '../../models/transaction-history';
 import { TransactionIn } from '../../models/history-element';
 import { faArrowCircleDown, faArrowCircleUp } from '@fortawesome/free-solid-svg-icons';
-class A implements TransactionHistory {
-  id = 2;
-  dupa = 'asd'
-}
+import { PaymentService } from '../../services/payment.service';
+import { Payment } from '../../models/payment';
+import { PaymentHistory } from '../../models/payment-history';
+
 @Component({
   selector: 'app-bank-account-details',
   templateUrl: './bank-account-details.component.html',
@@ -23,6 +23,7 @@ export class BankAccountDetailsComponent implements OnInit {
   bankAccount: BankAccount;
   id: number;
   isLoading = true;
+  isLoadingPayments = true;
 
   chartType: string = 'bar';
   chartDatasets: Array<any> = [
@@ -74,6 +75,7 @@ export class BankAccountDetailsComponent implements OnInit {
 
   constructor(private bankAccountService: BankAccountService,
     private transactionService: TransactionService,
+    private paymentService: PaymentService,
     private activatedRoute: ActivatedRoute) {
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
@@ -93,9 +95,20 @@ export class BankAccountDetailsComponent implements OnInit {
               resMapped = res.map(e => new TransactionIn(e, this.bankAccount.bankAccType.bankAccountType));
 
               resMapped.forEach(e => this.transactions.data.push(e));
-              this.transactions.data.push(new A());
-              this.transactions.paginator = this.paginator;
+              this.paymentService.findAllByBankAccountId(this.id)
+              .subscribe(res => {
+                this.isLoadingPayments = false;
+                let resMapped: PaymentHistory[];
+                resMapped = res.map(e => new PaymentHistory(e));
+  
+                resMapped.forEach(e => this.transactions.data.push(e));
+
+                this.transactions.data.sort((o1, o2)=> new Date(o2.date).getTime() - new Date(o1.date).getTime());
+                this.transactions.paginator = this.paginator;
+              });
             });
+
+        
         });
 
     })
@@ -108,8 +121,8 @@ export class BankAccountDetailsComponent implements OnInit {
     this.bankAccount
       .saldos
       .sort((o1, o2) => o1.currencyType.name.localeCompare(o2.currencyType.name));
-   
-      let saldos = this.bankAccount.saldos.map(e => e.balance);
+
+    let saldos = this.bankAccount.saldos.map(e => e.balance);
     this.chartDatasets = [{ data: saldos, label: 'Stan konta' }];
 
     let saldoNames = this.bankAccount.saldos.map(e => e.currencyType.name);
