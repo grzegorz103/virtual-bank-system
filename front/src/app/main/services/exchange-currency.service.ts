@@ -14,4 +14,8 @@ export class ExchangeCurrencyService {
   create(exchangecurrency: ExchangeCurrency){
     return this.http.post<ExchangeCurrency>(this.url, exchangecurrency);
   }
+
+  calculate(exchangeCurrency: ExchangeCurrency){
+    return this.http.post<string>(this.url + '/calculate', exchangeCurrency);
+  }
 }

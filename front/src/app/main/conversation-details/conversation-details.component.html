@@ -3,6 +3,7 @@
         <div *ngIf="conversation">
             <p>Temat: {{ conversation.topic }}</p>
             <p>{{ conversation.user.address.name }} {{ conversation.user.address.surname }}</p>
+            <p>{{ conversation.creationDate | amDateFormat: 'LL HH:mm' }}</p>
         </div>
         <hr />
         <div class="d-flex justify-content-center">

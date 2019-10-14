@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Conversation } from '../models/conversation';
 import { FormGroup, NgForm, FormBuilder, Validators } from '@angular/forms';
 import { ConversationService } from '../services/conversation.service';
+import { MatTableDataSource, MatPaginator } from '@angular/material';
 
 @Component({
   selector: 'app-user-support',
@@ -13,7 +14,10 @@ export class UserSupportComponent implements OnInit {
   isLoadingMyConversations = true;
 
   myConversationColumns = ['topic', 'creationDate', 'status', 'details']
-  myConversations: Conversation[];
+  myConversations = new MatTableDataSource<Conversation>();
+  
+  @ViewChild(MatPaginator, { static: true })
+  paginator: MatPaginator;
 
   conversationForm: FormGroup;
   @ViewChild('formDirective', { static: true }) private formDirective: NgForm;
@@ -28,7 +32,10 @@ export class UserSupportComponent implements OnInit {
 
   fetchMyConversations() {
     this.conversationService.findByUser()
-      .subscribe(res => { this.myConversations = res; this.isLoadingMyConversations = false });
+      .subscribe(res => { 
+        this.myConversations.data = res; 
+        this.isLoadingMyConversations = false;
+        this.myConversations.paginator = this.paginator; });
   }
 
   createConversationForm() {

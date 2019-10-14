@@ -2,3 +2,23 @@
 @import "~bootstrap/dist/css/bootstrap.css";
 @import '@angular/material/prebuilt-themes/deeppurple-amber.css';
 
+
+.blue-snackbar{
+    color: white;
+    background-color: #0062CC;   
+}
+
+.red-snackbar{
+    color: white;
+    background-color: #ff002f;
+}
+
+.green-snackbar{
+    color: white;
+    background-color: #27D20D;
+}
+
+.mat-simple-snackbar span {
+    margin: auto;
+    text-align: center;
+  }
