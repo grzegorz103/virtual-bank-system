@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 @Component
-public class CurrencyConverterImpl implements CurrencyConverter
+public class  CurrencyConverterImpl implements CurrencyConverter
 {
         @Override
         public BigDecimal convertCurrency ( float currency, CurrencyType sourceCurrency, CurrencyType destinedCurrency )

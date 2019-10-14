@@ -4,6 +4,7 @@ import { ExchangeCurrency } from '../../models/exchange-currency';
 import { ExchangeCurrencyService } from '../../services/exchange-currency.service';
 import { BankAccountService } from '../../services/bank-account.service';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-exchange-page',
@@ -19,6 +20,7 @@ export class ExchangePageComponent implements OnInit {
   convertedValue: string;
 
   constructor(private exchangeCurrencyService: ExchangeCurrencyService,
+    private snackBar: MatSnackBar,
     private bankAccountService: BankAccountService) { }
 
   ngOnInit() {
@@ -38,16 +40,25 @@ export class ExchangePageComponent implements OnInit {
       .find(e => e.number === this.exchangeCurrency.sourceBankAccNumber)
       .saldos
       .map(e => String(e.currencyType.name));
+  }
+
+  calculate() {
+    if (!this.exchangeCurrency.balance || this.exchangeCurrency.balance <= 0) {
+      this.snackBar.open('Kwota musi być większa od 0', '', { duration: 3000, panelClass: 'red-snackbar' });
+      return;
+    }
+    this.exchangeCurrencyService.calculate(this.exchangeCurrency)
+      .subscribe(res => this.convertedValue = res);
+  }
+
+  convert() {
+    if (!this.exchangeCurrency.balance || this.exchangeCurrency.balance <= 0) {
+      this.snackBar.open('Kwota musi być większa od 0', '', { duration: 3000, panelClass: 'red-snackbar' });
+      return;
     }
 
-    calculate(){
-      if(this.exchangeCurrency.balance <= 0){
-        alert('Kwota musi być większa od 0');
-      }
-      this.exchangeCurrencyService.calculate(this.exchangeCurrency)
-      .subscribe(res=>this.convertedValue = res);
-    }
-
-    convert(){
-    }
+    this.exchangeCurrencyService.create(this.exchangeCurrency)
+      .subscribe(res => this.snackBar.open('Przekonwertowano walutę', '', { duration: 3000, panelClass: 'green-snackbar' }));
+  
+  }
 }

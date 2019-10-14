@@ -6,6 +6,7 @@ import { FormBuilder, FormGroup, Validators, NgForm } from '@angular/forms';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { ConversationService } from '../services/conversation.service';
 import { Conversation, PageWrapper } from '../models/conversation';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-conversation-details',
@@ -27,6 +28,7 @@ export class ConversationDetailsComponent implements OnInit {
   constructor(private route: ActivatedRoute,
     private fb: FormBuilder,
     private authService: AuthService,
+    private snackBar: MatSnackBar,
     private conversationService: ConversationService,
     private messageService: MessageService) {
     this.conversationId = this.route.snapshot.paramMap.get('id');
@@ -79,11 +81,13 @@ export class ConversationDetailsComponent implements OnInit {
     };
     this.messageService.create(this.replyForm.value)
       .subscribe(res => {
-        alert('Dodano odpowiedź');
+        this.snackBar.open('Wysłano odpowiedź', '', { duration: 3000, panelClass: 'green-snackbar' });
+
         this.createReplyForm();
         // this.replyForm.reset();
         this.formDirective.resetForm();
         this.messages.push(res);
-      });
+      }, err => this.snackBar.open('Niepoprawna wiadomość', '', { duration: 3000, panelClass: 'red-snackbar' })
+      );
   }
 }
