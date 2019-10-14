@@ -32,8 +32,9 @@
             </tr>
           </tbody>
         </table>
-       <!--  <span class="text-danger">Po akceptacji pracownika rachunek zostanie utworzony</span>
-       -->  <div class="row mt-2"><button mat-raised-button color="primary" class="w-30 mx-auto"
+        <!--  <span class="text-danger">Po akceptacji pracownika rachunek zostanie utworzony</span>
+       -->
+        <div class="row mt-2"><button mat-raised-button color="primary" class="w-30 mx-auto"
             (click)="createBankAccount()">Utwórz</button>
         </div>
       </div>
@@ -61,13 +62,17 @@
 
     <ng-container matColumnDef="multiCurrency">
       <th mat-header-cell *matHeaderCellDef>Wielowalutowe</th>
-      <td mat-cell *matCellDef="let element"> {{element.multiCurrency}} </td>
+      <td mat-cell *matCellDef="let element"> <span
+          *ngIf="element.bankAccType.bankAccountType === 'MULTI_CURRENCY'">Wielowalutowe</span>
+        <span *ngIf="element.bankAccType.bankAccountType === 'STANDARD'">Standardowe</span>
+        <span *ngIf="element.bankAccType.bankAccountType === 'STUDENT'">Studenckie</span> </td>
     </ng-container>
 
     <ng-container matColumnDef="saldos">
       <th mat-header-cell *matHeaderCellDef>Salda</th>
       <td mat-cell *matCellDef="let element"> <span
-          *ngFor="let saldo of element.saldos">{{saldo.balance | currency: saldo.currencyType.name}}, </span> </td>
+          *ngFor="let saldo of element.saldos; let i = index">{{saldo.balance | currency: saldo.currencyType.name}}<span
+            *ngIf="i < element.saldos.length - 1">, </span> </span> </td>
     </ng-container>
 
     <ng-container matColumnDef="details">

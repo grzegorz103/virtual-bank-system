@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequestMapping("/api/payments")
 @RestController
 public class PaymentController {
@@ -21,5 +23,11 @@ public class PaymentController {
     //@Secured("ROLE_EMPLOYEE")
     public PaymentOut create(@RequestBody PaymentIn paymentIn) {
         return paymentService.create(paymentIn);
+    }
+
+    @GetMapping("/account/{id}")
+    @Secured("ROLE_USER")
+    public List<PaymentOut> findByAccountId(@PathVariable("id")Long id){
+        return paymentService.findAllByBankAccountId(id);
     }
 }

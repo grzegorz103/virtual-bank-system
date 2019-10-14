@@ -2,28 +2,23 @@ import { BankAccount } from './bank-account';
 import { TransactionHistory } from './transaction-history';
 import { CurrencyType } from './currency-type';
 
-export class TransactionIn implements TransactionHistory {
-    id: number;
-    date: Date;
-    balance: number;
+export class TransactionIn extends TransactionHistory {
     balanceWithCommission: number;
-    sourceBankAccount: BankAccount;
     title: string;
-    destinedBankAccount: BankAccount;
     type: string;
-    sourceCurrencyType: CurrencyType;
     destinedCurrencyType: CurrencyType;
-
+    sourceBankAccount: BankAccount;
     constructor(transaction?: TransactionIn, type?) {
-        this.id = transaction.id;
-        this.sourceBankAccount = transaction.sourceBankAccount;
-        this.sourceCurrencyType = transaction.sourceCurrencyType;
-        this.destinedBankAccount = transaction.destinedBankAccount;
-        this.balance = transaction.balance;
-        this.destinedCurrencyType = transaction.destinedCurrencyType;
+        super(transaction.id,
+             transaction.date, 
+             transaction.balance, 
+             transaction.sourceCurrencyType,
+              transaction.destinedBankAccount);
         this.title = transaction.title;
-        this.date = transaction.date;
         this.balanceWithCommission = transaction.balanceWithCommission;
         this.type = type;
+        this.sourceBankAccount = transaction.sourceBankAccount;
+        this.destinedCurrencyType = transaction.destinedCurrencyType;
     }
+
 }

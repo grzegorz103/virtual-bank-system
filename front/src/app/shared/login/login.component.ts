@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../services/user.service';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-login',
@@ -15,6 +16,7 @@ export class LoginComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
     private userService: UserService,
+    private snackBar: MatSnackBar,
     private authService: AuthService,
     private router: Router) {
     this.form = this.fb.group({
@@ -35,11 +37,11 @@ export class LoginComponent implements OnInit {
           this.authService.saveToken(res.headers.get('Authorization'));
           this.authService.setUserRoles();
           this.authService.setUserIdentifier();
-          alert('Zalogowano');
-          console.log(this.authService.getUserRoles());
+          this.snackBar.open('Zalogowano', '', { duration: 3000, panelClass: 'green-snackbar' });
           this.router.navigateByUrl('/core/bankAccounts');
         }
-      });
+      }, err => this.snackBar.open('Niepoprawny identyfikator lub hasło', '', { duration: 3000, panelClass: 'red-snackbar' })
+      );
   }
 
 }
