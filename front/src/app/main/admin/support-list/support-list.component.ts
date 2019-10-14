@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Conversation } from '../../models/conversation';
 import { ConversationService } from '../../services/conversation.service';
+import { MatTableDataSource, MatPaginator } from '@angular/material';
 
 @Component({
   selector: 'app-support-list',
@@ -9,7 +10,11 @@ import { ConversationService } from '../../services/conversation.service';
 })
 export class SupportListComponent implements OnInit {
 
-  conversations: Conversation[];
+  conversations = new MatTableDataSource<Conversation>();
+  
+  @ViewChild(MatPaginator, { static: true })
+  paginator: MatPaginator;
+  
   conversationColumns = ['topic', 'creationDate', 'status', 'details']
 
   constructor(private conversationService: ConversationService) { }
@@ -20,7 +25,8 @@ export class SupportListComponent implements OnInit {
 
   fetchConversations(){
     this.conversationService.findEmployeeAdminConversations()
-    .subscribe(res=>this.conversations = res);
+    .subscribe(res=>{this.conversations.data = res;
+      this.conversations.paginator = this.paginator;});
   }
 
   changeStatus(id: number) {

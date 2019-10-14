@@ -17,7 +17,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatStepperModule } from '@angular/material/stepper';
 import {
   MatButtonModule, MatFormFieldModule, MatInputModule, MatCardModule, MatOptionModule,
-  MatSelectModule, MatIconModule, MatTableModule, MatProgressBar, MatProgressBarModule, MatDividerModule, MatDialogModule, MatTabsModule, MatRadioButton, MatRadioModule, MatToolbarModule, MatProgressSpinnerModule, MatCheckboxModule, MatSlideToggleModule, MatChipsModule
+  MatSelectModule, MatIconModule, MatTableModule, MatProgressBar, MatProgressBarModule, MatDividerModule, MatDialogModule, MatTabsModule, MatRadioButton, MatRadioModule, MatToolbarModule, MatProgressSpinnerModule, MatCheckboxModule, MatSlideToggleModule, MatChipsModule, MatSnackBarModule
 } from '@angular/material';
 import { BankAccountDetailsComponent } from './main/views/bank-account-details/bank-account-details.component';
 import { ChartsModule, WavesModule, MDBBootstrapModule } from 'angular-bootstrap-md';
@@ -65,6 +65,7 @@ export function tokenGetter() {
     MatDialogModule,
     MatTabsModule,
     MatRadioModule,
+    MatSnackBarModule,
     MatProgressSpinnerModule,
     MatToolbarModule,
     MatCheckboxModule,
