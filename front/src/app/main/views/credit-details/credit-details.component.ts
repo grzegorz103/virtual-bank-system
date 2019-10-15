@@ -55,7 +55,8 @@ export class CreditDetailsComponent implements OnInit {
       creditId: this.credit.id
     }).subscribe(res => {
       this.fetchInstallmentList();
-      this.snackBar.open('Wysłano odpowiedź', '', { duration: 3000, panelClass: 'green-snackbar' });
+      this.fetchCredit();
+      this.snackBar.open('Utworzono wpłatę', '', { duration: 3000, panelClass: 'green-snackbar' });
     });
   }
 
