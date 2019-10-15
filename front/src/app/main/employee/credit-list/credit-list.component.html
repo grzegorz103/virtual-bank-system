@@ -20,6 +20,12 @@
                 </td>
             </ng-container>
 
+            <ng-container matColumnDef="currency">
+                    <th mat-header-cell *matHeaderCellDef> Waluta </th>
+                    <td mat-cell *matCellDef="let element"> {{element.currency}}
+                    </td>
+                </ng-container>
+
             <ng-container matColumnDef="accept">
                 <th mat-header-cell *matHeaderCellDef> Akceptuj </th>
                 <td mat-cell *matCellDef="let element">
@@ -68,6 +74,10 @@
             <tr>
                 <td class="divider">Wysokość kredytu: </td>
                 <td>{{ credit.totalBalance }}</td>
+            </tr>
+            <tr>
+                <td class="divider">Waluta: </td>
+                <td>{{ credit.currency }}</td>
             </tr>
             <tr>
                 <td class="divider">Status: </td>

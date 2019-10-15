@@ -19,7 +19,7 @@ export class CreditListComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true })
   paginator: MatPaginator;
 
-  creditsColumns = ['id', 'totalBalance', 'totalInstallmentCount', 'accept', 'reject'];
+  creditsColumns = ['id', 'totalBalance', 'totalInstallmentCount', 'currency', 'accept', 'reject'];
 
   constructor(private creditService: CreditService,
     private snackBar: MatSnackBar,
@@ -48,7 +48,7 @@ export class CreditListComponent implements OnInit {
   acceptCredit(id: number) {
     this.creditService.changeStatus(id, 'ACTIVE')
       .subscribe(res => {
-        this.fetchCreditList(); 
+        this.fetchCreditList();
         this.snackBar.open('Zaakceptowano kredyt', '', { duration: 3000, panelClass: 'green-snackbar' });
       });
   }
@@ -70,7 +70,7 @@ export class CreditListComponent implements OnInit {
       .subscribe(res => {
         this.credit = res;
         this.fetchCreditList();
-        this.snackBar.open('Wysłano odpowiedź', '', { duration: 3000, panelClass: 'green-snackbar' });
+        this.snackBar.open('Zmieniono status', '', { duration: 3000, panelClass: 'green-snackbar' });
       });
   }
 
