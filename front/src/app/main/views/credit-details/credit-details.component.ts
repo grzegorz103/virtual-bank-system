@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Credit } from '../../models/credit';
 import { CreditService } from '../../services/credit.service';
 import { ActivatedRoute } from '@angular/router';
 import { InstallmentService } from 'src/app/main/services/installment.service';
 import { Installment } from '../../models/installment';
+import { MatTableDataSource, MatPaginator, MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-credit-details',
@@ -13,11 +14,17 @@ import { Installment } from '../../models/installment';
 export class CreditDetailsComponent implements OnInit {
 
   credit: Credit;
-  installments: Installment[];
+  installments = new MatTableDataSource<Installment>();
   creditId: any;
+  isLoading = true;
+  installmentColumns = ['id']
+
+  @ViewChild(MatPaginator, { static: true })
+  paginator: MatPaginator;
 
   constructor(private creditService: CreditService,
     private installmentService: InstallmentService,
+    private snackBar: MatSnackBar,
     private route: ActivatedRoute) {
     this.creditId = this.route.snapshot.paramMap.get('id');
   }
@@ -34,7 +41,22 @@ export class CreditDetailsComponent implements OnInit {
 
   fetchInstallmentList() {
     this.installmentService.findAllByCreditId(this.creditId)
-      .subscribe(res => this.installments = res);
+      .subscribe(res => {
+        this.installments.data = res;
+        this.isLoading = false;
+        this.installments.paginator = this.paginator;
+      });
+  }
+
+  createInstallment() {
+    this.installmentService.create({
+      sourceSaldoId: this.credit.destinedSaldoId,
+      currency: this.credit.currency,
+      creditId: this.credit.id
+    }).subscribe(res => {
+      this.fetchInstallmentList();
+      this.snackBar.open('Wysłano odpowiedź', '', { duration: 3000, panelClass: 'green-snackbar' });
+    });
   }
 
 }

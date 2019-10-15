@@ -11,11 +11,11 @@ export class InstallmentService {
 
   constructor(private http: HttpClient) { }
 
-  create(installment: string) {
+  create(installment: any) {
     return this.http.post<Installment>(this.url, installment);
   }
 
   findAllByCreditId(creditId: number) {
-    return this.http.get<Installment[]>(this.url);
+    return this.http.get<Installment[]>(this.url + '/byCredit/' + creditId);
   }
 }
