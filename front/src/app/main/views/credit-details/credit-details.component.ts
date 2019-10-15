@@ -17,7 +17,7 @@ export class CreditDetailsComponent implements OnInit {
   installments = new MatTableDataSource<Installment>();
   creditId: any;
   isLoading = true;
-  installmentColumns = ['id']
+  installmentColumns = ['id', 'amount', 'payDate'];
 
   @ViewChild(MatPaginator, { static: true })
   paginator: MatPaginator;
@@ -42,7 +42,7 @@ export class CreditDetailsComponent implements OnInit {
   fetchInstallmentList() {
     this.installmentService.findAllByCreditId(this.creditId)
       .subscribe(res => {
-        this.installments.data = res;
+        this.installments.data = res.sort((o1, o2) => new Date(o1.payDate).getTime() - new Date(o2.payDate).getTime());
         this.isLoading = false;
         this.installments.paginator = this.paginator;
       });

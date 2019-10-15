@@ -17,7 +17,7 @@ export class CreditPageComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true })
   paginator: MatPaginator;
 
-  creditsColumns = ['id', 'totalBalance', 'totalInstallmentCount', 'currency', 'details'];
+  creditsColumns = ['id', 'totalBalance', 'totalInstallmentCount', 'currency', 'status', 'details'];
 
   constructor(private creditService: CreditService,
     private snackBar: MatSnackBar,
