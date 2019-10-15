@@ -11,6 +11,7 @@ import { PaymentCreateComponent } from './payment-create/payment-create.componen
 import { UserListComponent } from './user-list/user-list.component';
 import { UserDialogComponent } from './misc/user-dialog/user-dialog.component';
 import { UserEditDialogComponent } from './misc/user-edit-dialog/user-edit-dialog.component';
+import { CreditListComponent } from './credit-list/credit-list.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { UserEditDialogComponent } from './misc/user-edit-dialog/user-edit-dialo
     EmployeeSupportComponent,
     PaymentCreateComponent,
     UserListComponent,
-    UserDialogComponent, UserEditDialogComponent
+    UserDialogComponent, UserEditDialogComponent,
+    CreditListComponent,
   ],
   imports: [
     CommonModule,

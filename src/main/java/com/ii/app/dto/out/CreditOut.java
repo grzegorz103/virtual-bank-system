@@ -10,20 +10,21 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class CreditOut
-{
-        private Long id;
+public class CreditOut {
+    private Long id;
 
-        //      private Saldo destinedSaldo;
+    //      private Saldo destinedSaldo;
 
-        private BigDecimal totalBalance;
+    private BigDecimal totalBalance;
 
-        private BigDecimal balancePaid;
+    private BigDecimal balancePaid;
 
-        private BigDecimal installmentAmount;
+    private BigDecimal installmentAmount;
 
-        private Integer totalInstallmentCount;
+    private Integer totalInstallmentCount;
 
-        private CreditStatusOut creditStatus;
+    private String currency;
+
+    private CreditStatusOut creditStatus;
 //        private Set<Installment> installments;
 }

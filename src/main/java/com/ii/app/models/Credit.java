@@ -50,4 +50,6 @@ public class Credit {
     @JoinColumn(name = "status_id")
     private CreditStatus creditStatus;
 
+    @Column(name="accepted_already")
+    private boolean acceptedAlready;
 }

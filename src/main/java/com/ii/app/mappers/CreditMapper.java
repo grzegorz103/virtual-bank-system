@@ -9,6 +9,5 @@ import org.mapstruct.Mapper;
 public interface CreditMapper
 {
         Credit DTOtoEntity ( CreditIn creditIn );
-
         CreditOut entityToDTO ( Credit credit );
 }
