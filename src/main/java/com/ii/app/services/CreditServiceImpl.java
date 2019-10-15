@@ -30,6 +30,7 @@ public class CreditServiceImpl implements CreditService {
 
     private final CreditStatusRepository creditStatusRepository;
 
+
     @Autowired
     public CreditServiceImpl(CreditRepository creditRepository,
                              CreditMapper creditMapper,
@@ -49,7 +50,7 @@ public class CreditServiceImpl implements CreditService {
         Saldo destinedSaldo = saldoRepository.findById(creditIn.getDestinedSaldoId())
             .orElseThrow(() -> new RuntimeException("Not found"));
 
-        destinedSaldo.setBalance(destinedSaldo.getBalance().add(creditIn.getTotalBalance()));
+        mapped.setAcceptedAlready(false);
         mapped.setCurrency(destinedSaldo.getCurrencyType().getName());
         mapped.setDestinedSaldo(destinedSaldo);
         mapped.setInstallments(new HashSet<>());
@@ -78,6 +79,11 @@ public class CreditServiceImpl implements CreditService {
                 break;
             case AWAITING:
                 credit.setCreditStatus(creditStatusRepository.findByCreditType(CreditStatus.CreditType.ACTIVE));
+                if (!credit.isAcceptedAlready()) {
+                    credit.setAcceptedAlready(true);
+                    transferBalance(credit);
+                }
+                break;
         }
 
         return creditMapper.entityToDTO(creditRepository.save(credit));
@@ -87,6 +93,12 @@ public class CreditServiceImpl implements CreditService {
     public CreditOut changeStatus(Long creditId, CreditStatus.CreditType creditType) {
         Credit credit = creditRepository.findById(creditId).orElseThrow(() -> new RuntimeException("Credit not found"));
         credit.setCreditStatus(creditStatusRepository.findByCreditType(creditType));
+
+        if (credit.getCreditStatus().getCreditType() == CreditStatus.CreditType.ACTIVE && !credit.isAcceptedAlready()) {
+            credit.setAcceptedAlready(true);
+            transferBalance(credit);
+        }
+
         return creditMapper.entityToDTO(creditRepository.save(credit));
     }
 
@@ -109,8 +121,13 @@ public class CreditServiceImpl implements CreditService {
 
     @Override
     public CreditOut findById(Long id) {
-        return creditMapper.entityToDTO(creditRepository.findById(id).orElseThrow(()->new RuntimeException("Credit not found")));
+        return creditMapper.entityToDTO(creditRepository.findById(id).orElseThrow(() -> new RuntimeException("Credit not found")));
     }
 
+    private void transferBalance(Credit credit) {
+        Saldo destinedSaldo = credit.getDestinedSaldo();
+        destinedSaldo.setBalance(credit.getDestinedSaldo().getBalance().add(credit.getTotalBalance()));
+        saldoRepository.save(destinedSaldo);
+    }
 
 }

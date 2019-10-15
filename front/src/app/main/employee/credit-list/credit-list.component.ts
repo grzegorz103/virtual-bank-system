@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Credit } from '../../models/credit';
 import { CreditService } from '../../services/credit.service';
-import { MatTableDataSource, MatPaginator } from '@angular/material';
+import { MatTableDataSource, MatPaginator, MatSnackBar } from '@angular/material';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
@@ -22,16 +22,17 @@ export class CreditListComponent implements OnInit {
   creditsColumns = ['id', 'totalBalance', 'totalInstallmentCount', 'accept', 'reject'];
 
   constructor(private creditService: CreditService,
+    private snackBar: MatSnackBar,
     private fb: FormBuilder) { }
 
   ngOnInit() {
     this.fetchCreditList();
     this.createSearchForm();
   }
-  
+
   createSearchForm() {
     this.searchForm = this.fb.group({
-      identifier: ['']
+      id: ['']
     });
   }
 
@@ -46,12 +47,31 @@ export class CreditListComponent implements OnInit {
 
   acceptCredit(id: number) {
     this.creditService.changeStatus(id, 'ACTIVE')
-      .subscribe(res => this.fetchCreditList());
+      .subscribe(res => {
+        this.fetchCreditList(); 
+        this.snackBar.open('Zaakceptowano kredyt', '', { duration: 3000, panelClass: 'green-snackbar' });
+      });
   }
 
-  rejectCredit(id: number) { 
+  rejectCredit(id: number) {
     this.creditService.changeStatus(id, 'CANCELED')
-      .subscribe(res => this.fetchCreditList());
+      .subscribe(res => {
+        this.fetchCreditList();
+        this.snackBar.open('Odrzucono kredyt', '', { duration: 3000, panelClass: 'blue-snackbar' });
+      });
+  }
+
+  changeStatus() {
+    if (!this.credit.id) {
+      return;
+    }
+
+    this.creditService.changeStatus(this.credit.id)
+      .subscribe(res => {
+        this.credit = res;
+        this.fetchCreditList();
+        this.snackBar.open('Wysłano odpowiedź', '', { duration: 3000, panelClass: 'green-snackbar' });
+      });
   }
 
   searchCredit() {
@@ -61,7 +81,7 @@ export class CreditListComponent implements OnInit {
     }
 
     this.creditService.findById(id)
-      .subscribe(res => this.credit = res, err => alert('Kredyt nie odnaleziony'));
+      .subscribe(res => this.credit = res, err => this.snackBar.open('Nie odnaleziono kredytu', '', { duration: 3000, panelClass: 'red-snackbar' }));
   }
 
 }

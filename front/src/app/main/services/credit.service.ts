@@ -25,7 +25,7 @@ export class CreditService {
 
   changeStatus(id: number, status?: string) {
     const query = this.url + '/' + id + '/status' + (status ? '?status=' + status : '');
-    return this.http.patch<Credit[]>(query, null);
+    return this.http.patch<Credit>(query, null);
   }
 
   findById(id: number){

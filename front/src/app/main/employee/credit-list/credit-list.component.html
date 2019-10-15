@@ -46,7 +46,7 @@
     </div>
     <mat-toolbar>Wyszukiwanie kredytów</mat-toolbar>
     <form class="example-form" [formGroup]="searchForm" (ngSubmit)="searchCredit()">
-        <div class="col-12">
+        <div class="col-12 mt-1">
             <mat-form-field>
                 <input matInput placeholder="ID kredytu" type="number" formControlName="id">
             </mat-form-field>
@@ -70,9 +70,19 @@
                 <td>{{ credit.totalBalance }}</td>
             </tr>
             <tr>
+                <td class="divider">Status: </td>
+                <td>
+                    <p *ngIf="credit.creditStatus.creditType === 'ACTIVE'">Aktywny</p>
+                    <p *ngIf="credit.creditStatus.creditType === 'AWAITING'">Oczekujący</p>
+                    <p *ngIf="credit.creditStatus.creditType === 'CANCELED'">Usunięty</p>
+                    <p *ngIf="credit.creditStatus.creditType === 'PAID'">Spłacony</p>
+                </td>
+            </tr>
+            <tr>
                 <td class="divider">Zmień status</td>
                 <td>
-                    Wysokość raty
+                    <button mat-raised-button class="bg-success text-white" (click)="changeStatus()">Zmień
+                        status</button>
                 </td>
             </tr>
         </table>
