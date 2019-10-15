@@ -29,7 +29,7 @@ export class TemplateListComponent implements OnInit {
   }
 
   fetchData() {
-    this.transactionTemplateService.findAll().subscribe(res => {
+    this.transactionTemplateService.findAllByCurrentUser().subscribe(res => {
       this.templates = res;
       this.templates.sort((o1, o2) => o1.id - o2.id);
     });

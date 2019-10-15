@@ -32,6 +32,7 @@ import { IndexComponent } from './shared/index/index.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { JwtModule } from "@auth0/angular-jwt";
 import 'moment/locale/pl';
+
 export function tokenGetter() {
   return localStorage.getItem("token");
 }

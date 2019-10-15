@@ -28,7 +28,7 @@ export class CreditService {
     return this.http.patch<Credit>(query, null);
   }
 
-  findById(id: number){
+  findById(id: any){
     return this.http.get<Credit>(this.url +'/byId/' + id);
   }
 }

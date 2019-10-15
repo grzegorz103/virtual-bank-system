@@ -14,6 +14,8 @@ import { UserSupportComponent } from './user-support/user-support.component';
 import { ConversationDetailsComponent } from './conversation-details/conversation-details.component';
 import { ProfileEditComponent } from './profile-edit/profile-edit.component';
 import { ExchangePageComponent } from './views/exchange-page/exchange-page.component';
+import { CreditPageComponent } from './views/credit-page/credit-page.component';
+import { CreditDetailsComponent } from './views/credit-details/credit-details.component';
 
 
 const routes: Routes = [
@@ -60,6 +62,14 @@ const routes: Routes = [
         },
         {
           path: 'profile', component: ProfileEditComponent,
+          canActivate: [CoreGuardService]
+        },
+        {
+          path: 'credits/list', component: CreditPageComponent,
+          canActivate: [CoreGuardService]
+        },
+        {
+          path: 'credits/:id/details', component: CreditDetailsComponent,
           canActivate: [CoreGuardService]
         },
        // {path: 'excha'}

@@ -25,6 +25,8 @@ public class CreditOut {
 
     private String currency;
 
+    private String destinedSaldoId;
+
     private CreditStatusOut creditStatus;
 //        private Set<Installment> installments;
 }

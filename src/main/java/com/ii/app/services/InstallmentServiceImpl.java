@@ -17,7 +17,9 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class InstallmentServiceImpl implements InstallmentService {
@@ -72,5 +74,13 @@ public class InstallmentServiceImpl implements InstallmentService {
         }
 
         return installmentMapper.entityToDto(installmentRepository.save(mapped));
+    }
+
+    @Override
+    public List<InstallmentOut> findAllByCreditId(Long id) {
+        return installmentRepository.findAllByCredit_Id(id)
+            .stream()
+            .map(installmentMapper::entityToDto)
+            .collect(Collectors.toList());
     }
 }

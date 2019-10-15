@@ -42,7 +42,7 @@ export class DialogWindowComponent implements OnInit {
       this.title = 'Tworzenie przelewu zdefiniowanego';
     }
 
-    this.bankAccountService.findAll().subscribe(res => {
+    this.bankAccountService.findByUser().subscribe(res => {
       this.bankAccounts = res;
       this.fillBankAccounts(this.template.multiCurrency);
     });
