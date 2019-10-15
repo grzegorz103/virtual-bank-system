@@ -30,6 +30,8 @@ import { UserSupportComponent } from './user-support/user-support.component';
 import { MomentModule } from 'angular2-moment';
 import { ProfileEditComponent } from './profile-edit/profile-edit.component';
 import { ExchangePageComponent } from './views/exchange-page/exchange-page.component';
+import { CreditPageComponent } from './views/credit-page/credit-page.component';
+import { CreditDetailsComponent } from './views/credit-details/credit-details.component';
 
 
 @NgModule({
@@ -47,7 +49,9 @@ import { ExchangePageComponent } from './views/exchange-page/exchange-page.compo
     ConversationDetailsComponent,
     UserSupportComponent,
     ExchangePageComponent,
-    ProfileEditComponent
+    ProfileEditComponent,
+    CreditPageComponent,
+    CreditDetailsComponent
   ],
   exports: [
     ConversationDetailsComponent

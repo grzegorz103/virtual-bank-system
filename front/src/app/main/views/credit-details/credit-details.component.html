@@ -1,0 +1,33 @@
+<div class="box mat-elevation-z8">
+    <mat-toolbar>Szczegóły kredytu</mat-toolbar>
+    <div *ngIf="credit">
+        <table class="table table-hover">
+            <tr>
+                <td class="divider">ID: </td>
+                <td>{{ credit.id }}</td>
+            </tr>
+            <tr>
+                <td class="divider">Wpłacono: </td>
+                <td>{{ credit.balancePaid | currency: credit.currency}}</td>
+            </tr>
+            <tr>
+                <td class="divider">Wysokość kredytu: </td>
+                <td>{{ credit.totalBalance | currency: credit.currency }}</td>
+            </tr>
+            <tr>
+                <td class="divider">Waluta: </td>
+                <td>{{ credit.currency }}</td>
+            </tr>
+            <tr>
+                <td class="divider">Status: </td>
+                <td>
+                    <p *ngIf="credit.creditStatus.creditType === 'ACTIVE'">Aktywny</p>
+                    <p *ngIf="credit.creditStatus.creditType === 'AWAITING'">Oczekujący</p>
+                    <p *ngIf="credit.creditStatus.creditType === 'CANCELED'">Usunięty</p>
+                    <p *ngIf="credit.creditStatus.creditType === 'PAID'">Spłacony</p>
+                </td>
+            </tr>
+
+        </table>
+    </div>
+</div>

@@ -39,8 +39,8 @@ public class CreditController {
     }
 
     @GetMapping("/byId/{id}")
-    @Secured("ROLE_EMPLOYEE")
-    public CreditOut findById(@PathVariable("id") Long id){
+    @Secured({"ROLE_EMPLOYEE", "ROLE_USER"})
+    public CreditOut findById(@PathVariable("id") Long id) {
         return creditService.findById(id);
     }
 
