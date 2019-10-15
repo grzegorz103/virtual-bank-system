@@ -48,15 +48,14 @@ export class TransactionMultiCurrencyComponent implements OnInit {
       title: ['', Validators.required],
     });
 
-    if (this.route.snapshot.queryParams['defined']) {
-      this.transactionTemplateService.findOneById(this.route.snapshot.queryParams['defined'])
-        .subscribe(res => this.fillFormWithTemplate(res));
-    }
-
     this.bankAccountService.findByUser()
       .subscribe(res => {
         this.bankAccounts = res;
         this.changeCurrencyList();
+        if (this.route.snapshot.queryParams['defined']) {
+          this.transactionTemplateService.findOneById(this.route.snapshot.queryParams['defined'])
+            .subscribe(res => { this.fillFormWithTemplate(res); this.changeCurrencyList() });
+        }
       });
     this.transaction = new Transaction();
 
@@ -96,5 +95,5 @@ export class TransactionMultiCurrencyComponent implements OnInit {
         .map(e => String(e.currencyType.name));
     }
   }
-  
+
 }

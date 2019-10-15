@@ -30,4 +30,8 @@ export class TransactionTemplateService {
   removeById(id: number) {
     return this.http.delete(this.url + '/' + id);
   }
+
+  findAllByCurrentUser(){
+    return this.http.get<TransactionTemplate[]>(this.url +'/users/all');
+  }
 }

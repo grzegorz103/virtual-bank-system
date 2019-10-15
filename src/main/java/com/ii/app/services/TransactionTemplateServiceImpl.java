@@ -80,4 +80,13 @@ public class TransactionTemplateServiceImpl implements TransactionTemplateServic
             throw new RuntimeException("Not found");
         transactionTemplateRepository.deleteById(id);
     }
+
+    @Override
+    public List<TransactionTemplateOut> findAllByCurrentUser() {
+        return transactionTemplateRepository.findAllByUser_Identifier(
+            SecurityContextHolder.getContext().getAuthentication().getName()
+        ).stream()
+            .map(transactionTemplateMapper::entityToDTO)
+            .collect(Collectors.toList());
+    }
 }
