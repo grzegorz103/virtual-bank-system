@@ -4,26 +4,29 @@ import com.ii.app.dto.in.InstallmentIn;
 import com.ii.app.dto.out.InstallmentOut;
 import com.ii.app.services.interfaces.InstallmentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
-@RequestMapping ("/api/installments")
-public class InstallmentController
-{
-        private final InstallmentService installmentService;
+@RequestMapping("/api/installments")
+public class InstallmentController {
+    private final InstallmentService installmentService;
 
-        @Autowired
-        public InstallmentController ( InstallmentService installmentService )
-        {
-                this.installmentService = installmentService;
-        }
+    @Autowired
+    public InstallmentController(InstallmentService installmentService) {
+        this.installmentService = installmentService;
+    }
 
-        @PostMapping
-        public InstallmentOut create ( @RequestBody InstallmentIn installmentIn )
-        {
-                return installmentService.create( installmentIn );
-        }
+    @PostMapping
+    @Secured("ROLE_USER")
+    public InstallmentOut create(@RequestBody InstallmentIn installmentIn) {
+        return installmentService.create(installmentIn);
+    }
+
+    @GetMapping("/byCredit/{id}")
+    public List<InstallmentOut> findAllByCreditId(@PathVariable("id") Long id) {
+        return installmentService.findAllByCreditId(id);
+    }
 }

@@ -78,7 +78,7 @@
             <div *ngIf="getObjectType(element) === 'TransactionIn'">
               <div *ngIf="element.sourceBankAccount.number !== element.destinedBankAccount.number">
                 <div *ngIf="element.sourceBankAccount.number === bankAccount.number">
-                  {{element.balance | currency : element.destinedCurrencyType.name}}
+                  {{element.balance | currency : element.sourceCurrencyType.name}}
                 </div>
                 <div *ngIf="element.destinedBankAccount.number === bankAccount.number">{{balanceWithCommission}}
                   {{element.balanceWithCommission | currency : element.destinedCurrencyType.name}}
