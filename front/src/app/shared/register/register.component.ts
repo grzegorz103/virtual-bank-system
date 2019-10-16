@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { UserService } from '../services/user.service';
+import { RegisterFormValidator } from './register-form-validator';
 
 @Component({
   selector: 'app-register',
@@ -14,11 +15,31 @@ export class RegisterComponent implements OnInit {
   constructor(private fb: FormBuilder,
     private userService: UserService) {
     this.form = this.fb.group({
-      username: ['', Validators.required],
-      password: ['', Validators.required],
+      password: ['',Validators.compose([
+        Validators.required,
+        RegisterFormValidator.patternValidator(/\d/, {
+          hasNumber: true
+        }),
+        RegisterFormValidator.patternValidator(/[A-Z]/, {
+          hasCapitalCase: true
+        }),
+        RegisterFormValidator.patternValidator(/[a-z]/, {
+          hasSmallCase: true
+        }),
+        RegisterFormValidator.patternValidator(
+          /[ !@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/,
+          {
+            hasSpecialCharacters: true
+          }
+        ),
+        Validators.minLength(8)
+      ])],
       email: ['', Validators.required],
       confirmPassword: ['', Validators.required],
       address: this.getAddressGroup()
+    },
+    {
+      validator: RegisterFormValidator.passwordMatchValidator
     });
   }
 
