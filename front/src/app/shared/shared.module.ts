@@ -6,7 +6,7 @@ import { IndexComponent } from './index/index.component';
 import { SharedComponent } from './shared.component';
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
-import { MatCardModule, MatButtonModule, MatToolbarModule, MatInputModule, MatDatepickerModule, MatNativeDateModule, MatSnackBarModule } from '@angular/material';
+import { MatCardModule, MatButtonModule, MatToolbarModule, MatInputModule, MatDatepickerModule, MatNativeDateModule, MatSnackBarModule, MatExpansionModule } from '@angular/material';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from './services/auth.service';
 
@@ -28,6 +28,7 @@ import { AuthService } from './services/auth.service';
     ReactiveFormsModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatExpansionModule
   ],
   providers: []
 })

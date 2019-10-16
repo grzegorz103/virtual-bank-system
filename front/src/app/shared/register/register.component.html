@@ -18,6 +18,62 @@
                 </div>
 
                 <div class="row">
+                    <div class="col-12">
+                        <mat-expansion-panel
+                            [expanded]="form.get('password').value?.length > 0 && (!form.get('password').valid || form.get('password').value !== form.get('confirmPassword').value)">
+                            <mat-panel-description>
+                                <div style="font-size: 11px" class="mt-2">
+                                    <div
+                                        [ngClass]="form.controls['password'].hasError('required') || form.controls['password'].hasError('minlength')  ? 'text-danger' : 'text-success'">
+                                        <i class="material-icons" style="font-size: 14px">{{ form.controls['password'].hasError('required') ||
+                                                form.controls['password'].hasError('minlength') ? 'cancel' :
+                                                  'check_circle' }}</i>
+                                        8 znakow
+                                    </div>
+                                    <div
+                                        [ngClass]="form.controls['password'].hasError('required') || form.controls['password'].hasError('hasNumber')  ? 'text-danger' : 'text-success'">
+                                        <i class="material-icons" style="font-size: 14px">{{ form.controls['password'].hasError('required') ||
+                                                form.controls['password'].hasError('hasNumber') ? 'cancel' :
+                                                  'check_circle' }}</i>
+                                        1 cyfra
+                                    </div>
+                                    <div
+                                        [ngClass]="form.controls['password'].hasError('required') || form.controls['password'].hasError('hasCapitalCase')  ? 'text-danger' : 'text-success'">
+                                        <i class="material-icons" style="font-size: 14px">{{ form.controls['password'].hasError('required') ||
+                                                form.controls['password'].hasError('hasCapitalCase') ? 'cancel' :
+                                                  'check_circle' }}</i>
+                                        1 wielka litera
+                                    </div>
+                                    <div
+                                        [ngClass]="form.controls['password'].hasError('required') || form.controls['password'].hasError('hasSmallCase')  ? 'text-danger' : 'text-success'">
+                                        <i class="material-icons" style="font-size: 14px">{{ form.controls['password'].hasError('required') ||
+                                                form.controls['password'].hasError('hasSmallCase') ? 'cancel' :
+                                                  'check_circle' }}</i>
+                                        1 mala litera
+                                    </div>
+                                    <div
+                                        [ngClass]="form.controls['password'].hasError('required') || form.controls['password'].hasError('hasSpecialCharacters') ? 'text-danger' : 'text-success'">
+                                        <i class="material-icons" style="font-size: 14px">{{ form.controls['password'].hasError('required') ||
+                                                form.controls['password'].hasError('hasSpecialCharacters') ? 'cancel' :
+                                                  'check_circle' }}</i>
+                                        1 znaj s
+                                    </div>
+
+                                    <div
+                                        [ngClass]="form.controls['confirmPassword'].hasError('required') || form.controls['confirmPassword'].hasError('NoPasswordMatch') ? 'text-danger' : 'text-success'">
+                                        <i class="material-icons" style="font-size: 14px">{{ form.controls['confirmPassword'].hasError('NoPasswordMatch') ||
+                                            form.controls['confirmPassword'].hasError('hasSpecialCharacters') ? 'cancel' :
+                                              'check_circle' }}</i>
+                                        pasija
+                                    </div>
+
+                                </div>
+                            </mat-panel-description>
+                        </mat-expansion-panel>
+                    </div>
+                </div>
+
+                <div class="row">
                     <div class="col-8">
                         <mat-form-field>
                             <input matInput placeholder="Adres email" type="email" formControlName="email">
@@ -60,12 +116,12 @@
                     <div class="row">
                         <div class="col-6">
                             <mat-form-field>
-                                <input matInput placeholder="Miejscowość">
+                                <input matInput placeholder="Miejscowość" formControlName="city">
                             </mat-form-field>
                         </div>
                         <div class="col-6">
                             <mat-form-field>
-                                <input matInput placeholder="Ulica">
+                                <input matInput placeholder="Ulica" formControlName="street">
                             </mat-form-field>
                         </div>
                     </div>
@@ -73,17 +129,17 @@
                     <div class="row">
                         <div class="col-6">
                             <mat-form-field>
-                                <input matInput placeholder="Numer mieszkania">
+                                <input matInput placeholder="Numer mieszkania" formControlName="houseNumber">
                             </mat-form-field>
                         </div>
                         <div class="col-6">
                             <mat-form-field>
-                                <input matInput placeholder="Kod pocztowy">
+                                <input matInput placeholder="Kod pocztowy" formControlName="postCode">
                             </mat-form-field>
                         </div>
                     </div>
                 </div>
-                <button mat-raised-button class="bg-success text-white">Wyślij</button>
+                <button [disabled]="form.invalid" mat-raised-button color="primary">Wyślij</button>
             </div>
         </form>
     </mat-card>

@@ -24,104 +24,100 @@ import java.time.Instant;
 import java.util.Objects;
 
 @Service
-public class ExchangeCurrencyServiceImpl implements ExchangeCurrencyService
-{
-        private final ExchangeCurrencyRepository exchangeCurrencyRepository;
+public class ExchangeCurrencyServiceImpl implements ExchangeCurrencyService {
+    private final ExchangeCurrencyRepository exchangeCurrencyRepository;
 
-        private final ExchangeCurrencyMapper exchangeCurrencyMapper;
+    private final ExchangeCurrencyMapper exchangeCurrencyMapper;
 
-        private final BankAccountRepository bankAccountRepository;
+    private final BankAccountRepository bankAccountRepository;
 
-        private final CurrencyConverter currencyConverter;
+    private final CurrencyConverter currencyConverter;
 
-        private final CurrencyTypeRepository currencyTypeRepository;
+    private final CurrencyTypeRepository currencyTypeRepository;
 
-        private final Constants constants;
+    private final Constants constants;
 
-        @Autowired
-        public ExchangeCurrencyServiceImpl ( ExchangeCurrencyRepository exchangeCurrencyRepository,
-                                             ExchangeCurrencyMapper exchangeCurrencyMapper,
-                                             BankAccountRepository bankAccountRepository,
-                                             CurrencyConverter currencyConverter,
-                                             Constants constants,
-                                             SaldoRepository saldoRepository,
-                                             CurrencyTypeRepository currencyTypeRepository )
-        {
-                this.exchangeCurrencyRepository = exchangeCurrencyRepository;
-                this.exchangeCurrencyMapper = exchangeCurrencyMapper;
-                this.bankAccountRepository = bankAccountRepository;
-                this.currencyConverter = currencyConverter;
-                this.constants = constants;
-                this.currencyTypeRepository = currencyTypeRepository;
-        }
+    @Autowired
+    public ExchangeCurrencyServiceImpl(ExchangeCurrencyRepository exchangeCurrencyRepository,
+                                       ExchangeCurrencyMapper exchangeCurrencyMapper,
+                                       BankAccountRepository bankAccountRepository,
+                                       CurrencyConverter currencyConverter,
+                                       Constants constants,
+                                       SaldoRepository saldoRepository,
+                                       CurrencyTypeRepository currencyTypeRepository) {
+        this.exchangeCurrencyRepository = exchangeCurrencyRepository;
+        this.exchangeCurrencyMapper = exchangeCurrencyMapper;
+        this.bankAccountRepository = bankAccountRepository;
+        this.currencyConverter = currencyConverter;
+        this.constants = constants;
+        this.currencyTypeRepository = currencyTypeRepository;
+    }
 
-        @Override
-        public ExchangeCurrencyOut create ( @NotNull ExchangeCurrencyIn exchangeCurrencyIn )
-        {
-                //TODO dodac wyjatek
-                BankAccount sourceBankAcc = bankAccountRepository.findByNumber( exchangeCurrencyIn.getSourceBankAccNumber() )
-                        .orElseThrow( () -> new RuntimeException( "nie znaleziono" ) );
+    @Override
+    public ExchangeCurrencyOut create(@NotNull ExchangeCurrencyIn exchangeCurrencyIn) {
+        //TODO dodac wyjatek
+        BankAccount sourceBankAcc = bankAccountRepository.findByNumber(exchangeCurrencyIn.getSourceBankAccNumber())
+            .orElseThrow(() -> new RuntimeException("nie znaleziono"));
 
-                if ( sourceBankAcc.getBankAccType().getBankAccountType() != BankAccountType.MULTI_CURRENCY )
-                        throw new RuntimeException( "nie jest wielowalutowe" );
+        if (sourceBankAcc.getBankAccType().getBankAccountType() != BankAccountType.MULTI_CURRENCY)
+            throw new RuntimeException("nie jest wielowalutowe");
 
-                Saldo sourceSaldo = sourceBankAcc.getSaldos()
-                        .stream()
-                        .filter( e -> Objects.equals( e.getCurrencyType().getName(), exchangeCurrencyIn.getSourceCurrency() ) )
-                        .findFirst()
-                        .orElseThrow( () -> new RuntimeException( "not found" ) );
+        Saldo sourceSaldo = sourceBankAcc.getSaldos()
+            .stream()
+            .filter(e -> Objects.equals(e.getCurrencyType().getName(), exchangeCurrencyIn.getSourceCurrency()))
+            .findFirst()
+            .orElseThrow(() -> new RuntimeException("not found"));
 
-                if ( sourceSaldo.getBalance().doubleValue() < exchangeCurrencyIn.getBalance() )
-                        throw new RuntimeException( "not enough balance" );
+        if (sourceSaldo.getBalance().doubleValue() < exchangeCurrencyIn.getBalance())
+            throw new RuntimeException("not enough balance");
 
 
-                Saldo destSaldo = sourceBankAcc.getSaldos()
-                        .stream()
-                        .filter( e -> Objects.equals( e.getCurrencyType().getName(), exchangeCurrencyIn.getDestCurrency() ) )
-                        .findFirst()
-                        .orElseThrow( () -> new RuntimeException( "not found" ) );
+        Saldo destSaldo = sourceBankAcc.getSaldos()
+            .stream()
+            .filter(e -> Objects.equals(e.getCurrencyType().getName(), exchangeCurrencyIn.getDestCurrency()))
+            .findFirst()
+            .orElseThrow(() -> new RuntimeException("not found"));
 
 
-                ExchangeCurrency mapped = exchangeCurrencyMapper.DTOtoEntity( exchangeCurrencyIn );
+        ExchangeCurrency mapped = exchangeCurrencyMapper.DTOtoEntity(exchangeCurrencyIn);
 
-                CurrencyType sourceCurrencyType = sourceSaldo.getCurrencyType();
-                CurrencyType destCurrencyType = destSaldo.getCurrencyType();
+        CurrencyType sourceCurrencyType = sourceSaldo.getCurrencyType();
+        CurrencyType destCurrencyType = destSaldo.getCurrencyType();
 
-                BigDecimal convertedBalance = currencyConverter.convertCurrency(
-                        mapped.getBalance(),
-                        sourceCurrencyType,
-                        destCurrencyType
-                );
+        BigDecimal convertedBalance = currencyConverter.convertCurrency(
+            mapped.getBalance(),
+            sourceCurrencyType,
+            destCurrencyType
+        );
 
-                float transactionCommission = sourceBankAcc.getBankAccType().getExchangeCurrencyCommission();
-                BigDecimal balanceAfterCommission = BigDecimal.valueOf(
-                        convertedBalance.doubleValue() - ((transactionCommission / 100d) * convertedBalance.doubleValue()
-                        ) );
+        float transactionCommission = sourceBankAcc.getBankAccType().getExchangeCurrencyCommission();
+        BigDecimal balanceAfterCommission = BigDecimal.valueOf(
+            convertedBalance.doubleValue() - ((transactionCommission / 100d) * convertedBalance.doubleValue()
+            ));
 
-                if ( balanceAfterCommission.doubleValue() < 0 )
-                        balanceAfterCommission = BigDecimal.ZERO;
+        if (balanceAfterCommission.doubleValue() < 0)
+            balanceAfterCommission = BigDecimal.ZERO;
 
-                sourceSaldo.setBalance( sourceSaldo.getBalance().subtract( BigDecimal.valueOf( exchangeCurrencyIn.getBalance() ) ) );
-                destSaldo.setBalance( destSaldo.getBalance().add( balanceAfterCommission ) );
+        sourceSaldo.setBalance(sourceSaldo.getBalance().subtract(BigDecimal.valueOf(exchangeCurrencyIn.getBalance())));
+        destSaldo.setBalance(destSaldo.getBalance().add(balanceAfterCommission));
 
-                mapped.setBalanceAfterExchange( balanceAfterCommission );
-                mapped.setBankAccount( sourceBankAcc );
-                mapped.setDate( Instant.now() );
+        mapped.setBalanceAfterExchange(balanceAfterCommission);
+        mapped.setBankAccount(sourceBankAcc);
+        mapped.setDate(Instant.now());
 
-                exchangeCurrencyRepository.save( mapped );
-                return exchangeCurrencyMapper.entityToDTO( mapped );
-        }
+        exchangeCurrencyRepository.save(mapped);
+        return exchangeCurrencyMapper.entityToDTO(mapped);
+    }
 
-        @Override
-        public BigDecimal calculate ( ExchangeCurrencyIn exchangeCurrencyIn )
-        {
-                CurrencyType sourceCurrencyType = currencyTypeRepository.findByName( exchangeCurrencyIn.getSourceCurrency() ).orElseThrow( () -> new RuntimeException( "Nie znaleziono" ) );
-                CurrencyType destCurrencyType = currencyTypeRepository.findByName( exchangeCurrencyIn.getDestCurrency() ).orElseThrow( () -> new RuntimeException( "Nie znaleziono" ) );
+    @Override
+    public BigDecimal calculate(ExchangeCurrencyIn exchangeCurrencyIn) {
+        CurrencyType sourceCurrencyType = currencyTypeRepository.findByName(exchangeCurrencyIn.getSourceCurrency()).orElseThrow(() -> new RuntimeException("Nie znaleziono"));
+        CurrencyType destCurrencyType = currencyTypeRepository.findByName(exchangeCurrencyIn.getDestCurrency()).orElseThrow(() -> new RuntimeException("Nie znaleziono"));
 
-                return currencyConverter.convertCurrency(
-                        exchangeCurrencyIn.getBalance(),
-                        sourceCurrencyType,
-                        destCurrencyType
-                );
-        }
+        return currencyConverter.convertCurrency(
+            exchangeCurrencyIn.getBalance(),
+            sourceCurrencyType,
+            destCurrencyType
+        );
+    }
 }
