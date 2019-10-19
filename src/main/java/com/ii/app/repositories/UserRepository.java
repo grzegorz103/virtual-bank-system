@@ -26,4 +26,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
         "WHERE ur.userType = :userType " +
         "AND u.enabled = false")
     List<User> findAllByUserTypeAndNotEnabled(@Param("userType") UserRole.UserType userType);
+
+    boolean existsByEmail(String email);
 }

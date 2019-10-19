@@ -1,5 +1,6 @@
 package com.ii.app.dto.in;
 
+import com.ii.app.utils.validators.EmailTaken;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,6 +18,7 @@ public class UserIn {
 
     private String confirmPassword;
 
+    @EmailTaken
     private String email;
 
     private AddressIn address;
