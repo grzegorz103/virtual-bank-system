@@ -6,7 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.Collection;
 import java.util.Objects;
 
-public class Utils {
+public class Check {
     public static void isNull(Object object, String message, Object... args){
         if(object == null){
             throw new ApiException(message, args);
