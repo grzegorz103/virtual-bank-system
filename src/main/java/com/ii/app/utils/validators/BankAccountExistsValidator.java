@@ -1,5 +1,6 @@
 package com.ii.app.utils.validators;
 
+import com.ii.app.repositories.BankAccountRepository;
 import com.ii.app.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -8,16 +9,18 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 @Component
-public class EmailTakenValidator implements ConstraintValidator<EmailTaken, String> {
-    private final UserRepository userRepository;
+public class BankAccountExistsValidator implements ConstraintValidator<BankAccountExists, String> {
+
+    private final BankAccountRepository bankAccountRepository;
 
     @Autowired
-    public EmailTakenValidator(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public BankAccountExistsValidator(BankAccountRepository bankAccountRepository) {
+        this.bankAccountRepository = bankAccountRepository;
     }
 
+
     @Override
-    public void initialize(EmailTaken constraintAnnotation) {
+    public void initialize(BankAccountExists constraintAnnotation) {
 
     }
 
@@ -27,6 +30,6 @@ public class EmailTakenValidator implements ConstraintValidator<EmailTaken, Stri
             return false;
         }
 
-        return !userRepository.existsByEmail(value);
+        return bankAccountRepository.existsByNumber(value);
     }
 }

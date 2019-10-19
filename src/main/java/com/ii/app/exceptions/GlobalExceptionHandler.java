@@ -16,10 +16,9 @@ import java.util.Locale;
 import java.util.stream.Collectors;
 
 @ControllerAdvice
-@EnableWebMvc
 public class GlobalExceptionHandler {
     private final MessageSource messageSource;
-    private static final String UNEXPECTEDE_ERROR = "Exception.unexpected";
+    private static final String UNEXPECTED_ERROR = "Exception.unexpected";
 
     @Autowired
     public GlobalExceptionHandler(MessageSource messageSource) {
@@ -44,7 +43,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse> handleExceptions(Exception exception, Locale locale) {
-        String errMessage = messageSource.getMessage(UNEXPECTEDE_ERROR, null, locale);
+        String errMessage = messageSource.getMessage(UNEXPECTED_ERROR, null, locale);
         return new ResponseEntity<>(new ApiResponse(errMessage), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
