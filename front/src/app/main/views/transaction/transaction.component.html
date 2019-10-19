@@ -90,10 +90,13 @@
         </mat-step>
         <mat-step>
             <ng-template matStepLabel>Koniec</ng-template>
-            Transakcja zakończona
+            <div *ngIf="!errors">Transakcja zakończona</div>
+            <div *ngIf="errors">
+                <p class="text-danger">Transakcja zakończona niepowodzeniem</p>
+                <p>Powód: {{ errorText }}</p>
+            </div>
             <div>
                 <button mat-button matStepperPrevious>Wysłanie</button>
-                <button mat-button (click)="stepper.reset()">Reset</button>
             </div>
         </mat-step>
     </mat-horizontal-stepper>

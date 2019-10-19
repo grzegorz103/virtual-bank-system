@@ -13,4 +13,6 @@ public interface BankAccountRepository extends JpaRepository<BankAccount, Long> 
     List<BankAccount> findByUserIdentifier(String identifier);
 
     Long countByBankAccType(BankAccType bankAccType);
+
+    boolean existsByNumber(String number);
 }
