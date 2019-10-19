@@ -1,6 +1,7 @@
 package com.ii.app.dto.in;
 
 import com.ii.app.models.BankAccount;
+import com.ii.app.utils.validators.BankAccountExists;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,13 +12,14 @@ import java.time.Instant;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class TransactionIn
-{
-        private BigDecimal balance;
+public class TransactionIn {
+    private BigDecimal balance;
 
-        private BankAccount sourceBankAccount;
+    @BankAccountExists
+    private BankAccount sourceBankAccount;
 
-        private String title;
+    private String title;
 
-        private BankAccount destinedBankAccount;
+    @BankAccountExists
+    private BankAccount destinedBankAccount;
 }

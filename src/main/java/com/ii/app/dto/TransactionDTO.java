@@ -1,6 +1,7 @@
 package com.ii.app.dto;
 
 import com.ii.app.models.BankAccount;
+import com.ii.app.utils.validators.BankAccountExists;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,12 +14,12 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class TransactionDTO
-{
-        private String sourceAccountNumber;
-        private String sourceCurrency;
-        private String destinedAccountNumber;
-        private String destinedCurrency;
-        private float balance;
-        private String title;
+public class TransactionDTO {
+    private String sourceAccountNumber;
+    private String sourceCurrency;
+
+    private String destinedAccountNumber;
+    private String destinedCurrency;
+    private float balance;
+    private String title;
 }

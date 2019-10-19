@@ -2,6 +2,7 @@ package com.ii.app.services;
 
 import com.ii.app.dto.TransactionDTO;
 import com.ii.app.dto.out.TransactionOut;
+import com.ii.app.exceptions.Check;
 import com.ii.app.mappers.TransactionMapper;
 import com.ii.app.models.BankAccount;
 import com.ii.app.models.CurrencyType;
@@ -66,7 +67,8 @@ public class TransactionServiceImpl implements TransactionService {
 
         final CurrencyType sourceCurrency = currencyTypeRepository.findByName(transactionDTO.getSourceCurrency()).orElseThrow(() -> new RuntimeException("Currency type not found"));
         final CurrencyType destCurrency = currencyTypeRepository.findByName(transactionDTO.getDestinedCurrency()).orElseThrow(() -> new RuntimeException("asd"));
-        final BankAccount destinedBankAccount = bankAccountRepository.findByNumber(transactionDTO.getDestinedAccountNumber()).orElseThrow(() -> new RuntimeException("Bank account does not exists"));
+        final BankAccount destinedBankAccount = bankAccountRepository.findByNumber(transactionDTO.getDestinedAccountNumber()).orElse(null);
+        Check.isNull(destinedBankAccount, "Exception.notFoundBankAcc", transactionDTO.getDestinedAccountNumber());
         final BankAccount sourceBankAccount = bankAccountRepository.findByNumber(transactionDTO.getSourceAccountNumber()).get();
 
         final Saldo sourceSaldo = sourceBankAccount.getSaldos()

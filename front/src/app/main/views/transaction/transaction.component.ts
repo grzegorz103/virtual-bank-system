@@ -7,6 +7,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { TransactionTemplate } from '../../models/transaction-template';
 import { ActivatedRoute } from '@angular/router';
 import { TransactionTemplateService } from '../../services/transaction-template-service.service';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-transaction',
@@ -27,9 +28,13 @@ export class TransactionComponent implements OnInit {
   // jesli uzytkownik tworzy przelew zdefiniowany
   definedTransfer: TransactionTemplate;
 
+  errors = false;
+  errorText: string;
+
   constructor(private bankAccountService: BankAccountService,
     private transactionService: TransactionService,
     private route: ActivatedRoute,
+    private snackBar: MatSnackBar,
     private transactionTemplateService: TransactionTemplateService,
     private fb: FormBuilder) {
 
@@ -68,7 +73,14 @@ export class TransactionComponent implements OnInit {
   }
 
   createTransaction() {
-    this.transactionService.create(this.transactionForm.value).subscribe(res => console.log(res));
+    this.transactionService.create(this.transactionForm.value).subscribe(res => {
+      this.snackBar.open('Transakcja zakończona', '', { duration: 3000, panelClass: 'green-snackbar' });
+    }, err => {
+      this.errorText = err.error.message;
+      console.log(err);
+      this.errors = true;
+      this.snackBar.open('Transakcja zakończona niepowodzeniem', '', { duration: 3000, panelClass: 'red-snackbar' });
+    });
     //  this.transaction.destinedCurrency = 'PLN';
     //this.transactionService.create(this.transaction).subscribe(res => console.log(res));
   }

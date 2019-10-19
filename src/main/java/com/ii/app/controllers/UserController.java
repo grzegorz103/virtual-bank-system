@@ -27,7 +27,7 @@ public class UserController {
     }
 
     @PostMapping
-    public UserOut create(@RequestBody UserIn userIn) {
+    public UserOut create(@Valid @RequestBody UserIn userIn) {
         return userService.create(userIn);
     }
 

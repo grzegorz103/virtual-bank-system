@@ -7,35 +7,31 @@ import com.ii.app.services.interfaces.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping ("/api/transaction")
-public class TransactionController
-{
-        private final TransactionService transactionService;
+@RequestMapping("/api/transaction")
+public class TransactionController {
+    private final TransactionService transactionService;
 
-        @Autowired
-        public TransactionController ( TransactionService transactionService )
-        {
-                this.transactionService = transactionService;
-        }
+    @Autowired
+    public TransactionController(TransactionService transactionService) {
+        this.transactionService = transactionService;
+    }
 
-        @PostMapping
-        public Transaction create ( @RequestBody TransactionDTO transactionDTO )
-        {
-                return transactionService.create( transactionDTO );
-        }
+    @PostMapping
+    public Transaction create(@Valid @RequestBody TransactionDTO transactionDTO) {
+        return transactionService.create(transactionDTO);
+    }
 
-        @GetMapping
-        public List<TransactionOut> findAll ()
-        {
-                return transactionService.findAll();
-        }
+    @GetMapping
+    public List<TransactionOut> findAll() {
+        return transactionService.findAll();
+    }
 
-        @GetMapping ("/byAccount/{id}")
-        public List<TransactionOut> findAllByBankAccountId ( @PathVariable ("id") Long id )
-        {
-                return transactionService.findAllByBankAccountId( id );
-        }
+    @GetMapping("/byAccount/{id}")
+    public List<TransactionOut> findAllByBankAccountId(@PathVariable("id") Long id) {
+        return transactionService.findAllByBankAccountId(id);
+    }
 }
