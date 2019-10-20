@@ -2,6 +2,7 @@ package com.ii.app.services;
 
 import com.ii.app.dto.in.ExchangeCurrencyIn;
 import com.ii.app.dto.out.ExchangeCurrencyOut;
+import com.ii.app.exceptions.ApiException;
 import com.ii.app.mappers.ExchangeCurrencyMapper;
 import com.ii.app.models.BankAccount;
 import com.ii.app.models.CurrencyType;
@@ -69,7 +70,7 @@ public class ExchangeCurrencyServiceImpl implements ExchangeCurrencyService {
             .orElseThrow(() -> new RuntimeException("not found"));
 
         if (sourceSaldo.getBalance().doubleValue() < exchangeCurrencyIn.getBalance())
-            throw new RuntimeException("not enough balance");
+            throw new ApiException("Exception.notEnoughBalanceSaldo", null);
 
 
         Saldo destSaldo = sourceBankAcc.getSaldos()

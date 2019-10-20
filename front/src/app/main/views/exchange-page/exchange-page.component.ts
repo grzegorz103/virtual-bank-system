@@ -66,7 +66,8 @@ export class ExchangePageComponent implements OnInit {
     }
 
     this.exchangeCurrencyService.create(this.exchangeCurrency)
-      .subscribe(res => this.snackBar.open('Przekonwertowano walutę', '', { duration: 3000, panelClass: 'green-snackbar' }));
-  
+      .subscribe(res => this.snackBar.open('Przekonwertowano walutę', '', { duration: 3000, panelClass: 'green-snackbar' }),
+        err => this.snackBar.open(err.error.message, '', { duration: 3000, panelClass: 'red-snackbar' }));
+
   }
 }
