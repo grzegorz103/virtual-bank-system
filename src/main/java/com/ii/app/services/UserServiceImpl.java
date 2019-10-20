@@ -67,11 +67,20 @@ public class UserServiceImpl implements UserService {
         mapped.setLocked(false);
         mapped.setCredentials(false);
         mapped.setEnabled(false);
-        mapped.setIdentifier(RandomStringUtils.randomNumeric(CONSTANTS.USER_IDENTIFIER_LENGTH));
+        mapped.setIdentifier(generateIdentifier());
         mapped.setUserRoles(Collections.singleton(userRoleRepository.findByUserType(UserRole.UserType.ROLE_USER)));
         mapped.setPassword(passwordEncoder.encode(userIn.getPassword()));
 
         return userMapper.userToUserOut(userRepository.save(mapped));
+    }
+
+    private String generateIdentifier() {
+        String identifier;
+        do {
+            identifier = RandomStringUtils.randomNumeric(CONSTANTS.USER_IDENTIFIER_LENGTH);
+        } while (identifier.charAt(0) == '0' || userRepository.existsByIdentifier(identifier));
+
+        return identifier;
     }
 
     @Override
@@ -119,7 +128,7 @@ public class UserServiceImpl implements UserService {
         mapped.setLocked(false);
         mapped.setCredentials(false);
         mapped.setEnabled(true);
-        mapped.setIdentifier(RandomStringUtils.randomNumeric(CONSTANTS.USER_IDENTIFIER_LENGTH));
+        mapped.setIdentifier(generateIdentifier());
         mapped.setUserRoles(Collections.singleton(userRoleRepository.findByUserType(UserRole.UserType.ROLE_EMPLOYEE)));
         mapped.setPassword(passwordEncoder.encode(userIn.getPassword()));
 

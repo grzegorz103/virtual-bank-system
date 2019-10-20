@@ -28,4 +28,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findAllByUserTypeAndNotEnabled(@Param("userType") UserRole.UserType userType);
 
     boolean existsByEmail(String email);
+
+    boolean existsByIdentifier(String identifier);
 }
