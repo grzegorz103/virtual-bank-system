@@ -78,7 +78,7 @@ public class TransactionServiceImpl implements TransactionService {
             .findFirst()
             .get();
 
-        final Saldo destSaldo = destinedBankAccount.getSaldos()
+         final Saldo destSaldo = destinedBankAccount.getSaldos()
             .stream()
             .filter(Objects::nonNull)
             .filter(e -> e.getCurrencyType() == destCurrency)

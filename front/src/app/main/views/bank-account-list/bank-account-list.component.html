@@ -7,82 +7,94 @@
       </button>
     </div>
   </mat-toolbar>
-  <div class="collapse" id="collapseExample">
-    <div class="card card-body">
-      <div *ngIf="bankAccountTypes">
-        Wybierz rodzaj rachunku bankowego:
-        <table class="table table-sm mt-2">
-          <thead>
-            <tr>
-              <th scope="col">Rodzaj</th>
-              <th scope="col">Prowizja przelew</th>
-              <th scope="col">Prowizja wymiany walut</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let bankAccountType of bankAccountTypes; let i = index" style="cursor: pointer"
-              class="{{ i === selectedIndex ? 'selected' : ''}}" (click)="changeBankAccountFormType(i)">
-              <td>
-                <span *ngIf="bankAccountType.bankAccountType === 'MULTI_CURRENCY'">Wielowalutowe</span>
-                <span *ngIf="bankAccountType.bankAccountType === 'STANDARD'">Standardowe</span>
-                <span *ngIf="bankAccountType.bankAccountType === 'STUDENT'">Studenckie</span>
-              </td>
-              <td>{{ bankAccountType.transactionComission}}%</td>
-              <td>{{ bankAccountType.exchangeCurrencyCommission }}%</td>
-            </tr>
-          </tbody>
-        </table>
-        <!--  <span class="text-danger">Po akceptacji pracownika rachunek zostanie utworzony</span>
+    <div class="collapse" id="collapseExample">
+      <div class="card card-body">
+        <div *ngIf="bankAccountTypes">
+          Wybierz rodzaj rachunku bankowego:
+          <table class="table table-sm mt-2">
+            <thead>
+              <tr>
+                <th scope="col">Rodzaj</th>
+                <th scope="col">Prowizja przelew</th>
+                <th scope="col">Prowizja wymiany walut</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let bankAccountType of bankAccountTypes; let i = index" style="cursor: pointer"
+                class="{{ i === selectedIndex ? 'selected' : ''}}" (click)="changeBankAccountFormType(i)">
+                <td>
+                  <span *ngIf="bankAccountType.bankAccountType === 'MULTI_CURRENCY'">Wielowalutowe</span>
+                  <span *ngIf="bankAccountType.bankAccountType === 'STANDARD'">Standardowe</span>
+                  <span *ngIf="bankAccountType.bankAccountType === 'STUDENT'">Studenckie</span>
+                </td>
+                <td>{{ bankAccountType.transactionComission}}%</td>
+                <td>{{ bankAccountType.exchangeCurrencyCommission }}%</td>
+              </tr>
+            </tbody>
+          </table>
+          <!--  <span class="text-danger">Po akceptacji pracownika rachunek zostanie utworzony</span>
        -->
-        <div class="row mt-2"><button mat-raised-button color="primary" class="w-30 mx-auto"
-            (click)="createBankAccount()">Utwórz</button>
+          <div class="row mt-2"><button mat-raised-button color="primary" class="w-30 mx-auto"
+              (click)="createBankAccount()">Utwórz</button>
+          </div>
+        </div>
+        <div *ngIf="bankAccountTypes && bankAccountTypes.length === 0">
+          Brak dostępnych rodzajów rachunków bankowych.
+        </div>
+        <div *ngIf="!bankAccountTypes">
+          <mat-spinner></mat-spinner>
         </div>
       </div>
-      <div *ngIf="bankAccountTypes && bankAccountTypes.length === 0">
-        Brak dostępnych rodzajów rachunków bankowych.
-      </div>
-      <div *ngIf="!bankAccountTypes">
-        <mat-spinner></mat-spinner>
+    </div>
+
+    <div *ngIf="bankAccounts && bankAccounts.length > 0">
+
+    <table mat-table [dataSource]="bankAccounts">
+
+      <ng-container matColumnDef="ID">
+        <th mat-header-cell *matHeaderCellDef>ID</th>
+        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+      </ng-container>
+
+
+      <ng-container matColumnDef="numer">
+        <th mat-header-cell *matHeaderCellDef>Numer</th>
+        <td mat-cell *matCellDef="let element"> {{element.number}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="multiCurrency">
+        <th mat-header-cell *matHeaderCellDef>Wielowalutowe</th>
+        <td mat-cell *matCellDef="let element"> <span
+            *ngIf="element.bankAccType.bankAccountType === 'MULTI_CURRENCY'">Wielowalutowe</span>
+          <span *ngIf="element.bankAccType.bankAccountType === 'STANDARD'">Standardowe</span>
+          <span *ngIf="element.bankAccType.bankAccountType === 'STUDENT'">Studenckie</span> </td>
+      </ng-container>
+
+      <ng-container matColumnDef="saldos">
+        <th mat-header-cell *matHeaderCellDef>Salda</th>
+        <td mat-cell *matCellDef="let element"> <span
+            *ngFor="let saldo of element.saldos; let i = index">{{saldo.balance | currency: saldo.currencyType.name}}<span
+              *ngIf="i < element.saldos.length - 1">, </span> </span> </td>
+      </ng-container>
+
+      <ng-container matColumnDef="details">
+        <th mat-header-cell *matHeaderCellDef>Szczegóły</th>
+        <td mat-cell *matCellDef="let element"> <button mat-raised-button color="primary"
+            [routerLink]="['/core/bankAccounts', element.id, 'details']">Szczegóły</button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="['ID', 'numer', 'multiCurrency', 'saldos', 'details']; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['ID', 'numer', 'multiCurrency', 'saldos', 'details'];"></tr>
+    </table>
+  </div>
+  <div *ngIf="bankAccounts && bankAccounts.length === 0">
+    <div class="container">
+      <div class="row">
+        <div class="mx-auto py-3">
+          Brak rachunków bankowych
+        </div>
       </div>
     </div>
   </div>
-
-  <table mat-table [dataSource]="bankAccounts">
-
-    <ng-container matColumnDef="ID">
-      <th mat-header-cell *matHeaderCellDef>ID</th>
-      <td mat-cell *matCellDef="let element"> {{element.id}} </td>
-    </ng-container>
-
-
-    <ng-container matColumnDef="numer">
-      <th mat-header-cell *matHeaderCellDef>Numer</th>
-      <td mat-cell *matCellDef="let element"> {{element.number}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="multiCurrency">
-      <th mat-header-cell *matHeaderCellDef>Wielowalutowe</th>
-      <td mat-cell *matCellDef="let element"> <span
-          *ngIf="element.bankAccType.bankAccountType === 'MULTI_CURRENCY'">Wielowalutowe</span>
-        <span *ngIf="element.bankAccType.bankAccountType === 'STANDARD'">Standardowe</span>
-        <span *ngIf="element.bankAccType.bankAccountType === 'STUDENT'">Studenckie</span> </td>
-    </ng-container>
-
-    <ng-container matColumnDef="saldos">
-      <th mat-header-cell *matHeaderCellDef>Salda</th>
-      <td mat-cell *matCellDef="let element"> <span
-          *ngFor="let saldo of element.saldos; let i = index">{{saldo.balance | currency: saldo.currencyType.name}}<span
-            *ngIf="i < element.saldos.length - 1">, </span> </span> </td>
-    </ng-container>
-
-    <ng-container matColumnDef="details">
-      <th mat-header-cell *matHeaderCellDef>Wielowalutowe</th>
-      <td mat-cell *matCellDef="let element"> <button mat-raised-button color="primary"
-          [routerLink]="['/core/bankAccounts', element.id, 'details']">Szczegóły</button>
-      </td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="['ID', 'numer', 'multiCurrency', 'saldos', 'details']; sticky: true"></tr>
-    <tr mat-row *matRowDef="let row; columns: ['ID', 'numer', 'multiCurrency', 'saldos', 'details'];"></tr>
-  </table>
 </div>
