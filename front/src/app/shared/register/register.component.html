@@ -28,35 +28,35 @@
                                         <i class="material-icons" style="font-size: 14px">{{ form.controls['password'].hasError('required') ||
                                                 form.controls['password'].hasError('minlength') ? 'cancel' :
                                                   'check_circle' }}</i>
-                                        8 znakow
+                                        Osiem znaków
                                     </div>
                                     <div
                                         [ngClass]="form.controls['password'].hasError('required') || form.controls['password'].hasError('hasNumber')  ? 'text-danger' : 'text-success'">
                                         <i class="material-icons" style="font-size: 14px">{{ form.controls['password'].hasError('required') ||
                                                 form.controls['password'].hasError('hasNumber') ? 'cancel' :
                                                   'check_circle' }}</i>
-                                        1 cyfra
+                                        Jedna cyfra
                                     </div>
                                     <div
                                         [ngClass]="form.controls['password'].hasError('required') || form.controls['password'].hasError('hasCapitalCase')  ? 'text-danger' : 'text-success'">
                                         <i class="material-icons" style="font-size: 14px">{{ form.controls['password'].hasError('required') ||
                                                 form.controls['password'].hasError('hasCapitalCase') ? 'cancel' :
                                                   'check_circle' }}</i>
-                                        1 wielka litera
+                                        Jedna wielka litera
                                     </div>
                                     <div
                                         [ngClass]="form.controls['password'].hasError('required') || form.controls['password'].hasError('hasSmallCase')  ? 'text-danger' : 'text-success'">
                                         <i class="material-icons" style="font-size: 14px">{{ form.controls['password'].hasError('required') ||
                                                 form.controls['password'].hasError('hasSmallCase') ? 'cancel' :
                                                   'check_circle' }}</i>
-                                        1 mala litera
+                                        Jedna mała litera
                                     </div>
                                     <div
                                         [ngClass]="form.controls['password'].hasError('required') || form.controls['password'].hasError('hasSpecialCharacters') ? 'text-danger' : 'text-success'">
                                         <i class="material-icons" style="font-size: 14px">{{ form.controls['password'].hasError('required') ||
                                                 form.controls['password'].hasError('hasSpecialCharacters') ? 'cancel' :
                                                   'check_circle' }}</i>
-                                        1 znaj s
+                                        Jeden znak specjalny (np. !@#)
                                     </div>
 
                                     <div
@@ -64,7 +64,7 @@
                                         <i class="material-icons" style="font-size: 14px">{{ form.controls['confirmPassword'].hasError('NoPasswordMatch') ||
                                             form.controls['confirmPassword'].hasError('hasSpecialCharacters') ? 'cancel' :
                                               'check_circle' }}</i>
-                                        pasija
+                                        Hasła pasują do siebie
                                     </div>
 
                                 </div>
