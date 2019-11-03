@@ -1,16 +1,17 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { BankAccount } from '../../models/bank-account';
 import { BankAccountService } from '../../services/bank-account.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Transaction } from '../../models/transaction';
 import { TransactionService } from '../../services/transaction.service';
-import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
+import { MatTableDataSource, MatPaginator, MatSort, MatSnackBar } from '@angular/material';
 import { TransactionHistory } from '../../models/transaction-history';
 import { TransactionIn } from '../../models/history-element';
 import { faArrowCircleDown, faArrowCircleUp } from '@fortawesome/free-solid-svg-icons';
 import { PaymentService } from '../../services/payment.service';
 import { Payment } from '../../models/payment';
 import { PaymentHistory } from '../../models/payment-history';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-bank-account-details',
@@ -24,10 +25,11 @@ export class BankAccountDetailsComponent implements OnInit {
   id: number;
   isLoading = true;
   isLoadingPayments = true;
+  deleteForm: FormGroup;
 
   chartType: string = 'bar';
   chartDatasets: Array<any> = [
-    { data: [65, 59, 80, 81, 56, 55], label: 'Salda' }
+    { data: [0, 0, 0, 0, 0, 0], label: 'Salda' }
   ];
 
   faArrowCircleUp = faArrowCircleUp;
@@ -76,6 +78,9 @@ export class BankAccountDetailsComponent implements OnInit {
   constructor(private bankAccountService: BankAccountService,
     private transactionService: TransactionService,
     private paymentService: PaymentService,
+    private snackBar: MatSnackBar,
+    private router: Router,
+    private fb: FormBuilder,
     private activatedRoute: ActivatedRoute) {
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
@@ -96,22 +101,23 @@ export class BankAccountDetailsComponent implements OnInit {
 
               resMapped.forEach(e => this.transactions.data.push(e));
               this.paymentService.findAllByBankAccountId(this.id)
-              .subscribe(res => {
-                this.isLoadingPayments = false;
-                let resMapped: PaymentHistory[];
-                resMapped = res.map(e => new PaymentHistory(e));
-  
-                resMapped.forEach(e => this.transactions.data.push(e));
+                .subscribe(res => {
+                  this.isLoadingPayments = false;
+                  let resMapped: PaymentHistory[];
+                  resMapped = res.map(e => new PaymentHistory(e));
 
-                this.transactions.data.sort((o1, o2)=> new Date(o2.date).getTime() - new Date(o1.date).getTime());
-                this.transactions.paginator = this.paginator;
-              });
+                  resMapped.forEach(e => this.transactions.data.push(e));
+
+                  this.transactions.data.sort((o1, o2) => new Date(o2.date).getTime() - new Date(o1.date).getTime());
+                  this.transactions.paginator = this.paginator;
+                });
             });
 
-        
-        });
 
-    })
+        });
+    });
+
+    this.initDeleteForm();
   }
 
   ngOnInit(): void {
@@ -144,6 +150,31 @@ export class BankAccountDetailsComponent implements OnInit {
 
   getObjectType(object) {
     return object.constructor.name;
+  }
+
+  initDeleteForm() {
+    this.deleteForm = this.fb.group({
+      confirmNumber: ['', Validators.required]
+    })
+  }
+
+  deleteBankAccount() {
+    let confirmNumber = this.deleteForm.get('confirmNumber').value;
+
+    if (confirmNumber) {
+      confirmNumber = confirmNumber.replace(' ', '');
+
+      if (confirmNumber !== this.bankAccount.number) {
+        this.snackBar.open('Wprowadź poprawny numer rachunku', '', { duration: 3000, panelClass: 'red-snackbar' });
+        return;
+      }
+
+      this.bankAccountService.deleteById(this.bankAccount.id).subscribe(res => {
+        this.snackBar.open('Rachunek został usunięty', '', { duration: 3000, panelClass: 'green-snackbar' });
+        this.router.navigateByUrl('/core/bankAccounts');
+      });
+    }
+
   }
 
 }
