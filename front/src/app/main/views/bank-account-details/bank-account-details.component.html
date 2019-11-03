@@ -57,7 +57,8 @@
             <div *ngIf="getObjectType(element) === 'TransactionIn'" matTooltip="{{element.destinedBankAccount.number}}">
               {{element.destinedBankAccount.number | slice:0:2}}...{{element.destinedBankAccount.number | slice:22:26}}
             </div>
-            <div *ngIf="getObjectType(element) === 'PaymentHistory'" matTooltip="{{element.destinedBankAccount.number}}">
+            <div *ngIf="getObjectType(element) === 'PaymentHistory'"
+              matTooltip="{{element.destinedBankAccount.number}}">
               {{element.destinedBankAccount.number | slice:0:2}}...{{element.destinedBankAccount.number | slice:22:26}}
             </div>
           </td>
@@ -106,25 +107,23 @@
       <mat-paginator [pageSizeOptions]="[5, 10]" showFirstLastButtons></mat-paginator>
 
     </div>
+    <hr />
     <div class="row">
-      <hr />
       <mat-toolbar>Zarządzaj</mat-toolbar>
 
-      <button class="ml-1" mat-raised-button style="background-color: #5cb85c; color: white" data-toggle="collapse"
+      <button mat-raised-button style="background-color: #5cb85c; color: white" data-toggle="collapse"
         href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
         Zamykanie rachunku
       </button>
+    </div>
 
-      <div class="collapse" id="collapseExample">
-        <div class="card card-body">
-          asd
-        </div>
+    <div class="collapse" id="collapseExample">
+      <div class="card card-body my-2">
+        <p class="text-danger font-weight-bold">Uwaga: tej operacji nie da się odwrócić</p>
       </div>
-
-      <div *ngIf="isLoading">
-        <mat-spinner></mat-spinner>
-      </div>
-
+    </div>
+    <div *ngIf="isLoading">
+      <mat-spinner></mat-spinner>
     </div>
   </div>
 </div>
