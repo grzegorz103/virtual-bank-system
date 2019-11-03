@@ -45,11 +45,9 @@
   .single-panel{
     color: black;
     cursor: pointer;
+    padding: 0 !important;
   }
 
-  .single-panel:hover{
-    background-color: silver;
-  }
 
   @media (min-width: 768px) {
     #sidebar-wrapper {

@@ -10,7 +10,7 @@
                 <mat-expansion-panel *ngIf="authService.hasUserRole()">
                     <mat-expansion-panel-header>
                         <mat-panel-title>
-                            Podsumowanie
+                            <fa-icon [icon]="faBars" class="mr-1"></fa-icon> Podsumowanie
                         </mat-panel-title>
                     </mat-expansion-panel-header>
                     <a routerLink="bankAccounts" class="list-group-item list-group-item-action ">
@@ -25,7 +25,7 @@
                 <mat-expansion-panel *ngIf="authService.hasUserRole()">
                     <mat-expansion-panel-header>
                         <mat-panel-title>
-                            <fa-icon [icon]="faMoneyBillWave"></fa-icon> Przelewy
+                            <fa-icon [icon]="faMoneyBillWave" class="mr-1"></fa-icon> Przelewy
                         </mat-panel-title>
                     </mat-expansion-panel-header>
                     <a routerLink="transactions/create" class="list-group-item list-group-item-action ">
@@ -40,7 +40,7 @@
                 <mat-expansion-panel *ngIf="authService.hasUserRole()">
                     <mat-expansion-panel-header>
                         <mat-panel-title>
-                            <fa-icon [icon]="faHandshake"></fa-icon> Wymiana
+                            <fa-icon [icon]="faHandshake" class="mr-1"></fa-icon> Wymiana
                         </mat-panel-title>
                     </mat-expansion-panel-header>
                     <a routerLink="exchange" class="list-group-item list-group-item-action">
@@ -53,20 +53,21 @@
                 <mat-expansion-panel *ngIf="authService.hasUserRole()">
                     <mat-expansion-panel-header>
                         <mat-panel-title>
-                            <fa-icon [icon]="faHandHolding"></fa-icon> Kredyty
+                            <fa-icon [icon]="faHandHolding" class="mr-1"></fa-icon> Kredyty
                         </mat-panel-title>
                     </mat-expansion-panel-header>
                     <a routerLink="credits/create" class="list-group-item list-group-item-action">
                         Nowy kredyt
                     </a>
                     <a routerLink="credits/list" class="list-group-item list-group-item-action">
-                       Moje kredyty
+                        Moje kredyty
                     </a>
                 </mat-expansion-panel>
+                
                 <mat-expansion-panel *ngIf="authService.hasUserRole()">
                     <mat-expansion-panel-header>
                         <mat-panel-title>
-                            <fa-icon [icon]="faUniversity"></fa-icon> Lokaty
+                            <fa-icon [icon]="faUniversity" class="mr-1"></fa-icon> Lokaty
                         </mat-panel-title>
                     </mat-expansion-panel-header>
                     <a href="#" class="list-group-item list-group-item-action">
@@ -75,20 +76,20 @@
                 </mat-expansion-panel>
 
                 <mat-expansion-panel *ngIf="authService.hasUserRole()" hideToggle="true" disabled="true">
-                        <mat-expansion-panel-header class="single-panel">
-                            <mat-panel-title>
-                                <a routerLink="support" class="list-group-item list-group-item-action ">
-                                 Zgłoszenia
-                                </a>
-                            </mat-panel-title>
-                        </mat-expansion-panel-header>
-                    </mat-expansion-panel>
+                    <mat-expansion-panel-header class="single-panel">
+                        <mat-panel-title>
+                            <a routerLink="support" class="list-group-item list-group-item-action ">
+                                <fa-icon [icon]="faQuestionCircle" class="mr-1"></fa-icon> Zgłoszenia
+                            </a>
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                </mat-expansion-panel>
 
                 <mat-expansion-panel *ngIf="authService.hasAdminRole()" hideToggle="true" disabled="true">
                     <mat-expansion-panel-header class="single-panel">
                         <mat-panel-title>
                             <a routerLink="admin/stat" class="list-group-item list-group-item-action ">
-                                Statystyki
+                                <fa-icon [icon]="faBars" class="mr-1"></fa-icon> Statystyki
                             </a>
                         </mat-panel-title>
                     </mat-expansion-panel-header>
@@ -98,7 +99,7 @@
                     <mat-expansion-panel-header class="single-panel">
                         <mat-panel-title>
                             <a routerLink="admin/employees" class="list-group-item list-group-item-action ">
-                                Pracownicy
+                                <fa-icon [icon]="faUsers" class="mr-1"></fa-icon> Pracownicy
                             </a>
                         </mat-panel-title>
                     </mat-expansion-panel-header>
@@ -108,61 +109,61 @@
                     <mat-expansion-panel-header class="single-panel">
                         <mat-panel-title>
                             <a routerLink="admin/support" class="list-group-item list-group-item-action ">
-                                Zgłoszenia
+                                <fa-icon [icon]="faQuestionCircle" class="mr-1"></fa-icon> Zgłoszenia
                             </a>
                         </mat-panel-title>
                     </mat-expansion-panel-header>
                 </mat-expansion-panel>
 
                 <mat-expansion-panel *ngIf="authService.hasEmployeeRole()" hideToggle="true" disabled="true">
-                        <mat-expansion-panel-header class="single-panel">
-                            <mat-panel-title>
-                                <a routerLink="employee/payment/create" class="list-group-item list-group-item-action ">
-                                    Wpłaty
-                                </a>
-                            </mat-panel-title>
-                        </mat-expansion-panel-header>
-                    </mat-expansion-panel>
-
-                    <mat-expansion-panel *ngIf="authService.hasEmployeeRole()" hideToggle="true" disabled="true">
-                            <mat-expansion-panel-header class="single-panel">
-                                <mat-panel-title>
-                                    <a routerLink="employee/credits" class="list-group-item list-group-item-action ">
-                                        Kredyty
-                                    </a>
-                                </mat-panel-title>
-                            </mat-expansion-panel-header>
-                        </mat-expansion-panel>
+                    <mat-expansion-panel-header class="single-panel">
+                        <mat-panel-title>
+                            <a routerLink="employee/payment/create" class="list-group-item list-group-item-action ">
+                                <fa-icon [icon]="faCaretSquareUp" class="mr-1"></fa-icon> Wpłaty
+                            </a>
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                </mat-expansion-panel>
 
                 <mat-expansion-panel *ngIf="authService.hasEmployeeRole()" hideToggle="true" disabled="true">
-                        <mat-expansion-panel-header class="single-panel">
-                            <mat-panel-title>
-                                <a routerLink="employee/users" class="list-group-item list-group-item-action ">
-                                    Użytkownicy
-                                </a>
-                            </mat-panel-title>
-                        </mat-expansion-panel-header>
-                    </mat-expansion-panel>
+                    <mat-expansion-panel-header class="single-panel">
+                        <mat-panel-title>
+                            <a routerLink="employee/credits" class="list-group-item list-group-item-action ">
+                                <fa-icon [icon]="faMoneyBill" class="mr-1"></fa-icon> Kredyty
+                            </a>
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                </mat-expansion-panel>
+
+                <mat-expansion-panel *ngIf="authService.hasEmployeeRole()" hideToggle="true" disabled="true">
+                    <mat-expansion-panel-header class="single-panel">
+                        <mat-panel-title>
+                            <a routerLink="employee/users" class="list-group-item list-group-item-action ">
+                                <fa-icon [icon]="faUsers" class="mr-1"></fa-icon> Użytkownicy
+                            </a>
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                </mat-expansion-panel>
 
                 <mat-expansion-panel *ngIf="authService.hasEmployeeRole()" hideToggle="true" disabled="true">
                     <mat-expansion-panel-header class="single-panel">
                         <mat-panel-title>
                             <a routerLink="employee/support" class="list-group-item list-group-item-action ">
-                                Zgłoszenia
+                                <fa-icon [icon]="faQuestionCircle" class="mr-1"></fa-icon> Zgłoszenia
                             </a>
                         </mat-panel-title>
                     </mat-expansion-panel-header>
                 </mat-expansion-panel>
 
                 <mat-expansion-panel *ngIf="!authService.isTokenExpired()" hideToggle="true" disabled="true">
-                        <mat-expansion-panel-header class="single-panel">
-                            <mat-panel-title>
-                                <a routerLink="profile" class="list-group-item list-group-item-action ">
-                                    Profil
-                                </a>
-                            </mat-panel-title>
-                        </mat-expansion-panel-header>
-                    </mat-expansion-panel>
+                    <mat-expansion-panel-header class="single-panel">
+                        <mat-panel-title>
+                            <a routerLink="profile" class="list-group-item list-group-item-action ">
+                                <fa-icon [icon]="faAddressCard" class="mr-1"></fa-icon> Profil
+                            </a>
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                </mat-expansion-panel>
 
             </mat-accordion>
         </div>

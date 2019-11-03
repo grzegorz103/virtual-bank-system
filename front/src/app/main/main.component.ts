@@ -4,6 +4,13 @@ import { faUniversity } from '@fortawesome/free-solid-svg-icons';
 import { faHandshake } from '@fortawesome/free-solid-svg-icons';
 import { faHandHolding } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from '../shared/services/auth.service';
+import { faAddressCard } from '@fortawesome/free-solid-svg-icons';
+import { faBars } from '@fortawesome/free-solid-svg-icons';
+import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
+import { faChartBar } from '@fortawesome/free-solid-svg-icons';
+import { faUsers } from '@fortawesome/free-solid-svg-icons';
+import { faCaretSquareUp } from '@fortawesome/free-solid-svg-icons';
+import { faMoneyBill } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-main',
@@ -16,8 +23,15 @@ export class MainComponent implements OnInit {
   faUniversity = faUniversity;
   faHandshake = faHandshake;
   faHandHolding = faHandHolding;
+  faAddressCard = faAddressCard;
+  faBars = faBars;
+  faQuestionCircle = faQuestionCircle;
+  faChartBar = faChartBar;
+  faUsers = faUsers;
+  faCaretSquareUp = faCaretSquareUp;
+  faMoneyBill = faMoneyBill;
 
-  constructor(private authService: AuthService) { console.log(authService.getUserRoles() + "asd")}
+  constructor(private authService: AuthService) { console.log(authService.getUserRoles() + "asd") }
 
   ngOnInit() {
   }

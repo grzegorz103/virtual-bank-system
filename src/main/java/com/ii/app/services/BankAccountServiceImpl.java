@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 @Service
@@ -58,7 +59,11 @@ public class BankAccountServiceImpl implements BankAccountService {
     public BankAccountOut create(@NotNull BankAccountIn bankAccountIn,
                                  String userIdentifier) {
         BankAccount bankAccount = new BankAccount();
-        bankAccount.setNumber(RandomStringUtils.randomNumeric(constants.BANK_ACCOUNT_NUMBER_LENGTH));
+        String accountNumber;
+        do {
+            accountNumber = RandomStringUtils.randomNumeric(constants.BANK_ACCOUNT_NUMBER_LENGTH);
+        } while (accountNumber.charAt(0) == '0' || bankAccountRepository.existsByNumber(accountNumber));
+        bankAccount.setNumber(accountNumber);
         bankAccount.setBankAccType(bankAccountTypeRepository.findByBankAccountType(bankAccountIn.getBankAccountType()));
         bankAccount.setUser(userRepository.findByIdentifier(userIdentifier).orElseThrow(() -> new RuntimeException("User not found")));
         BankAccount finalBankAccount = bankAccountRepository.save(bankAccount);
