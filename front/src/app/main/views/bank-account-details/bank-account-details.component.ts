@@ -169,15 +169,17 @@ export class BankAccountDetailsComponent implements OnInit {
         return;
       }
 
-      if (this.hasPositiveBalance()){
+      if (this.hasPositiveBalance()) {
         this.snackBar.open('Conajmniej jedno saldo posiada środki', '', { duration: 3000, panelClass: 'red-snackbar' });
         return;
       }
 
-        this.bankAccountService.deleteById(this.bankAccount.id).subscribe(res => {
-          this.snackBar.open('Rachunek został usunięty', '', { duration: 3000, panelClass: 'green-snackbar' });
-          this.router.navigateByUrl('/core/bankAccounts');
-        });
+      this.bankAccountService.deleteById(this.bankAccount.id).subscribe(res => {
+        this.snackBar.open('Rachunek został usunięty', '', { duration: 3000, panelClass: 'green-snackbar' });
+        this.router.navigateByUrl('/core/bankAccounts');
+      }, err =>
+        this.snackBar.open(err.error.message, '', { duration: 3000, panelClass: 'red-snackbar' })
+      );
     }
   }
 

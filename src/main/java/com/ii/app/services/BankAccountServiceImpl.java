@@ -7,6 +7,7 @@ import com.ii.app.mappers.BankAccountMapper;
 import com.ii.app.models.BankAccount;
 import com.ii.app.models.Saldo;
 import com.ii.app.models.enums.BankAccountType;
+import com.ii.app.models.enums.CreditStatus;
 import com.ii.app.repositories.*;
 import com.ii.app.services.interfaces.BankAccountService;
 import com.ii.app.utils.Constants;
@@ -113,9 +114,12 @@ public class BankAccountServiceImpl implements BankAccountService {
 
     @Override
     public void deleteById(Long id) {
-        if (!bankAccountRepository.findById(id).isPresent())
-            throw new ApiException("Exception.notFoundBankAcc", new Long[]{id});
-
+        BankAccount bankAccount = bankAccountRepository.findById(id).orElseThrow(() -> new ApiException("Exception.notFoundBankAcc", new Long[]{id}));
+        if (bankAccount.getSaldos().stream()
+            .anyMatch(e -> e.getCredits().stream()
+                .anyMatch(f -> f.getCreditStatus().getCreditType() == CreditStatus.CreditType.ACTIVE))) {
+            throw new ApiException("Exception.hasActiveCredits", null);
+        }
         bankAccountRepository.markRemovedAsTrue(id);
     }
 
