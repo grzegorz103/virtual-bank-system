@@ -42,10 +42,11 @@ export class UserListComponent implements OnInit {
   }
 
   searchUser() {
-    const identifier = this.searchForm.get('identifier').value;
+    const identifier: string = this.searchForm.get('identifier').value;
     if (!identifier) {
       return;
     }
+    console.log(identifier);
 
     this.userService.findByIdentifier(identifier)
       .subscribe(res => this.user = res, err => alert('User nie znaleziony'));

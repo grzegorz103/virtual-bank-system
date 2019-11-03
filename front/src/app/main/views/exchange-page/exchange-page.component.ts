@@ -18,6 +18,9 @@ export class ExchangePageComponent implements OnInit {
   currencyList: string[];
   faArrowRight = faArrowRight;
   convertedValue: string;
+  beforeConvertValue: any;
+  beforeConvertCurrType: any;
+  destConvertCurrType: any;
 
   constructor(private exchangeCurrencyService: ExchangeCurrencyService,
     private snackBar: MatSnackBar,
@@ -47,6 +50,11 @@ export class ExchangePageComponent implements OnInit {
       this.snackBar.open('Kwota musi być większa od 0', '', { duration: 3000, panelClass: 'red-snackbar' });
       return;
     }
+
+    this.beforeConvertValue = this.exchangeCurrency.balance;
+    this.beforeConvertCurrType = this.exchangeCurrency.sourceCurrency;
+    this.destConvertCurrType = this.exchangeCurrency.destCurrency;
+
     this.exchangeCurrencyService.calculate(this.exchangeCurrency)
       .subscribe(res => this.convertedValue = res);
   }
@@ -58,7 +66,8 @@ export class ExchangePageComponent implements OnInit {
     }
 
     this.exchangeCurrencyService.create(this.exchangeCurrency)
-      .subscribe(res => this.snackBar.open('Przekonwertowano walutę', '', { duration: 3000, panelClass: 'green-snackbar' }));
-  
+      .subscribe(res => this.snackBar.open('Przekonwertowano walutę', '', { duration: 3000, panelClass: 'green-snackbar' }),
+        err => this.snackBar.open(err.error.message, '', { duration: 3000, panelClass: 'red-snackbar' }));
+
   }
 }

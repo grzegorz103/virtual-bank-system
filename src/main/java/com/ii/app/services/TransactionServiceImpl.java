@@ -67,9 +67,9 @@ public class TransactionServiceImpl implements TransactionService {
 
         final CurrencyType sourceCurrency = currencyTypeRepository.findByName(transactionDTO.getSourceCurrency()).orElseThrow(() -> new RuntimeException("Currency type not found"));
         final CurrencyType destCurrency = currencyTypeRepository.findByName(transactionDTO.getDestinedCurrency()).orElseThrow(() -> new RuntimeException("asd"));
-        final BankAccount destinedBankAccount = bankAccountRepository.findByNumber(transactionDTO.getDestinedAccountNumber()).orElse(null);
+        final BankAccount destinedBankAccount = bankAccountRepository.findByNumberAndRemovedFalse(transactionDTO.getDestinedAccountNumber()).orElse(null);
         Check.isNull(destinedBankAccount, "Exception.notFoundBankAcc", transactionDTO.getDestinedAccountNumber());
-        final BankAccount sourceBankAccount = bankAccountRepository.findByNumber(transactionDTO.getSourceAccountNumber()).get();
+        final BankAccount sourceBankAccount = bankAccountRepository.findByNumberAndRemovedFalse(transactionDTO.getSourceAccountNumber()).get();
 
         final Saldo sourceSaldo = sourceBankAccount.getSaldos()
             .stream()
@@ -78,7 +78,7 @@ public class TransactionServiceImpl implements TransactionService {
             .findFirst()
             .get();
 
-        final Saldo destSaldo = destinedBankAccount.getSaldos()
+         final Saldo destSaldo = destinedBankAccount.getSaldos()
             .stream()
             .filter(Objects::nonNull)
             .filter(e -> e.getCurrencyType() == destCurrency)

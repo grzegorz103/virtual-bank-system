@@ -3,7 +3,7 @@
         <mat-toolbar>Logowanie</mat-toolbar>
         <form [formGroup]="form" (ngSubmit)="login()">
             <mat-form-field class="mt-2">
-                <input matInput placeholder="Identyfikator" type="number" formControlName="username">
+                <input matInput placeholder="Identyfikator" type="text" pattern="[0-9]*" formControlName="username">
             </mat-form-field>
             <mat-form-field>
                 <input matInput placeholder="Hasło" type="password" formControlName="password">

@@ -11,7 +11,7 @@
             <ng-container matColumnDef="creationDate">
                 <th mat-header-cell *matHeaderCellDef> Data zgłoszenia </th>
                 <td mat-cell *matCellDef="let element">
-                    {{ element.creationDate }}
+                    {{ element.creationDate | amDateFormat: 'LL HH:mm'  }}
                 </td>
             </ng-container>
 
