@@ -72,7 +72,12 @@ export class BankAccountListComponent implements OnInit {
 
   createBankAccount() {
     if (this.selectedIndex < 0 || this.selectedIndex >= this.bankAccountTypes.length) {
-      alert('Niepoprawna wartosc')
+      alert('Niepoprawna wartosc');
+      return;
+    }
+
+    if(this.bankAccounts.length >= 5){
+      this.fetchBankAccounts(); this.snackBar.open('Osiągnąłeś limit rachunków', '', { duration: 3000, panelClass: 'red-snackbar' });
       return;
     }
     this.bankAccountService.create(this.bankAccountForm.value)
