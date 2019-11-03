@@ -57,7 +57,7 @@ public class ExchangeCurrencyServiceImpl implements ExchangeCurrencyService {
     @Override
     public ExchangeCurrencyOut create(@NotNull ExchangeCurrencyIn exchangeCurrencyIn) {
         //TODO dodac wyjatek
-        BankAccount sourceBankAcc = bankAccountRepository.findByNumber(exchangeCurrencyIn.getSourceBankAccNumber())
+        BankAccount sourceBankAcc = bankAccountRepository.findByNumberAndRemovedFalse(exchangeCurrencyIn.getSourceBankAccNumber())
             .orElseThrow(() -> new RuntimeException("nie znaleziono"));
 
         if (sourceBankAcc.getBankAccType().getBankAccountType() != BankAccountType.MULTI_CURRENCY)

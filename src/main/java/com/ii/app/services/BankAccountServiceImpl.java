@@ -93,7 +93,7 @@ public class BankAccountServiceImpl implements BankAccountService {
 
     @Override
     public List<BankAccountOut> findByUser() {
-        return bankAccountRepository.findByUserIdentifier(SecurityContextHolder.getContext().getAuthentication().getName())
+        return bankAccountRepository.findByUserIdentifierAndRemovedFalse(SecurityContextHolder.getContext().getAuthentication().getName())
             .stream()
             .map(bankAccountMapper::entityToDTO)
             .collect(Collectors.toList());
@@ -108,15 +108,15 @@ public class BankAccountServiceImpl implements BankAccountService {
 
     @Override
     public Long findBankAccountCountByType(Long id) {
-        return bankAccountRepository.countByBankAccType(bankAccountTypeRepository.findById(id).orElseThrow(() -> new RuntimeException("Not found")));
+        return bankAccountRepository.countByBankAccTypeAndRemovedFalse(bankAccountTypeRepository.findById(id).orElseThrow(() -> new RuntimeException("Not found")));
     }
 
     @Override
     public void deleteById(Long id) {
         if (!bankAccountRepository.findById(id).isPresent())
-            throw new ApiException("sdf", new Long[]{id});
+            throw new ApiException("Exception.notFoundBankAcc", new Long[]{id});
 
-        bankAccountRepository.deleteById(id);
+        bankAccountRepository.markRemovedAsTrue(id);
     }
 
 }
