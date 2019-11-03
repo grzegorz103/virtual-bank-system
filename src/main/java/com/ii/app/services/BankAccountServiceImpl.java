@@ -2,6 +2,7 @@ package com.ii.app.services;
 
 import com.ii.app.dto.in.BankAccountIn;
 import com.ii.app.dto.out.BankAccountOut;
+import com.ii.app.exceptions.ApiException;
 import com.ii.app.mappers.BankAccountMapper;
 import com.ii.app.models.BankAccount;
 import com.ii.app.models.Saldo;
@@ -84,7 +85,6 @@ public class BankAccountServiceImpl implements BankAccountService {
 
     @Override
     public List<BankAccountOut> findAll() {
-        System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal().getClass().getName());
         return bankAccountRepository.findAll()
             .stream()
             .map(bankAccountMapper::entityToDTO)
@@ -111,5 +111,12 @@ public class BankAccountServiceImpl implements BankAccountService {
         return bankAccountRepository.countByBankAccType(bankAccountTypeRepository.findById(id).orElseThrow(() -> new RuntimeException("Not found")));
     }
 
+    @Override
+    public void deleteById(Long id) {
+        if (!bankAccountRepository.findById(id).isPresent())
+            throw new ApiException("sdf", new Long[]{id});
+
+        bankAccountRepository.deleteById(id);
+    }
 
 }

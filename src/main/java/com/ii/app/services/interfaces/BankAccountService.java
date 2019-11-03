@@ -15,4 +15,6 @@ public interface BankAccountService {
     BankAccountOut findById(Long id);
 
     Long findBankAccountCountByType(Long id);
+
+    void deleteById(Long id);
 }
