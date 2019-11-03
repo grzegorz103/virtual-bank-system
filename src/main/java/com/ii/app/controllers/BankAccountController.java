@@ -4,6 +4,7 @@ import com.ii.app.dto.in.BankAccountIn;
 import com.ii.app.dto.out.BankAccountOut;
 import com.ii.app.services.interfaces.BankAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -48,5 +49,12 @@ public class BankAccountController {
     @Secured("ROLE_ADMIN")
     public Long getBankAccountCountByType(@PathVariable("id") Long id) {
         return bankAccountService.findBankAccountCountByType(id);
+    }
+
+    @Secured("ROLE_USER")
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteById(@PathVariable("id") Long id){
+        bankAccountService.deleteById(id);
     }
 }

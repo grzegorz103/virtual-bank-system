@@ -45,4 +45,7 @@ public class BankAccount {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    @Column(name="removed")
+    private boolean removed;
 }

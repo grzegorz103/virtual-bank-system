@@ -43,7 +43,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public PaymentOut create(@NotNull PaymentIn paymentIn) {
-        BankAccount bankAccount = bankAccountRepository.findByNumber(paymentIn.getDestinedBankAccountNumber())
+        BankAccount bankAccount = bankAccountRepository.findByNumberAndRemovedFalse(paymentIn.getDestinedBankAccountNumber())
             .orElseThrow(() -> new RuntimeException("Source bank account not found"));
         CurrencyType currencyType = currencyTypeRepository.findByName(
             paymentIn.getSourceCurrencyType()).orElseThrow(() -> new RuntimeException("Source currency not found"));

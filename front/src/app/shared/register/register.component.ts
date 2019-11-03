@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { UserService } from '../services/user.service';
 import { RegisterFormValidator } from './register-form-validator';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-register',
@@ -13,9 +14,10 @@ export class RegisterComponent implements OnInit {
   form: FormGroup;
 
   constructor(private fb: FormBuilder,
+    private snackBar: MatSnackBar,
     private userService: UserService) {
     this.form = this.fb.group({
-      password: ['',Validators.compose([
+      password: ['', Validators.compose([
         Validators.required,
         RegisterFormValidator.patternValidator(/\d/, {
           hasNumber: true
@@ -38,9 +40,9 @@ export class RegisterComponent implements OnInit {
       confirmPassword: ['', Validators.required],
       address: this.getAddressGroup()
     },
-    {
-      validator: RegisterFormValidator.passwordMatchValidator
-    });
+      {
+        validator: RegisterFormValidator.passwordMatchValidator
+      });
   }
 
   ngOnInit() {
@@ -60,7 +62,11 @@ export class RegisterComponent implements OnInit {
   }
 
   sendRegisterForm() {
-    this.userService.create(this.form.value).subscribe(res => alert('Dziekujemy za rejestracje'));
+    this.userService.create(this.form.value).subscribe(res =>
+      this.snackBar.open('Dziękujemy za rejestrację', '', { duration: 3000, panelClass: 'green-snackbar' })
+      , err => {
+        this.snackBar.open(err.error.messages, '', { duration: 3000, panelClass: 'red-snackbar' });
+      });
   }
 
 }

@@ -6,6 +6,7 @@ import { Transaction } from '../../models/transaction';
 import { BankAccType } from '../../models/bank-acc-type';
 import { BankAccountTypeService } from '../../services/bank-account-type.service';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-bank-account-list',
@@ -26,6 +27,7 @@ export class BankAccountListComponent implements OnInit {
 
   constructor(private bankAccountService: BankAccountService,
     private transactionService: TransactionService,
+    private snackBar: MatSnackBar,
     private bankAccountTypeService: BankAccountTypeService,
     private fb: FormBuilder) {
 
@@ -70,10 +72,27 @@ export class BankAccountListComponent implements OnInit {
 
   createBankAccount() {
     if (this.selectedIndex < 0 || this.selectedIndex >= this.bankAccountTypes.length) {
-      alert('Niepoprawna wartosc')
+      alert('Niepoprawna wartosc');
+      return;
+    }
+
+    if(this.bankAccounts.length >= 5){
+      this.fetchBankAccounts(); this.snackBar.open('Osiągnąłeś limit rachunków', '', { duration: 3000, panelClass: 'red-snackbar' });
       return;
     }
     this.bankAccountService.create(this.bankAccountForm.value)
-      .subscribe(res => this.fetchBankAccounts());
+      .subscribe(res => {
+        this.fetchBankAccounts(); this.snackBar.open('Utworzono nowy rachunek', '', { duration: 3000, panelClass: 'green-snackbar' });
+      });
+  }
+
+  copyToClipboard(item) {
+    document.addEventListener('copy', (e: ClipboardEvent) => {
+      e.clipboardData.setData('text/plain', (item));
+      e.preventDefault();
+      document.removeEventListener('copy', null);
+    });
+    document.execCommand('copy');
+    this.snackBar.open('Skopiowano', '', { duration: 3000, panelClass: 'green-snackbar' });
   }
 }

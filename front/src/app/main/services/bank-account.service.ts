@@ -29,4 +29,8 @@ export class BankAccountService {
   create(bankAccount: BankAccount) {
     return this.http.post<BankAccount>(this.url, bankAccount);
   }
+
+  deleteById(id: any){
+    return this.http.delete(this.url + '/' + id);
+  }
 }
