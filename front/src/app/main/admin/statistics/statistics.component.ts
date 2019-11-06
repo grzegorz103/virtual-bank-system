@@ -30,7 +30,7 @@ export class StatisticsComponent implements OnInit {
     }
   ];
   currencyTypes: CurrencyType[];
-  currencyTypesColumns: ['name', 'exchangeRate', 'edit'];
+  currencyTypesColumns = ['name', 'exchangeRate', 'edit'];
 
   constructor(private bankAccountTypeService: BankAccountTypeService,
     private currencyTypeService: CurrencyTypeService,

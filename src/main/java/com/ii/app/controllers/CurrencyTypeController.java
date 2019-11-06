@@ -29,4 +29,9 @@ public class CurrencyTypeController {
                                   @PathVariable("id") Long id){
         return currencyTypeService.update(id, currencyTypeEdit);
     }
+
+    @GetMapping("/{id}")
+    public CurrencyTypeOut findById(@PathVariable("id") Long id){
+        return currencyTypeService.findById(id);
+    }
 }

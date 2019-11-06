@@ -33,12 +33,12 @@ public class CurrencyTypeServiceTest {
     private CurrencyTypeRepository currencyTypeRepository;
 
     @Test
-    public void findAllCurrencyTypesTest(){
+    public void findAllCurrencyTypesTest() {
         assertThat(currencyTypeService.findAll().size()).isEqualTo(currencyTypeRepository.findAll().size());
     }
 
     @Test
-    public void updateCurrencyTypeTest(){
+    public void updateCurrencyTypeTest() {
         CurrencyType currencyType = currencyTypeRepository.save(
             CurrencyType.builder()
                 .exchangeRate(2.32f)
@@ -46,23 +46,38 @@ public class CurrencyTypeServiceTest {
                 .saldos(new HashSet<>())
                 .build()
         );
-        final String name = currencyType.getName();
-        final float exchangeRate = currencyType.getExchangeRate();
 
-        CurrencyTypeEdit currencyTypeEdit = new CurrencyTypeEdit(currencyType.getId(), name, exchangeRate);
+        final String newName = "newUSD";
+        final float newExchangeRate = 5.00f;
+
+        CurrencyTypeEdit currencyTypeEdit = new CurrencyTypeEdit(currencyType.getId(), newName, newExchangeRate);
         CurrencyTypeOut currencyTypeOut = currencyTypeService.update(currencyType.getId(), currencyTypeEdit);
 
         Optional<CurrencyType> afterUpdate = currencyTypeRepository.findById(currencyType.getId());
         assertThat(afterUpdate).isPresent();
-        assertThat(afterUpdate.get().getName()).isEqualTo(name);
-        assertThat(afterUpdate.get().getExchangeRate()).isEqualTo(exchangeRate);
+        assertThat(afterUpdate.get().getName()).isEqualTo(newName);
+        assertThat(afterUpdate.get().getExchangeRate()).isEqualTo(newExchangeRate);
 
-        assertThat(currencyTypeOut.getExchangeRate()).isEqualTo(exchangeRate);
-        assertThat(currencyTypeOut.getName()).isEqualTo(name);
+        assertThat(currencyTypeOut.getExchangeRate()).isEqualTo(newExchangeRate);
+        assertThat(currencyTypeOut.getName()).isEqualTo(newName);
     }
 
     @Test(expected = ApiException.class)
-    public void updateCurrencyTypeNotFoundTest(){
+    public void updateCurrencyTypeNotFoundTest() {
         currencyTypeService.update(-1L, null);
+    }
+
+    @Test
+    public void findByIdTest() {
+        CurrencyTypeOut currencyTypeOut = currencyTypeService.findById(1L);
+        CurrencyType currencyInDb = currencyTypeRepository.findById(1L).get();
+
+        assertThat(currencyTypeOut.getName()).isEqualTo(currencyInDb.getName());
+        assertThat(currencyTypeOut.getExchangeRate()).isEqualTo(currencyInDb.getExchangeRate());
+    }
+
+    @Test(expected = ApiException.class)
+    public void findByIdNotFoundTest() {
+        currencyTypeService.findById(-1L);
     }
 }

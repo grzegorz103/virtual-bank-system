@@ -3,13 +3,13 @@
     <div class="row">
         <div class="col-6">
             <mat-form-field>
-                <input matInput placeholder="Nazwa" type="text" [(ngModel)]="currencyType.name">
+                <input matInput placeholder="Nazwa" type="text" [disabled]="currencyType.name ==='PLN'" [(ngModel)]="currencyType.name">
             </mat-form-field>
         </div>
 
         <div class="col-6">
             <mat-form-field>
-                <input matInput placeholder="Kurs" type="number" [(ngModel)]="currencyType.exchangeRate">
+                <input matInput placeholder="Kurs" type="number" [disabled]="currencyType.name ==='PLN'" [(ngModel)]="currencyType.exchangeRate">
             </mat-form-field>
         </div>
     </div>

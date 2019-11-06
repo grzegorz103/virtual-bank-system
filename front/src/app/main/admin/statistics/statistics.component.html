@@ -2,33 +2,35 @@
     <mat-toolbar>Statystyki</mat-toolbar>
     <div class="container">
 
-        Rodzaje walut
+        Rodzaje walut 
         <div *ngIf="currencyTypes">
-                <table mat-table [dataSource]="currencyTypes">
-    
-                    <ng-container matColumnDef="name">
-                        <th mat-header-cell *matHeaderCellDef> Nazwa </th>
-                        <td mat-cell *matCellDef="let element"> {{element.name}}  </td>
-                    </ng-container>
-    
-                    <ng-container matColumnDef="exchangeRate">
-                        <th mat-header-cell *matHeaderCellDef> Kurs </th>
-                        <td mat-cell *matCellDef="let element"> {{element.exchangeRate}} </td>
-                    </ng-container>
+            <div class="row">
+            <table mat-table  [dataSource]="currencyTypes">
 
-                    <ng-container matColumnDef="edit">
-                        <th mat-header-cell *matHeaderCellDef> Edycja </th>
-                        <td mat-cell *matCellDef="let element">
-                            <button mat-raised-button color="primary" class="mr-2" (click)="openCurrencyTypeEditDialog()">Edytuj</button>
-                        </td>
-                    </ng-container>
-    
-                    <tr mat-header-row *matHeaderRowDef="currencyTypesColumns"></tr>
-                    <tr mat-row *matRowDef="let row; columns: currencyTypesColumns;"></tr>
-                </table>
-    
-            </div>
-        <hr/>
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef> Nazwa </th>
+                    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="exchangeRate">
+                    <th mat-header-cell *matHeaderCellDef> Kurs </th>
+                    <td mat-cell *matCellDef="let element"> {{element.exchangeRate}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="edit">
+                    <th mat-header-cell *matHeaderCellDef> Edycja </th>
+                    <td mat-cell *matCellDef="let element">
+                        <button mat-raised-button color="primary" class="mr-2"
+                            (click)="openCurrencyTypeEditDialog(element.id)">Edytuj</button>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="currencyTypesColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: currencyTypesColumns;"></tr>
+            </table>
+        </div>
+        </div>
+        <hr />
 
         Rodzaje rachunków bankowych
         <div *ngIf="bankAccountTypes">
@@ -56,7 +58,7 @@
                 </ng-container>
 
                 <ng-container matColumnDef="edit">
-                    <th mat-header-cell *matHeaderCellDef> Prowizja wymiany walut </th>
+                    <th mat-header-cell *matHeaderCellDef> Edycja </th>
                     <td mat-cell *matCellDef="let element">
                         <button mat-raised-button color="primary" class="mr-2">Edytuj</button>
                     </td>

@@ -54,7 +54,8 @@ public class CurrencyTypeServiceImpl implements CurrencyTypeService {
     }
 
     @Override
-    public void deleteById(Long id) {
-
+    public CurrencyTypeOut findById(Long id) {
+        return currencyTypeMapper.entityToDTO(
+            currencyTypeRepository.findById(id).orElseThrow(() -> new ApiException("Exception.notFound", null)));
     }
 }
