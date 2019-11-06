@@ -1,5 +1,6 @@
 package com.ii.app.services.interfaces;
 
+import com.ii.app.dto.edit.CurrencyTypeEdit;
 import com.ii.app.dto.in.CurrencyTypeIn;
 import com.ii.app.dto.out.CurrencyTypeOut;
 
@@ -11,7 +12,7 @@ public interface CurrencyTypeService
 
         CurrencyTypeOut create(CurrencyTypeIn currencyTypeIn);
 
-        CurrencyTypeOut update(CurrencyTypeIn currencyTypeIn);
+        CurrencyTypeOut update(Long id, CurrencyTypeEdit currencyTypeEdit);
 
         void deleteById(Long id);
 }
