@@ -3,6 +3,10 @@ import { BankAccount } from '../../models/bank-account';
 import { BankAccountTypeService } from '../../services/bank-account-type.service';
 import { BankAccType } from '../../models/bank-acc-type';
 import { BankAccountService } from '../../services/bank-account.service';
+import { CurrencyTypeService } from '../../services/currency-type.service';
+import { MatDialog } from '@angular/material';
+import { CurrencyTypeEditComponent } from '../misc/currency-type-edit/currency-type-edit.component';
+import { CurrencyType } from '../../models/currency-type';
 
 @Component({
   selector: 'app-statistics',
@@ -25,12 +29,17 @@ export class StatisticsComponent implements OnInit {
       borderWidth: 2,
     }
   ];
+  currencyTypes: CurrencyType[];
+  currencyTypesColumns = ['name', 'exchangeRate', 'edit'];
 
   constructor(private bankAccountTypeService: BankAccountTypeService,
+    private currencyTypeService: CurrencyTypeService,
+    public dialog: MatDialog,
     private bankAccountService: BankAccountService) { }
 
   ngOnInit() {
     this.fetchBankAccountTypes();
+    this.fetchCurrencyTypes();
   }
 
   fetchBankAccountTypes() {
@@ -40,6 +49,11 @@ export class StatisticsComponent implements OnInit {
         this.bankAccountTypes.sort((o1, o2) => o1.bankAccountType.localeCompare(o2.bankAccountType));
         this.fillChartData();
       });
+  }
+
+  fetchCurrencyTypes() {
+    this.currencyTypeService.findAll()
+      .subscribe(res => this.currencyTypes = res);
   }
 
   fillChartData() {
@@ -65,6 +79,22 @@ export class StatisticsComponent implements OnInit {
         return 'Studenckie';
       default:
         return 'Standardowe';
+    }
+  }
+
+  openCurrencyTypeEditDialog(currencyTypeId: any) {
+    if (this.currencyTypes.some(e => e.id === currencyTypeId)) {
+      const dialogRef = this.dialog.open(CurrencyTypeEditComponent, {
+        width: window.innerWidth > 768 ? '50%' : '85%',
+        data: { id: currencyTypeId }
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          this.currencyTypeService.update(currencyTypeId, result)
+            .subscribe(res => this.fetchCurrencyTypes());
+        }
+      });
     }
   }
 }

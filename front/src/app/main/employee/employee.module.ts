@@ -12,6 +12,7 @@ import { UserListComponent } from './user-list/user-list.component';
 import { UserDialogComponent } from './misc/user-dialog/user-dialog.component';
 import { UserEditDialogComponent } from './misc/user-edit-dialog/user-edit-dialog.component';
 import { CreditListComponent } from './credit-list/credit-list.component';
+import { MomentModule } from 'angular2-moment';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { CreditListComponent } from './credit-list/credit-list.component';
     MatPaginatorModule,
     ReactiveFormsModule,
     MatCardModule,
+    MomentModule,
     FormsModule,
     MatDialogModule,
     MatFormFieldModule,
