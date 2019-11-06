@@ -12,6 +12,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { EmployeeAddComponent } from './misc/employee-add/employee-add.component';
 import { EmployeeDetailsComponent } from './misc/employee-details/employee-details.component';
 import { MomentModule } from 'angular2-moment';
+import { CurrencyTypeEditComponent } from './misc/currency-type-edit/currency-type-edit.component';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import { MomentModule } from 'angular2-moment';
     EmployeeListComponent,
     SupportListComponent,
     EmployeeAddComponent, EmployeeDetailsComponent,
+    CurrencyTypeEditComponent,
     AdminComponent],
   imports: [
     CommonModule,
@@ -34,6 +36,6 @@ import { MomentModule } from 'angular2-moment';
     FormsModule, MatDialogModule,
     MatNativeDateModule, MatInputModule,
   ],
-  entryComponents: [EmployeeAddComponent, EmployeeDetailsComponent]
+  entryComponents: [EmployeeAddComponent, EmployeeDetailsComponent, CurrencyTypeEditComponent]
 })
 export class AdminModule { }

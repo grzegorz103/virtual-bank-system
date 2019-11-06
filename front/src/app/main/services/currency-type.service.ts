@@ -14,4 +14,12 @@ export class CurrencyTypeService {
   findAll() {
     return this.http.get<CurrencyType[]>(this.url);
   }
+  
+  findById(id: any){
+    return this.http.get<CurrencyType>(this.url + '/' + id);
+  }
+
+  update(id: any, currencyType: CurrencyType){
+    return this.http.put<CurrencyType>(this.url + '/' + id, currencyType);
+  }
 }
