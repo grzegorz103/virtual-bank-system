@@ -32,6 +32,7 @@ import { IndexComponent } from './shared/index/index.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { JwtModule } from "@auth0/angular-jwt";
 import 'moment/locale/pl';
+import { CurrencyTypeEditComponent } from './currency-type-edit/currency-type-edit.component';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -41,6 +42,7 @@ export function tokenGetter() {
   declarations: [
     AppComponent,
     NavbarComponent,
+    CurrencyTypeEditComponent,
   ],
   imports: [
     BrowserModule,
