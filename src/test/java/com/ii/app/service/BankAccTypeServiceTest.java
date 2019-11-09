@@ -6,6 +6,7 @@ import com.ii.app.dto.out.BankAccTypeOut;
 import com.ii.app.exceptions.ApiException;
 import com.ii.app.models.BankAccType;
 import com.ii.app.models.enums.BankAccountType;
+import com.ii.app.repositories.BankAccountRepository;
 import com.ii.app.repositories.BankAccountTypeRepository;
 import com.ii.app.services.BankAccTypeServiceImpl;
 import com.ii.app.services.interfaces.BankAccTypeService;
@@ -39,11 +40,11 @@ public class BankAccTypeServiceTest {
 
     @Test
     public void updateBankAccTypeTest() {
-        BankAccType bankAccType =bankAccountTypeRepository.save(
+        BankAccType bankAccType = bankAccountTypeRepository.save(
             BankAccType.builder().bankAccountType(BankAccountType.MULTI_CURRENCY)
-            .exchangeCurrencyCommission(2f)
-            .transactionComission(3f)
-            .build()
+                .exchangeCurrencyCommission(2f)
+                .transactionComission(3f)
+                .build()
         );
         final float excBefore = bankAccType.getExchangeCurrencyCommission();
         final float transBefore = bankAccType.getTransactionComission();
@@ -64,8 +65,29 @@ public class BankAccTypeServiceTest {
     }
 
     @Test(expected = ApiException.class)
-    public void updateBankAccTypeNotFound(){
+    public void updateBankAccTypeNotFound() {
         bankAccTypeService.update(-1L, null);
+    }
+
+    @Test
+    public void findByIdTest() {
+        BankAccType bankAccType = bankAccountTypeRepository.save(
+            BankAccType.builder().bankAccountType(BankAccountType.MULTI_CURRENCY)
+                .exchangeCurrencyCommission(2f)
+                .transactionComission(3f)
+                .build()
+        );
+
+        BankAccTypeOut bankAccTypeOut = bankAccTypeService.findById(bankAccType.getId());
+
+        assertThat(bankAccTypeOut.getTransactionComission()).isEqualTo(bankAccType.getTransactionComission());
+        assertThat(bankAccTypeOut.getExchangeCurrencyCommission()).isEqualTo(bankAccType.getExchangeCurrencyCommission());
+        assertThat(bankAccTypeOut.getBankAccountType()).isEqualTo(bankAccType.getBankAccountType());
+    }
+
+    @Test(expected = ApiException.class)
+    public void findByIdNotFoundTest() {
+        bankAccTypeService.findById(-1L);
     }
 }
 

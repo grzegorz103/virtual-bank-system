@@ -45,4 +45,11 @@ public class BankAccTypeServiceImpl implements BankAccTypeService {
 
         return bankAccTypeMapper.entityToDto(bankAccountTypeRepository.save(bankAccType));
     }
+
+    @Override
+    public BankAccTypeOut findById(Long id) {
+        return bankAccTypeMapper.entityToDto(
+            bankAccountTypeRepository.findById(id).orElseThrow(() -> new ApiException("Exception.notFound", null))
+        );
+    }
 }
