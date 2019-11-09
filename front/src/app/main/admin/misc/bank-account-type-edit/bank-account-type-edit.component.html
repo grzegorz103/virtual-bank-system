@@ -1,0 +1,27 @@
+<div *ngIf="bankAccType">
+    <mat-toolbar>Edycja rodzaju rachunku</mat-toolbar>
+    <div class="container">
+        <div class="row">
+            <div class="col-6">
+                <mat-form-field>
+                    <input matInput placeholder="Prowizja od przelewu" type="text"
+                        [disabled]="bankAccType.name ==='PLN'" [(ngModel)]="bankAccType.transactionComission">
+                </mat-form-field>
+            </div>
+
+            <div class="col-6">
+                <div *ngIf="bankAccType.bankAccountType === 'MULTI_CURRENCY'">
+                    <mat-form-field>
+                        <input matInput placeholder="Prowizja wymiany walut" type="text"
+                            [disabled]="bankAccType.bankAccountType !=='MULTI_CURRENCY'"
+                            [(ngModel)]="bankAccType.exchangeCurrencyCommission">
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div mat-dialog-actions align="center">
+    <button mat-button [mat-dialog-close]="bankAccType" cdkFocusInitial>Zapisz</button>
+    <button mat-button (click)="onNoClick()">Anuluj</button>
+</div>

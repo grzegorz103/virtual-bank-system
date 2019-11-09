@@ -1,39 +1,44 @@
 <div class="box mat-elevation-z8">
     <mat-toolbar>Szczegóły kredytu</mat-toolbar>
     <div *ngIf="credit">
-        <table class="table table-hover">
-            <tr>
-                <td class="divider">ID: </td>
-                <td>{{ credit.id }}</td>
-            </tr>
-            <tr>
-                <td class="divider">Wpłacono: </td>
-                <td>{{ credit.balancePaid | currency: credit.currency}}</td>
-            </tr>
-            <tr>
-                <td class="divider">Wysokość raty: </td>
-                <td>{{ credit.installmentAmount | currency: credit.currency}}</td>
-            </tr>
-            <tr>
-                <td class="divider">Wysokość kredytu: </td>
-                <td>{{ credit.totalBalance | currency: credit.currency }}</td>
-            </tr>
-            <tr>
-                <td class="divider">Waluta: </td>
-                <td>{{ credit.currency }}</td>
-            </tr>
-            <tr>
-                <td class="divider">Status: </td>
-                <td>
-                    <p *ngIf="credit.creditStatus.creditType === 'ACTIVE'">Aktywny</p>
-                    <p *ngIf="credit.creditStatus.creditType === 'AWAITING'">Oczekujący</p>
-                    <p *ngIf="credit.creditStatus.creditType === 'CANCELED'">Usunięty</p>
-                    <p *ngIf="credit.creditStatus.creditType === 'PAID'">Spłacony</p>
-                </td>
-            </tr>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 mx-auto">
+                    <table class="table table-hover">
+                        <tr>
+                            <td class="divider">ID: </td>
+                            <td>{{ credit.id }}</td>
+                        </tr>
+                        <tr>
+                            <td class="divider">Wpłacono: </td>
+                            <td>{{ credit.balancePaid | currency: credit.currency}}</td>
+                        </tr>
+                        <tr>
+                            <td class="divider">Wysokość raty: </td>
+                            <td>{{ credit.installmentAmount | currency: credit.currency}}</td>
+                        </tr>
+                        <tr>
+                            <td class="divider">Wysokość kredytu: </td>
+                            <td>{{ credit.totalBalance | currency: credit.currency }}</td>
+                        </tr>
+                        <tr>
+                            <td class="divider">Waluta: </td>
+                            <td>{{ credit.currency }}</td>
+                        </tr>
+                        <tr>
+                            <td class="divider">Status: </td>
+                            <td>
+                                <p *ngIf="credit.creditStatus.creditType === 'ACTIVE'">Aktywny</p>
+                                <p *ngIf="credit.creditStatus.creditType === 'AWAITING'">Oczekujący</p>
+                                <p *ngIf="credit.creditStatus.creditType === 'CANCELED'">Usunięty</p>
+                                <p *ngIf="credit.creditStatus.creditType === 'PAID'">Spłacony</p>
+                            </td>
+                        </tr>
 
-
-        </table>
+                    </table>
+                </div>
+            </div>
+        </div>
         <mat-toolbar>Wpłaty <span *ngIf="credit.creditStatus.creditType==='ACTIVE'" class="ml-auto"><button
                     mat-raised-button (click)="createInstallment()" color="primary">Opłać</button></span>
         </mat-toolbar>

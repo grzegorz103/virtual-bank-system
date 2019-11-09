@@ -69,7 +69,7 @@ public class TransactionServiceImpl implements TransactionService {
         final CurrencyType destCurrency = currencyTypeRepository.findByName(transactionDTO.getDestinedCurrency()).orElseThrow(() -> new RuntimeException("asd"));
         final BankAccount destinedBankAccount = bankAccountRepository.findByNumberAndRemovedFalse(transactionDTO.getDestinedAccountNumber()).orElse(null);
         Check.isNull(destinedBankAccount, "Exception.notFoundBankAcc", transactionDTO.getDestinedAccountNumber());
-        final BankAccount sourceBankAccount = bankAccountRepository.findByNumberAndRemovedFalse(transactionDTO.getSourceAccountNumber()).get();
+        final BankAccount sourceBankAccount = bankAccountRepository.findByNumberAndRemovedFalse (transactionDTO.getSourceAccountNumber()).get();
 
         final Saldo sourceSaldo = sourceBankAccount.getSaldos()
             .stream()

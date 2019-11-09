@@ -20,6 +20,7 @@ import java.util.HashSet;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.mockito.Mockito.verify;
 
 @RunWith(SpringRunner.class)
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
@@ -54,6 +55,7 @@ public class CurrencyTypeServiceTest {
         CurrencyTypeOut currencyTypeOut = currencyTypeService.update(currencyType.getId(), currencyTypeEdit);
 
         Optional<CurrencyType> afterUpdate = currencyTypeRepository.findById(currencyType.getId());
+
         assertThat(afterUpdate).isPresent();
         assertThat(afterUpdate.get().getName()).isEqualTo(newName);
         assertThat(afterUpdate.get().getExchangeRate()).isEqualTo(newExchangeRate);

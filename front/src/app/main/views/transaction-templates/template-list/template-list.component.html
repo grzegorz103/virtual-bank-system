@@ -39,18 +39,28 @@
             </ng-container>
 
             <ng-container matColumnDef="name">
-                    <th mat-header-cell *matHeaderCellDef>Nazwa</th>
-                    <td mat-cell *matCellDef="let element">{{ (element.templateName?.length > 20)? (element.templateName | slice:0:20)+'..':(element.templateName)}} </td>
-                </ng-container>
+                <th mat-header-cell *matHeaderCellDef>Nazwa</th>
+                <td mat-cell *matCellDef="let element">
+                    {{ (element.templateName?.length > 20)? (element.templateName | slice:0:20)+'..':(element.templateName)}}
+                </td>
+            </ng-container>
 
             <ng-container matColumnDef="sourceAccountNumber">
                 <th mat-header-cell *matHeaderCellDef>Źródłowy numer konta</th>
-                <td mat-cell *matCellDef="let element"> {{element.sourceAccountNumber}} </td>
+                <td mat-cell *matCellDef="let element">
+                    <div matTooltip="{{element.sourceAccountNumber}}">
+                        {{element.sourceAccountNumber | slice:0:2}}...{{element.sourceAccountNumber | slice:22:26}}
+                    </div>
+                </td>
             </ng-container>
 
             <ng-container matColumnDef="destinedAccountNumber">
                 <th mat-header-cell *matHeaderCellDef>Docelowy numer konta</th>
-                <td mat-cell *matCellDef="let element"> {{element.destinedAccountNumber}} </td>
+                <td mat-cell *matCellDef="let element">
+                    <div matTooltip="{{element.destinedAccountNumber}}">
+                        {{element.destinedAccountNumber | slice:0:2}}...{{element.destinedAccountNumber | slice:22:26}}
+                    </div>
+                </td>
             </ng-container>
 
             <ng-container matColumnDef="sourceCurrency">
@@ -66,10 +76,10 @@
 
             <ng-container matColumnDef="create">
                 <th mat-header-cell *matHeaderCellDef>Przelew</th>
-                <td mat-cell *matCellDef="let element"><button *ngIf="!element.multiCurrency" mat-raised-button color="primary"
-                        [routerLink]="['/core/transactions', 'create']"
+                <td mat-cell *matCellDef="let element"><button *ngIf="!element.multiCurrency" mat-raised-button
+                        color="primary" [routerLink]="['/core/transactions', 'create']"
                         [queryParams]="{defined: element.id}">Wykonaj</button>
-                        <button mat-raised-button color="primary" *ngIf="element.multiCurrency"
+                    <button mat-raised-button color="primary" *ngIf="element.multiCurrency"
                         [routerLink]="['/core/transactions/', 'create', 'multicurrency']"
                         [queryParams]="{defined: element.id}">Wykonaj</button>
                 </td>
