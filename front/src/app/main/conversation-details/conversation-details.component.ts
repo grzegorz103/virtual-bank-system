@@ -84,8 +84,6 @@ export class ConversationDetailsComponent implements OnInit {
         this.snackBar.open('Wysłano odpowiedź', '', { duration: 3000, panelClass: 'green-snackbar' });
 
         this.createReplyForm();
-        // this.replyForm.reset();
-        this.formDirective.resetForm();
         this.messages.push(res);
       }, err => this.snackBar.open('Niepoprawna wiadomość', '', { duration: 3000, panelClass: 'red-snackbar' })
       );
