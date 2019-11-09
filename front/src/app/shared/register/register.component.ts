@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { UserService } from '../services/user.service';
 import { RegisterFormValidator } from './register-form-validator';
 import { MatSnackBar } from '@angular/material';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -15,7 +16,8 @@ export class RegisterComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
     private snackBar: MatSnackBar,
-    private userService: UserService) {
+    private userService: UserService,
+    private router: Router) {
     this.form = this.fb.group({
       password: ['', Validators.compose([
         Validators.required,
@@ -62,8 +64,10 @@ export class RegisterComponent implements OnInit {
   }
 
   sendRegisterForm() {
-    this.userService.create(this.form.value).subscribe(res =>
-      this.snackBar.open('Dziękujemy za rejestrację', '', { duration: 3000, panelClass: 'green-snackbar' })
+    this.userService.create(this.form.value).subscribe(res =>{
+      this.snackBar.open('Dziękujemy za rejestrację', '', { duration: 3000, panelClass: 'green-snackbar' });
+      this.router.navigateByUrl('/login');
+    }
       , err => {
         this.snackBar.open(err.error.messages, '', { duration: 3000, panelClass: 'red-snackbar' });
       });

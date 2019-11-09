@@ -12,6 +12,7 @@ import com.ii.app.models.user.UserRole;
 import com.ii.app.repositories.UserRepository;
 import com.ii.app.repositories.UserRoleRepository;
 import com.ii.app.services.interfaces.AddressService;
+import com.ii.app.services.interfaces.EmailService;
 import com.ii.app.services.interfaces.UserService;
 import com.ii.app.utils.Constants;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -35,6 +36,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
+
     private final UserRepository userRepository;
 
     private final UserRoleRepository userRoleRepository;
@@ -47,18 +49,23 @@ public class UserServiceImpl implements UserService {
 
     private final AddressService addressService;
 
+    private final EmailService emailService;
+
     @Autowired
     public UserServiceImpl(UserRepository userRepository,
                            UserRoleRepository userRoleRepository,
                            UserMapper userMapper,
                            BCryptPasswordEncoder passwordEncoder,
-                           Constants CONSTANTS, AddressService addressService) {
+                           Constants CONSTANTS,
+                           AddressService addressService,
+                           EmailService emailService) {
         this.userRepository = userRepository;
         this.userRoleRepository = userRoleRepository;
         this.userMapper = userMapper;
         this.CONSTANTS = CONSTANTS;
         this.passwordEncoder = passwordEncoder;
         this.addressService = addressService;
+        this.emailService = emailService;
     }
 
     @Override
@@ -67,9 +74,13 @@ public class UserServiceImpl implements UserService {
         mapped.setLocked(false);
         mapped.setCredentials(false);
         mapped.setEnabled(false);
-        mapped.setIdentifier(generateIdentifier());
+
+        String identifier = generateIdentifier();
+        mapped.setIdentifier(identifier);
         mapped.setUserRoles(Collections.singleton(userRoleRepository.findByUserType(UserRole.UserType.ROLE_USER)));
         mapped.setPassword(passwordEncoder.encode(userIn.getPassword()));
+
+        emailService.sendRegisterMail(mapped.getEmail(), identifier);
 
         return userMapper.userToUserOut(userRepository.save(mapped));
     }
@@ -128,9 +139,13 @@ public class UserServiceImpl implements UserService {
         mapped.setLocked(false);
         mapped.setCredentials(false);
         mapped.setEnabled(true);
-        mapped.setIdentifier(generateIdentifier());
+
+        String identifier = generateIdentifier();
+        mapped.setIdentifier(identifier);
         mapped.setUserRoles(Collections.singleton(userRoleRepository.findByUserType(UserRole.UserType.ROLE_EMPLOYEE)));
         mapped.setPassword(passwordEncoder.encode(userIn.getPassword()));
+
+        emailService.sendRegisterMail(mapped.getEmail(), identifier);
 
         return userMapper.userToUserOut(userRepository.save(mapped));
     }

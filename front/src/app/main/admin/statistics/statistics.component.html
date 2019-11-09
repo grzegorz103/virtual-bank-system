@@ -60,7 +60,8 @@
                 <ng-container matColumnDef="edit">
                     <th mat-header-cell *matHeaderCellDef> Edycja </th>
                     <td mat-cell *matCellDef="let element">
-                        <button mat-raised-button color="primary" class="mr-2">Edytuj</button>
+                        <button mat-raised-button color="primary" class="mr-2"
+                        (click)="openBankAccTypeEditDialog(element.id)">Edytuj</button>
                     </td>
                 </ng-container>
 

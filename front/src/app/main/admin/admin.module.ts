@@ -13,6 +13,7 @@ import { EmployeeAddComponent } from './misc/employee-add/employee-add.component
 import { EmployeeDetailsComponent } from './misc/employee-details/employee-details.component';
 import { MomentModule } from 'angular2-moment';
 import { CurrencyTypeEditComponent } from './misc/currency-type-edit/currency-type-edit.component';
+import { BankAccountTypeEditComponent } from './misc/bank-account-type-edit/bank-account-type-edit.component';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import { CurrencyTypeEditComponent } from './misc/currency-type-edit/currency-ty
     SupportListComponent,
     EmployeeAddComponent, EmployeeDetailsComponent,
     CurrencyTypeEditComponent,
+    BankAccountTypeEditComponent,
     AdminComponent],
   imports: [
     CommonModule,
@@ -36,6 +38,6 @@ import { CurrencyTypeEditComponent } from './misc/currency-type-edit/currency-ty
     FormsModule, MatDialogModule,
     MatNativeDateModule, MatInputModule,
   ],
-  entryComponents: [EmployeeAddComponent, EmployeeDetailsComponent, CurrencyTypeEditComponent]
+  entryComponents: [EmployeeAddComponent, EmployeeDetailsComponent, CurrencyTypeEditComponent, BankAccountTypeEditComponent]
 })
 export class AdminModule { }

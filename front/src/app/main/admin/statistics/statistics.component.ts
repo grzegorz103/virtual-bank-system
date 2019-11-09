@@ -4,9 +4,10 @@ import { BankAccountTypeService } from '../../services/bank-account-type.service
 import { BankAccType } from '../../models/bank-acc-type';
 import { BankAccountService } from '../../services/bank-account.service';
 import { CurrencyTypeService } from '../../services/currency-type.service';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatSnackBar } from '@angular/material';
 import { CurrencyTypeEditComponent } from '../misc/currency-type-edit/currency-type-edit.component';
 import { CurrencyType } from '../../models/currency-type';
+import { BankAccountTypeEditComponent } from '../misc/bank-account-type-edit/bank-account-type-edit.component';
 
 @Component({
   selector: 'app-statistics',
@@ -35,19 +36,22 @@ export class StatisticsComponent implements OnInit {
   constructor(private bankAccountTypeService: BankAccountTypeService,
     private currencyTypeService: CurrencyTypeService,
     public dialog: MatDialog,
+    private snackBar: MatSnackBar,
     private bankAccountService: BankAccountService) { }
 
   ngOnInit() {
-    this.fetchBankAccountTypes();
+    this.fetchBankAccountTypes(true);
     this.fetchCurrencyTypes();
   }
 
-  fetchBankAccountTypes() {
+  fetchBankAccountTypes(updateChart: boolean) {
     this.bankAccountTypeService.findAll()
       .subscribe(res => {
         this.bankAccountTypes = res;
         this.bankAccountTypes.sort((o1, o2) => o1.bankAccountType.localeCompare(o2.bankAccountType));
-        this.fillChartData();
+        if (updateChart) {
+          this.fillChartData();
+        }
       });
   }
 
@@ -93,6 +97,27 @@ export class StatisticsComponent implements OnInit {
         if (result) {
           this.currencyTypeService.update(currencyTypeId, result)
             .subscribe(res => this.fetchCurrencyTypes());
+        }
+      });
+    }
+  }
+
+  openBankAccTypeEditDialog(bankAccTypeId: any) {
+    if (this.bankAccountTypes.some(e => e.id === bankAccTypeId)) {
+      const dialogRef = this.dialog.open(BankAccountTypeEditComponent, {
+        width: window.innerWidth > 768 ? '50%' : '85%',
+        data: { id: bankAccTypeId }
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          if (result.transactionComission < 0 || result.transactionComission > 99 ||
+            result.exchangeCurrencyCommission < 0 || result.exchangeCurrencyCommission > 99) {
+            this.snackBar.open('Wysokość prowizji musi być większa lub równa 0 i mniejsza niż 100', '', { duration: 10000, panelClass: 'red-snackbar' });
+            return;
+          }
+          this.bankAccountTypeService.update(bankAccTypeId, result)
+            .subscribe(res => this.fetchBankAccountTypes(false));
         }
       });
     }
