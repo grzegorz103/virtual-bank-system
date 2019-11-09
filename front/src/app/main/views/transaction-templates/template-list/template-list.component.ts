@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TransactionTemplate } from 'src/app/main/models/transaction-template';
 import { TransactionTemplateService } from 'src/app/main/services/transaction-template-service.service';
-import { MatDialog, MatTableDataSource } from '@angular/material';
+import { MatDialog, MatTableDataSource, MatSnackBar } from '@angular/material';
 import { DialogWindowComponent } from 'src/app/main/misc/dialog-window/dialog-window.component';
 import { SelectionModel } from '@angular/cdk/collections';
 import { forkJoin } from 'rxjs';
@@ -22,6 +22,7 @@ export class TemplateListComponent implements OnInit {
   // do dodawania/edycji
   template: TransactionTemplate;
   constructor(private transactionTemplateService: TransactionTemplateService,
+    private snackBar: MatSnackBar,
     public dialog: MatDialog) { }
 
   ngOnInit() {
@@ -52,10 +53,10 @@ export class TemplateListComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         if (isCreating) {
-          alert('kreat');
+          this.snackBar.open('Utworzono', '', { duration: 3000, panelClass: 'green-snackbar' });
           this.transactionTemplateService.create(result).subscribe(res => this.fetchData());
         } else {
-          alert('edit');
+          this.snackBar.open('Przelew został zaktualizowany', '', { duration: 3000, panelClass: 'green-snackbar' });
           this.transactionTemplateService.update(index, result).subscribe(res => this.fetchData());
         }
       }

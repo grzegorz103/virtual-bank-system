@@ -33,7 +33,6 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 public class BankAccountServiceTest {
 
     @Autowired
-    @InjectMocks
     private BankAccountServiceImpl bankAccountService;
 
     @Autowired

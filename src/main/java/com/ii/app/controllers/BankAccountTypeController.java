@@ -1,14 +1,13 @@
 package com.ii.app.controllers;
 
+import com.ii.app.dto.edit.BankAccTypeEdit;
 import com.ii.app.dto.out.BankAccTypeOut;
 import com.ii.app.models.BankAccType;
 import com.ii.app.services.interfaces.BankAccTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -24,5 +23,11 @@ public class BankAccountTypeController {
     @GetMapping
     public List<BankAccTypeOut> findAll() {
         return bankAccTypeService.findAll();
+    }
+
+    @PutMapping("/id")
+    public void update(@PathVariable Long id,
+                       @RequestBody @Valid BankAccTypeEdit bankAccTypeEdit){
+        bankAccTypeService.update(id, bankAccTypeEdit);
     }
 }
