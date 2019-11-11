@@ -4,6 +4,7 @@ import com.ii.app.services.interfaces.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -16,13 +17,18 @@ public class EmailServiceImpl implements EmailService {
         this.emailSender = emailSender;
     }
 
+    @Async
     @Override
     public void sendRegisterMail(String receiver, String identifier) {
+
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(receiver);
         message.setSubject("Rejestracja w wirtualnym systemie");
-        message.setText("<html><body><h2>Dziękujemy za rejestrację w systemie.</h2><br/> Twój identyfikator użytkownika to: " + identifier+"</body></html>");
+        message.setText("<html><body><h2>Dziękujemy za rejestrację w systemie.</h2><br/> Twój identyfikator użytkownika to: " + identifier + "</body></html>");
 
-        emailSender.send(message);
+        try {
+            emailSender.send(message);
+        } catch (Exception ignored) {
+        }
     }
 }

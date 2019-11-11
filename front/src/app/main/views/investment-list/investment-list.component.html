@@ -1,0 +1,54 @@
+<div class="box mat-elevation-z8">
+
+    <mat-toolbar>Lokaty</mat-toolbar>
+
+    <div *ngIf="investments">
+        <table mat-table [(dataSource)]="investments" *ngIf="investments.data.length > 0">
+
+            <ng-container matColumnDef="ID">
+                <th mat-header-cell *matHeaderCellDef>ID</th>
+                <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="date">
+                <th mat-header-cell *matHeaderCellDef>Data utworzenia</th>
+                <td mat-cell *matCellDef="let element">
+                    {{ element.creationDate | amTimeAgo }}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="currentBalance">
+                <th mat-header-cell *matHeaderCellDef>Kwota</th>
+                <td mat-cell *matCellDef="let element">{{element.currentBalance}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="investmentType">
+                <th mat-header-cell *matHeaderCellDef>Status</th>
+                <td mat-cell *matCellDef="let element">
+                    <span *ngIf="element.investmentType.investmentStatus === 'ACTIVE'">Aktywna</span>
+                    <span *ngIf="element.investmentType.investmentStatus === 'CLOSED'">Zamknięta</span>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="details">
+                <th mat-header-cell *matHeaderCellDef>Szczegóły</th>
+                <td mat-cell *matCellDef="let element"><button mat-raised-button color="primary"
+                        (click)="openDialog(element.id)">Szczegóły</button>
+                </td>
+            </ng-container>
+
+
+            <tr mat-header-row *matHeaderRowDef="columns; sticky: true">
+            </tr>
+            <tr mat-row *matRowDef="let row; columns: columns;">
+            </tr>
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+        </table>
+
+        <div *ngIf="investments.data.length === 0">
+            <div class="mx-3 my-3">
+                <h5>Brak lokat</h5>
+            </div>
+        </div>
+    </div>
+</div>

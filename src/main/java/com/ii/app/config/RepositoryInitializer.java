@@ -1,13 +1,7 @@
 package com.ii.app.config;
 
-import com.ii.app.models.BankAccType;
-import com.ii.app.models.BankAccount;
-import com.ii.app.models.CurrencyType;
-import com.ii.app.models.Saldo;
-import com.ii.app.models.enums.BankAccountType;
-import com.ii.app.models.enums.ConversationDirection;
-import com.ii.app.models.enums.ConversationStatus;
-import com.ii.app.models.enums.CreditStatus;
+import com.ii.app.models.*;
+import com.ii.app.models.enums.*;
 import com.ii.app.models.user.Address;
 import com.ii.app.models.user.User;
 import com.ii.app.models.user.UserRole;
@@ -20,6 +14,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -50,6 +45,12 @@ public class RepositoryInitializer {
 
     @Autowired
     private ConversationDirectionRepository conversationDirectionRepository;
+
+    @Autowired
+    private InvestmentTypeRepository investmentTypeRepository;
+
+    @Autowired
+    private InvestmentRepository investmentRepository;
 
     @Autowired
     public RepositoryInitializer(BankAccountRepository bankAccountRepository,
@@ -312,6 +313,17 @@ public class RepositoryInitializer {
                 conversationStatusRepository.save(ConversationStatus.builder().conversationType(ConversationStatus.ConversationType.ACTIVE).build());
                 conversationStatusRepository.save(ConversationStatus.builder().conversationType(ConversationStatus.ConversationType.DELETED).build());
                 conversationStatusRepository.save(ConversationStatus.builder().conversationType(ConversationStatus.ConversationType.RESOLVED).build());
+            }
+
+            if(investmentTypeRepository.findAll().isEmpty()){
+                investmentTypeRepository.save(InvestmentType.builder().investmentStatus(InvestmentType.InvestmentStatus.ACTIVE).build());
+                investmentTypeRepository.save(InvestmentType.builder().investmentStatus(InvestmentType.InvestmentStatus.CLOSED).build());
+            }
+
+            if(investmentRepository.findAll().isEmpty()){
+                Instant now = Instant.now();
+                investmentRepository.save(Investment.builder().updateTimespan(now).creationDate(now).currency("PLN").currentBalance(BigDecimal.valueOf(150L)).startBalance(BigDecimal.valueOf(100L)).investmentType(investmentTypeRepository.findByInvestmentStatus(InvestmentType.InvestmentStatus.ACTIVE)).destinedSaldo(saldoRepository.findAll().get(0)).build());
+                investmentRepository.save(Investment.builder().creationDate(now).updateTimespan(now).currency("PLN").currentBalance(BigDecimal.valueOf(150L)).startBalance(BigDecimal.valueOf(100L)).investmentType(investmentTypeRepository.findByInvestmentStatus(InvestmentType.InvestmentStatus.CLOSED)).destinedSaldo(saldoRepository.findAll().get(0)).build());
             }
         };
     }

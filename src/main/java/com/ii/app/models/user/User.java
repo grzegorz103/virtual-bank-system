@@ -30,8 +30,6 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long ID;
 
-    // moje
-
     @Column(name = "username")
     @NotNull
     @NotBlank
