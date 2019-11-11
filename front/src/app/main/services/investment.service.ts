@@ -7,11 +7,11 @@ import { HttpClient } from '@angular/common/http';
 })
 export class InvestmentService {
 
-  url = 'http://localhost:8080/api/bankaccount';
+  url = 'http://localhost:8080/api/investments';
 
   constructor(private http: HttpClient) { }
 
-  findAllByUser(){
-    return this.http.get<Investment>(this.url +'/byUser');
+  findAllByUser() {
+    return this.http.get<Investment[]>(this.url + '/byUser');
   }
 }

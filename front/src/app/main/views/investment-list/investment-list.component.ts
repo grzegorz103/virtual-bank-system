@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { InvestmentService } from '../../services/investment.service';
+import { Investment } from '../../models/investment';
+import { MatTableDataSource, MatPaginator } from '@angular/material';
 
 @Component({
   selector: 'app-investment-list',
@@ -7,10 +10,26 @@ import { Component, OnInit } from '@angular/core';
 })
 export class InvestmentListComponent implements OnInit {
 
-  columns = ['id', 'date', 'currentBalance', 'investmentType', 'edit'];
-  constructor(private investmentService: InvestmentService) { }
+  columns = ['ID', 'date', 'currentBalance', 'investmentType', 'details'];
 
-  ngOnInit() {
-  }
+  investments: MatTableDataSource<Investment>;
+
+@ViewChild(MatPaginator, { static: true })
+paginator: MatPaginator;
+
+constructor(private investmentService: InvestmentService) { }
+
+ngOnInit() {
+  this.fetchInvestments();
+}
+
+fetchInvestments() {
+  this.investmentService.findAllByUser()
+    .subscribe(res => {
+      this.investments = new MatTableDataSource<Investment>();
+      this.investments.data = res;
+      this.investments.paginator = this.paginator;
+    });
+}
 
 }

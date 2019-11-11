@@ -84,7 +84,7 @@ public class InvestmentServiceTest {
 
         assertThat(fromService.getCreationDate()).isEqualTo(fromDatabase.getCreationDate());
         assertThat(fromService.getCurrency()).isEqualTo(fromDatabase.getCurrency());
-        assertThat(fromService.getInvestmentType()).isEqualTo(fromDatabase.getInvestmentType());
+        assertThat(fromService.getInvestmentType().getInvestmentStatus()).isEqualTo(fromDatabase.getInvestmentType().getInvestmentStatus());
         assertThat(fromService.getCurrentBalance()).isEqualTo(fromDatabase.getCurrentBalance());
         assertThat(fromService.getStartBalance()).isEqualTo(fromDatabase.getStartBalance());
     }

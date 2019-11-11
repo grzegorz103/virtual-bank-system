@@ -15,8 +15,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.Duration;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -27,6 +32,8 @@ public class InvestmentServiceImpl implements InvestmentService {
     private final InvestmentTypeRepository investmentTypeRepository;
 
     private final InvestmentMapper investmentMapper;
+
+    private final float DAILY_PERCENT_PROFIT = 5f;
 
     @Autowired
     private SaldoRepository saldoRepository;
@@ -48,16 +55,15 @@ public class InvestmentServiceImpl implements InvestmentService {
     @Override
     public List<InvestmentOut> findAllByUser() {
         String identifier = SecurityContextHolder.getContext().getAuthentication().getName();
-        return investmentMapper.entityToDTO(
-            investmentRepository.findAllByDestinedSaldo_BankAccount_User_Identifier(identifier)
-        );
+        return investmentRepository.findAllByDestinedSaldo_BankAccount_User_Identifier(identifier)
+            .stream()
+            .map(this::calculateProfit)
+            .collect(Collectors.toList());
     }
 
     @Override
     public InvestmentOut findById(Long id) {
-        return investmentMapper.entityToDTO(
-            investmentRepository.findById(id).orElseThrow(() -> new ApiException("Exception.notFound", null))
-        );
+        return investmentMapper.entityToDTO(investmentRepository.findById(id).orElseThrow(() -> new ApiException("Exception.notFound", null)));
     }
 
     @Override
@@ -71,9 +77,12 @@ public class InvestmentServiceImpl implements InvestmentService {
         Investment investment = investmentRepository.findById(id).orElseThrow(() -> new ApiException("Exception.notFound", null));
         switch (investment.getInvestmentType().getInvestmentStatus()) {
             case ACTIVE:
+                investment.getDestinedSaldo().setBalance(investment.getDestinedSaldo().getBalance().add(investment.getCurrentBalance()));
                 investment.setInvestmentType(investmentTypeRepository.findByInvestmentStatus(InvestmentType.InvestmentStatus.CLOSED));
+                calculateProfit(investment);
                 break;
             case CLOSED:
+                investment.setUpdateTimespan(Instant.now());
                 investment.setInvestmentType(investmentTypeRepository.findByInvestmentStatus(InvestmentType.InvestmentStatus.ACTIVE));
                 break;
         }
@@ -84,13 +93,32 @@ public class InvestmentServiceImpl implements InvestmentService {
     public InvestmentOut create(InvestmentIn investment) {
         Investment mapped = investmentMapper.dtoToEntity(investment);
         mapped.setInvestmentType(investmentTypeRepository.findByInvestmentStatus(InvestmentType.InvestmentStatus.ACTIVE));
-        mapped.setCreationDate(Instant.now());
+        Instant currentTime = Instant.now();
+        mapped.setCreationDate(currentTime);
+        mapped.setUpdateTimespan(currentTime);
         mapped.setCurrentBalance(mapped.getCurrentBalance());
         mapped.setDestinedSaldo(saldoRepository.findById(investment.getDestinedSaldoId()).orElseThrow(() -> new ApiException("Exception.notFound", null)));
+        mapped.setUpdateTimespan(currentTime);
+
         return investmentMapper.entityToDTO(investmentRepository.save(mapped));
     }
 
-    private Investment calculateProfit(Investment investment) {
-        return null;
+    private InvestmentOut calculateProfit(Investment investment) {
+        if (investment == null)
+            return null;
+        Instant currentTime = Instant.now();
+
+        long secondsTimespan = ChronoUnit.SECONDS.between(investment.getUpdateTimespan(), currentTime);
+
+        float startBalancePercent = investment.getStartBalance().floatValue() * (DAILY_PERCENT_PROFIT / 100f);
+        float profitPerSecond = startBalancePercent / Duration.ofDays(1).getSeconds();
+
+        investment.setCurrentBalance(
+            investment.getCurrentBalance().add(BigDecimal.valueOf(profitPerSecond * secondsTimespan)).setScale(2, RoundingMode.DOWN)
+        );
+        investment.setUpdateTimespan(currentTime);
+
+        return investmentMapper.entityToDTO(investmentRepository.save(investment));
     }
+
 }

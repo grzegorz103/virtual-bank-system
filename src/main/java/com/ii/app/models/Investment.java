@@ -36,6 +36,9 @@ public class Investment {
     @Column(name = "date")
     private Instant creationDate;
 
+    @Column(name="updateTimespan")
+    private Instant updateTimespan;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "investment_type_id")
     private InvestmentType investmentType;
