@@ -14,22 +14,22 @@ export class InvestmentListComponent implements OnInit {
 
   investments: MatTableDataSource<Investment>;
 
-@ViewChild(MatPaginator, { static: true })
-paginator: MatPaginator;
+  @ViewChild(MatPaginator, { static: true })
+  paginator: MatPaginator;
 
-constructor(private investmentService: InvestmentService) { }
+  constructor(private investmentService: InvestmentService) { }
 
-ngOnInit() {
-  this.fetchInvestments();
-}
+  ngOnInit() {
+    this.fetchInvestments();
+  }
 
-fetchInvestments() {
-  this.investmentService.findAllByUser()
-    .subscribe(res => {
-      this.investments = new MatTableDataSource<Investment>();
-      this.investments.data = res;
-      this.investments.paginator = this.paginator;
-    });
-}
+  fetchInvestments() {
+    this.investmentService.findAllByUser()
+      .subscribe(res => {
+        this.investments = new MatTableDataSource<Investment>();
+        this.investments.data = res;
+        this.investments.paginator = this.paginator;
+      });
+  }
 
 }
