@@ -8,6 +8,7 @@ import com.ii.app.models.BankAccount;
 import com.ii.app.models.Saldo;
 import com.ii.app.models.enums.BankAccountType;
 import com.ii.app.models.enums.CreditStatus;
+import com.ii.app.models.enums.InvestmentType;
 import com.ii.app.repositories.*;
 import com.ii.app.services.interfaces.BankAccountService;
 import com.ii.app.utils.Constants;
@@ -120,6 +121,11 @@ public class BankAccountServiceImpl implements BankAccountService {
                 .anyMatch(f -> f.getCreditStatus().getCreditType() == CreditStatus.CreditType.ACTIVE))) {
             throw new ApiException("Exception.hasActiveCredits", null);
         }
+
+        if (bankAccount.getSaldos().stream()
+            .anyMatch(e -> e.getInvestments().stream()
+                .anyMatch(f -> f.getInvestmentType().getInvestmentStatus() == InvestmentType.InvestmentStatus.ACTIVE)))
+            throw new ApiException("Exception.hasActiveInvestments", null);
         bankAccountRepository.markRemovedAsTrue(id);
     }
 

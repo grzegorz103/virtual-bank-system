@@ -32,6 +32,7 @@ import { ProfileEditComponent } from './profile-edit/profile-edit.component';
 import { ExchangePageComponent } from './views/exchange-page/exchange-page.component';
 import { CreditPageComponent } from './views/credit-page/credit-page.component';
 import { CreditDetailsComponent } from './views/credit-details/credit-details.component';
+import { InvestmentListComponent } from './views/investment-list/investment-list.component';
 
 
 @NgModule({
@@ -49,6 +50,7 @@ import { CreditDetailsComponent } from './views/credit-details/credit-details.co
     ConversationDetailsComponent,
     UserSupportComponent,
     ExchangePageComponent,
+    InvestmentListComponent,
     ProfileEditComponent,
     CreditPageComponent,
     CreditDetailsComponent

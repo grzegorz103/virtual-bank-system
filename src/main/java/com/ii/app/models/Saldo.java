@@ -35,6 +35,10 @@ public class Saldo {
     @JsonIgnore
     private Set<Credit> credits;
 
+    @OneToMany(mappedBy = "destinedSaldo", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonIgnore
+    private Set<Investment> investments;
+
     public Saldo(BigDecimal balance, CurrencyType currencyType, BankAccount bankAccount) {
         this.balance = balance;
         this.currencyType = currencyType;
