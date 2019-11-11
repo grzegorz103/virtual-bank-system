@@ -5,6 +5,7 @@ import com.ii.app.dto.out.InvestmentOut;
 import com.ii.app.exceptions.ApiException;
 import com.ii.app.mappers.InvestmentMapper;
 import com.ii.app.models.Investment;
+import com.ii.app.models.Saldo;
 import com.ii.app.models.enums.InvestmentType;
 import com.ii.app.repositories.InvestmentRepository;
 import com.ii.app.repositories.InvestmentTypeRepository;
@@ -91,13 +92,18 @@ public class InvestmentServiceImpl implements InvestmentService {
 
     @Override
     public InvestmentOut create(InvestmentIn investment) {
+        Saldo destinedSaldo = saldoRepository.findById(investment.getDestinedSaldoId()).orElseThrow(() -> new ApiException("Exception.notFound", null));
+        if (destinedSaldo.getBalance().compareTo(investment.getStartBalance()) < 0) {
+            throw new ApiException("Exception.notEnoughBalanceSaldo", null);
+        }
+        destinedSaldo.setBalance(destinedSaldo.getBalance().subtract(investment.getStartBalance()));
         Investment mapped = investmentMapper.dtoToEntity(investment);
         mapped.setInvestmentType(investmentTypeRepository.findByInvestmentStatus(InvestmentType.InvestmentStatus.ACTIVE));
         Instant currentTime = Instant.now();
         mapped.setCreationDate(currentTime);
         mapped.setUpdateTimespan(currentTime);
         mapped.setCurrentBalance(mapped.getCurrentBalance());
-        mapped.setDestinedSaldo(saldoRepository.findById(investment.getDestinedSaldoId()).orElseThrow(() -> new ApiException("Exception.notFound", null)));
+        mapped.setDestinedSaldo(destinedSaldo);
         mapped.setUpdateTimespan(currentTime);
 
         return investmentMapper.entityToDTO(investmentRepository.save(mapped));

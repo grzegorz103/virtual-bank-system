@@ -114,8 +114,9 @@ public class InvestmentServiceTest {
     }
 
     @Test
-    public void createInvestmentTest(){
-        InvestmentIn investmentIn = new InvestmentIn(saldoRepository.findAll().get(0).getId(), BigDecimal.TEN);
+    public void createInvestmentTest() {
+        Saldo saldo = saldoRepository.findAll().get(0);
+        InvestmentIn investmentIn = new InvestmentIn(saldo.getId(), BigDecimal.TEN);
 
         InvestmentOut fromService = investmentService.create(investmentIn);
 
