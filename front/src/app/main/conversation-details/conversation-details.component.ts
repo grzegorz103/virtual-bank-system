@@ -78,7 +78,8 @@ export class ConversationDetailsComponent implements OnInit {
   sendReply() {
     if (this.replyForm.invalid) {
       return;
-    };
+    }
+
     this.messageService.create(this.replyForm.value)
       .subscribe(res => {
         this.snackBar.open('Wysłano odpowiedź', '', { duration: 3000, panelClass: 'green-snackbar' });

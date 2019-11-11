@@ -6,6 +6,4 @@ import java.util.List;
 
 public interface InvestmentTypeService {
     List<InvestmentTypeOut> findAll();
-
-    InvestmentTypeOut update(Long id);
 }

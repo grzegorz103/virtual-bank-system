@@ -24,15 +24,6 @@ public class InvestmentType {
     @Column(name = "investment_status")
     private InvestmentStatus investmentStatus;
 
-    @Column(name = "daily_profit")
-    private BigDecimal dailyProfit;
-
-    @Column(name="minimal_balance")
-    private BigDecimal minimalBalance;
-
-    @Column(name="maximal_balance")
-    private BigDecimal maximalBalance;
-
     public enum InvestmentStatus {
         ACTIVE,
         CLOSED
