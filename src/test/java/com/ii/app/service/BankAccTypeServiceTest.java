@@ -32,6 +32,7 @@ import static org.mockito.Mockito.when;
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 @SpringBootTest(classes = AppApplication.class)
 public class BankAccTypeServiceTest {
+
     @SpyBean
     private BankAccTypeService bankAccTypeService;
 

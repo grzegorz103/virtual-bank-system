@@ -44,6 +44,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse> handleExceptions(Exception exception, Locale locale) {
         String errMessage = messageSource.getMessage(UNEXPECTED_ERROR, null, locale);
+        System.out.println(exception.getMessage());
         return new ResponseEntity<>(new ApiResponse(errMessage), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
