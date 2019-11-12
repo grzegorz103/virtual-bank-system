@@ -17,6 +17,7 @@ import { ExchangePageComponent } from './views/exchange-page/exchange-page.compo
 import { CreditPageComponent } from './views/credit-page/credit-page.component';
 import { CreditDetailsComponent } from './views/credit-details/credit-details.component';
 import { InvestmentListComponent } from './views/investment-list/investment-list.component';
+import { InvestmentCreateComponent } from './views/investment-create/investment-create.component';
 
 
 const routes: Routes = [
@@ -75,6 +76,10 @@ const routes: Routes = [
         },
         {
           path: 'investments/list', component: InvestmentListComponent,
+          canActivate: [CoreGuardService]
+        },
+        {
+          path: 'investments/create', component: InvestmentCreateComponent,
           canActivate: [CoreGuardService]
         },
        // {path: 'excha'}
