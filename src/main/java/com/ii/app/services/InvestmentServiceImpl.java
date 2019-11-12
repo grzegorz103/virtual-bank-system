@@ -76,17 +76,12 @@ public class InvestmentServiceImpl implements InvestmentService {
     @Override
     public InvestmentOut updateStatus(Long id) {
         Investment investment = investmentRepository.findById(id).orElseThrow(() -> new ApiException("Exception.notFound", null));
-        switch (investment.getInvestmentType().getInvestmentStatus()) {
-            case ACTIVE:
-                investment.getDestinedSaldo().setBalance(investment.getDestinedSaldo().getBalance().add(investment.getCurrentBalance()));
-                investment.setInvestmentType(investmentTypeRepository.findByInvestmentStatus(InvestmentType.InvestmentStatus.CLOSED));
-                calculateProfit(investment);
-                break;
-            case CLOSED:
-                investment.setUpdateTimespan(Instant.now());
-                investment.setInvestmentType(investmentTypeRepository.findByInvestmentStatus(InvestmentType.InvestmentStatus.ACTIVE));
-                break;
+        if(investment.getInvestmentType().getInvestmentStatus() == InvestmentType.InvestmentStatus.CLOSED){
+            throw new ApiException("Exception.investmentAlreadyClosed", null);
         }
+        calculateProfit(investment);
+        investment.getDestinedSaldo().setBalance(investment.getDestinedSaldo().getBalance().add(investment.getCurrentBalance()));
+        investment.setInvestmentType(investmentTypeRepository.findByInvestmentStatus(InvestmentType.InvestmentStatus.CLOSED));
         return investmentMapper.entityToDTO(investmentRepository.save(investment));
     }
 
@@ -102,9 +97,10 @@ public class InvestmentServiceImpl implements InvestmentService {
         Instant currentTime = Instant.now();
         mapped.setCreationDate(currentTime);
         mapped.setUpdateTimespan(currentTime);
-        mapped.setCurrentBalance(mapped.getCurrentBalance());
+        mapped.setCurrentBalance(mapped.getStartBalance());
         mapped.setDestinedSaldo(destinedSaldo);
         mapped.setUpdateTimespan(currentTime);
+        mapped.setCurrency(destinedSaldo.getCurrencyType().getName());
 
         return investmentMapper.entityToDTO(investmentRepository.save(mapped));
     }
@@ -112,6 +108,10 @@ public class InvestmentServiceImpl implements InvestmentService {
     private InvestmentOut calculateProfit(Investment investment) {
         if (investment == null)
             return null;
+
+        if (investment.getInvestmentType().getInvestmentStatus() == InvestmentType.InvestmentStatus.CLOSED)
+            return investmentMapper.entityToDTO(investment);
+
         Instant currentTime = Instant.now();
 
         long secondsTimespan = ChronoUnit.SECONDS.between(investment.getUpdateTimespan(), currentTime);

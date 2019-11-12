@@ -13,13 +13,13 @@
             <ng-container matColumnDef="date">
                 <th mat-header-cell *matHeaderCellDef>Data utworzenia</th>
                 <td mat-cell *matCellDef="let element">
-                    {{ element.creationDate | amTimeAgo }}
+                    {{ element.creationDate  | amDateFormat: 'LL HH:mm'}}
                 </td>
             </ng-container>
 
             <ng-container matColumnDef="currentBalance">
                 <th mat-header-cell *matHeaderCellDef>Kwota</th>
-                <td mat-cell *matCellDef="let element">{{element.currentBalance}} </td>
+                <td mat-cell *matCellDef="let element">{{element.currentBalance | currency: element.currency}} </td>
             </ng-container>
 
             <ng-container matColumnDef="investmentType">

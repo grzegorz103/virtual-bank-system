@@ -69,6 +69,7 @@ public class InvestmentServiceTest {
             .startBalance(BigDecimal.valueOf(1000L))
             .currency("PLN")
             .creationDate(Instant.now())
+            .updateTimespan(Instant.now())
             .currentBalance(BigDecimal.valueOf(1000L))
             .build()
         );
@@ -102,24 +103,29 @@ public class InvestmentServiceTest {
 
     @Test
     public void updateInvestmentStatusTest() {
-        Investment fromDatabase = investmentRepository.findAll().get(0);
-        assertThat(fromDatabase.getInvestmentType().getInvestmentStatus()).isEqualTo(InvestmentType.InvestmentStatus.ACTIVE);
-        InvestmentType.InvestmentStatus expectedStatus = fromDatabase.getInvestmentType().getInvestmentStatus() == InvestmentType.InvestmentStatus.ACTIVE
-            ? InvestmentType.InvestmentStatus.CLOSED
-            : InvestmentType.InvestmentStatus.ACTIVE;
+        Investment fromDatabase = investmentRepository.findAll().stream().filter(e -> e.getInvestmentType().getInvestmentStatus() == InvestmentType.InvestmentStatus.ACTIVE).findFirst().get();
 
         InvestmentOut fromService = investmentService.updateStatus(fromDatabase.getId());
 
-        assertThat(fromService.getInvestmentType().getInvestmentStatus()).isEqualTo(expectedStatus);
+        assertThat(fromService.getInvestmentType().getInvestmentStatus()).isEqualTo(InvestmentType.InvestmentStatus.CLOSED);
+    }
+
+    @Test(expected = ApiException.class)
+    public void updateClosedInvestmentTest() {
+        Investment fromDatabase = investmentRepository.findAll().stream().filter(e -> e.getInvestmentType().getInvestmentStatus() == InvestmentType.InvestmentStatus.CLOSED).findFirst().get();
+        investmentService.updateStatus(fromDatabase.getId());
     }
 
     @Test
     public void createInvestmentTest() {
         Saldo saldo = saldoRepository.findAll().get(0);
+        final int dbCount = investmentRepository.findAll().size();
+
         InvestmentIn investmentIn = new InvestmentIn(saldo.getId(), BigDecimal.TEN);
 
         InvestmentOut fromService = investmentService.create(investmentIn);
 
         assertThat(fromService.getStartBalance()).isEqualTo(investmentIn.getStartBalance());
+        assertThat(investmentRepository.findAll().size()).isEqualTo(dbCount + 1);
     }
 }

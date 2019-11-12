@@ -14,4 +14,12 @@ export class InvestmentService {
   findAllByUser() {
     return this.http.get<Investment[]>(this.url + '/byUser');
   }
+
+  create(investment: string){
+    return this.http.post<Investment>(this.url, investment);
+  }
+
+  updateStatus(id: number) {
+    return this.http.patch<Investment>(this.url + '/' + id, null);
+  }
 }
