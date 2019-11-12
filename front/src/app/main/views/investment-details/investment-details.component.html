@@ -1,1 +1,24 @@
-<p>investment-details works!</p>
+<mat-toolbar>Szczegóły lokaty</mat-toolbar>
+<table class="table table-hover">
+    <tr>
+        <td class="divider">ID: </td>
+        <td>{{ data.id }}</td>
+    </tr>
+    <tr>
+        <td class="divider">Początkowa kwota: </td>
+        <td>{{ data.startBalance | currency: data.currency}}</td>
+    </tr>
+    <tr>
+        <td class="divider">Obecna kwota: </td>
+        <td>{{ data.currentBalance | currency: data.currency}}</td>
+    </tr>
+    <tr>
+        <td class="divider">Data utworzenia: </td>
+        <td>{{ data.creationDate | amDateFormat: 'LL HH:mm' }}</td>
+    </tr>
+    <tr>
+        <td class="divider">Zysk: <fa-icon [icon]="faChartLine" class="mr-1 text-success"></fa-icon>
+        </td>
+        <td>{{ calculateProfitPercentage() | number:'1.2-2' }}%</td>
+    </tr>
+</table>

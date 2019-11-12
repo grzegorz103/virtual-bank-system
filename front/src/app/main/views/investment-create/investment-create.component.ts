@@ -4,6 +4,7 @@ import { BankAccountService } from '../../services/bank-account.service';
 import { BankAccount } from '../../models/bank-account';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-investment-create',
@@ -21,6 +22,7 @@ export class InvestmentCreateComponent implements OnInit {
   constructor(private bankAccountService: BankAccountService,
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
+    private router: Router,
     private investmentService: InvestmentService) {
   }
 
@@ -55,9 +57,10 @@ export class InvestmentCreateComponent implements OnInit {
       return;
     }
     this.investmentService.create(this.investmentForm.value)
-      .subscribe(res =>
-        this.snackBar.open('Transakcja zakończona', '', { duration: 3000, panelClass: 'green-snackbar' })
-        , err => this.snackBar.open(err.error.message, '', { duration: 3000, panelClass: 'red-snackbar' })
+      .subscribe(res =>{
+        this.snackBar.open('Lokata utworzona', '', { duration: 3000, panelClass: 'green-snackbar' })
+        this.router.navigateByUrl('/core/investments/list');
+      }, err => this.snackBar.open(err.error.message, '', { duration: 3000, panelClass: 'red-snackbar' })
       );
   }
 

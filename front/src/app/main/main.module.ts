@@ -95,6 +95,6 @@ import { InvestmentCreateComponent } from './views/investment-create/investment-
     MatProgressBarModule
   ],
   providers: [BankAccountService, CreditService],
-  entryComponents: [DialogWindowComponent],
+  entryComponents: [DialogWindowComponent, InvestmentDetailsComponent],
 })
 export class MainModule { }
