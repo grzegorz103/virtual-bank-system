@@ -69,6 +69,7 @@ public class InvestmentServiceTest {
             .startBalance(BigDecimal.valueOf(1000L))
             .currency("PLN")
             .creationDate(Instant.now())
+            .updateTimespan(Instant.now())
             .currentBalance(BigDecimal.valueOf(1000L))
             .build()
         );
@@ -116,10 +117,13 @@ public class InvestmentServiceTest {
     @Test
     public void createInvestmentTest() {
         Saldo saldo = saldoRepository.findAll().get(0);
+        final int dbCount = investmentRepository.findAll().size();
+
         InvestmentIn investmentIn = new InvestmentIn(saldo.getId(), BigDecimal.TEN);
 
         InvestmentOut fromService = investmentService.create(investmentIn);
 
         assertThat(fromService.getStartBalance()).isEqualTo(investmentIn.getStartBalance());
+        assertThat(investmentRepository.findAll().size()).isEqualTo(dbCount + 1);
     }
 }

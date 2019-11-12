@@ -102,9 +102,10 @@ public class InvestmentServiceImpl implements InvestmentService {
         Instant currentTime = Instant.now();
         mapped.setCreationDate(currentTime);
         mapped.setUpdateTimespan(currentTime);
-        mapped.setCurrentBalance(mapped.getCurrentBalance());
+        mapped.setCurrentBalance(mapped.getStartBalance());
         mapped.setDestinedSaldo(destinedSaldo);
         mapped.setUpdateTimespan(currentTime);
+        mapped.setCurrency(destinedSaldo.getCurrencyType().getName());
 
         return investmentMapper.entityToDTO(investmentRepository.save(mapped));
     }

@@ -33,6 +33,8 @@ import { ExchangePageComponent } from './views/exchange-page/exchange-page.compo
 import { CreditPageComponent } from './views/credit-page/credit-page.component';
 import { CreditDetailsComponent } from './views/credit-details/credit-details.component';
 import { InvestmentListComponent } from './views/investment-list/investment-list.component';
+import { InvestmentDetailsComponent } from './views/investment-details/investment-details.component';
+import { InvestmentCreateComponent } from './views/investment-create/investment-create.component';
 
 
 @NgModule({
@@ -53,6 +55,8 @@ import { InvestmentListComponent } from './views/investment-list/investment-list
     InvestmentListComponent,
     ProfileEditComponent,
     CreditPageComponent,
+    InvestmentDetailsComponent,
+    InvestmentCreateComponent,
     CreditDetailsComponent
   ],
   exports: [
