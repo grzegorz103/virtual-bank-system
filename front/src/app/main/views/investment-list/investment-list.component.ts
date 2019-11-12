@@ -41,5 +41,8 @@ export class InvestmentListComponent implements OnInit {
       data: this.investments.data.find(e => e.id === index)
     });
 
+    dialogRef.afterClosed().subscribe(result => {
+      this.fetchInvestments();
+    });
   }
 }

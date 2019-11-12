@@ -1,4 +1,5 @@
-<mat-toolbar>Szczegóły lokaty</mat-toolbar>
+<mat-toolbar>Szczegóły lokaty<button *ngIf="data.investmentType.investmentStatus === 'ACTIVE'" class="ml-auto"
+        mat-raised-button color="warn" (click)="closeInvestment(data.id)">Zakończ lokatę</button></mat-toolbar>
 <table class="table table-hover">
     <tr>
         <td class="divider">ID: </td>
@@ -11,6 +12,11 @@
     <tr>
         <td class="divider">Obecna kwota: </td>
         <td>{{ data.currentBalance | currency: data.currency}}</td>
+    </tr>
+    <tr>
+        <td class="divider">Status: </td>
+        <td><span *ngIf="data.investmentType.investmentStatus ==='ACTIVE'" class="text-success">Aktywna</span><span
+                *ngIf="data.investmentType.investmentStatus ==='CLOSED'" class="text-danger">Zamknięta</span></td>
     </tr>
     <tr>
         <td class="divider">Data utworzenia: </td>

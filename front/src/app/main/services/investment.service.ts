@@ -18,4 +18,8 @@ export class InvestmentService {
   create(investment: string){
     return this.http.post<Investment>(this.url, investment);
   }
+
+  updateStatus(id: number) {
+    return this.http.patch<Investment>(this.url + '/' + id, null);
+  }
 }
