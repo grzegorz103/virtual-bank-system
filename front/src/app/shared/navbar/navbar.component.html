@@ -16,22 +16,86 @@
         <li class="nav-item active" *ngIf="authService.isTokenExpired()">
           <a class="nav-link" routerLink="register">Rejestracja</a>
         </li>
-        <li *ngIf="isMobileView" class="nav-item active">
-          <a class="nav-link" routerLink="bankAccounts">Podsumowanie<span class="sr-only">(current)</span></a>
-        </li>
-        <li *ngIf="isMobileView" class="nav-item active">
-          <a class="nav-link" routerLink="bankAccounts">Moje konta<span class="sr-only">(current)</span></a>
-        </li>
-        <li *ngIf="isMobileView" class="nav-item active">
-          <a class="nav-link" routerLink="transactions/create">Nowy przelew</a>
-        </li>
 
-        <li *ngIf="isMobileView" class="nav-item">
-          <a class="nav-link" routerLink="transactions/create/multicurrency">Nowy przelew wielowalutowy</a>
-        </li>
-        <li *ngIf="isMobileView" class="nav-item">
-          <a class="nav-link" routerLink="exchange">Wymiana walut</a>
-        </li>
+        <span *ngIf="!authService.isTokenExpired() && isMobileView">
+          <span *ngIf="authService.hasUserRole()">
+            <li class="nav-item">
+              <a class="nav-link" routerLink="core/bankAccounts">Moje konta<span class="sr-only">(current)</span></a>
+            </li>
+
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                Nowy przelew
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" routerLink="core/transactions/create">Przelew standardowy</a>
+                <a class="dropdown-item" routerLink="core/transactions/create/multicurrency">Przelew wielowalutowy</a>
+                <a class="dropdown-item" routerLink="core/transactions/defined">Przelewy zdefiniowane</a>
+              </div>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" routerLink="core/exchange">Wymiana walut</a>
+            </li>
+
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                Kredyty
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" routerLink="core/credits/create">Nowy kredyt</a>
+                <a class="dropdown-item" routerLink="core/credits/list">Historia kredytów</a>
+              </div>
+            </li>
+
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                Lokaty
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" routerLink="core/investments/create">Nowa lokata</a>
+                <a class="dropdown-item" routerLink="core/investments/list">Moje lokaty</a>
+              </div>
+            </li>
+          </span>
+          
+          <span *ngIf="authService.hasAdminRole()">
+            <li class="nav-item">
+              <a class="nav-link" routerLink="core/admin/stat">Statystyki</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" routerLink="core/admin/employees">Pracownicy</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" routerLink="core/admin/stat">Statystyki</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" routerLink="core/admin/support">Zgłoszenia</a>
+            </li>
+          </span>
+
+          <span *ngIf="authService.hasEmployeeRole()">
+            <li class="nav-item">
+              <a class="nav-link" routerLink="core/employee/payment/create">Wpłaty</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" routerLink="core/employee/credits">Kredyty</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="core/employee/support">Zgłoszenia</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="core/profile">Profil</a>
+            </li>
+          </span>
+        </span>
 
         <li class="nav-item active" *ngIf="!authService.isTokenExpired()">
           <a class="nav-link" routerLink="/login">Wyloguj</a>
