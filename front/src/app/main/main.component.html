@@ -1,9 +1,6 @@
 <div class="d-flex" id="wrapper">
 
-    <!-- Sidebar -->
     <div id="sidebar-wrapper">
-        <!-- 
-        <div class="bg-dark text-white sidebar-heading">Wirtualny bank</div> -->
         <div class="list-group list-group-flush border-right">
 
             <mat-accordion>
@@ -45,9 +42,6 @@
                     </mat-expansion-panel-header>
                     <a routerLink="exchange" class="list-group-item list-group-item-action">
                         Kantor
-                    </a>
-                    <a routerLink="transactions/create" class="list-group-item list-group-item-action">
-                        Kalkulator
                     </a>
                 </mat-expansion-panel>
                 <mat-expansion-panel *ngIf="authService.hasUserRole()">
