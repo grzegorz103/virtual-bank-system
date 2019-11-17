@@ -20,8 +20,8 @@ export class LoginComponent implements OnInit {
     private authService: AuthService,
     private router: Router) {
     this.form = this.fb.group({
-      username: ['', Validators.required],
-      password: ['', Validators.required]
+      username: ['', [Validators.maxLength(20), Validators.required]],
+      password: ['', [Validators.maxLength(120), Validators.required]]
     });
     this.authService.clearLocalStorage();
     this.authService.clearSessionStorage();
