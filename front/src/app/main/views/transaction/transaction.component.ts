@@ -16,7 +16,6 @@ import { MatSnackBar } from '@angular/material';
 })
 export class TransactionComponent implements OnInit {
 
-
   bankAccounts: BankAccount[];
   transaction: Transaction;
 
@@ -77,7 +76,6 @@ export class TransactionComponent implements OnInit {
       this.snackBar.open('Transakcja zakończona', '', { duration: 3000, panelClass: 'green-snackbar' });
     }, err => {
       this.errorText = err.error.message;
-      console.log(err);
       this.errors = true;
       this.snackBar.open('Transakcja zakończona niepowodzeniem', '', { duration: 3000, panelClass: 'red-snackbar' });
     });
@@ -90,5 +88,11 @@ export class TransactionComponent implements OnInit {
       .find(e => e.number === this.transaction.sourceAccountNumber)
       .saldos
       .map(e => String(e.currencyType.name))
+  }
+
+  getAvailableFunds(bankAccount: BankAccount) {
+    return bankAccount.saldos
+      .find(e => e.currencyType.name === 'PLN')
+      .balance;
   }
 }

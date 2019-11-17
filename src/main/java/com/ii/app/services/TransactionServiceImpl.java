@@ -2,6 +2,7 @@ package com.ii.app.services;
 
 import com.ii.app.dto.TransactionDTO;
 import com.ii.app.dto.out.TransactionOut;
+import com.ii.app.exceptions.ApiException;
 import com.ii.app.exceptions.Check;
 import com.ii.app.mappers.TransactionMapper;
 import com.ii.app.models.BankAccount;
@@ -69,7 +70,7 @@ public class TransactionServiceImpl implements TransactionService {
         final CurrencyType destCurrency = currencyTypeRepository.findByName(transactionDTO.getDestinedCurrency()).orElseThrow(() -> new RuntimeException("asd"));
         final BankAccount destinedBankAccount = bankAccountRepository.findByNumberAndRemovedFalse(transactionDTO.getDestinedAccountNumber()).orElse(null);
         Check.isNull(destinedBankAccount, "Exception.notFoundBankAcc", transactionDTO.getDestinedAccountNumber());
-        final BankAccount sourceBankAccount = bankAccountRepository.findByNumberAndRemovedFalse (transactionDTO.getSourceAccountNumber()).get();
+        final BankAccount sourceBankAccount = bankAccountRepository.findByNumberAndRemovedFalse(transactionDTO.getSourceAccountNumber()).get();
 
         final Saldo sourceSaldo = sourceBankAccount.getSaldos()
             .stream()
@@ -78,7 +79,7 @@ public class TransactionServiceImpl implements TransactionService {
             .findFirst()
             .get();
 
-         final Saldo destSaldo = destinedBankAccount.getSaldos()
+        final Saldo destSaldo = destinedBankAccount.getSaldos()
             .stream()
             .filter(Objects::nonNull)
             .filter(e -> e.getCurrencyType() == destCurrency)
@@ -86,7 +87,7 @@ public class TransactionServiceImpl implements TransactionService {
             .orElse(destinedBankAccount.getSaldos().stream().filter(e -> Objects.equals(e.getCurrencyType().getName(), "PLN")).findFirst().get());
 
         if (sourceSaldo.getBalance().floatValue() < transactionDTO.getBalance())
-            throw new RuntimeException("Source saldo has no required balance");
+            throw new ApiException("Exception.notEnoughBalanceSaldo", null);
 
         boolean sourceMultiCurrency = sourceBankAccount.getBankAccType().getBankAccountType() == BankAccountType.MULTI_CURRENCY;
 

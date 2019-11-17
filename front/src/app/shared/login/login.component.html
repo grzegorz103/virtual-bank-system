@@ -4,6 +4,10 @@
         <form [formGroup]="form" (ngSubmit)="login()">
             <mat-form-field class="mt-2">
                 <input matInput placeholder="Identyfikator" type="text" pattern="[0-9]*" formControlName="username">
+                <mat-error
+                    *ngIf="form.get('username').hasError('maxlength') && !form.get('username').hasError('required')">
+                    Identyfikator jest za długi
+                </mat-error>
                 <mat-error *ngIf="form.get('username').hasError('required')">
                     Identyfikator jest <strong>wymagany</strong>
                 </mat-error>

@@ -12,16 +12,20 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-12 col-md-8">
+                    <div class="col-sm-12 col-md-10">
                         <mat-form-field style="width:100%">
                             <mat-label class="mt-2">Rachunek bankowy</mat-label>
                             <mat-select formControlName="sourceAccountNumber" (change)="changeCurrencyList()">
-                                <mat-option *ngFor="let bankAccount of bankAccounts" [value]="bankAccount.number">
-                                    {{bankAccount.number}}
-                                </mat-option>
+                                <mat-option *ngFor="let bankAccount of bankAccounts; let i = index"
+                                    [value]="bankAccount.number">
+                               <div class="bankAccount">
+                                    <span class="accountNumber">{{bankAccount.number}} </span>
+                                    <span class="balance">{{ getAvailableFunds(bankAccount) }}zł</span>
+                                </div>    </mat-option>
                             </mat-select>
                         </mat-form-field>
                     </div>
+
                 </div>
 
                 <hr>
