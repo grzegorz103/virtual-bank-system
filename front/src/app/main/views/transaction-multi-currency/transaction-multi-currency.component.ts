@@ -106,4 +106,12 @@ export class TransactionMultiCurrencyComponent implements OnInit {
     }
   }
 
+  getAvailableFunds(currency: string) {
+    const sourceAccNumberVal = this.transactionForm.get('sourceAccountNumber').value;
+    return this.bankAccounts
+      .find(e => e.number === sourceAccNumberVal)
+      .saldos
+      .find(e => e.currencyType.name === currency)
+      .balance;
+  }
 }

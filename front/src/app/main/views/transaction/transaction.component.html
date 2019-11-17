@@ -18,10 +18,11 @@
                             <mat-select formControlName="sourceAccountNumber" (change)="changeCurrencyList()">
                                 <mat-option *ngFor="let bankAccount of bankAccounts; let i = index"
                                     [value]="bankAccount.number">
-                               <div class="bankAccount">
-                                    <span class="accountNumber">{{bankAccount.number}} </span>
-                                    <span class="balance">{{ getAvailableFunds(bankAccount) }}zł</span>
-                                </div>    </mat-option>
+                                    <div class="bankAccount">
+                                        <span class="accountNumber">{{bankAccount.number}} </span>
+                                        <span class="balance">{{ getAvailableFunds(bankAccount) }}zł</span>
+                                    </div>
+                                </mat-option>
                             </mat-select>
                         </mat-form-field>
                     </div>
