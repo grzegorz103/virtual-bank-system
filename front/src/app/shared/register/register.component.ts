@@ -38,7 +38,7 @@ export class RegisterComponent implements OnInit {
         ),
         Validators.minLength(8)
       ])],
-      email: ['', Validators.required],
+      email: ['', [Validators.email, Validators.required]],
       confirmPassword: ['', Validators.required],
       address: this.getAddressGroup()
     },
@@ -52,19 +52,19 @@ export class RegisterComponent implements OnInit {
 
   getAddressGroup(): FormGroup {
     return this.fb.group({
-      city: ['', Validators.required],
+      city: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(60)]],
       dateOfBirth: ['', Validators.required],
-      houseNumber: ['', Validators.required],
-      name: ['', Validators.required],
-      phoneNumber: ['', Validators.required],
-      postCode: ['', Validators.required],
-      street: ['', Validators.required],
-      surname: ['', Validators.required],
+      houseNumber: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(20)]],
+      name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(40)]],
+      phoneNumber: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(60)]],
+      postCode: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(6)]],
+      street: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(60)]],
+      surname: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]],
     });
   }
 
   sendRegisterForm() {
-    this.userService.create(this.form.value).subscribe(res =>{
+    this.userService.create(this.form.value).subscribe(res => {
       this.snackBar.open('Dziękujemy za rejestrację', '', { duration: 3000, panelClass: 'green-snackbar' });
       this.router.navigateByUrl('/login');
     }

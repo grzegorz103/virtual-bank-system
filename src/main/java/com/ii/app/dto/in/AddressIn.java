@@ -37,7 +37,7 @@ public class AddressIn {
     private String surname;
 
     @NotBlank
-    @Size(min = 7, max = 9)
+    @Size(min = 7, max = 15)
     private String phoneNumber;
 
     @Past
