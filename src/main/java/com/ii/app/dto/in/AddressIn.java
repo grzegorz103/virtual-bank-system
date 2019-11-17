@@ -21,7 +21,6 @@ public class AddressIn {
     @Size(min = 3, max = 60)
     private String street;
 
-    @NotBlank
     @PostCode
     private String postCode;
 
