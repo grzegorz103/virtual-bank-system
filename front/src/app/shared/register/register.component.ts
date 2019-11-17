@@ -13,11 +13,17 @@ import { Router } from '@angular/router';
 export class RegisterComponent implements OnInit {
 
   form: FormGroup;
-
+  currentDate: Date;
+  minDate: Date;
+  
   constructor(private fb: FormBuilder,
     private snackBar: MatSnackBar,
     private userService: UserService,
     private router: Router) {
+
+    this.currentDate = new Date();
+    this.minDate = new Date(1900, 0, 1);
+
     this.form = this.fb.group({
       password: ['', Validators.compose([
         Validators.required,
@@ -56,7 +62,7 @@ export class RegisterComponent implements OnInit {
       dateOfBirth: ['', Validators.required],
       houseNumber: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(20)]],
       name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(40)]],
-      phoneNumber: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(60)]],
+      phoneNumber: ['', [Validators.required, Validators.minLength(7), Validators.maxLength(15)]],
       postCode: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(6)]],
       street: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(60)]],
       surname: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]],
