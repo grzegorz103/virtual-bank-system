@@ -9,6 +9,7 @@ import { LoginComponent } from './login/login.component';
 import { MatCardModule, MatButtonModule, MatToolbarModule, MatInputModule, MatDatepickerModule, MatNativeDateModule, MatSnackBarModule, MatExpansionModule } from '@angular/material';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from './services/auth.service';
+import { FooterComponent } from './footer/footer.component';
 
 
 @NgModule({
@@ -16,6 +17,7 @@ import { AuthService } from './services/auth.service';
     IndexComponent,
     SharedComponent,
     RegisterComponent,
+    FooterComponent,
     LoginComponent,
   ],
   imports: [

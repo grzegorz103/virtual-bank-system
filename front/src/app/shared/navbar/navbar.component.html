@@ -1,5 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="container">
+  <div class="container"><button *ngIf="Pwa.promptEvent" (click)="installPwa()">
+    Install
+  </button>
     <div class="bg-dark text-white sidebar-heading" routerLink="/">Wirtualny serwis</div>
       <a class="navbar-brand" *ngIf="!authService.isTokenExpired()" routerLink="/core">Index</a>
      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"

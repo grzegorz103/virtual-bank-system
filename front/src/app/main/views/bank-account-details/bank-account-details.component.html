@@ -90,7 +90,7 @@
                 <div *ngIf="element.sourceBankAccount.number === bankAccount.number">
                   {{element.balance | currency : element.sourceCurrencyType.name}}
                 </div>
-                <div *ngIf="element.destinedBankAccount.number === bankAccount.number">{{balanceWithCommission}}
+                <div *ngIf="element.destinedBankAccount.number === bankAccount.number">
                   {{element.balanceWithCommission | currency : element.destinedCurrencyType.name}}
                 </div>
               </div>
