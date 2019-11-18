@@ -8,6 +8,7 @@ import { TransactionTemplate } from '../../models/transaction-template';
 import { ActivatedRoute } from '@angular/router';
 import { TransactionTemplateService } from '../../services/transaction-template-service.service';
 import { MatSnackBar } from '@angular/material';
+import { BankAccountNumberValidator } from '../../misc/bank-account-number-validator';
 
 @Component({
   selector: 'app-transaction',
@@ -38,9 +39,9 @@ export class TransactionComponent implements OnInit {
     private fb: FormBuilder) {
 
     this.transactionForm = this.fb.group({
-      sourceAccountNumber: [this.definedTransfer ? this.definedTransfer.sourceAccountNumber : '', Validators.required],
+      sourceAccountNumber: [this.definedTransfer ? this.definedTransfer.sourceAccountNumber : '', [Validators.required]],
       sourceCurrency: [this.definedTransfer ? this.definedTransfer.sourceCurrency : 'PLN', Validators.required],
-      destinedAccountNumber: [this.definedTransfer ? this.definedTransfer.destinedAccountNumber : '', Validators.required],
+      destinedAccountNumber: [this.definedTransfer ? this.definedTransfer.destinedAccountNumber : '', [Validators.required, BankAccountNumberValidator.validate]],
       destinedCurrency: [this.definedTransfer ? this.definedTransfer.destinedCurrency : 'PLN', Validators.required],
       balance: [this.definedTransfer ? this.definedTransfer.balance : '', Validators.required],
       title: [this.definedTransfer ? this.definedTransfer.title : '', Validators.required],
@@ -69,6 +70,10 @@ export class TransactionComponent implements OnInit {
       this.transactionForm.get('balance').setValue(definedTransfer.balance);
       this.transactionForm.get('title').setValue(definedTransfer.title);
     }
+  }
+
+  bankAccountNumberValidator() {
+
   }
 
   createTransaction() {

@@ -36,6 +36,9 @@
                         <mat-form-field style="width: 100%">
                             <input matInput placeholder="Konto odbiorcy" formControlName="destinedAccountNumber"
                                 required>
+                            <mat-error *ngIf="transactionForm.get('destinedAccountNumber').hasError('accountNumber')">
+                                Numer konta musi mieć <strong>26 cyfr</strong>
+                            </mat-error>
                         </mat-form-field>
                     </div>
                 </div>
