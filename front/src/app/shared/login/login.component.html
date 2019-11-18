@@ -4,11 +4,25 @@
         <form [formGroup]="form" (ngSubmit)="login()">
             <mat-form-field class="mt-2">
                 <input matInput placeholder="Identyfikator" type="text" pattern="[0-9]*" formControlName="username">
+                <mat-error
+                    *ngIf="form.get('username').hasError('maxlength') && !form.get('username').hasError('required')">
+                    Identyfikator jest za długi
+                </mat-error>
+                <mat-error *ngIf="form.get('username').hasError('required')">
+                    Identyfikator jest <strong>wymagany</strong>
+                </mat-error>
             </mat-form-field>
             <mat-form-field>
                 <input matInput placeholder="Hasło" type="password" formControlName="password">
+                <mat-error
+                    *ngIf="form.get('password').hasError('maxlength') && !form.get('password').hasError('required')">
+                    Hasło jest za długie
+                </mat-error>
+                <mat-error *ngIf="form.get('password').hasError('required')">
+                    Imię jest <strong>wymagane</strong>
+                </mat-error>
             </mat-form-field>
-            <button mat-raised-button class="bg-success text-white">Zaloguj</button>
+            <button [disabled]="form.invalid" mat-raised-button color="primary">Zaloguj</button>
         </form>
     </mat-card>
 </div>

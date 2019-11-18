@@ -9,6 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 import { TransactionTemplateService } from '../../services/transaction-template-service.service';
 import { CurrencyTypeService } from '../../services/currency-type.service';
 import { CurrencyType } from '../../models/currency-type';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-transaction-multi-currency',
@@ -32,9 +33,12 @@ export class TransactionMultiCurrencyComponent implements OnInit {
   // jesli uzytkownik tworzy przelew zdefiniowany
   definedTransfer: TransactionTemplate;
 
+  errors = false;
+  errorText: string;
   constructor(private bankAccountService: BankAccountService,
     private transactionService: TransactionService,
     private route: ActivatedRoute,
+    private snackBar: MatSnackBar,
     private transactionTemplateService: TransactionTemplateService,
     private currencyTypeService: CurrencyTypeService,
     private fb: FormBuilder) {
@@ -81,7 +85,13 @@ export class TransactionMultiCurrencyComponent implements OnInit {
   }
 
   createTransaction() {
-    this.transactionService.create(this.transactionForm.value).subscribe(res => console.log(res));
+    this.transactionService.create(this.transactionForm.value).subscribe(res =>
+      this.snackBar.open('Transakcja zakończona', '', { duration: 3000, panelClass: 'green-snackbar' }),
+      err => {
+        this.errorText = err.error.message;
+        this.errors = true;
+        this.snackBar.open('Transakcja zakończona niepowodzeniem', '', { duration: 3000, panelClass: 'red-snackbar' });
+      });
     //  this.transaction.destinedCurrency = 'PLN';
     //this.transactionService.create(this.transaction).subscribe(res => console.log(res));
   }
@@ -96,4 +106,12 @@ export class TransactionMultiCurrencyComponent implements OnInit {
     }
   }
 
+  getAvailableFunds(currency: string) {
+    const sourceAccNumberVal = this.transactionForm.get('sourceAccountNumber').value;
+    return this.bankAccounts
+      .find(e => e.number === sourceAccNumberVal)
+      .saldos
+      .find(e => e.currencyType.name === currency)
+      .balance;
+  }
 }

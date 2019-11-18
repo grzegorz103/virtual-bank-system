@@ -6,12 +6,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 public class UserIn {
+
     @Length(min = 8, max = 100)
     @NotNull
     private String password;
@@ -21,5 +23,6 @@ public class UserIn {
     @EmailTaken
     private String email;
 
+    @Valid
     private AddressIn address;
 }

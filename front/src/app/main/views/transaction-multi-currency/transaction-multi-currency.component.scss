@@ -3,3 +3,17 @@
     color: red;
     font-size: 10px;
 }
+
+.bankAccount{
+    display: flex;
+    *{
+      padding: 0 3px;
+    }
+  }
+  .accountNumber{
+    font-weight: normal;
+  }
+  .balance{
+    font-weight: bold;
+    margin-left: auto;
+  }

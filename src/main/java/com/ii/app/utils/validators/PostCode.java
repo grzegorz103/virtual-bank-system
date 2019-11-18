@@ -5,11 +5,11 @@ import javax.validation.Payload;
 import java.lang.annotation.*;
 
 @Documented
-@Constraint(validatedBy = EmailTakenValidatorImpl.class)
+@Constraint(validatedBy = PostCodeValidatorImpl.class)
 @Target({ElementType.FIELD, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface EmailTaken {
-    String message() default "{EmailTaken}";
+public @interface PostCode {
+    String message() default "{PostCode}";
 
     Class<?>[] groups() default {};
 

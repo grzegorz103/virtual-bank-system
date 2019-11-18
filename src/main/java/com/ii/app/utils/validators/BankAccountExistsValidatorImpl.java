@@ -9,12 +9,12 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 @Component
-public class BankAccountExistsValidator implements ConstraintValidator<BankAccountExists, String> {
+public class BankAccountExistsValidatorImpl implements ConstraintValidator<BankAccountExists, String> {
 
     private final BankAccountRepository bankAccountRepository;
 
     @Autowired
-    public BankAccountExistsValidator(BankAccountRepository bankAccountRepository) {
+    public BankAccountExistsValidatorImpl(BankAccountRepository bankAccountRepository) {
         this.bankAccountRepository = bankAccountRepository;
     }
 
