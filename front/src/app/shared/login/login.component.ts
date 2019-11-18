@@ -38,7 +38,14 @@ export class LoginComponent implements OnInit {
           this.authService.setUserRoles();
           this.authService.setUserIdentifier();
           this.snackBar.open('Zalogowano', '', { duration: 3000, panelClass: 'green-snackbar' });
-          this.router.navigateByUrl('/core/bankAccounts');
+          if (this.authService.hasAdminRole()) {
+            this.router.navigateByUrl('/core/admin/stat');
+          }
+          else if (this.authService.hasEmployeeRole()) {
+            this.router.navigateByUrl('/core/employee/payment/create');
+          } else {
+            this.router.navigateByUrl('/core/bankAccounts');
+          }
         }
       }, err => this.snackBar.open('Niepoprawny identyfikator lub hasło', '', { duration: 3000, panelClass: 'red-snackbar' })
       );

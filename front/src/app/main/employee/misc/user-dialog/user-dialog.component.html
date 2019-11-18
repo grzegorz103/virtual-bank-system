@@ -20,6 +20,6 @@
 
     <tr>
         <td class="divider">Data urodzenia </td>
-        <td>{{ user.address.dateOfBirth }}</td>
+        <td>{{ user.address.dateOfBirth | amDateFormat: 'LL HH:mm' }} }}</td>
     </tr>
 </table>
