@@ -4,4 +4,15 @@ mat-form-field{
 
 table{
     width: 100%;
+    table-layout: fixed;
 }
+
+.box {
+    overflow: auto;
+  }
+
+  th,td{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }

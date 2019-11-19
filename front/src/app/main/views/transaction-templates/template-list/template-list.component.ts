@@ -46,7 +46,7 @@ export class TemplateListComponent implements OnInit {
       this.template = new TransactionTemplate();
     }
     const dialogRef = this.dialog.open(DialogWindowComponent, {
-      width: window.innerWidth > 768 ? '50%' : '85%',
+      width: window.innerWidth > 768 ? '50%' : '95%',
       data: { templateId: index }
     });
 
