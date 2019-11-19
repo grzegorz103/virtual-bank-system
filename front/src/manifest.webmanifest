@@ -1,6 +1,6 @@
 {
-  "name": "front",
-  "short_name": "front",
+  "name": "Wirtualny serwis",
+  "short_name": "Wirtualny serwis",
   "theme_color": "#1976d2",
   "background_color": "#fafafa",
   "display": "standalone",
