@@ -1,14 +1,19 @@
 <div class="mat-elevation-z8">
   <div class="container">
     <div class="row">
-        <mat-toolbar>Rachunek {{ bankAccount?.number }}</mat-toolbar>
-        <div class="col-md-9 mx-auto">
-          <div style="display: block" [ngClass]="">
-            <canvas mdbChart [chartType]="chartType" [datasets]="chartDatasets" [labels]="chartLabels"
-              [colors]="chartColors" [options]="chartOptions" [legend]="true" (chartHover)="chartHovered($event)"
-              (chartClick)="chartClicked($event)">
-            </canvas>
-          </div>
+      <mat-toolbar>
+        Szczegóły rachunku bankowego
+      </mat-toolbar>
+      <mat-divider></mat-divider>
+      <div class="mx-auto my-2">Numer rachunku: {{ bankAccount?.number }}</div>
+      
+      <div class="col-md-9 mx-auto">
+        <div style="display: block" [ngClass]="">
+          <canvas mdbChart [chartType]="chartType" [datasets]="chartDatasets" [labels]="chartLabels"
+            [colors]="chartColors" [options]="chartOptions" [legend]="true" (chartHover)="chartHovered($event)"
+            (chartClick)="chartClicked($event)">
+          </canvas>
+        </div>
       </div>
       <mat-divider></mat-divider>
       <mat-toolbar class="mt-3">Historia transakcji</mat-toolbar>
@@ -94,6 +99,9 @@
                   {{element.balanceWithCommission | currency : element.destinedCurrencyType.name}}
                 </div>
               </div>
+              <div *ngIf="element.destinedBankAccount.number === element.sourceBankAccount.number">
+                  {{element.balanceWithCommission | currency : element.destinedCurrencyType.name}}
+                </div>
             </div>
             <div *ngIf="getObjectType(element) === 'PaymentHistory'">
               {{ element.balance | currency: element.sourceCurrencyType.name }}
@@ -111,8 +119,8 @@
     <div class="row">
       <mat-toolbar>Zarządzaj</mat-toolbar>
 
-      <button mat-raised-button color="warn" class="mx-3 my-3" data-toggle="collapse"
-        href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+      <button mat-raised-button color="warn" class="mx-3 my-3" data-toggle="collapse" href="#collapseExample"
+        role="button" aria-expanded="false" aria-controls="collapseExample">
         Zamykanie rachunku
       </button>
     </div>

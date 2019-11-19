@@ -9,30 +9,28 @@ declare const $: any;
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
-}) 
+})
 
 export class NavbarComponent implements OnInit {
 
   isMobileView: boolean;
 
-  constructor(public authService: AuthService, public Pwa: PwaService) {
+  constructor(public authService: AuthService) {
     this.isMobileView = window.innerWidth <= 768;
-   }
+  }
 
   ngOnInit() {
     window.onresize = () => this.isMobileView = window.innerWidth <= 768;
-  }installPwa(): void {
-    this.Pwa.promptEvent.prompt();
-  }
-  
+  } 
+
 }
 @Injectable()
 export class PwaService {
   promptEvent: any;
   constructor(private swUpdate: SwUpdate) {
     swUpdate.available.subscribe(event => {
-        window.location.reload();
-      
+      window.location.reload();
+
     });
 
     window.addEventListener('beforeinstallprompt', event => {

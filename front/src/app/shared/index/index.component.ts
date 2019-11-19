@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { PwaService } from '../navbar/navbar.component';
+import { AuthService } from '../services/auth.service';
 @Component({
   selector: 'app-index',
   templateUrl: './index.component.html',
@@ -6,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class IndexComponent implements OnInit {
 
-  constructor() { }
+  constructor(public Pwa: PwaService, public authService: AuthService ) { }
 
   ngOnInit() {
- }
+  }
+
+  installPwa(): void {
+    this.Pwa.promptEvent.prompt();
+  }
 
 }
