@@ -9,7 +9,7 @@ import { MatTableDataSource, MatPaginator } from '@angular/material';
   styleUrls: ['./support-list.component.scss']
 })
 export class SupportListComponent implements OnInit {
-
+  isLoadingConversations: any;
   conversations = new MatTableDataSource<Conversation>();
   
   @ViewChild(MatPaginator, { static: true })

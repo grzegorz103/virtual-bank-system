@@ -47,7 +47,8 @@ public class BankAccountServiceTest {
 
     @Test
     public void findAllBankAccountTest() {
-        assertThat(bankAccountService.findAll().size()).isEqualTo(bankAccountRepository.findAll().size());
+        assertThat(bankAccountService.findAll().size())
+            .isEqualTo(bankAccountRepository.findAll().stream().filter(e->!e.isRemoved()).collect(Collectors.toList()).size());
     }
 
     @Test

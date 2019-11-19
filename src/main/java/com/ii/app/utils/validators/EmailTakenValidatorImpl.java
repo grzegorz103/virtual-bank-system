@@ -8,11 +8,11 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 @Component
-public class EmailTakenValidator implements ConstraintValidator<EmailTaken, String> {
+public class EmailTakenValidatorImpl implements ConstraintValidator<EmailTaken, String> {
     private final UserRepository userRepository;
 
     @Autowired
-    public EmailTakenValidator(UserRepository userRepository) {
+    public EmailTakenValidatorImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 

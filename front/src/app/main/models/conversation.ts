@@ -1,7 +1,10 @@
+import { User } from './user';
+
 export class Conversation {
     id: number;
     creationDate: Date;
     topic: string;
+    user: User;
     conversationStatus: ConversationStatus
 }
 

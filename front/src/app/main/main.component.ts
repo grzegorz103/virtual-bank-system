@@ -31,7 +31,7 @@ export class MainComponent implements OnInit {
   faCaretSquareUp = faCaretSquareUp;
   faMoneyBill = faMoneyBill;
 
-  constructor(private authService: AuthService) { console.log(authService.getUserRoles() + "asd") }
+  constructor(public authService: AuthService) { console.log(authService.getUserRoles() + "asd") }
 
   ngOnInit() {
   }

@@ -1,13 +1,16 @@
 <div class="background">
     <div class="text-dark text-center rgba-stylish-strong py-5 px-4">
-        <div class="py-5">
+        <div style="padding-top: 15%">
 
             <h5 class="h5 orange-text">Zapraszamy</h5>
             <h2 class="card-title h2 my-4 py-2">System bankowości online</h2>
             <p class="mb-4 pb-2 px-md-5 mx-md-5">Zapraszamy do rejestracji lub logowania</p>
-                <button mat-raised-button class="green-button mr-2" routerLink="login">Logowanie</button>
-                <button mat-raised-button class="blue-button" routerLink="register">Rejestracja</button>
-
+            <button mat-raised-button *ngIf="authService.isTokenExpired()" class="green-button mr-2" routerLink="login">Logowanie</button>
+            <button mat-raised-button *ngIf="authService.isTokenExpired()" class="blue-button mr-2" routerLink="register">Rejestracja</button>
+            <button mat-raised-button *ngIf="!authService.isTokenExpired()" class="green-button mr-2" routerLink="core">Rozpocznij</button>
+            <button mat-raised-button *ngIf="!authService.isTokenExpired() && Pwa.promptEvent" color="primary" (click)="installPwa()">
+                Dodaj do ekranu
+            </button>
         </div>
     </div>
 </div>

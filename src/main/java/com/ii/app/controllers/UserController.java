@@ -64,11 +64,13 @@ public class UserController {
     }
 
     @PatchMapping("/{id}/status")
+    @Secured({"ROLE_ADMIN", "ROLE_EMPLOYEE"})
     public UserOut changeLockStatus(@PathVariable("id") Long id) {
         return userService.changeStatus(id);
     }
 
     @PatchMapping("/{id}/activate")
+    @Secured({"ROLE_ADMIN", "ROLE_EMPLOYEE"})
     public UserOut changeEnableStatus(@PathVariable("id") Long id){
         return userService.changeEnableStatus(id);
     }
