@@ -51,6 +51,10 @@ export class EmployeeListComponent implements OnInit {
     });
   }
 
+  changeEmployeeStatus(index: string) {
+    this.userService.changeStatus(index).subscribe(res => this.fetchEmployees());
+  }
+
   getAddressGroup(): FormGroup {
     return this.fb.group({
       city: ['', Validators.required],

@@ -9,7 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TransactionComponent } from './main/views/transaction/transaction.component';
 import { TransactionMultiCurrencyComponent } from './main/views/transaction-multi-currency/transaction-multi-currency.component';
-import { NavbarComponent } from './shared/navbar/navbar.component';
+import { NavbarComponent, PwaService } from './shared/navbar/navbar.component';
 import { ExchangeCurrencyComponent } from './main/views/exchange-currency/exchange-currency.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -32,6 +32,8 @@ import { IndexComponent } from './shared/index/index.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { JwtModule } from "@auth0/angular-jwt";
 import 'moment/locale/pl';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 export function tokenGetter() {
   return localStorage.getItem("token");
 }
@@ -76,9 +78,10 @@ export function tokenGetter() {
         tokenGetter: tokenGetter,
         whitelistedDomains: ['localhost:8080'],
       }
-    })
+    }),
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
-  providers: [],
+  providers: [PwaService],
   entryComponents: [],
   bootstrap: [AppComponent]
 })

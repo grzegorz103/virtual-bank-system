@@ -10,6 +10,7 @@ import { TransactionTemplateService } from '../../services/transaction-template-
 import { CurrencyTypeService } from '../../services/currency-type.service';
 import { CurrencyType } from '../../models/currency-type';
 import { MatSnackBar } from '@angular/material';
+import { BankAccountNumberValidator } from '../../misc/bank-account-number-validator';
 
 @Component({
   selector: 'app-transaction-multi-currency',
@@ -46,7 +47,7 @@ export class TransactionMultiCurrencyComponent implements OnInit {
     this.transactionForm = this.fb.group({
       sourceAccountNumber: ['', Validators.required],
       sourceCurrency: ['', Validators.required],
-      destinedAccountNumber: ['', Validators.required],
+      destinedAccountNumber: ['', [Validators.required, BankAccountNumberValidator.validate]],
       destinedCurrency: ['', Validators.required],
       balance: ['', Validators.required],
       title: ['', Validators.required],

@@ -87,7 +87,7 @@ public class BankAccountServiceImpl implements BankAccountService {
 
     @Override
     public List<BankAccountOut> findAll() {
-        return bankAccountRepository.findAll()
+        return bankAccountRepository.findAllByRemovedFalse()
             .stream()
             .map(bankAccountMapper::entityToDTO)
             .collect(Collectors.toList());

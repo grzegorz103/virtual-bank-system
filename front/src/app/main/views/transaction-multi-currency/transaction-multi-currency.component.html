@@ -34,11 +34,11 @@
                             <mat-label class="mt-2">Waluta źródłowa</mat-label>
                             <mat-select formControlName="sourceCurrency">
                                 <mat-option *ngFor="let currency of currencyList" [value]="currency">
-                                    
+
                                     <div class="bankAccount">
-                                            <span class="accountNumber">{{ currency }}</span>
-                                            <span class="balance">{{ getAvailableFunds(currency) }}</span>
-                                        </div>
+                                        <span class="accountNumber">{{ currency }}</span>
+                                        <span class="balance">{{ getAvailableFunds(currency) }}</span>
+                                    </div>
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
@@ -65,11 +65,14 @@
 
                 <hr>
                 Na rachunek
-                <div class="row">
+                <div class="row mt-2">
                     <div class="col-sm-12 col-md-8">
                         <mat-form-field style="width: 100%">
                             <input matInput placeholder="Konto odbiorcy" formControlName="destinedAccountNumber"
                                 required>
+                            <mat-error *ngIf="transactionForm.get('destinedAccountNumber').hasError('accountNumber')">
+                                Numer konta musi mieć <strong>26 cyfr</strong>
+                            </mat-error>
                         </mat-form-field>
                     </div>
                 </div>

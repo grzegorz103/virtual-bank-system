@@ -17,10 +17,11 @@ export class ExchangePageComponent implements OnInit {
   exchangeCurrency: ExchangeCurrency;
   currencyList: string[];
   faArrowRight = faArrowRight;
-  convertedValue: string;
+  convertedValue: number;
   beforeConvertValue: any;
   beforeConvertCurrType: any;
   destConvertCurrType: any;
+  sourceConvertCurrType: any;
 
   constructor(private exchangeCurrencyService: ExchangeCurrencyService,
     private snackBar: MatSnackBar,
@@ -56,7 +57,7 @@ export class ExchangePageComponent implements OnInit {
     this.destConvertCurrType = this.exchangeCurrency.destCurrency;
 
     this.exchangeCurrencyService.calculate(this.exchangeCurrency)
-      .subscribe(res => this.convertedValue = res);
+      .subscribe(res => this.convertedValue = parseInt(res, 10));
   }
 
   convert() {

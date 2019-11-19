@@ -27,7 +27,7 @@ export class ConversationDetailsComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
     private fb: FormBuilder,
-    private authService: AuthService,
+    public authService: AuthService,
     private snackBar: MatSnackBar,
     private conversationService: ConversationService,
     private messageService: MessageService) {

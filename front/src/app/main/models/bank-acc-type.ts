@@ -3,4 +3,5 @@ export class BankAccType {
     bankAccountType: string;
     transactionComission: number;
     exchangeCurrencyCommission: number;
+    name: string;
 }

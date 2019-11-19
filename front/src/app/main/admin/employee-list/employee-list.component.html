@@ -18,7 +18,7 @@
             <ng-container matColumnDef="locked">
                 <th mat-header-cell *matHeaderCellDef> Zablokowany </th>
                 <td mat-cell *matCellDef="let element">
-                    {{element.locked ? 'Tak' : 'Nie'}}
+                    <span style="cursor: pointer" (click)="changeEmployeeStatus(element.id)">{{element.locked ? 'Tak' : 'Nie'}}</span>
                 </td>
             </ng-container>
 
