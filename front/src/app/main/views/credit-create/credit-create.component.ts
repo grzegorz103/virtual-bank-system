@@ -5,6 +5,7 @@ import { BankAccountService } from '../../services/bank-account.service';
 import { BankAccount } from '../../models/bank-account';
 import { CreditService } from '../../services/credit.service';
 import Big from 'big.js';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-credit-create',
@@ -30,11 +31,12 @@ export class CreditCreateComponent implements OnInit {
   installmentValue = 0;
 
   bankAccounts: BankAccount[];
-  form: FormGroup; 
+  form: FormGroup;
   selectedBankAccount: BankAccount;
   currencyType: string;
 
   constructor(private fb: FormBuilder,
+    private snackBar: MatSnackBar,
     private bankAccountService: BankAccountService,
     private creditService: CreditService) {
     bankAccountService.findByUser().subscribe(res => {
@@ -51,14 +53,16 @@ export class CreditCreateComponent implements OnInit {
   }
 
   createCredit() {
-    this.creditService.create(this.form.value).subscribe(res => alert('Utowrzono'));
+    this.creditService.create(this.form.value).subscribe(res =>
+      this.snackBar.open('Utworzono wniosek', '', { duration: 3000, panelClass: 'green-snackbar' })
+    );
   }
 
   calculateInstallment(event: any) {
     this.installmentValue = Big(this.balanceSliderValue / this.monthSliderValue).round(2, 1).valueOf();
   }
 
-  switchCurrencyType(event: any){
+  switchCurrencyType(event: any) {
     this.currencyType = event.source.selected.viewValue;
   }
 }

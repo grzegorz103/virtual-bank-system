@@ -46,15 +46,17 @@ export class TemplateListComponent implements OnInit {
       this.template = new TransactionTemplate();
     }
     const dialogRef = this.dialog.open(DialogWindowComponent, {
-      width: '50%',
+      width: window.innerWidth > 768 ? '50%' : '85%',
       data: { templateId: index }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         if (isCreating) {
-          this.snackBar.open('Utworzono', '', { duration: 3000, panelClass: 'green-snackbar' });
-          this.transactionTemplateService.create(result).subscribe(res => this.fetchData());
+          this.transactionTemplateService.create(result).subscribe(res => {
+            this.fetchData();
+            this.snackBar.open('Utworzono', '', { duration: 3000, panelClass: 'green-snackbar' });
+          });
         } else {
           this.snackBar.open('Przelew został zaktualizowany', '', { duration: 3000, panelClass: 'green-snackbar' });
           this.transactionTemplateService.update(index, result).subscribe(res => this.fetchData());
