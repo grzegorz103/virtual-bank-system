@@ -55,14 +55,35 @@
                 </div>
 
                 <div class="d-flex justify-content-center mb-2">
-                    <div *ngIf="convertedValue > 0">
+                    <div *ngIf="convertedValue">
                         Wymiana {{ beforeConvertValue | currency: sourceConvertCurrType}} ->
                         {{ convertedValue | currency: destConvertCurrType}}
                     </div>
                 </div>
                 <div class="d-flex justify-content-center mb-2">
+                    <button mat-raised-button class="bg-primary text-white mr-2" data-toggle="collapse"
+                        href="#collapseExample" role="button" aria-expanded="false"
+                        aria-controls="collapseExample">Tabela walut</button>
                     <button mat-raised-button color="primary" (click)="calculate()">Przelicz</button>
                     <button mat-raised-button class="bg-success text-white ml-2" (click)="convert()">Konwertuj</button>
+                </div>
+                <div class="collapse" id="collapseExample">
+                        <table mat-table [dataSource]="currencyTypes" class=" mb-2">
+
+                                <ng-container matColumnDef="name">
+                                  <th mat-header-cell *matHeaderCellDef> Nazwa </th>
+                                  <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                                </ng-container>
+                              
+                                <ng-container matColumnDef="exchangeRate">
+                                  <th mat-header-cell *matHeaderCellDef> Kurs </th>
+                                  <td mat-cell *matCellDef="let element"> {{element.exchangeRate}} </td>
+                                </ng-container>
+                              
+                                <tr mat-header-row *matHeaderRowDef="currencyColumns"></tr>
+                                <tr mat-row *matRowDef="let row; columns: currencyColumns;"></tr>
+                              </table>
+                              
                 </div>
             </div>
         </div>

@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Conversation } from '../models/conversation';
 import { FormGroup, NgForm, FormBuilder, Validators } from '@angular/forms';
 import { ConversationService } from '../services/conversation.service';
-import { MatTableDataSource, MatPaginator } from '@angular/material';
+import { MatTableDataSource, MatPaginator, MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-user-support',
@@ -23,6 +23,7 @@ export class UserSupportComponent implements OnInit {
   @ViewChild('formDirective', { static: true }) private formDirective: NgForm;
   
   constructor(private conversationService: ConversationService,
+    private snackBar: MatSnackBar,
     private fb: FormBuilder) { }
 
   ngOnInit() {
@@ -50,7 +51,7 @@ export class UserSupportComponent implements OnInit {
   sendConversation() {
     this.conversationService.create(this.conversationForm.value)
       .subscribe(res =>{
-      alert('Wysłano zgłoszenie');
+        this.snackBar.open('Utworzono zgłoszenie', '', { duration: 3000, panelClass: 'green-snackbar' })
         this.fetchMyConversations();
         this.conversationForm.reset();
         this.formDirective.resetForm();
