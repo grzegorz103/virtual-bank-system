@@ -17,4 +17,7 @@ public interface InvestmentService {
     InvestmentOut updateStatus(Long id);
 
     InvestmentOut create(InvestmentIn investment);
+
+    List<InvestmentOut> findActiveByBankAccountId(Long bankAccountId);
+
 }

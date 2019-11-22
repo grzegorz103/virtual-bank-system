@@ -29,4 +29,5 @@ public class InstallmentController {
     public List<InstallmentOut> findAllByCreditId(@PathVariable("id") Long id) {
         return installmentService.findAllByCreditId(id);
     }
+
 }

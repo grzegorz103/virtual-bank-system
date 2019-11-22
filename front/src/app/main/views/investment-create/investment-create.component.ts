@@ -52,6 +52,11 @@ export class InvestmentCreateComponent implements OnInit {
 
     const saldoId = this.investmentForm.get('destinedSaldoId').value;
     const balance = this.investmentForm.get('startBalance').value;
+
+    if(balance <= 0){
+      return;
+    }
+    
     if (saldoId && this.selectedBankAccount.saldos.find(e => e.id === saldoId).balance < balance) {
       this.snackBar.open('Saldo nie posiada wystarczających środków', '', { duration: 3000, panelClass: 'red-snackbar' });
       return;

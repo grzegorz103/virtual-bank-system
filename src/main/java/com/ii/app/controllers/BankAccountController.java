@@ -1,7 +1,10 @@
 package com.ii.app.controllers;
 
+import com.ii.app.dto.edit.BankAccountEdit;
+import com.ii.app.dto.edit.SaldoEdit;
 import com.ii.app.dto.in.BankAccountIn;
 import com.ii.app.dto.out.BankAccountOut;
+import com.ii.app.dto.out.SaldoOut;
 import com.ii.app.services.interfaces.BankAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,6 +12,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -51,10 +55,24 @@ public class BankAccountController {
         return bankAccountService.findBankAccountCountByType(id);
     }
 
-    @Secured("ROLE_USER")
+    @Secured({"ROLE_USER", "ROLE_EMPLOYEE"})
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteById(@PathVariable("id") Long id){
+    public void deleteById(@PathVariable("id") Long id) {
         bankAccountService.deleteById(id);
+    }
+
+    @Secured("ROLE_EMPLOYEE")
+    @PutMapping("/{id}")
+    public BankAccountOut update(@PathVariable("id") Long id,
+                                 @RequestBody @Valid BankAccountEdit bankAccountEdit) {
+        return bankAccountService.update(id, bankAccountEdit);
+    }
+
+    @Secured("ROLE_EMPLOYEE")
+    @PutMapping("/saldo/{id}")
+    public SaldoOut update(@PathVariable("id") Long id,
+                           @RequestBody @Valid SaldoEdit saldoEdit) {
+        return bankAccountService.updateSaldo(id, saldoEdit);
     }
 }

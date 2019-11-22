@@ -10,4 +10,7 @@ public interface CreditRepository extends JpaRepository<Credit, Long> {
     List<Credit> findAllByDestinedSaldo_BankAccount_User_Identifier(String identifier);
 
     List<Credit> findAllByCreditStatus_CreditType(CreditStatus.CreditType creditType);
+
+    List<Credit> findAllByCreditStatusAndDestinedSaldo_BankAccount_Id(CreditStatus creditStatus, Long id);
+
 }

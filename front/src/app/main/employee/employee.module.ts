@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { EmployeeRoutingModule } from './employee-routing.module';
 import { EmployeeComponent } from './employee.component';
 import { SummaryComponent } from './summary/summary.component';
-import { MatPaginatorModule, MatCardModule, MatFormFieldModule, MatToolbarModule, MatTableModule, MatButtonModule, MatInputModule, MatAutocompleteModule, MatOptionModule, MatSelectModule, MatDialogModule } from '@angular/material';
+import { MatPaginatorModule, MatCardModule, MatFormFieldModule, MatToolbarModule, MatTableModule, MatButtonModule, MatInputModule, MatAutocompleteModule, MatOptionModule, MatSelectModule, MatDialogModule, MatTooltipModule } from '@angular/material';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { EmployeeSupportComponent } from './employee-support/employee-support.component';
 import { PaymentCreateComponent } from './payment-create/payment-create.component';
@@ -13,6 +13,7 @@ import { UserDialogComponent } from './misc/user-dialog/user-dialog.component';
 import { UserEditDialogComponent } from './misc/user-edit-dialog/user-edit-dialog.component';
 import { CreditListComponent } from './credit-list/credit-list.component';
 import { MomentModule } from 'angular2-moment';
+import { BankAccountDialogComponent } from './misc/bank-account-dialog/bank-account-dialog.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { MomentModule } from 'angular2-moment';
     UserListComponent,
     UserDialogComponent, UserEditDialogComponent,
     CreditListComponent,
+    BankAccountDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -37,6 +39,7 @@ import { MomentModule } from 'angular2-moment';
     FormsModule,
     MatDialogModule,
     MatFormFieldModule,
+    MatTooltipModule,
     MatToolbarModule,
     MatButtonModule,
     MatTableModule,
@@ -44,6 +47,6 @@ import { MomentModule } from 'angular2-moment';
     MatSelectModule,
     MatOptionModule
   ],
-  entryComponents: [UserDialogComponent, UserEditDialogComponent]
+  entryComponents: [UserDialogComponent, UserEditDialogComponent, BankAccountDialogComponent]
 })
 export class EmployeeModule { }

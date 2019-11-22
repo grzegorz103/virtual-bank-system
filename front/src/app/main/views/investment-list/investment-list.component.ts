@@ -11,7 +11,7 @@ import { InvestmentDetailsComponent } from '../investment-details/investment-det
 })
 export class InvestmentListComponent implements OnInit {
 
-  columns = ['ID', 'date', 'currentBalance', 'investmentType', 'details'];
+  columns = [/* 'ID', */ 'date', 'currentBalance', 'investmentType', 'details'];
 
   investments: MatTableDataSource<Investment>;
 

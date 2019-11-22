@@ -76,7 +76,7 @@ public class InvestmentServiceImpl implements InvestmentService {
     @Override
     public InvestmentOut updateStatus(Long id) {
         Investment investment = investmentRepository.findById(id).orElseThrow(() -> new ApiException("Exception.notFound", null));
-        if(investment.getInvestmentType().getInvestmentStatus() == InvestmentType.InvestmentStatus.CLOSED){
+        if (investment.getInvestmentType().getInvestmentStatus() == InvestmentType.InvestmentStatus.CLOSED) {
             throw new ApiException("Exception.investmentAlreadyClosed", null);
         }
         calculateProfit(investment);
@@ -103,6 +103,14 @@ public class InvestmentServiceImpl implements InvestmentService {
         mapped.setCurrency(destinedSaldo.getCurrencyType().getName());
 
         return investmentMapper.entityToDTO(investmentRepository.save(mapped));
+    }
+
+    @Override
+    public List<InvestmentOut> findActiveByBankAccountId(Long bankAccountId) {
+        return investmentRepository.findAllByInvestmentTypeAndDestinedSaldo_BankAccount_Id(investmentTypeRepository.findByInvestmentStatus(InvestmentType.InvestmentStatus.ACTIVE), bankAccountId)
+            .stream()
+            .map(investmentMapper::entityToDTO)
+            .collect(Collectors.toList());
     }
 
     private InvestmentOut calculateProfit(Investment investment) {

@@ -17,7 +17,7 @@ export class CreditDetailsComponent implements OnInit {
   installments = new MatTableDataSource<Installment>();
   creditId: any;
   isLoading = true;
-  installmentColumns = ['id', 'amount', 'payDate'];
+  installmentColumns = [/* 'id', */ 'amount', 'payDate'];
 
   @ViewChild(MatPaginator, { static: true })
   paginator: MatPaginator;

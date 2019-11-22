@@ -7,21 +7,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping ("/api/addresses")
-public class AddressController
-{
-        private final AddressService addressService;
+@RequestMapping("/api/addresses")
+public class AddressController {
+    private final AddressService addressService;
 
-        @Autowired
-        public AddressController ( AddressService addressService )
-        {
-                this.addressService = addressService;
-        }
+    @Autowired
+    public AddressController(AddressService addressService) {
+        this.addressService = addressService;
+    }
 
-        @PutMapping ("/{id}")
-        private AddressOut update ( @PathVariable ("id") Long id,
-                                    @RequestBody AddressEdit addressEdit )
-        {
-                return addressService.update(id, addressEdit);
-        }
+    @PutMapping("/{id}")
+    public AddressOut update(@PathVariable("id") Long id,
+                             @RequestBody AddressEdit addressEdit) {
+        return addressService.update(id, addressEdit);
+    }
 }

@@ -37,4 +37,10 @@ public class InvestmentController {
     public InvestmentOut create(@RequestBody @Valid InvestmentIn investmentIn) {
         return investmentService.create(investmentIn);
     }
+
+    @Secured("ROLE_EMPLOYEE")
+    @GetMapping("/byBankAccount/{id}")
+    public List<InvestmentOut> findAllActiveByBankAccountId(@PathVariable("id") Long id){
+        return investmentService.findActiveByBankAccountId(id);
+    }
 }

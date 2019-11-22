@@ -2,6 +2,7 @@ package com.ii.app.services.interfaces;
 
 import com.ii.app.dto.in.CreditIn;
 import com.ii.app.dto.out.CreditOut;
+import com.ii.app.dto.out.InvestmentOut;
 import com.ii.app.models.Credit;
 import com.ii.app.models.enums.CreditStatus;
 
@@ -19,4 +20,7 @@ public interface CreditService {
     List<CreditOut> findByCreditType(CreditStatus.CreditType creditType);
 
     CreditOut findById(Long id);
+
+    List<CreditOut> findActiveByBankAccountId(Long bankAccountId);
+
 }
