@@ -2,6 +2,7 @@ package com.ii.app.services;
 
 import com.ii.app.dto.in.CreditIn;
 import com.ii.app.dto.out.CreditOut;
+import com.ii.app.dto.out.InvestmentOut;
 import com.ii.app.mappers.CreditMapper;
 import com.ii.app.models.Credit;
 import com.ii.app.models.Saldo;
@@ -122,6 +123,14 @@ public class CreditServiceImpl implements CreditService {
     @Override
     public CreditOut findById(Long id) {
         return creditMapper.entityToDTO(creditRepository.findById(id).orElseThrow(() -> new RuntimeException("Credit not found")));
+    }
+
+    @Override
+    public List<CreditOut> findActiveByBankAccountId(Long bankAccountId) {
+        return creditRepository.findAllByCreditStatusAndDestinedSaldo_BankAccount_Id(creditStatusRepository.findByCreditType(CreditStatus.CreditType.ACTIVE), bankAccountId)
+            .stream()
+            .map(creditMapper::entityToDTO)
+            .collect(Collectors.toList());
     }
 
     private void transferBalance(Credit credit) {

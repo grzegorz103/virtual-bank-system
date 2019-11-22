@@ -55,4 +55,10 @@ public class CreditController {
         }
     }
 
+    @Secured("ROLE_EMPLOYEE")
+    @GetMapping("/byBankAccount/{id}")
+    public List<CreditOut> findAllActiveByBankAccountId(@PathVariable("id") Long id){
+        return creditService.findActiveByBankAccountId(id);
+    }
+
 }

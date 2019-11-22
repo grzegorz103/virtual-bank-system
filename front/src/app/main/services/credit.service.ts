@@ -28,7 +28,11 @@ export class CreditService {
     return this.http.patch<Credit>(query, null);
   }
 
-  findById(id: any){
-    return this.http.get<Credit>(this.url +'/byId/' + id);
+  findById(id: any) {
+    return this.http.get<Credit>(this.url + '/byId/' + id);
+  }
+
+  findAllActiveBySaldoId(id: any) {
+    return this.http.get<Credit[]>(this.url + '/byBankAccount/' + id);
   }
 }
