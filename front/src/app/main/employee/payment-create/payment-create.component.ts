@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { BankAccount } from '../../models/bank-account';
 import { BankAccountService } from '../../services/bank-account.service';
 import { Observable } from 'rxjs';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { map, startWith } from 'rxjs/operators';
 import { PaymentService } from '../../services/payment.service';
-import { MatSnackBar, MatTableDataSource, MatDialog } from '@angular/material';
+import { MatSnackBar, MatTableDataSource, MatDialog, MatPaginator } from '@angular/material';
 import { BankAccountDialogComponent } from '../misc/bank-account-dialog/bank-account-dialog.component';
 import { forkJoin } from 'rxjs';
 
@@ -21,6 +21,9 @@ export class PaymentCreateComponent implements OnInit {
   paymentForm: FormGroup;
   currencyList: string[];
   bankAccountList = new MatTableDataSource<BankAccount>();
+
+  @ViewChild(MatPaginator, { static: true })
+  paginator: MatPaginator;
 
   constructor(private bankAccountService: BankAccountService,
     private paymentService: PaymentService,
@@ -52,6 +55,7 @@ export class PaymentCreateComponent implements OnInit {
       .subscribe(res => {
         this.bankAccounts = res;
         this.bankAccountList.data = res;
+        this.bankAccountList.paginator = this.paginator;
       });
   }
 
@@ -75,6 +79,10 @@ export class PaymentCreateComponent implements OnInit {
     }
   }
 
+  applyFilter(filterValue: string) {
+    this.bankAccountList.filter = filterValue.trim().toLowerCase();
+  }
+
   sendPaymentForm() {
     if (this.paymentForm.invalid) {
       return;
@@ -87,27 +95,34 @@ export class PaymentCreateComponent implements OnInit {
       this.snackBar.open(err.error.message, '', { duration: 3000, panelClass: 'red-snackbar' }));
   }
 
-  openBankAccountDetails(id: any){
-      const dialogRef = this.dialog.open(BankAccountDialogComponent, {
-        width: window.innerWidth > 768 ? '50%' : '85%',
-        data: { id: id }
-      });
+  openBankAccountDetails(id: any) {
+    const dialogRef = this.dialog.open(BankAccountDialogComponent, {
+      width: window.innerWidth > 768 ? '50%' : '85%',
+      data: { id: id }
+    });
 
-      dialogRef.afterClosed().subscribe(result => {
-        if (result) {
-          let bankAccount: BankAccount = result;
-          let observables: Observable<any>[] = [];
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        let bankAccount: BankAccount = result;
+        let observables: Observable<any>[] = [];
 
-          bankAccount.saldos.forEach(item => {
-            observables.push(this.bankAccountService.updateSaldo(item.id, item));
-          });
-    
-          observables.push(this.bankAccountService.update(id, bankAccount));
-          forkJoin(observables).subscribe(array => this.fetchBankAccounts());
+        bankAccount.saldos.forEach(item => {
+          observables.push(this.bankAccountService.updateSaldo(item.id, item));
+        });
+
+        observables.push(this.bankAccountService.update(id, bankAccount));
+        forkJoin(observables).subscribe(array => {
+          this.fetchBankAccounts();
           this.snackBar.open('Zaktualizowano konto bankowe', '', { duration: 3000, panelClass: 'green-snackbar' });
-        }
-      });
-    
+        }, err => {
+          if (err.error.messages) {
+            this.snackBar.open(err.error.messages, '', { duration: 3000, panelClass: 'red-snackbar' });
+          } else {
+            this.snackBar.open(err.error.message, '', { duration: 3000, panelClass: 'red-snackbar' });
+          }
+        });
+      }
+    });
   }
 
 }

@@ -11,7 +11,7 @@ import { BankAccountService } from 'src/app/main/services/bank-account.service';
 })
 export class BankAccountDialogComponent implements OnInit {
 
-  bankAccount: BankAccount;
+  account: BankAccount;
 
   constructor(
     public dialogRef: MatDialogRef<UserEditDialogComponent>,
@@ -19,7 +19,7 @@ export class BankAccountDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: UserModalDTO, ) {
     if (data.id) {
       bankAccountService.findById(data.id)
-        .subscribe(res => this.bankAccount = res);
+        .subscribe(res => this.account = res);
     }
   }
 

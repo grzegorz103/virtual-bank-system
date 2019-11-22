@@ -25,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -139,10 +140,10 @@ public class BankAccountServiceImpl implements BankAccountService {
 
     @Override
     public BankAccountOut update(Long id, BankAccountEdit bankAccountEdit) {
-        if (bankAccountRepository.existsByNumber(bankAccountEdit.getNumber())) {
+        BankAccount bankAccount = bankAccountRepository.findById(id).orElseThrow(() -> new ApiException("Exception.notFound", null));
+        if (!Objects.equals(bankAccountEdit.getNumber(), bankAccount.getNumber()) && bankAccountRepository.existsByNumber(bankAccountEdit.getNumber())) {
             throw new ApiException("Exception.bankAccountExists", null);
         }
-        BankAccount bankAccount = bankAccountRepository.findById(id).orElseThrow(() -> new ApiException("Exception.notFound", null));
         bankAccount.setNumber(bankAccountEdit.getNumber());
         return bankAccountMapper.entityToDTO(bankAccountRepository.save(bankAccount));
     }

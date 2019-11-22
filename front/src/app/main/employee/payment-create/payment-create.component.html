@@ -34,15 +34,19 @@
             </form>
         </div>
     </div>
-    <hr/>
+    <hr />
     <mat-toolbar>
         Rachunki bankowe
     </mat-toolbar>
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <div *ngIf="bankAccounts?.length > 0">
-
+                <div [hidden]="bankAccounts?.length === 0">
+                    <div class="col-md-4">
+                        <mat-form-field>
+                            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Szukaj">
+                        </mat-form-field>
+                    </div>
                     <table mat-table [dataSource]="bankAccountList">
 
                         <ng-container matColumnDef="numer">
@@ -83,6 +87,7 @@
                         <tr mat-row *matRowDef="let row; columns: [ 'numer', 'multiCurrency', 'saldos', 'details'];">
                         </tr>
                     </table>
+                    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
                 </div>
                 <div *ngIf="bankAccounts && bankAccounts.length === 0">
                     <div class="container">

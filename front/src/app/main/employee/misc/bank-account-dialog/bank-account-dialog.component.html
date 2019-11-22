@@ -1,4 +1,4 @@
-<div *ngIf="user">
+<div *ngIf="account">
     <mat-toolbar>Edycja rachunku bankowego</mat-toolbar>
     <div class="container">
         <div class="row">
@@ -9,11 +9,12 @@
             </div>
         </div>
 
-        <div class="row" *ngFor="let saldo of account.saldos">
-            <div class="col-12">
+        <div class="row">
+            <div *ngFor="let saldo of account.saldos">
                 <div class="col-6">
                     <mat-form-field>
-                        <input matInput placeholder="Imię" type="text" [(ngModel)]="saldo.balance">
+                        <input matInput placeholder="{{saldo.currencyType.name}}" type="text"
+                            [(ngModel)]="saldo.balance">
                     </mat-form-field>
                 </div>
             </div>

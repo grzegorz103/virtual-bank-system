@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class SaldoEdit {
 
-    @Min(1)
+    @Min(0)
     private BigDecimal balance;
 
 }

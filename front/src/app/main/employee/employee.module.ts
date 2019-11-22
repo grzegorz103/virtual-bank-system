@@ -47,6 +47,6 @@ import { BankAccountDialogComponent } from './misc/bank-account-dialog/bank-acco
     MatSelectModule,
     MatOptionModule
   ],
-  entryComponents: [UserDialogComponent, UserEditDialogComponent]
+  entryComponents: [UserDialogComponent, UserEditDialogComponent, BankAccountDialogComponent]
 })
 export class EmployeeModule { }
