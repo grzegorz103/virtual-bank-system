@@ -5,6 +5,9 @@ import { Observable } from 'rxjs';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { map, startWith } from 'rxjs/operators';
 import { PaymentService } from '../../services/payment.service';
+import { MatSnackBar, MatTableDataSource, MatDialog } from '@angular/material';
+import { BankAccountDialogComponent } from '../misc/bank-account-dialog/bank-account-dialog.component';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-payment-create',
@@ -17,9 +20,12 @@ export class PaymentCreateComponent implements OnInit {
   filteredBankAccounts: Observable<BankAccount[]>;
   paymentForm: FormGroup;
   currencyList: string[];
+  bankAccountList = new MatTableDataSource<BankAccount>();
 
   constructor(private bankAccountService: BankAccountService,
     private paymentService: PaymentService,
+    private snackBar: MatSnackBar,
+    public dialog: MatDialog,
     private fb: FormBuilder) {
     this.createPaymentForm();
   }
@@ -43,7 +49,10 @@ export class PaymentCreateComponent implements OnInit {
 
   fetchBankAccounts() {
     this.bankAccountService.findAll()
-      .subscribe(res => this.bankAccounts = res);
+      .subscribe(res => {
+        this.bankAccounts = res;
+        this.bankAccountList.data = res;
+      });
   }
 
   private _filter(value: string) {
@@ -66,13 +75,39 @@ export class PaymentCreateComponent implements OnInit {
     }
   }
 
-  sendPaymentForm(){
-    if(this.paymentForm.invalid){
+  sendPaymentForm() {
+    if (this.paymentForm.invalid) {
       return;
     }
-    this.paymentService.create(this.paymentForm.value).subscribe(res=>{
-      alert('Wpłacono');
+    this.paymentService.create(this.paymentForm.value).subscribe(res => {
+      this.snackBar.open('Utworzono wpłatę', '', { duration: 3000, panelClass: 'green-snackbar' });
+
       this.createPaymentForm();
-    });
+    }, err =>
+      this.snackBar.open(err.error.message, '', { duration: 3000, panelClass: 'red-snackbar' }));
   }
+
+  openBankAccountDetails(id: any){
+      const dialogRef = this.dialog.open(BankAccountDialogComponent, {
+        width: window.innerWidth > 768 ? '50%' : '85%',
+        data: { id: id }
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          let bankAccount: BankAccount = result;
+          let observables: Observable<any>[] = [];
+
+          bankAccount.saldos.forEach(item => {
+            observables.push(this.bankAccountService.updateSaldo(item.id, item));
+          });
+    
+          observables.push(this.bankAccountService.update(id, bankAccount));
+          forkJoin(observables).subscribe(array => this.fetchBankAccounts());
+          this.snackBar.open('Zaktualizowano konto bankowe', '', { duration: 3000, panelClass: 'green-snackbar' });
+        }
+      });
+    
+  }
+
 }

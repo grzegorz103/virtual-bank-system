@@ -1,9 +1,13 @@
 package com.ii.app.services;
 
+import com.ii.app.dto.edit.BankAccountEdit;
+import com.ii.app.dto.edit.SaldoEdit;
 import com.ii.app.dto.in.BankAccountIn;
 import com.ii.app.dto.out.BankAccountOut;
+import com.ii.app.dto.out.SaldoOut;
 import com.ii.app.exceptions.ApiException;
 import com.ii.app.mappers.BankAccountMapper;
+import com.ii.app.mappers.SaldoMapper;
 import com.ii.app.models.BankAccount;
 import com.ii.app.models.Saldo;
 import com.ii.app.models.enums.BankAccountType;
@@ -41,6 +45,8 @@ public class BankAccountServiceImpl implements BankAccountService {
 
     private final UserRepository userRepository;
 
+    private final SaldoMapper saldoMapper;
+
     @Autowired
     public BankAccountServiceImpl(BankAccountMapper bankAccountMapper,
                                   BankAccountRepository bankAccountRepository,
@@ -48,7 +54,8 @@ public class BankAccountServiceImpl implements BankAccountService {
                                   SaldoRepository saldoRepository,
                                   CurrencyTypeRepository currencyTypeRepository,
                                   BankAccountTypeRepository bankAccountTypeRepository,
-                                  UserRepository userRepository) {
+                                  UserRepository userRepository,
+                                  SaldoMapper saldoMapper) {
         this.bankAccountMapper = bankAccountMapper;
         this.bankAccountRepository = bankAccountRepository;
         this.constants = constants;
@@ -56,6 +63,7 @@ public class BankAccountServiceImpl implements BankAccountService {
         this.currencyTypeRepository = currencyTypeRepository;
         this.bankAccountTypeRepository = bankAccountTypeRepository;
         this.userRepository = userRepository;
+        this.saldoMapper = saldoMapper;
     }
 
     @Override
@@ -127,6 +135,23 @@ public class BankAccountServiceImpl implements BankAccountService {
                 .anyMatch(f -> f.getInvestmentType().getInvestmentStatus() == InvestmentType.InvestmentStatus.ACTIVE)))
             throw new ApiException("Exception.hasActiveInvestments", null);
         bankAccountRepository.markRemovedAsTrue(id);
+    }
+
+    @Override
+    public BankAccountOut update(Long id, BankAccountEdit bankAccountEdit) {
+        if (bankAccountRepository.existsByNumber(bankAccountEdit.getNumber())) {
+            throw new ApiException("Exception.bankAccountExists", null);
+        }
+        BankAccount bankAccount = bankAccountRepository.findById(id).orElseThrow(() -> new ApiException("Exception.notFound", null));
+        bankAccount.setNumber(bankAccountEdit.getNumber());
+        return bankAccountMapper.entityToDTO(bankAccountRepository.save(bankAccount));
+    }
+
+    @Override
+    public SaldoOut updateSaldo(Long id, SaldoEdit saldoEdit) {
+        Saldo saldo = saldoRepository.findById(id).orElseThrow(() -> new ApiException("Exception.notFound", null));
+        saldo.setBalance(saldoEdit.getBalance());
+        return saldoMapper.saldoToSaldoOut(saldoRepository.save(saldo));
     }
 
 }

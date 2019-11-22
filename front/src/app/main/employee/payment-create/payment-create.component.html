@@ -5,7 +5,7 @@
         Dodaj nową wpłatę
 
         <div *ngIf="bankAccounts">
-            <form class="example-form" [formGroup]="paymentForm"(ngSubmit)="sendPaymentForm()">
+            <form class="example-form" [formGroup]="paymentForm" (ngSubmit)="sendPaymentForm()">
                 <mat-form-field class="example-full-width">
                     <input type="text" placeholder="Rachunek bankowy" aria-label="Number" matInput
                         formControlName="destinedBankAccountNumber" [matAutocomplete]="auto">
@@ -32,6 +32,68 @@
                 <button mat-raised-button class="bg-success text-white mb-2">Wyślij</button>
 
             </form>
+        </div>
+    </div>
+    <hr/>
+    <mat-toolbar>
+        Rachunki bankowe
+    </mat-toolbar>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div *ngIf="bankAccounts?.length > 0">
+
+                    <table mat-table [dataSource]="bankAccountList">
+
+                        <ng-container matColumnDef="numer">
+                            <th mat-header-cell *matHeaderCellDef>Numer</th>
+                            <td mat-cell *matCellDef="let element">
+                                <div matTooltip="{{element.number}} (naciśnij aby skopiować)"
+                                    (click)="copyToClipboard(element.number)">
+                                    {{element.number | slice:0:2}}...{{element.number | slice:22:26}}
+                                </div>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="multiCurrency">
+                            <th mat-header-cell *matHeaderCellDef>Wielowalutowe</th>
+                            <td mat-cell *matCellDef="let element"> <span
+                                    *ngIf="element.bankAccType.bankAccountType === 'MULTI_CURRENCY'">Wielowalutowe</span>
+                                <span *ngIf="element.bankAccType.bankAccountType === 'STANDARD'">Standardowe</span>
+                                <span *ngIf="element.bankAccType.bankAccountType === 'STUDENT'">Studenckie</span>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="saldos">
+                            <th mat-header-cell *matHeaderCellDef>Salda</th>
+                            <td mat-cell *matCellDef="let element"> <span
+                                    *ngFor="let saldo of element.saldos; let i = index">{{saldo.balance | currency: saldo.currencyType.name}}<span
+                                        *ngIf="i < element.saldos.length - 1">, </span> </span> </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="details">
+                            <th mat-header-cell *matHeaderCellDef>Szczegóły</th>
+                            <td mat-cell *matCellDef="let element"> <button mat-raised-button color="primary"
+                                    (click)="openBankAccountDetails(element.id)">Szczegóły</button>
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row
+                            *matHeaderRowDef="[ 'numer', 'multiCurrency', 'saldos', 'details']; sticky: true"></tr>
+                        <tr mat-row *matRowDef="let row; columns: [ 'numer', 'multiCurrency', 'saldos', 'details'];">
+                        </tr>
+                    </table>
+                </div>
+                <div *ngIf="bankAccounts && bankAccounts.length === 0">
+                    <div class="container">
+                        <div class="row">
+                            <div class="mx-auto py-3">
+                                Brak rachunków bankowych
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

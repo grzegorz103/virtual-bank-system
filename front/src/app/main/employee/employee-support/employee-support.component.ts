@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Conversation } from '../../models/conversation';
 import { ConversationService } from '../../services/conversation.service';
 import { FormGroup, Validators, FormBuilder, NgForm } from '@angular/forms';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-employee-support',
@@ -23,6 +24,7 @@ export class EmployeeSupportComponent implements OnInit {
   @ViewChild('formDirective', { static: true }) private formDirective: NgForm;
 
   constructor(private conversationService: ConversationService,
+    private snackBar: MatSnackBar,
     private fb: FormBuilder) { }
 
   ngOnInit() {
@@ -53,10 +55,13 @@ export class EmployeeSupportComponent implements OnInit {
   sendConversation() {
     this.conversationService.create(this.conversationForm.value)
       .subscribe(res => {
-        alert('Wysłano zgłoszenie');
+        this.snackBar.open('Utworzono wpłatę', '', { duration: 3000, panelClass: 'green-snackbar' });
+   
         this.fetchMyConversations();
         this.conversationForm.reset();
         this.formDirective.resetForm();
+      },err=>{
+        this.snackBar.open('Błąd tworzenia zgłoszenia', '', { duration: 3000, panelClass: 'red-snackbar' });
       });
   }
 

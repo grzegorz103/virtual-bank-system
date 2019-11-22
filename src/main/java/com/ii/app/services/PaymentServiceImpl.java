@@ -66,12 +66,20 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public List<PaymentOut> findAllByBankAccountId(Long bankAccountId) {
-        if(!bankAccountRepository.existsById(bankAccountId)){
+        if (!bankAccountRepository.existsById(bankAccountId)) {
             throw new RuntimeException("Bank account not found");
         }
         return paymentRepository.findAllByDestinedBankAccount_Id(bankAccountId)
-        .stream()
-        .map(paymentMapper::entityToDto)
-        .collect(Collectors.toList());
+            .stream()
+            .map(paymentMapper::entityToDto)
+            .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<PaymentOut> findAll() {
+        return paymentRepository.findAll()
+            .stream()
+            .map(paymentMapper::entityToDto)
+            .collect(Collectors.toList());
     }
 }
