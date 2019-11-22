@@ -68,6 +68,7 @@ export class PaymentCreateComponent implements OnInit {
   fetchPayments() {
     this.paymentService.findAll()
       .subscribe(res => {
+        res.sort((o1, o2) => new Date(o2.date).getTime() - new Date(o1.date).getTime());
         this.payments.data = res;
         this.payments.paginator = this.paginatorPayments;
       })
@@ -100,14 +101,14 @@ export class PaymentCreateComponent implements OnInit {
   applyFilterPayments(filterValue: string) {
     this.payments.filter = filterValue.trim().toLowerCase();
   }
-  
+
   sendPaymentForm() {
     if (this.paymentForm.invalid) {
       return;
     }
     this.paymentService.create(this.paymentForm.value).subscribe(res => {
       this.snackBar.open('Utworzono wpłatę', '', { duration: 3000, panelClass: 'green-snackbar' });
-
+      this.fetchPayments();
       this.createPaymentForm();
     }, err =>
       this.snackBar.open(err.error.message, '', { duration: 3000, panelClass: 'red-snackbar' }));
