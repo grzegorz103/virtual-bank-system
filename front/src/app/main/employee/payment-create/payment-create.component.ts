@@ -8,6 +8,7 @@ import { PaymentService } from '../../services/payment.service';
 import { MatSnackBar, MatTableDataSource, MatDialog, MatPaginator } from '@angular/material';
 import { BankAccountDialogComponent } from '../misc/bank-account-dialog/bank-account-dialog.component';
 import { forkJoin } from 'rxjs';
+import { Payment } from '../../models/payment';
 
 @Component({
   selector: 'app-payment-create',
@@ -21,9 +22,13 @@ export class PaymentCreateComponent implements OnInit {
   paymentForm: FormGroup;
   currencyList: string[];
   bankAccountList = new MatTableDataSource<BankAccount>();
+  payments = new MatTableDataSource<Payment>();
 
   @ViewChild(MatPaginator, { static: true })
   paginator: MatPaginator;
+
+  @ViewChild(MatPaginator, { static: true })
+  paginatorPayments: MatPaginator;
 
   constructor(private bankAccountService: BankAccountService,
     private paymentService: PaymentService,
@@ -40,6 +45,7 @@ export class PaymentCreateComponent implements OnInit {
         map(value => this._filter(value))
       );
     this.fetchBankAccounts();
+    this.fetchPayments();
   }
 
   createPaymentForm() {
@@ -57,6 +63,14 @@ export class PaymentCreateComponent implements OnInit {
         this.bankAccountList.data = res;
         this.bankAccountList.paginator = this.paginator;
       });
+  }
+
+  fetchPayments() {
+    this.paymentService.findAll()
+      .subscribe(res => {
+        this.payments.data = res;
+        this.payments.paginator = this.paginatorPayments;
+      })
   }
 
   private _filter(value: string) {
@@ -83,6 +97,10 @@ export class PaymentCreateComponent implements OnInit {
     this.bankAccountList.filter = filterValue.trim().toLowerCase();
   }
 
+  applyFilterPayments(filterValue: string) {
+    this.payments.filter = filterValue.trim().toLowerCase();
+  }
+  
   sendPaymentForm() {
     if (this.paymentForm.invalid) {
       return;

@@ -6,6 +6,7 @@ import { Payment } from '../models/payment';
   providedIn: 'root'
 })
 export class PaymentService {
+ 
 
   url = 'http://localhost:8080/api/payments';
 
@@ -19,4 +20,7 @@ export class PaymentService {
     return this.http.get<Payment[]>(this.url + '/account/' + id);
   }
 
+  findAll() {
+    return this.http.get<Payment[]>(this.url);
+  }
 }

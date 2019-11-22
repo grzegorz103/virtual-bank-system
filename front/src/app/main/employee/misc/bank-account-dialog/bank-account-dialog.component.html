@@ -1,5 +1,5 @@
 <div *ngIf="account">
-    <mat-toolbar>Edycja rachunku bankowego <button *ngIf="!account.removed" type="button" (click)="deleteBankAccount()" mat-raised-button color="warn">Usuń</button>
+    <mat-toolbar>Edycja rachunku bankowego <button class="ml-auto" *ngIf="!account.removed" type="button" (click)="deleteBankAccount()" mat-raised-button color="warn">Usuń</button>
     </mat-toolbar>
     <div class="container">
         <div class="row">

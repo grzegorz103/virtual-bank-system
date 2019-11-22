@@ -37,7 +37,7 @@ public class CurrencyTypeServiceTest {
     public void findAllCurrencyTypesTest() {
         assertThat(currencyTypeService.findAll().size()).isEqualTo(currencyTypeRepository.findAll().size());
     }
-    
+
     @Test
     public void updateCurrencyTypeTest() {
         CurrencyType currencyType = currencyTypeRepository.save(
