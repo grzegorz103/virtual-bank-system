@@ -12,13 +12,14 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class BankAccountOut
-{
-        private Long id;
-        
-        private String number;
+public class BankAccountOut {
+    private Long id;
 
-        private BankAccTypeOut bankAccType;
+    private String number;
 
-        private Set<SaldoOut> saldos;
+    private BankAccTypeOut bankAccType;
+
+    private Set<SaldoOut> saldos;
+
+    private boolean removed;
 }

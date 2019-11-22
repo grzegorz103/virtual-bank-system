@@ -97,11 +97,13 @@ export class PaymentCreateComponent implements OnInit {
 
   openBankAccountDetails(id: any) {
     const dialogRef = this.dialog.open(BankAccountDialogComponent, {
-      width: window.innerWidth > 768 ? '50%' : '85%',
+      width: window.innerWidth > 768 ? '60%' : '95%',
+      height: '80%',
       data: { id: id }
     });
 
     dialogRef.afterClosed().subscribe(result => {
+      this.fetchBankAccounts();
       if (result) {
         let bankAccount: BankAccount = result;
         let observables: Observable<any>[] = [];
@@ -112,7 +114,6 @@ export class PaymentCreateComponent implements OnInit {
 
         observables.push(this.bankAccountService.update(id, bankAccount));
         forkJoin(observables).subscribe(array => {
-          this.fetchBankAccounts();
           this.snackBar.open('Zaktualizowano konto bankowe', '', { duration: 3000, panelClass: 'green-snackbar' });
         }, err => {
           if (err.error.messages) {

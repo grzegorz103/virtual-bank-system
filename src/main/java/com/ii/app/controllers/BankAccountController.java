@@ -55,7 +55,7 @@ public class BankAccountController {
         return bankAccountService.findBankAccountCountByType(id);
     }
 
-    @Secured("ROLE_USER")
+    @Secured({"ROLE_USER", "ROLE_EMPLOYEE"})
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteById(@PathVariable("id") Long id) {
