@@ -94,9 +94,9 @@ export class TemplateListComponent implements OnInit {
     this.isRemoving = !this.isRemoving;
 
     if (this.isRemoving) {
-      this.headers = ['ID', 'name', 'sourceAccountNumber', 'destinedAccountNumber', 'sourceCurrency', 'balance', 'create', 'edit', 'select'];
+      this.headers = [ 'name', 'sourceAccountNumber', 'destinedAccountNumber', 'sourceCurrency', 'balance', 'create', 'edit', 'select'];
     } else {
-      this.headers = ['ID', 'name', 'sourceAccountNumber', 'destinedAccountNumber', 'sourceCurrency', 'balance', 'create', 'edit'];
+      this.headers = [ 'name', 'sourceAccountNumber', 'destinedAccountNumber', 'sourceCurrency', 'balance', 'create', 'edit'];
     }
   }
 

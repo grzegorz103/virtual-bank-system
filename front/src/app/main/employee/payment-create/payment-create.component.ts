@@ -74,6 +74,16 @@ export class PaymentCreateComponent implements OnInit {
       })
   }
 
+  copyToClipboard(item) {
+    document.addEventListener('copy', (e: ClipboardEvent) => {
+      e.clipboardData.setData('text/plain', (item));
+      e.preventDefault();
+      document.removeEventListener('copy', null);
+    });
+    document.execCommand('copy');
+    this.snackBar.open('Skopiowano', '', { duration: 3000, panelClass: 'green-snackbar' });
+  }
+
   private _filter(value: string) {
     this.changeCurrencyList();
     const filterValue = value.toLowerCase();
@@ -110,6 +120,7 @@ export class PaymentCreateComponent implements OnInit {
       this.snackBar.open('Utworzono wpłatę', '', { duration: 3000, panelClass: 'green-snackbar' });
       this.fetchPayments();
       this.createPaymentForm();
+      this.fetchBankAccounts();
     }, err =>
       this.snackBar.open(err.error.message, '', { duration: 3000, panelClass: 'red-snackbar' }));
   }
@@ -133,6 +144,7 @@ export class PaymentCreateComponent implements OnInit {
 
         observables.push(this.bankAccountService.update(id, bankAccount));
         forkJoin(observables).subscribe(array => {
+          this.fetchBankAccounts();
           this.snackBar.open('Zaktualizowano konto bankowe', '', { duration: 3000, panelClass: 'green-snackbar' });
         }, err => {
           if (err.error.messages) {
