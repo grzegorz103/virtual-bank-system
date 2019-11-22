@@ -10,4 +10,6 @@ public interface InvestmentRepository extends JpaRepository<Investment, Long> {
     List<Investment> findAllByDestinedSaldo_BankAccount_User_Identifier(String identifier);
 
     Long countAllByInvestmentType(InvestmentType investmentType);
+
+    List<Investment> findAllByInvestmentTypeAndDestinedSaldo_BankAccount_Id(InvestmentType investmentType, Long id);
 }

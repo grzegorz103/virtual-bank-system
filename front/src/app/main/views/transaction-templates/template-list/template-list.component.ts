@@ -16,7 +16,7 @@ export class TemplateListComponent implements OnInit {
 
   templates: TransactionTemplate[];
   selection = new SelectionModel<TransactionTemplate>(true, []);
-  headers = ['ID', 'name', 'sourceAccountNumber', 'destinedAccountNumber', 'sourceCurrency', 'balance', 'create', 'edit'];
+  headers = [/* 'ID', */ 'name', 'sourceAccountNumber', 'destinedAccountNumber', 'sourceCurrency', 'balance', 'create', 'edit'];
   isRemoving = false;
 
   // do dodawania/edycji

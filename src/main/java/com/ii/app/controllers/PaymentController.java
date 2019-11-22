@@ -20,14 +20,20 @@ public class PaymentController {
     }
 
     @PostMapping
-    //@Secured("ROLE_EMPLOYEE")
+    @Secured("ROLE_EMPLOYEE")
     public PaymentOut create(@RequestBody PaymentIn paymentIn) {
         return paymentService.create(paymentIn);
     }
 
     @GetMapping("/account/{id}")
     @Secured("ROLE_USER")
-    public List<PaymentOut> findByAccountId(@PathVariable("id")Long id){
+    public List<PaymentOut> findByAccountId(@PathVariable("id") Long id) {
         return paymentService.findAllByBankAccountId(id);
+    }
+
+    @GetMapping
+    @Secured("ROLE_EMPLOYEE")
+    public List<PaymentOut> findAll() {
+        return paymentService.findAll();
     }
 }

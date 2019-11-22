@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { BankAccount } from '../models/bank-account';
 import { HttpClient } from '@angular/common/http';
+import { Saldo } from '../models/saldo';
 @Injectable({
   providedIn: 'root'
 })
 export class BankAccountService {
- 
+
   url = 'http://localhost:8080/api/bankaccount';
 
   constructor(private http: HttpClient) { }
@@ -14,7 +15,7 @@ export class BankAccountService {
     return this.http.get<BankAccount[]>(this.url);
   }
 
-  findById(id: number) {
+  findById(id: any) {
     return this.http.get<BankAccount>(this.url + '/' + id);
   }
 
@@ -30,7 +31,15 @@ export class BankAccountService {
     return this.http.post<BankAccount>(this.url, bankAccount);
   }
 
-  deleteById(id: any){
+  deleteById(id: any) {
     return this.http.delete(this.url + '/' + id);
+  }
+
+  updateSaldo(id: number, item: Saldo) {
+    return this.http.put(this.url + '/saldo/' + id, item);
+  }
+  
+  update(id: any, bankAccount: BankAccount) {
+    return this.http.put(this.url + '/' + id, bankAccount);
   }
 }

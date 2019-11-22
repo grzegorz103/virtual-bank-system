@@ -1,10 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { BankAccount } from '../../models/bank-account';
 import { BankAccountService } from '../../services/bank-account.service';
 import { Observable } from 'rxjs';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { map, startWith } from 'rxjs/operators';
 import { PaymentService } from '../../services/payment.service';
+import { MatSnackBar, MatTableDataSource, MatDialog, MatPaginator } from '@angular/material';
+import { BankAccountDialogComponent } from '../misc/bank-account-dialog/bank-account-dialog.component';
+import { forkJoin } from 'rxjs';
+import { Payment } from '../../models/payment';
 
 @Component({
   selector: 'app-payment-create',
@@ -17,9 +21,19 @@ export class PaymentCreateComponent implements OnInit {
   filteredBankAccounts: Observable<BankAccount[]>;
   paymentForm: FormGroup;
   currencyList: string[];
+  bankAccountList = new MatTableDataSource<BankAccount>();
+  payments = new MatTableDataSource<Payment>();
+
+  @ViewChild(MatPaginator, { static: true })
+  paginator: MatPaginator;
+
+  @ViewChild(MatPaginator, { static: true })
+  paginatorPayments: MatPaginator;
 
   constructor(private bankAccountService: BankAccountService,
     private paymentService: PaymentService,
+    private snackBar: MatSnackBar,
+    public dialog: MatDialog,
     private fb: FormBuilder) {
     this.createPaymentForm();
   }
@@ -31,6 +45,7 @@ export class PaymentCreateComponent implements OnInit {
         map(value => this._filter(value))
       );
     this.fetchBankAccounts();
+    this.fetchPayments();
   }
 
   createPaymentForm() {
@@ -43,7 +58,19 @@ export class PaymentCreateComponent implements OnInit {
 
   fetchBankAccounts() {
     this.bankAccountService.findAll()
-      .subscribe(res => this.bankAccounts = res);
+      .subscribe(res => {
+        this.bankAccounts = res;
+        this.bankAccountList.data = res;
+        this.bankAccountList.paginator = this.paginator;
+      });
+  }
+
+  fetchPayments() {
+    this.paymentService.findAll()
+      .subscribe(res => {
+        this.payments.data = res;
+        this.payments.paginator = this.paginatorPayments;
+      })
   }
 
   private _filter(value: string) {
@@ -66,13 +93,55 @@ export class PaymentCreateComponent implements OnInit {
     }
   }
 
-  sendPaymentForm(){
-    if(this.paymentForm.invalid){
+  applyFilter(filterValue: string) {
+    this.bankAccountList.filter = filterValue.trim().toLowerCase();
+  }
+
+  applyFilterPayments(filterValue: string) {
+    this.payments.filter = filterValue.trim().toLowerCase();
+  }
+  
+  sendPaymentForm() {
+    if (this.paymentForm.invalid) {
       return;
     }
-    this.paymentService.create(this.paymentForm.value).subscribe(res=>{
-      alert('Wpłacono');
+    this.paymentService.create(this.paymentForm.value).subscribe(res => {
+      this.snackBar.open('Utworzono wpłatę', '', { duration: 3000, panelClass: 'green-snackbar' });
+
       this.createPaymentForm();
+    }, err =>
+      this.snackBar.open(err.error.message, '', { duration: 3000, panelClass: 'red-snackbar' }));
+  }
+
+  openBankAccountDetails(id: any) {
+    const dialogRef = this.dialog.open(BankAccountDialogComponent, {
+      width: window.innerWidth > 768 ? '60%' : '95%',
+      height: '80%',
+      data: { id: id }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.fetchBankAccounts();
+      if (result) {
+        let bankAccount: BankAccount = result;
+        let observables: Observable<any>[] = [];
+
+        bankAccount.saldos.forEach(item => {
+          observables.push(this.bankAccountService.updateSaldo(item.id, item));
+        });
+
+        observables.push(this.bankAccountService.update(id, bankAccount));
+        forkJoin(observables).subscribe(array => {
+          this.snackBar.open('Zaktualizowano konto bankowe', '', { duration: 3000, panelClass: 'green-snackbar' });
+        }, err => {
+          if (err.error.messages) {
+            this.snackBar.open(err.error.messages, '', { duration: 3000, panelClass: 'red-snackbar' });
+          } else {
+            this.snackBar.open(err.error.message, '', { duration: 3000, panelClass: 'red-snackbar' });
+          }
+        });
+      }
     });
   }
+
 }

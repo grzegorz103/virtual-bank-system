@@ -5,6 +5,8 @@ import { ExchangeCurrencyService } from '../../services/exchange-currency.servic
 import { BankAccountService } from '../../services/bank-account.service';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { MatSnackBar } from '@angular/material';
+import { CurrencyType } from '../../models/currency-type';
+import { CurrencyTypeService } from '../../services/currency-type.service';
 
 @Component({
   selector: 'app-exchange-page',
@@ -17,18 +19,27 @@ export class ExchangePageComponent implements OnInit {
   exchangeCurrency: ExchangeCurrency;
   currencyList: string[];
   faArrowRight = faArrowRight;
-  convertedValue: number;
+  convertedValue: string;
   beforeConvertValue: any;
   beforeConvertCurrType: any;
   destConvertCurrType: any;
   sourceConvertCurrType: any;
+  currencyTypes: CurrencyType[];
+  currencyColumns: string[] = ['name', 'exchangeRate'];
 
   constructor(private exchangeCurrencyService: ExchangeCurrencyService,
+    private currencyTypesService: CurrencyTypeService,
     private snackBar: MatSnackBar,
     private bankAccountService: BankAccountService) { }
 
   ngOnInit() {
     this.fetchBankAccounts();
+    this.fetchCurrencyTypes();
+  }
+
+  fetchCurrencyTypes() {
+    this.currencyTypesService.findAll()
+      .subscribe(res => this.currencyTypes = res);
   }
 
   fetchBankAccounts() {
@@ -57,7 +68,7 @@ export class ExchangePageComponent implements OnInit {
     this.destConvertCurrType = this.exchangeCurrency.destCurrency;
 
     this.exchangeCurrencyService.calculate(this.exchangeCurrency)
-      .subscribe(res => this.convertedValue = parseInt(res, 10));
+      .subscribe(res => this.convertedValue = res);
   }
 
   convert() {
