@@ -19,8 +19,8 @@
                 <th mat-header-cell *matHeaderCellDef> Status </th>
                 <td mat-cell *matCellDef="let element">
                     <div (click)="changeStatus(element.id)" style="cursor: pointer">
-                        <p *ngIf="element.conversationStatus.conversationType === 'ACTIVE'">Aktywne</p>
-                        <p *ngIf="element.conversationStatus.conversationType === 'RESOLVED'">Rozwiązano</p>
+                        <span *ngIf="element.conversationStatus.conversationType === 'ACTIVE'">Aktywne</span>
+                        <span *ngIf="element.conversationStatus.conversationType === 'RESOLVED'">Rozwiązano</span>
                     </div>
                 </td>
             </ng-container>

@@ -32,9 +32,8 @@ export class EmployeeListComponent implements OnInit {
     private snackBar: MatSnackBar,
     private userService: UserService) {
     this.form = this.fb.group({
-      username: ['', Validators.required],
       password: ['', Validators.required],
-      email: ['', Validators.required],
+      email: ['', [Validators.email, Validators.required]],
       confirmPassword: ['', Validators.required],
       address: this.getAddressGroup()
     });
@@ -58,24 +57,30 @@ export class EmployeeListComponent implements OnInit {
 
   getAddressGroup(): FormGroup {
     return this.fb.group({
-      city: ['', Validators.required],
+      city: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(60)]],
       dateOfBirth: ['', Validators.required],
-      houseNumber: ['', Validators.required],
-      name: ['', Validators.required],
-      phoneNumber: ['', Validators.required],
-      postCode: ['', Validators.required],
-      street: ['', Validators.required],
-      surname: ['', Validators.required],
+      houseNumber: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(20)]],
+      name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(40)]],
+      phoneNumber: ['', [Validators.required, Validators.minLength(7), Validators.maxLength(15)]],
+      postCode: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(6)]],
+      street: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(60)]],
+      surname: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]],
     });
   }
 
   sendRegisterForm() {
+    if(this.form.invalid){
+      return;
+    }
+
     this.userService.createEmployee(this.form.value).subscribe(res => {
-      alert('Dodano pracownika');
+      this.snackBar.open('Dodano nowego pracownika', '', { duration: 3000, panelClass: 'green-snackbar' });
       this.form.reset();
       this.formDirective.resetForm();
       this.fetchEmployees();
-    });
+    }, err =>
+      this.snackBar.open(err.error.messages, '', { duration: 5000, panelClass: 'red-snackbar' })
+    );
   }
 
   openEditDialog(userId: string) {
