@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, NgForm } from '@angular/forms';
 import { UserService } from 'src/app/shared/services/user.service';
 import { User } from '../../models/user';
-import { MatPaginator, MatSort, MatDialog, MatTableDataSource } from '@angular/material';
+import { MatPaginator, MatSort, MatDialog, MatTableDataSource, MatSnackBar } from '@angular/material';
 import { EmployeeAddComponent } from '../misc/employee-add/employee-add.component';
 import { EmployeeDetailsComponent } from '../misc/employee-details/employee-details.component';
 
@@ -29,6 +29,7 @@ export class EmployeeListComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
     public dialog: MatDialog,
+    private snackBar: MatSnackBar,
     private userService: UserService) {
     this.form = this.fb.group({
       username: ['', Validators.required],
@@ -89,7 +90,11 @@ export class EmployeeListComponent implements OnInit {
       dialogRef.afterClosed().subscribe(result => {
         if (result) {
           this.userService.update(userId, result)
-            .subscribe(res => this.fetchEmployees());
+            .subscribe(res => {
+              this.fetchEmployees();
+              this.snackBar.open('Pomyślnie wykonano operację', '', { duration: 3000, panelClass: 'green-snackbar' });
+            },
+              err => this.snackBar.open(err.error.messages, '', { duration: 5000, panelClass: 'red-snackbar' }))
         }
       });
     }

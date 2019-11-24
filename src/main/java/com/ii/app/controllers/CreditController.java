@@ -22,6 +22,7 @@ public class CreditController {
     }
 
     @PostMapping
+    @Secured("ROLE_USER")
     public CreditOut create(@RequestBody CreditIn creditIn) {
         return creditService.create(creditIn);
     }

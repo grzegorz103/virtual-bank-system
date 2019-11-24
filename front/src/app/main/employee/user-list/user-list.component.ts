@@ -85,6 +85,10 @@ export class UserListComponent implements OnInit {
             if(this.user && userId === this.user.id){
               this.searchUser();
             }
+            this.snackBar.open('Udana edycja klienta', '', { duration: 3000, panelClass: 'green-snackbar' })
+          }, err =>{
+            this.snackBar.open(err.error.messages, '', { duration: 5000, panelClass: 'red-snackbar' })
+         
           });
       }
     });

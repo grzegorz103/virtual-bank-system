@@ -26,6 +26,7 @@ public class InstallmentController {
     }
 
     @GetMapping("/byCredit/{id}")
+    @Secured({"ROLE_USER", "ROLE_EMPLOYEE"})
     public List<InstallmentOut> findAllByCreditId(@PathVariable("id") Long id) {
         return installmentService.findAllByCreditId(id);
     }

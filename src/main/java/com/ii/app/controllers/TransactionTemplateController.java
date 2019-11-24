@@ -23,21 +23,25 @@ public class TransactionTemplateController {
     }
 
     @PostMapping
+    @Secured("ROLE_USER")
     public TransactionTemplateOut create(@RequestBody TransactionTemplateIn transactionTemplateIn) {
         return transactionTemplateService.create(transactionTemplateIn);
     }
 
     @GetMapping
+    @Secured("ROLE_USER")
     public List<TransactionTemplateOut> findAll() {
         return transactionTemplateService.findAll();
     }
 
     @GetMapping("/{id}")
+    @Secured("ROLE_USER")
     public TransactionTemplateOut findOneById(@PathVariable("id") Long id) {
         return transactionTemplateService.findOneById(id);
     }
 
     @PutMapping("/{id}")
+    @Secured("ROLE_USER")
     public TransactionTemplateOut updateById(@PathVariable("id") Long id,
                                              @RequestBody TransactionTemplateIn transactionTemplateIn) {
         return transactionTemplateService.update(id, transactionTemplateIn);
@@ -51,6 +55,7 @@ public class TransactionTemplateController {
 
 
     @DeleteMapping("/{id}")
+    @Secured("ROLE_USER")
     public void deleteById(@PathVariable("id") Long id) {
         transactionTemplateService.deleteById(id);
     }

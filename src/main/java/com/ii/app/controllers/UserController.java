@@ -33,7 +33,7 @@ public class UserController {
 
     @PostMapping("/create/employee")
     @Secured("ROLE_ADMIN")
-    public UserOut createEmployee(@RequestBody UserIn userIn) {
+    public UserOut createEmployee(@RequestBody @Valid UserIn userIn) {
         return userService.createEmployee(userIn);
     }
 
