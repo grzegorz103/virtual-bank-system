@@ -26,11 +26,15 @@ export class EmployeeListComponent implements OnInit {
   sort: MatSort;
 
   @ViewChild('formDirective', { static: true }) private formDirective: NgForm;
+  currentDate: Date;
+  minDate: Date;
 
   constructor(private fb: FormBuilder,
     public dialog: MatDialog,
     private snackBar: MatSnackBar,
     private userService: UserService) {
+    this.currentDate = new Date();
+    this.minDate = new Date(1900, 0, 1);
     this.form = this.fb.group({
       password: ['', Validators.required],
       email: ['', [Validators.email, Validators.required]],
@@ -69,7 +73,7 @@ export class EmployeeListComponent implements OnInit {
   }
 
   sendRegisterForm() {
-    if(this.form.invalid){
+    if (this.form.invalid) {
       return;
     }
 

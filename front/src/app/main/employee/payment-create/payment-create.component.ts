@@ -50,9 +50,9 @@ export class PaymentCreateComponent implements OnInit {
 
   createPaymentForm() {
     this.paymentForm = this.fb.group({
-      destinedBankAccountNumber: [''],
+      destinedBankAccountNumber: ['', Validators.required],
       sourceCurrencyType: ['', Validators.required],
-      balance: ['', Validators.required]
+      balance: ['', [Validators.required, Validators.min(1), Validators.max(1000000)]]
     })
   }
 
