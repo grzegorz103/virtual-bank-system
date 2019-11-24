@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -24,7 +25,7 @@ public class TransactionTemplateController {
 
     @PostMapping
     @Secured("ROLE_USER")
-    public TransactionTemplateOut create(@RequestBody TransactionTemplateIn transactionTemplateIn) {
+    public TransactionTemplateOut create(@RequestBody @Valid TransactionTemplateIn transactionTemplateIn) {
         return transactionTemplateService.create(transactionTemplateIn);
     }
 
@@ -43,13 +44,13 @@ public class TransactionTemplateController {
     @PutMapping("/{id}")
     @Secured("ROLE_USER")
     public TransactionTemplateOut updateById(@PathVariable("id") Long id,
-                                             @RequestBody TransactionTemplateIn transactionTemplateIn) {
+                                             @RequestBody @Valid TransactionTemplateIn transactionTemplateIn) {
         return transactionTemplateService.update(id, transactionTemplateIn);
     }
 
     @GetMapping("/users/all")
     @Secured("ROLE_USER")
-    public List<TransactionTemplateOut> findAllByCurrentUser(){
+    public List<TransactionTemplateOut> findAllByCurrentUser() {
         return transactionTemplateService.findAllByCurrentUser();
     }
 

@@ -34,7 +34,7 @@ export class InvestmentCreateComponent implements OnInit {
   createInvestmentForm() {
     this.investmentForm = this.fb.group({
       destinedSaldoId: ['', Validators.required],
-      startBalance: ['', Validators.required]
+      startBalance: ['', [Validators.required, Validators.min(1)]]
     });
   }
 
@@ -56,7 +56,7 @@ export class InvestmentCreateComponent implements OnInit {
     if(balance <= 0){
       return;
     }
-    
+
     if (saldoId && this.selectedBankAccount.saldos.find(e => e.id === saldoId).balance < balance) {
       this.snackBar.open('Saldo nie posiada wystarczających środków', '', { duration: 3000, panelClass: 'red-snackbar' });
       return;
@@ -65,7 +65,7 @@ export class InvestmentCreateComponent implements OnInit {
       .subscribe(res =>{
         this.snackBar.open('Lokata utworzona', '', { duration: 3000, panelClass: 'green-snackbar' })
         this.router.navigateByUrl('/core/investments/list');
-      }, err => this.snackBar.open(err.error.message, '', { duration: 3000, panelClass: 'red-snackbar' })
+      }, err => this.snackBar.open(err.error.message + ' ' + err.error.messages, '', { duration: 3000, panelClass: 'red-snackbar' })
       );
   }
 

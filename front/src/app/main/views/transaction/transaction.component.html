@@ -51,6 +51,17 @@
                         </div>
                         <mat-form-field style="width: 100%">
                             <input matInput placeholder="Kwota" formControlName="balance" required>
+                            <mat-error *ngIf="transactionForm.get('balance').hasError('required')">
+                                Kwota jest <strong>wymagana</strong>
+                            </mat-error>
+                            <mat-error
+                                *ngIf="transactionForm.get('balance').hasError('min') && !transactionForm.get('balance').hasError('required')">
+                                Kwota musi być większa od <strong>0</strong>
+                            </mat-error>
+                            <mat-error
+                                *ngIf="transactionForm.get('balance').hasError('max') && !transactionForm.get('balance').hasError('required')">
+                                Kwota musi być mniejsza od <strong>1000000</strong>
+                            </mat-error>
                         </mat-form-field>
                     </div>
                     <div class="col-sm-6">
@@ -60,6 +71,17 @@
                         </div>
                         <mat-form-field style="width: 100%">
                             <input matInput placeholder="Tytuł" formControlName="title" required>
+                            <mat-error *ngIf="transactionForm.get('title').hasError('required')">
+                                Tytuł jest <strong>wymagany</strong>
+                            </mat-error>
+                            <mat-error
+                                *ngIf="transactionForm.get('title').hasError('minlength') && !transactionForm.get('title').hasError('required')">
+                                Tytuł jest za <strong>krótki</strong>
+                            </mat-error>
+                            <mat-error
+                                *ngIf="transactionForm.get('title').hasError('maxlength') && !transactionForm.get('title').hasError('required')">
+                                Tytuł jest za <strong>długi</strong>
+                            </mat-error>
                         </mat-form-field>
                     </div>
                 </div>

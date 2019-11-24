@@ -56,10 +56,15 @@ export class TemplateListComponent implements OnInit {
           this.transactionTemplateService.create(result).subscribe(res => {
             this.fetchData();
             this.snackBar.open('Utworzono', '', { duration: 3000, panelClass: 'green-snackbar' });
+          }, err => {
+            this.snackBar.open(err.error.messages, '', { duration: 5000, panelClass: 'red-snackbar' });
           });
         } else {
-          this.snackBar.open('Przelew został zaktualizowany', '', { duration: 3000, panelClass: 'green-snackbar' });
-          this.transactionTemplateService.update(index, result).subscribe(res => this.fetchData());
+          this.transactionTemplateService.update(index, result).subscribe(res => {
+            this.fetchData(); this.snackBar.open('Przelew został zaktualizowany', '', { duration: 3000, panelClass: 'green-snackbar' });
+          }, err =>
+            this.snackBar.open(err.error.messages, '', { duration: 5000, panelClass: 'red-snackbar' })
+          );
         }
       }
     });
@@ -94,9 +99,9 @@ export class TemplateListComponent implements OnInit {
     this.isRemoving = !this.isRemoving;
 
     if (this.isRemoving) {
-      this.headers = [ 'name', 'sourceAccountNumber', 'destinedAccountNumber', 'sourceCurrency', 'balance', 'create', 'edit', 'select'];
+      this.headers = ['name', 'sourceAccountNumber', 'destinedAccountNumber', 'sourceCurrency', 'balance', 'create', 'edit', 'select'];
     } else {
-      this.headers = [ 'name', 'sourceAccountNumber', 'destinedAccountNumber', 'sourceCurrency', 'balance', 'create', 'edit'];
+      this.headers = ['name', 'sourceAccountNumber', 'destinedAccountNumber', 'sourceCurrency', 'balance', 'create', 'edit'];
     }
   }
 
