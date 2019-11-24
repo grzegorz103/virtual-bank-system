@@ -45,7 +45,7 @@ import { BankAccountDialogComponent } from './misc/bank-account-dialog/bank-acco
     MatTableModule,
     MatAutocompleteModule,
     MatSelectModule,
-    MatOptionModule
+    MatOptionModule,
   ],
   entryComponents: [UserDialogComponent, UserEditDialogComponent, BankAccountDialogComponent]
 })

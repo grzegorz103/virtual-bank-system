@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { UserService } from 'src/app/shared/services/user.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { User } from '../../models/user';
-import { MatTableDataSource, MatPaginator, MatSort, MatDialog } from '@angular/material';
+import { MatTableDataSource, MatPaginator, MatSort, MatDialog, MatSnackBar } from '@angular/material';
 import { UserEditDialogComponent } from '../misc/user-edit-dialog/user-edit-dialog.component';
 import { UserDialogComponent } from '../misc/user-dialog/user-dialog.component';
 
@@ -28,6 +28,7 @@ export class UserListComponent implements OnInit {
 
   constructor(private userService: UserService,
     public dialog: MatDialog,
+    private snackBar: MatSnackBar,
     private fb: FormBuilder) { }
 
   ngOnInit() {
@@ -49,7 +50,9 @@ export class UserListComponent implements OnInit {
     console.log(identifier);
 
     this.userService.findByIdentifier(identifier)
-      .subscribe(res => this.user = res, err => alert('User nie znaleziony'));
+      .subscribe(res => this.user = res, err => 
+        this.snackBar.open('Klient nie odnaleziony', '', { duration: 3000, panelClass: 'red-snackbar' })
+        );
   }
 
   changeUserStatus() {
@@ -68,21 +71,24 @@ export class UserListComponent implements OnInit {
 
 
   openEditDialog(userId: string) {
-    let user = this.userList.data.find(e => e.id === userId);
 
-    if (user) {
-      const dialogRef = this.dialog.open(UserEditDialogComponent, {
-        width: window.innerWidth > 768 ? '50%' : '85%',
-        data: { id: userId }
-      });
+    const dialogRef = this.dialog.open(UserEditDialogComponent, {
+      width: window.innerWidth > 768 ? '50%' : '85%',
+      data: { id: userId }
+    });
 
-      dialogRef.afterClosed().subscribe(result => {
-        if (result) {
-          this.userService.update(userId, result)
-            .subscribe(res => this.fetchNewUsers());
-        }
-      });
-    }
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.userService.update(userId, result)
+          .subscribe(res => {
+            this.fetchNewUsers();
+            if(this.user && userId === this.user.id){
+              this.searchUser();
+            }
+          });
+      }
+    });
+
   }
 
   openDetailsDialog(userId: string) {
@@ -96,8 +102,8 @@ export class UserListComponent implements OnInit {
     }
   }
 
-  activateUser(userId:string){
-      this.userService.changeActivateStatus(userId)
-    .subscribe(res=>this.fetchNewUsers());
+  activateUser(userId: string) {
+    this.userService.changeActivateStatus(userId)
+      .subscribe(res => this.fetchNewUsers());
   }
 }
