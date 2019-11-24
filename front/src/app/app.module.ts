@@ -34,6 +34,7 @@ import { JwtModule } from "@auth0/angular-jwt";
 import 'moment/locale/pl';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { UserEditDialogComponent } from './user-edit-dialog/user-edit-dialog.component';
 export function tokenGetter() {
   return localStorage.getItem("token");
 }
@@ -42,6 +43,7 @@ export function tokenGetter() {
   declarations: [
     AppComponent,
     NavbarComponent,
+    UserEditDialogComponent,
   ],
   imports: [
     BrowserModule,
