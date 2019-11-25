@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, NgForm } from '@angular/forms';
 import { UserService } from 'src/app/shared/services/user.service';
 import { User } from '../../models/user';
-import { MatPaginator, MatSort, MatDialog, MatTableDataSource } from '@angular/material';
+import { MatPaginator, MatSort, MatDialog, MatTableDataSource, MatSnackBar } from '@angular/material';
 import { EmployeeAddComponent } from '../misc/employee-add/employee-add.component';
 import { EmployeeDetailsComponent } from '../misc/employee-details/employee-details.component';
 
@@ -26,14 +26,18 @@ export class EmployeeListComponent implements OnInit {
   sort: MatSort;
 
   @ViewChild('formDirective', { static: true }) private formDirective: NgForm;
+  currentDate: Date;
+  minDate: Date;
 
   constructor(private fb: FormBuilder,
     public dialog: MatDialog,
+    private snackBar: MatSnackBar,
     private userService: UserService) {
+    this.currentDate = new Date();
+    this.minDate = new Date(1900, 0, 1);
     this.form = this.fb.group({
-      username: ['', Validators.required],
       password: ['', Validators.required],
-      email: ['', Validators.required],
+      email: ['', [Validators.email, Validators.required]],
       confirmPassword: ['', Validators.required],
       address: this.getAddressGroup()
     });
@@ -57,24 +61,30 @@ export class EmployeeListComponent implements OnInit {
 
   getAddressGroup(): FormGroup {
     return this.fb.group({
-      city: ['', Validators.required],
+      city: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(60)]],
       dateOfBirth: ['', Validators.required],
-      houseNumber: ['', Validators.required],
-      name: ['', Validators.required],
-      phoneNumber: ['', Validators.required],
-      postCode: ['', Validators.required],
-      street: ['', Validators.required],
-      surname: ['', Validators.required],
+      houseNumber: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(20)]],
+      name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(40)]],
+      phoneNumber: ['', [Validators.required, Validators.minLength(7), Validators.maxLength(15)]],
+      postCode: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(6)]],
+      street: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(60)]],
+      surname: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]],
     });
   }
 
   sendRegisterForm() {
+    if (this.form.invalid) {
+      return;
+    }
+
     this.userService.createEmployee(this.form.value).subscribe(res => {
-      alert('Dodano pracownika');
+      this.snackBar.open('Dodano nowego pracownika', '', { duration: 3000, panelClass: 'green-snackbar' });
       this.form.reset();
       this.formDirective.resetForm();
       this.fetchEmployees();
-    });
+    }, err =>
+      this.snackBar.open(err.error.messages, '', { duration: 5000, panelClass: 'red-snackbar' })
+    );
   }
 
   openEditDialog(userId: string) {
@@ -89,7 +99,11 @@ export class EmployeeListComponent implements OnInit {
       dialogRef.afterClosed().subscribe(result => {
         if (result) {
           this.userService.update(userId, result)
-            .subscribe(res => this.fetchEmployees());
+            .subscribe(res => {
+              this.fetchEmployees();
+              this.snackBar.open('Pomyślnie wykonano operację', '', { duration: 3000, panelClass: 'green-snackbar' });
+            },
+              err => this.snackBar.open(err.error.messages, '', { duration: 5000, panelClass: 'red-snackbar' }))
         }
       });
     }

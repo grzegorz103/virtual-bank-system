@@ -50,9 +50,9 @@ export class PaymentCreateComponent implements OnInit {
 
   createPaymentForm() {
     this.paymentForm = this.fb.group({
-      destinedBankAccountNumber: [''],
+      destinedBankAccountNumber: ['', Validators.required],
       sourceCurrencyType: ['', Validators.required],
-      balance: ['', Validators.required]
+      balance: ['', [Validators.required, Validators.min(1), Validators.max(1000000)]]
     })
   }
 
@@ -68,9 +68,20 @@ export class PaymentCreateComponent implements OnInit {
   fetchPayments() {
     this.paymentService.findAll()
       .subscribe(res => {
+        res.sort((o1, o2) => new Date(o2.date).getTime() - new Date(o1.date).getTime());
         this.payments.data = res;
         this.payments.paginator = this.paginatorPayments;
       })
+  }
+
+  copyToClipboard(item) {
+    document.addEventListener('copy', (e: ClipboardEvent) => {
+      e.clipboardData.setData('text/plain', (item));
+      e.preventDefault();
+      document.removeEventListener('copy', null);
+    });
+    document.execCommand('copy');
+    this.snackBar.open('Skopiowano', '', { duration: 3000, panelClass: 'green-snackbar' });
   }
 
   private _filter(value: string) {
@@ -100,15 +111,16 @@ export class PaymentCreateComponent implements OnInit {
   applyFilterPayments(filterValue: string) {
     this.payments.filter = filterValue.trim().toLowerCase();
   }
-  
+
   sendPaymentForm() {
     if (this.paymentForm.invalid) {
       return;
     }
     this.paymentService.create(this.paymentForm.value).subscribe(res => {
       this.snackBar.open('Utworzono wpłatę', '', { duration: 3000, panelClass: 'green-snackbar' });
-
+      this.fetchPayments();
       this.createPaymentForm();
+      this.fetchBankAccounts();
     }, err =>
       this.snackBar.open(err.error.message, '', { duration: 3000, panelClass: 'red-snackbar' }));
   }
@@ -132,6 +144,7 @@ export class PaymentCreateComponent implements OnInit {
 
         observables.push(this.bankAccountService.update(id, bankAccount));
         forkJoin(observables).subscribe(array => {
+          this.fetchBankAccounts();
           this.snackBar.open('Zaktualizowano konto bankowe', '', { duration: 3000, panelClass: 'green-snackbar' });
         }, err => {
           if (err.error.messages) {

@@ -36,7 +36,7 @@
                 <mat-divider></mat-divider>
 
                 <mat-toolbar>
-                    <button mat-raised-button class="mx-auto" type="submit" color="primary">Utwórz</button>
+                    <button mat-raised-button class="mx-auto" [disabled]="investmentForm.invalid" type="submit" color="primary">Utwórz</button>
                 </mat-toolbar>
             </div>
         </form>

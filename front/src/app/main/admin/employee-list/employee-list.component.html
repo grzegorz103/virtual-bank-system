@@ -18,7 +18,8 @@
             <ng-container matColumnDef="locked">
                 <th mat-header-cell *matHeaderCellDef> Zablokowany </th>
                 <td mat-cell *matCellDef="let element">
-                    <span style="cursor: pointer" (click)="changeEmployeeStatus(element.id)">{{element.locked ? 'Tak' : 'Nie'}}</span>
+                    <span style="cursor: pointer"
+                        (click)="changeEmployeeStatus(element.id)">{{element.locked ? 'Tak' : 'Nie'}}</span>
                 </td>
             </ng-container>
 
@@ -67,14 +68,21 @@
                 <div class="col-8">
                     <mat-form-field>
                         <input matInput placeholder="Adres email" type="email" formControlName="email">
+                        <mat-error
+                            *ngIf="form.get('email').hasError('email') && !form.get('email').hasError('required')">
+                            Wprowadź poprawny adres email
+                        </mat-error>
+                        <mat-error *ngIf="form.get('email').hasError('required')">
+                            Email jest <strong>wymagany</strong>
+                        </mat-error>
                     </mat-form-field>
                 </div>
                 <div class="col-4">
 
                     <div formGroupName="address">
                         <mat-form-field>
-                            <input matInput [matDatepicker]="picker" placeholder="Data urodzenia"
-                                formControlName="dateOfBirth">
+                            <input matInput [matDatepicker]="picker" [min]="minDate" [max]="currentDate"
+                                placeholder="Data urodzenia" formControlName="dateOfBirth">
                             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                             <mat-datepicker #picker></mat-datepicker>
                         </mat-form-field>
@@ -89,16 +97,49 @@
                     <div class="col-md-4">
                         <mat-form-field>
                             <input matInput placeholder="Imię" formControlName="name">
+                            <mat-error
+                                *ngIf="form.get('address').get('name').hasError('minlength') && !form.get('address').get('name').hasError('required')">
+                                Imię jest za krótkie
+                            </mat-error>
+                            <mat-error
+                                *ngIf="form.get('address').get('name').hasError('maxlength') && !form.get('address').get('name').hasError('required')">
+                                Imię jest za długie
+                            </mat-error>
+                            <mat-error *ngIf="form.get('address').get('name').hasError('required')">
+                                Imię jest <strong>wymagane</strong>
+                            </mat-error>
                         </mat-form-field>
                     </div>
                     <div class="col-md-4">
                         <mat-form-field>
                             <input matInput placeholder="Nazwisko" formControlName="surname">
+                            <mat-error
+                                *ngIf="form.get('address').get('surname').hasError('minlength') && !form.get('address').get('surname').hasError('required')">
+                                Nazwisko jest za krótkie
+                            </mat-error>
+                            <mat-error
+                                *ngIf="form.get('address').get('surname').hasError('maxlength') && !form.get('address').get('surname').hasError('required')">
+                                Nazwisko jest za długie
+                            </mat-error>
+                            <mat-error *ngIf="form.get('address').get('surname').hasError('required')">
+                                Nazwisko jest <strong>wymagane</strong>
+                            </mat-error>
                         </mat-form-field>
                     </div>
                     <div class="col-md-4">
                         <mat-form-field>
                             <input matInput placeholder="Nr telefonu" type="number" formControlName="phoneNumber">
+                            <mat-error
+                                *ngIf="form.get('address').get('phoneNumber').hasError('minlength') && !form.get('address').get('phoneNumber').hasError('required')">
+                                Numer telefonu jest za krótki
+                            </mat-error>
+                            <mat-error
+                                *ngIf="form.get('address').get('phoneNumber').hasError('maxlength') && !form.get('address').get('phoneNumber').hasError('required')">
+                                Numer telefonu jest za długi
+                            </mat-error>
+                            <mat-error *ngIf="form.get('address').get('phoneNumber').hasError('required')">
+                                Numer telefonu jest <strong>wymagany</strong>
+                            </mat-error>
                         </mat-form-field>
                     </div>
                 </div>
@@ -107,11 +148,33 @@
                     <div class="col-6">
                         <mat-form-field>
                             <input matInput placeholder="Miejscowość" formControlName="city">
+                            <mat-error
+                                *ngIf="form.get('address').get('city').hasError('minlength') && !form.get('address').get('city').hasError('required')">
+                                Miejscowość jest za krótka
+                            </mat-error>
+                            <mat-error
+                                *ngIf="form.get('address').get('city').hasError('maxlength') && !form.get('address').get('city').hasError('required')">
+                                Miejscowość jest za długa
+                            </mat-error>
+                            <mat-error *ngIf="form.get('address').get('city').hasError('required')">
+                                Miejscowość jest <strong>wymagana</strong>
+                            </mat-error>
                         </mat-form-field>
                     </div>
                     <div class="col-6">
                         <mat-form-field>
                             <input matInput placeholder="Ulica" formControlName="street">
+                            <mat-error
+                                *ngIf="form.get('address').get('street').hasError('minlength') && !form.get('address').get('street').hasError('required')">
+                                Ulica jest za krótka
+                            </mat-error>
+                            <mat-error
+                                *ngIf="form.get('address').get('street').hasError('maxlength') && !form.get('address').get('street').hasError('required')">
+                                Ulica jest za długa
+                            </mat-error>
+                            <mat-error *ngIf="form.get('address').get('street').hasError('required')">
+                                Ulica jest <strong>wymagana</strong>
+                            </mat-error>
                         </mat-form-field>
                     </div>
                 </div>
@@ -120,18 +183,40 @@
                     <div class="col-6">
                         <mat-form-field>
                             <input matInput placeholder="Numer mieszkania" formControlName="houseNumber">
+                            <mat-error
+                                *ngIf="form.get('address').get('houseNumber').hasError('minlength') && !form.get('address').get('houseNumber').hasError('required')">
+                                Numer mieszkania jest za krótki
+                            </mat-error>
+                            <mat-error
+                                *ngIf="form.get('address').get('houseNumber').hasError('maxlength') && !form.get('address').get('houseNumber').hasError('required')">
+                                Numer mieszkania jest za długi
+                            </mat-error>
+                            <mat-error *ngIf="form.get('address').get('houseNumber').hasError('required')">
+                                Numer mieszkania jest <strong>wymagany</strong>
+                            </mat-error>
                         </mat-form-field>
                     </div>
                     <div class="col-6">
                         <mat-form-field>
                             <input matInput placeholder="Kod pocztowy" formControlName="postCode">
+                            <mat-error
+                                *ngIf="form.get('address').get('postCode').hasError('minlength') && !form.get('address').get('postCode').hasError('required')">
+                                Kod pocztowy jest za krótki
+                            </mat-error>
+                            <mat-error
+                                *ngIf="form.get('address').get('postCode').hasError('maxlength') && !form.get('address').get('postCode').hasError('required')">
+                                Kod pocztowy jest za długi
+                            </mat-error>
+                            <mat-error *ngIf="form.get('address').get('postCode').hasError('required')">
+                                Imię jest <strong>wymagane</strong>
+                            </mat-error>
                         </mat-form-field>
                     </div>
                 </div>
             </div>
             <div class="container">
                 <div class="d-flex justify-content-center">
-                    <button mat-raised-button class="bg-success text-white mb-2">Wyślij</button>
+                    <button [disabled]="form.invalid" class="btn btn-success text-white mb-2">Wyślij</button>
                 </div>
             </div>
         </div>

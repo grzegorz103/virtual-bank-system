@@ -43,8 +43,8 @@ export class TransactionComponent implements OnInit {
       sourceCurrency: [this.definedTransfer ? this.definedTransfer.sourceCurrency : 'PLN', Validators.required],
       destinedAccountNumber: [this.definedTransfer ? this.definedTransfer.destinedAccountNumber : '', [Validators.required, BankAccountNumberValidator.validate]],
       destinedCurrency: [this.definedTransfer ? this.definedTransfer.destinedCurrency : 'PLN', Validators.required],
-      balance: [this.definedTransfer ? this.definedTransfer.balance : '', Validators.required],
-      title: [this.definedTransfer ? this.definedTransfer.title : '', Validators.required],
+      balance: [this.definedTransfer ? this.definedTransfer.balance : '', [Validators.required, Validators.min(1), Validators.max(1000000)]],
+      title: [this.definedTransfer ? this.definedTransfer.title : '', [Validators.required, Validators.minLength(1), Validators.maxLength(100)]],
     });
 
     if (this.route.snapshot.queryParams['defined']) {

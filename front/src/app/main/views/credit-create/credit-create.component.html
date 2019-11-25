@@ -44,7 +44,7 @@
 
             <mat-divider></mat-divider>
             <mat-toolbar>
-                <button mat-raised-button color="primary" (click)="createCredit()">Wyślij</button>
+                <button mat-raised-button color="primary" [disabled]="form.invalid" (click)="createCredit()">Wyślij</button>
             </mat-toolbar>
         </form>
     </div>

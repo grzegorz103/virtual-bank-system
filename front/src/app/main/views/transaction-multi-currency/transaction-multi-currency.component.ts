@@ -49,8 +49,8 @@ export class TransactionMultiCurrencyComponent implements OnInit {
       sourceCurrency: ['', Validators.required],
       destinedAccountNumber: ['', [Validators.required, BankAccountNumberValidator.validate]],
       destinedCurrency: ['', Validators.required],
-      balance: ['', Validators.required],
-      title: ['', Validators.required],
+      balance: [this.definedTransfer ? this.definedTransfer.balance : '', [Validators.required, Validators.min(1), Validators.max(1000000)]],
+      title: [this.definedTransfer ? this.definedTransfer.title : '', [Validators.required, Validators.minLength(1), Validators.maxLength(100)]],
     });
 
     this.bankAccountService.findByUser()

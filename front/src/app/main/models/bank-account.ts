@@ -6,4 +6,5 @@ export class BankAccount {
     number: string;
     saldos: Saldo[];
     bankAccType: BankAccType;
+    removed: boolean;
 }

@@ -5,6 +5,7 @@ import com.ii.app.dto.out.TransactionOut;
 import com.ii.app.models.Transaction;
 import com.ii.app.services.interfaces.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -21,6 +22,7 @@ public class TransactionController {
     }
 
     @PostMapping
+    @Secured("ROLE_USER")
     public Transaction create(@Valid @RequestBody TransactionDTO transactionDTO) {
         return transactionService.create(transactionDTO);
     }

@@ -90,8 +90,8 @@ export class BankAccountDetailsComponent implements OnInit {
           this.fillChartData();
           // transactionType to przelew/ wplata itp
           this.historyColumns = this.bankAccount.bankAccType.bankAccountType === 'MULTI_CURRENCY'
-            ? ['id', 'transactionType', 'sourceAccNr', 'destAccNr', 'date', 'balance']
-            : ['id', 'transactionType', 'sourceAccNr', 'destAccNr', 'date', 'balance'];
+            ? ['title', 'transactionType', 'sourceAccNr', 'destAccNr', 'date', 'balance']
+            : ['title', 'transactionType', 'sourceAccNr', 'destAccNr', 'date', 'balance'];
 
           this.transactionService.findAllByBankAccountId(this.id)
             .subscribe(res => {

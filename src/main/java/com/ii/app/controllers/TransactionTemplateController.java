@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -23,34 +24,39 @@ public class TransactionTemplateController {
     }
 
     @PostMapping
-    public TransactionTemplateOut create(@RequestBody TransactionTemplateIn transactionTemplateIn) {
+    @Secured("ROLE_USER")
+    public TransactionTemplateOut create(@RequestBody @Valid TransactionTemplateIn transactionTemplateIn) {
         return transactionTemplateService.create(transactionTemplateIn);
     }
 
     @GetMapping
+    @Secured("ROLE_USER")
     public List<TransactionTemplateOut> findAll() {
         return transactionTemplateService.findAll();
     }
 
     @GetMapping("/{id}")
+    @Secured("ROLE_USER")
     public TransactionTemplateOut findOneById(@PathVariable("id") Long id) {
         return transactionTemplateService.findOneById(id);
     }
 
     @PutMapping("/{id}")
+    @Secured("ROLE_USER")
     public TransactionTemplateOut updateById(@PathVariable("id") Long id,
-                                             @RequestBody TransactionTemplateIn transactionTemplateIn) {
+                                             @RequestBody @Valid TransactionTemplateIn transactionTemplateIn) {
         return transactionTemplateService.update(id, transactionTemplateIn);
     }
 
     @GetMapping("/users/all")
     @Secured("ROLE_USER")
-    public List<TransactionTemplateOut> findAllByCurrentUser(){
+    public List<TransactionTemplateOut> findAllByCurrentUser() {
         return transactionTemplateService.findAllByCurrentUser();
     }
 
 
     @DeleteMapping("/{id}")
+    @Secured("ROLE_USER")
     public void deleteById(@PathVariable("id") Long id) {
         transactionTemplateService.deleteById(id);
     }

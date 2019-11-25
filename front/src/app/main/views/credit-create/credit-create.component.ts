@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Options } from 'ng5-slider';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { BankAccountService } from '../../services/bank-account.service';
 import { BankAccount } from '../../models/bank-account';
 import { CreditService } from '../../services/credit.service';
@@ -42,7 +42,7 @@ export class CreditCreateComponent implements OnInit {
     bankAccountService.findByUser().subscribe(res => {
       this.bankAccounts = res;
       this.form = this.fb.group({
-        destinedSaldoId: '',
+        destinedSaldoId: ['', Validators.required],
         totalBalance: '',
         totalInstallmentCount: '',
       });
