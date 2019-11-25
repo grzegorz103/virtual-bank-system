@@ -14,6 +14,16 @@
                 </td>
             </ng-container>
 
+            <ng-container matColumnDef="destinedAccount">
+                <th mat-header-cell *matHeaderCellDef> Konto docelowe </th>
+                <td mat-cell *matCellDef="let element">
+                    <div matTooltip="{{element.destinedSaldoId}} (naciśnij aby skopiować)"
+                        (click)="copyToClipboard(element.destinedSaldoId)">
+                        {{element.destinedSaldoId | slice:0:2}}...{{element.destinedSaldoId | slice:22:26}}
+                    </div>
+                </td>
+            </ng-container>
+
             <ng-container matColumnDef="totalInstallmentCount">
                 <th mat-header-cell *matHeaderCellDef> Ilość rat </th>
                 <td mat-cell *matCellDef="let element"> {{element.totalInstallmentCount}}
@@ -21,10 +31,10 @@
             </ng-container>
 
             <ng-container matColumnDef="currency">
-                    <th mat-header-cell *matHeaderCellDef> Waluta </th>
-                    <td mat-cell *matCellDef="let element"> {{element.currency}}
-                    </td>
-                </ng-container>
+                <th mat-header-cell *matHeaderCellDef> Waluta </th>
+                <td mat-cell *matCellDef="let element"> {{element.currency}}
+                </td>
+            </ng-container>
 
             <ng-container matColumnDef="accept">
                 <th mat-header-cell *matHeaderCellDef> Akceptuj </th>

@@ -5,6 +5,7 @@ import com.ii.app.dto.out.InvestmentOut;
 import com.ii.app.services.interfaces.InvestmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -28,6 +29,7 @@ public class InvestmentController {
     }
 
     @PatchMapping("/{id}")
+    @PreAuthorize("isAuthenticated()")
     public InvestmentOut updateStatus(@PathVariable("id") Long id) {
         return investmentService.updateStatus(id);
     }

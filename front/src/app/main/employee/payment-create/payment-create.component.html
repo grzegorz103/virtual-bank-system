@@ -29,7 +29,7 @@
                     <input matInput placeholder="Kwota" type="number" formControlName="balance">
                 </mat-form-field>
 
-                <button mat-raised-button class="bg-success text-white mb-2">Wyślij</button>
+                <button class="btn btn-success" [disabled]="paymentForm.invalid">Wyślij</button>
 
             </form>
         </div>
@@ -40,7 +40,7 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <div [hidden]="payments?.length === 0">
+                <div [hidden]="payments?.data.length === 0">
                     <div class="col-md-4">
                         <mat-form-field>
                             <input matInput (keyup)="applyFilterPayments($event.target.value)" placeholder="Szukaj">

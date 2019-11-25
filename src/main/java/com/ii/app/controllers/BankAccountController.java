@@ -9,6 +9,7 @@ import com.ii.app.services.interfaces.BankAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,6 +46,7 @@ public class BankAccountController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("isAuthenticated()")
     public BankAccountOut findById(@PathVariable("id") Long id) {
         return bankAccountService.findById(id);
     }

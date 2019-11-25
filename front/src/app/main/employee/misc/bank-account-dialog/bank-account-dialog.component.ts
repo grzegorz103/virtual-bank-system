@@ -39,6 +39,10 @@ export class BankAccountDialogComponent implements OnInit {
 
   ngOnInit() {
   }
+  
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
 
   fetchCredits() {
     this.creditService.findAllActiveBySaldoId(this.id)

@@ -82,6 +82,7 @@ public class RepositoryInitializer {
             if (userRoleRepository.findAll().isEmpty()) {
                 userRoleRepository.save(UserRole.builder().userType(UserRole.UserType.ROLE_EMPLOYEE).build());
                 userRoleRepository.save(UserRole.builder().userType(UserRole.UserType.ROLE_USER).build());
+                userRoleRepository.save(UserRole.builder().userType(UserRole.UserType.ROLE_ADMIN).build());
             }
 
             if (userRepository.findAll().isEmpty()) {
@@ -92,6 +93,7 @@ public class RepositoryInitializer {
                     .surname("Kowalski")
                     .phoneNumber("662003004")
                     .postCode("03-100")
+                    .dateOfBirth(Instant.now())
                     .street("Warszawska")
                     .build();
 
@@ -118,6 +120,7 @@ public class RepositoryInitializer {
                     .surname("Kamilski")
                     .phoneNumber("521033104")
                     .postCode("60-201")
+                    .dateOfBirth(Instant.now())
                     .street("Poznańska")
                     .build();
 
@@ -143,6 +146,7 @@ public class RepositoryInitializer {
                     .houseNumber("92")
                     .name("Jakub")
                     .surname("Jakubski")
+                    .dateOfBirth(Instant.now())
                     .phoneNumber("692193823")
                     .postCode("50-221")
                     .street("Gdyńska")
@@ -231,7 +235,7 @@ public class RepositoryInitializer {
 
                 BankAccount bankAccount = BankAccount.builder()
                     .bankAccType(multi)
-                    .number("321123")
+                    .number("12341234123412341234123412")
                     .removed(false)
                     .saldos(new HashSet<>())
                     .transactions(new HashSet<>())
@@ -253,7 +257,7 @@ public class RepositoryInitializer {
 
                 BankAccount bankAccount2 = BankAccount.builder()
                     .bankAccType(multi)
-                    .number("432123")
+                    .number("67896789678967896789678967")
                     .removed(false)
                     .saldos(new HashSet<>())
                     .transactions(new HashSet<>())
@@ -274,7 +278,7 @@ public class RepositoryInitializer {
 
                 BankAccount bankAccount3 = BankAccount.builder()
                     .bankAccType(student)
-                    .number("342423")
+                    .number("56785678567856785678567867")
                     .removed(false)
                     .saldos(new HashSet<>())
                     .transactions(new HashSet<>())

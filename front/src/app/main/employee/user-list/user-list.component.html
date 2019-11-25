@@ -69,16 +69,25 @@
                 <td>{{ user.address.name }} {{ user.address.surname }}</td>
             </tr>
             <tr>
-                <td class="divider">Adres: </td>
-                <td>{{ user.address.street }} {{ user.address.houseNumber }} {{ user.address.postCode }} {{ user.address.city }}</td>
+                <td class="divider">Data urodzenia: </td>
+                <td>{{ user.address.dateOfBirth | amDateFormat: 'LL' }}</td>
             </tr>
+            <tr>
+                <td class="divider">Adres: </td>
+                <td>{{ user.address.street }} {{ user.address.houseNumber }} {{ user.address.postCode }}
+                    {{ user.address.city }}</td>
+            </tr>
+            <tr>
+                    <td class="divider">Edytuj: </td>
+                    <td><button (click)="openEditDialog(user.id)" mat-raised-button class="bg-primary text-white">Edytuj</button></td>
+                </tr>
             <tr>
                 <td class="divider">Zablokuj</td>
                 <td>
-                <button mat-raised-button *ngIf="user.locked" class="bg-success text-white"
-                    (click)="changeUserStatus()">Odblokuj</button>
-                <button mat-raised-button *ngIf="!user.locked" class="bg-danger text-white"
-                    (click)="changeUserStatus()">Zablokuj</button>
+                    <button mat-raised-button *ngIf="user.locked" class="bg-success text-white"
+                        (click)="changeUserStatus()">Odblokuj</button>
+                    <button mat-raised-button *ngIf="!user.locked" class="bg-danger text-white"
+                        (click)="changeUserStatus()">Zablokuj</button>
                 </td>
             </tr>
         </table>

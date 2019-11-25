@@ -1,6 +1,6 @@
 <div class="mat-elevation-z8">
   <div class="container">
-    <div class="row">
+    <div class="row" *ngIf="bankAccount">
       <mat-toolbar>
         Szczegóły rachunku bankowego
       </mat-toolbar>
@@ -21,11 +21,6 @@
     <div [hidden]="isLoading || isLoadingPayments">
       <table mat-table [dataSource]="transactions">
 
-        <ng-container matColumnDef="id">
-          <th mat-header-cell *matHeaderCellDef> No. </th>
-          <td mat-cell *matCellDef="let element"> {{element.id}}</td>
-        </ng-container>
-
         <ng-container matColumnDef="transactionType">
           <th mat-header-cell *matHeaderCellDef> Rodzaj </th>
           <td mat-cell *matCellDef="let element">
@@ -45,6 +40,11 @@
             </div>
           </td>
         </ng-container>
+
+        <ng-container matColumnDef="title">
+            <th mat-header-cell *matHeaderCellDef> Tytuł. </th>
+            <td mat-cell *matCellDef="let element"> {{element.title}}</td>
+          </ng-container>
 
         <ng-container matColumnDef="sourceAccNr">
           <th mat-header-cell *matHeaderCellDef> Konto źródłowe </th>

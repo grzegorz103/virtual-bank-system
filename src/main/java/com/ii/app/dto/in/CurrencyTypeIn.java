@@ -9,9 +9,8 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class CurrencyTypeIn
-{
-        private String currency;
+public class CurrencyTypeIn {
+    private String currency;
 
-        private BigDecimal exchangeRate;
+    private BigDecimal exchangeRate;
 }

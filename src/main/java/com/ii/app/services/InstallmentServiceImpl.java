@@ -2,6 +2,7 @@ package com.ii.app.services;
 
 import com.ii.app.dto.in.InstallmentIn;
 import com.ii.app.dto.out.InstallmentOut;
+import com.ii.app.exceptions.ApiException;
 import com.ii.app.mappers.InstallmentMapper;
 import com.ii.app.models.Credit;
 import com.ii.app.models.Installment;
@@ -59,7 +60,7 @@ public class InstallmentServiceImpl implements InstallmentService {
         // wysokosc raty
         BigDecimal installmentAmount = credit.getInstallmentAmount();
         if (sourceSaldo.getBalance().compareTo(installmentAmount) < 0) {
-            throw new RuntimeException("Insufficient balance");
+            throw new ApiException("Exception.notEnoughBalanceSaldo", null);
         }
 
         sourceSaldo.setBalance(sourceSaldo.getBalance().subtract(installmentAmount));

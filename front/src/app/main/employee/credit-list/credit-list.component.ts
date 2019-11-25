@@ -19,7 +19,7 @@ export class CreditListComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true })
   paginator: MatPaginator;
 
-  creditsColumns = ['id', 'totalBalance', 'totalInstallmentCount', 'currency', 'accept', 'reject'];
+  creditsColumns = ['id', 'totalBalance','destinedAccount', 'totalInstallmentCount', 'currency', 'accept', 'reject'];
 
   constructor(private creditService: CreditService,
     private snackBar: MatSnackBar,
@@ -84,4 +84,14 @@ export class CreditListComponent implements OnInit {
       .subscribe(res => this.credit = res, err => this.snackBar.open('Nie odnaleziono kredytu', '', { duration: 3000, panelClass: 'red-snackbar' }));
   }
 
+  copyToClipboard(item) {
+    document.addEventListener('copy', (e: ClipboardEvent) => {
+      e.clipboardData.setData('text/plain', (item));
+      e.preventDefault();
+      document.removeEventListener('copy', null);
+    });
+    document.execCommand('copy');
+    this.snackBar.open('Skopiowano', '', { duration: 3000, panelClass: 'green-snackbar' });
+  }
+  
 }
