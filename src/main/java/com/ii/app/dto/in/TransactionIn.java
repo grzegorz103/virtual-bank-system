@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotEmpty;
 import java.math.BigDecimal;
 import java.time.Instant;
 
@@ -18,6 +19,7 @@ public class TransactionIn {
     @BankAccountExists
     private BankAccount sourceBankAccount;
 
+    @NotEmpty
     private String title;
 
     @BankAccountExists

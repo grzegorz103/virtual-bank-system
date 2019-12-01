@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RequestMapping("/api/payments")
@@ -21,7 +22,7 @@ public class PaymentController {
 
     @PostMapping
     @Secured("ROLE_EMPLOYEE")
-    public PaymentOut create(@RequestBody PaymentIn paymentIn) {
+    public PaymentOut create(@RequestBody @Valid PaymentIn paymentIn) {
         return paymentService.create(paymentIn);
     }
 

@@ -4,15 +4,21 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class InstallmentIn
-{
-        // stad zostanie pobrana kwota do wplaty
-        private Long sourceSaldoId;
+public class InstallmentIn {
+    @Positive
+    private Long sourceSaldoId;
 
-        private String currency;
+    @NotEmpty
+    @NotNull
+    private String currency;
 
-        private Long creditId;
+    @Positive
+    private Long creditId;
 }
