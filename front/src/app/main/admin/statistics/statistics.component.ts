@@ -8,6 +8,8 @@ import { MatDialog, MatSnackBar } from '@angular/material';
 import { CurrencyTypeEditComponent } from '../misc/currency-type-edit/currency-type-edit.component';
 import { CurrencyType } from '../../models/currency-type';
 import { BankAccountTypeEditComponent } from '../misc/bank-account-type-edit/bank-account-type-edit.component';
+import { CreditService } from '../../services/credit.service';
+import { CreditStatus } from '../../models/credit';
 
 @Component({
   selector: 'app-statistics',
@@ -20,7 +22,7 @@ export class StatisticsComponent implements OnInit {
   bankAccountTypesColumns = ['bankAccountType', 'transactionComission', 'exchangeCurrencyCommission', 'edit'];
   public chartType: string = 'doughnut';
   public chartDatasets: Array<any> = [
-    { data: [], label: 'My First dataset' }
+    { data: [], label: 'M' }
   ];
   public chartLabels: Array<any> = [];
   public chartColors: Array<any> = [
@@ -33,15 +35,32 @@ export class StatisticsComponent implements OnInit {
   currencyTypes: CurrencyType[];
   currencyTypesColumns = ['name', 'exchangeRate', 'edit'];
 
+  creditChartType: string = 'doughnut';
+  creditChartDatasets: Array<any> = [
+    { data: [], label: '' }
+  ];
+  creditChartLabels: Array<any> = [];
+  creditChartColors: Array<any> = [
+    {
+      backgroundColor: ['#F7464A', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'],
+      hoverBackgroundColor: ['#FF5A5E', '#5AD3D1', '#FFC870', '#A8B3C5', '#616774'],
+      borderWidth: 2,
+    }
+  ];
+  creditStatuses: CreditStatus[];
+  balanceCount: number;
+
   constructor(private bankAccountTypeService: BankAccountTypeService,
     private currencyTypeService: CurrencyTypeService,
     public dialog: MatDialog,
     private snackBar: MatSnackBar,
+    private creditService: CreditService,
     private bankAccountService: BankAccountService) { }
 
   ngOnInit() {
     this.fetchBankAccountTypes(true);
     this.fetchCurrencyTypes();
+    this.fetchCreditTypes();
   }
 
   fetchBankAccountTypes(updateChart: boolean) {
@@ -71,7 +90,7 @@ export class StatisticsComponent implements OnInit {
     });
     // this.chartDatasets.push([{ data: typesCounts, label: 'Wykres' }]);
   }
-  chartOptions:any;
+  chartOptions: any;
   public chartClicked(e: any): void { }
   public chartHovered(e: any): void { }
 
@@ -122,4 +141,36 @@ export class StatisticsComponent implements OnInit {
       });
     }
   }
+
+  fetchCreditTypes() {
+    this.creditService.findAllCreditStatuses().subscribe(res => {
+      this.creditStatuses = res;
+      this.fillCreditChartData();
+    });
+  }
+
+  fillCreditChartData() {
+    let typesCounts: number[] = [];
+    let typesNames: string[] = [];
+    this.creditStatuses.forEach(e => {
+      this.creditService.countAllByCreditType(e.creditType).subscribe(res => {
+        this.creditChartDatasets[0].data.push(res);
+        this.creditChartLabels.push(this.formatCreditType(e.creditType));
+      });
+    });
+  }
+
+  formatCreditType(creditType: string) {
+    switch (creditType) {
+      case 'ACTIVE':
+        return 'Aktywny';
+      case 'AWAITING':
+        return 'Oczekujący';
+      case 'CANCELED':
+        return 'Odrzucony';
+      case 'PAID':
+        return 'Spłacony';
+    }
+  }
+
 }

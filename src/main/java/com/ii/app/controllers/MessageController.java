@@ -11,6 +11,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -32,7 +33,7 @@ public class MessageController {
 
     @PostMapping
     @PreAuthorize("isAuthenticated()")
-    public MessageOut create(@RequestBody MessageIn messageIn) {
+    public MessageOut create(@RequestBody @Valid MessageIn messageIn) {
         return messageService.create(messageIn);
     }
 }

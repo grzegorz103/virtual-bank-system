@@ -2,8 +2,10 @@ package com.ii.app.services;
 
 import com.ii.app.dto.in.CreditIn;
 import com.ii.app.dto.out.CreditOut;
+import com.ii.app.dto.out.CreditStatusOut;
 import com.ii.app.dto.out.InvestmentOut;
 import com.ii.app.mappers.CreditMapper;
+import com.ii.app.mappers.CreditStatusMapper;
 import com.ii.app.models.Credit;
 import com.ii.app.models.Saldo;
 import com.ii.app.models.enums.CreditStatus;
@@ -31,16 +33,19 @@ public class CreditServiceImpl implements CreditService {
 
     private final CreditStatusRepository creditStatusRepository;
 
+    private final CreditStatusMapper creditStatusMapper;
 
     @Autowired
     public CreditServiceImpl(CreditRepository creditRepository,
                              CreditMapper creditMapper,
                              SaldoRepository saldoRepository,
-                             CreditStatusRepository creditStatusRepository) {
+                             CreditStatusRepository creditStatusRepository,
+                             CreditStatusMapper creditStatusMapper) {
         this.creditRepository = creditRepository;
         this.creditMapper = creditMapper;
         this.saldoRepository = saldoRepository;
         this.creditStatusRepository = creditStatusRepository;
+        this.creditStatusMapper = creditStatusMapper;
     }
 
     @Override
@@ -131,6 +136,19 @@ public class CreditServiceImpl implements CreditService {
             .stream()
             .map(creditMapper::entityToDTO)
             .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<CreditStatusOut> findAllCreditStatuses() {
+        return creditStatusRepository.findAll()
+            .stream()
+            .map(creditStatusMapper::entityToDTO)
+            .collect(Collectors.toList());
+    }
+
+    @Override
+    public Long countAllByCreditType(CreditStatus.CreditType creditType) {
+        return creditRepository.countAllByCreditStatus_CreditType(creditType);
     }
 
     private void transferBalance(Credit credit) {

@@ -2,6 +2,7 @@ package com.ii.app.controllers;
 
 import com.ii.app.dto.in.CreditIn;
 import com.ii.app.dto.out.CreditOut;
+import com.ii.app.dto.out.CreditStatusOut;
 import com.ii.app.models.enums.CreditStatus;
 import com.ii.app.services.interfaces.CreditService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,9 +57,21 @@ public class CreditController {
         }
     }
 
+    @Secured("ROLE_ADMIN")
+    @GetMapping("/statuses")
+    public List<CreditStatusOut> findAllCreditStatuses() {
+        return creditService.findAllCreditStatuses();
+    }
+
+    @Secured("ROLE_ADMIN")
+    @GetMapping("/count")
+    public Long countByCreditType(@RequestParam("type") CreditStatus.CreditType creditType) {
+        return creditService.countAllByCreditType(creditType);
+    }
+
     @Secured("ROLE_EMPLOYEE")
     @GetMapping("/byBankAccount/{id}")
-    public List<CreditOut> findAllActiveByBankAccountId(@PathVariable("id") Long id){
+    public List<CreditOut> findAllActiveByBankAccountId(@PathVariable("id") Long id) {
         return creditService.findActiveByBankAccountId(id);
     }
 

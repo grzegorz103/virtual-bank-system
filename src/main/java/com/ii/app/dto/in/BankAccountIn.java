@@ -6,12 +6,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class BankAccountIn
-{
-        private BankAccountType bankAccountType;
+public class BankAccountIn {
+    @NotNull
+    private BankAccountType bankAccountType;
 }

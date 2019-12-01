@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Credit } from '../models/credit';
+import { Credit, CreditStatus } from '../models/credit';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
@@ -34,5 +34,13 @@ export class CreditService {
 
   findAllActiveBySaldoId(id: any) {
     return this.http.get<Credit[]>(this.url + '/byBankAccount/' + id);
+  }
+
+  findAllCreditStatuses() {
+    return this.http.get<CreditStatus[]>(this.url + '/statuses');
+  }
+
+  countAllByCreditType(creditType: any) {
+    return this.http.get<number>(this.url + "/count?type=" + creditType);
   }
 }

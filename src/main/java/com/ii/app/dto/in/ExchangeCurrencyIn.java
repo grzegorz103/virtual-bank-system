@@ -5,17 +5,25 @@ import com.ii.app.models.CurrencyType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Positive;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class ExchangeCurrencyIn
-{
-        private float balance;
+public class ExchangeCurrencyIn {
 
-        private String sourceBankAccNumber;
+    @Positive
+    private float balance;
 
-        private String sourceCurrency;
+    @NotEmpty
+    private String sourceBankAccNumber;
 
-        private String destCurrency;
+    @NotEmpty
+    private String sourceCurrency;
+
+    @NotEmpty
+    private String destCurrency;
 }

@@ -42,4 +42,5 @@ export class BankAccountService {
   update(id: any, bankAccount: BankAccount) {
     return this.http.put(this.url + '/' + id, bankAccount);
   }
+
 }
