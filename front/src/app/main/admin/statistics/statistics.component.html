@@ -69,10 +69,11 @@
                 <tr mat-row *matRowDef="let row; columns: bankAccountTypesColumns;"></tr>
             </table>
 
+            <hr/>
             <div class="row">
                 <div class="col-md-6">
-                    <div style="display: block"
-                        *ngIf="chartDatasets && chartDatasets[0].data.length === bankAccountTypes.length">
+                    <p class="text-center">Rachunki bankowe</p>
+                    <div *ngIf="chartDatasets && chartDatasets[0].data.length === bankAccountTypes.length">
                         <canvas mdbChart [chartType]="chartType" [datasets]="chartDatasets" [labels]="chartLabels"
                             [colors]="chartColors" [options]="chartOptions" [legend]="true"
                             (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">
@@ -80,11 +81,11 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                        <div 
-                        *ngIf="creditChartDatasets && creditChartDatasets[0].data.length === creditStatuses?.length">
-                        <canvas mdbChart [chartType]="creditChartType" [datasets]="creditChartDatasets" [labels]="creditChartLabels"
-                            [colors]="creditChartColors" [options]="creditChartOptions" [legend]="true"
-                            (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">
+                    <p class="text-center">Kredyty</p>
+                    <div *ngIf="creditChartDatasets && creditChartDatasets[0].data.length === creditStatuses?.length">
+                        <canvas mdbChart [chartType]="creditChartType" [datasets]="creditChartDatasets"
+                            [labels]="creditChartLabels" [colors]="creditChartColors" [options]="creditChartOptions"
+                            [legend]="true" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">
                         </canvas>
                     </div>
                 </div>
