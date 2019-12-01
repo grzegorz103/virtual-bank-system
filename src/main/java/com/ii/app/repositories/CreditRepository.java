@@ -13,4 +13,5 @@ public interface CreditRepository extends JpaRepository<Credit, Long> {
 
     List<Credit> findAllByCreditStatusAndDestinedSaldo_BankAccount_Id(CreditStatus creditStatus, Long id);
 
+    Long countAllByCreditStatus_CreditType(CreditStatus.CreditType creditType);
 }

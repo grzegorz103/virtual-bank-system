@@ -10,3 +10,8 @@ export class Credit {
     installmentAmount:any;
     destinedSaldoId: string;
 }
+
+export class CreditStatus{
+    id: number;
+    creditType: string;
+}
