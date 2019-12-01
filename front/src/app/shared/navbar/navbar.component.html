@@ -1,6 +1,9 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: black">
   <div class="container">
-    <div class="bg-dark text-white sidebar-heading" routerLink="/">Wirtualny serwis</div>
+    <div class="text-white sidebar-heading nav-route" style="width:150px" routerLink="/">
+      Wirtualny serwis
+      <div class="underline" style="background-color: rgb(4, 0, 255)"></div>
+    </div>
 
 
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
@@ -15,15 +18,32 @@
       </ul>
       <ul class="navbar-nav w-100 justify-content-end">
 
-        <li class="nav-item active" *ngIf="authService.isTokenExpired()">
-          <a class="nav-link" routerLink="login">Logowanie</a>
-        </li>
+        <span *ngIf="!isMobileView">
+          <div class="nav-route" *ngIf="authService.isTokenExpired()" routerLink="login">
+            Logowanie
+            <div class="underline">
+            </div>
+          </div>
 
-        <li class="nav-item active" *ngIf="authService.isTokenExpired()">
-          <a class="nav-link" routerLink="register">Rejestracja</a>
-        </li>
+          <div class="nav-route" routerLink="register" *ngIf="authService.isTokenExpired()" >
+            Rejestracja
+            <div class="underline">
+            </div>
+          </div>
+        </span>
+
+        <span *ngIf="isMobileView">
+          <li class="nav-item active" *ngIf="authService.isTokenExpired()">
+            <a class="nav-link" routerLink="login">Logowanie</a>
+          </li>
+
+          <li class="nav-item active" *ngIf="authService.isTokenExpired()">
+            <a class="nav-link" routerLink="register">Rejestracja</a>
+          </li>
+        </span>
 
         <span *ngIf="!authService.isTokenExpired() && isMobileView">
+
           <span *ngIf="authService.hasUserRole()">
             <li class="nav-item">
               <a class="nav-link" routerLink="core/bankAccounts">Moje konta<span class="sr-only">(current)</span></a>
@@ -66,10 +86,10 @@
                 <a class="dropdown-item" routerLink="core/investments/list">Moje lokaty</a>
               </div>
             </li>
-            
+
             <li class="nav-item">
-                <a class="nav-link" routerLink="core/support">Zgłoszenia</a>
-              </li>
+              <a class="nav-link" routerLink="core/support">Zgłoszenia</a>
+            </li>
           </span>
 
           <span *ngIf="authService.hasAdminRole()">
@@ -107,9 +127,10 @@
           </span>
         </span>
 
-        <li class="nav-item active" *ngIf="!authService.isTokenExpired()">
-          <a class="nav-link" routerLink="/login">Wyloguj</a>
-        </li>
+        <div class="nav-route" routerLink="/login" *ngIf="!authService.isTokenExpired()">
+          Wyloguj
+          <div class="underline" style="background-color: red"></div>
+        </div>
 
       </ul>
 
