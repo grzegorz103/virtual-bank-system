@@ -48,6 +48,7 @@ export class StatisticsComponent implements OnInit {
     }
   ];
   creditStatuses: CreditStatus[];
+  balanceCount: number;
 
   constructor(private bankAccountTypeService: BankAccountTypeService,
     private currencyTypeService: CurrencyTypeService,
@@ -171,4 +172,5 @@ export class StatisticsComponent implements OnInit {
         return 'Spłacony';
     }
   }
+
 }

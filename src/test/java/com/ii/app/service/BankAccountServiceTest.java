@@ -9,6 +9,7 @@ import com.ii.app.models.Saldo;
 import com.ii.app.models.enums.BankAccountType;
 import com.ii.app.repositories.BankAccountRepository;
 import com.ii.app.repositories.CreditRepository;
+import com.ii.app.repositories.SaldoRepository;
 import com.ii.app.services.BankAccountServiceImpl;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -45,7 +46,7 @@ public class BankAccountServiceTest {
     public static void setup() {
     }
 
-    @Test
+     @Test
     public void findAllBankAccountTest() {
         assertThat(bankAccountService.findAll().size())
             .isEqualTo(bankAccountRepository.findAll().stream().filter(e->!e.isRemoved()).collect(Collectors.toList()).size());

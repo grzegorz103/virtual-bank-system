@@ -77,4 +77,5 @@ public class BankAccountController {
                            @RequestBody @Valid SaldoEdit saldoEdit) {
         return bankAccountService.updateSaldo(id, saldoEdit);
     }
+
 }

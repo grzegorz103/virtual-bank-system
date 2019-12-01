@@ -24,4 +24,5 @@ public interface BankAccountService {
     BankAccountOut update(Long id, BankAccountEdit bankAccountEdit);
 
     SaldoOut updateSaldo(Long id, SaldoEdit saldoEdit);
+
 }
