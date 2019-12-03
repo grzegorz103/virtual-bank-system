@@ -19,13 +19,11 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Builder
 public class TransactionDTO {
-    @BankAccountExists
     private String sourceAccountNumber;
 
     @NotBlank
     private String sourceCurrency;
 
-    @BankAccountExists
     private String destinedAccountNumber;
 
     @NotBlank

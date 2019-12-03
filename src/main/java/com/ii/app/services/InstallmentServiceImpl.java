@@ -64,7 +64,6 @@ public class InstallmentServiceImpl implements InstallmentService {
         }
 
         sourceSaldo.setBalance(sourceSaldo.getBalance().subtract(installmentAmount));
-        credit.setTotalInstallmentCount(credit.getTotalInstallmentCount() + 1);
         credit.setBalancePaid(credit.getBalancePaid().add(installmentAmount));
         mapped.setPayDate(Instant.now());
         mapped.setCredit(credit);
@@ -72,6 +71,7 @@ public class InstallmentServiceImpl implements InstallmentService {
 
         if (credit.getBalancePaid().compareTo(credit.getTotalBalance()) >= 0) {
             credit.setCreditStatus(creditStatusRepository.findByCreditType(CreditStatus.CreditType.PAID));
+            credit.setBalancePaid(credit.getTotalBalance());
         }
 
         return installmentMapper.entityToDto(installmentRepository.save(mapped));

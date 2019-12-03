@@ -10,6 +10,6 @@ import org.mapstruct.Mapping;
 public interface CreditMapper {
     Credit DTOtoEntity(CreditIn creditIn);
 
-    @Mapping(source = "credit.destinedSaldo.bankAccount.number", target="destinedSaldoId")
+    @Mapping(source = "credit.destinedSaldo.id", target = "destinedSaldoId")
     CreditOut entityToDTO(Credit credit);
 }

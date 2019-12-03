@@ -66,6 +66,8 @@ public class TransactionServiceImpl implements TransactionService {
     public Transaction create(@NotNull TransactionDTO transactionDTO) {
         final Transaction transaction = new Transaction();
 
+        transactionDTO.setSourceAccountNumber(transactionDTO.getSourceAccountNumber().replace(" ", ""));
+        transactionDTO.setDestinedAccountNumber(transactionDTO.getDestinedAccountNumber().replace(" ", ""));
         final CurrencyType sourceCurrency = currencyTypeRepository.findByName(transactionDTO.getSourceCurrency()).orElseThrow(() -> new RuntimeException("Currency type not found"));
         final CurrencyType destCurrency = currencyTypeRepository.findByName(transactionDTO.getDestinedCurrency()).orElseThrow(() -> new RuntimeException("asd"));
         final BankAccount destinedBankAccount = bankAccountRepository.findByNumberAndRemovedFalse(transactionDTO.getDestinedAccountNumber()).orElse(null);

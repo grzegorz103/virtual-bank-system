@@ -8,7 +8,7 @@
             <button mat-raised-button *ngIf="authService.isTokenExpired()" class="green-button mr-2" routerLink="login">Logowanie</button>
             <button mat-raised-button *ngIf="authService.isTokenExpired()" class="blue-button mr-2" routerLink="register">Rejestracja</button>
             <button mat-raised-button *ngIf="!authService.isTokenExpired()" class="green-button mr-2" routerLink="core">Rozpocznij</button>
-            <button mat-raised-button *ngIf="!authService.isTokenExpired() && Pwa.promptEvent" color="primary" (click)="installPwa()">
+            <button mat-raised-button *ngIf="Pwa.promptEvent" color="primary" (click)="installPwa()">
                 Dodaj do ekranu
             </button>
         </div>

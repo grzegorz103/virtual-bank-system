@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/shared/services/user.service';
 import { User } from '../models/user';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { AuthService } from 'src/app/shared/services/auth.service';
 
 @Component({
   selector: 'app-profile-edit',
@@ -14,6 +15,7 @@ export class ProfileEditComponent implements OnInit {
   passwordForm: FormGroup;
 
   constructor(private userService: UserService,
+    public authService: AuthService,
     private fb: FormBuilder) { }
 
   ngOnInit() {

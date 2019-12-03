@@ -22,7 +22,7 @@
                     </tr>
                 </table>
 
-                <div class="col-12">
+                <div class="col-12" *ngIf="authService.hasUserRole()">
                     <p style="font-size: 13px">W razie potrzeby zmiany adresy, należy utworzyć zgłoszenie</p>
                 </div>
             </div>
