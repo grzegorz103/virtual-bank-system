@@ -3,7 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { EmployeeComponent } from './employee.component';
 import { SummaryComponent } from './summary/summary.component';
 import { EmployeeSupportComponent } from './employee-support/employee-support.component';
-import { ConversationDetailsComponent } from '../conversation-details/conversation-details.component';
 import { PaymentCreateComponent } from './payment-create/payment-create.component';
 import { UserListComponent } from './user-list/user-list.component';
 import { CreditListComponent } from './credit-list/credit-list.component';
