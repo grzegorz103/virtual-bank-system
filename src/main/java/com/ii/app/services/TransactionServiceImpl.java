@@ -68,11 +68,11 @@ public class TransactionServiceImpl implements TransactionService {
 
         transactionDTO.setSourceAccountNumber(transactionDTO.getSourceAccountNumber().replace(" ", ""));
         transactionDTO.setDestinedAccountNumber(transactionDTO.getDestinedAccountNumber().replace(" ", ""));
-        final CurrencyType sourceCurrency = currencyTypeRepository.findByName(transactionDTO.getSourceCurrency()).orElseThrow(() -> new RuntimeException("Currency type not found"));
-        final CurrencyType destCurrency = currencyTypeRepository.findByName(transactionDTO.getDestinedCurrency()).orElseThrow(() -> new RuntimeException("asd"));
-        final BankAccount destinedBankAccount = bankAccountRepository.findByNumberAndRemovedFalse(transactionDTO.getDestinedAccountNumber()).orElse(null);
-        Check.isNull(destinedBankAccount, "Exception.notFoundBankAcc", transactionDTO.getDestinedAccountNumber());
-        final BankAccount sourceBankAccount = bankAccountRepository.findByNumberAndRemovedFalse(transactionDTO.getSourceAccountNumber()).get();
+
+        final CurrencyType sourceCurrency = currencyTypeRepository.findByName(transactionDTO.getSourceCurrency()).orElseThrow(() -> new ApiException("Exception.sourceCurrencyNotFound", null));
+        final CurrencyType destCurrency = currencyTypeRepository.findByName(transactionDTO.getDestinedCurrency()).orElseThrow(() -> new ApiException("Exception.destCurrencyNotFound", null));
+        final BankAccount destinedBankAccount = bankAccountRepository.findByNumberAndRemovedFalse(transactionDTO.getDestinedAccountNumber()).orElseThrow(() -> new ApiException("Exception.notFoundBankAcc", new String[]{transactionDTO.getDestinedAccountNumber()}));
+        final BankAccount sourceBankAccount = bankAccountRepository.findByNumberAndRemovedFalse(transactionDTO.getSourceAccountNumber()).orElseThrow(() -> new ApiException("Exception.notFoundBankAcc", new String[]{transactionDTO.getSourceAccountNumber()}));
 
         final Saldo sourceSaldo = sourceBankAccount.getSaldos()
             .stream()
@@ -91,8 +91,6 @@ public class TransactionServiceImpl implements TransactionService {
         if (sourceSaldo.getBalance().floatValue() < transactionDTO.getBalance())
             throw new ApiException("Exception.notEnoughBalanceSaldo", null);
 
-        boolean sourceMultiCurrency = sourceBankAccount.getBankAccType().getBankAccountType() == BankAccountType.MULTI_CURRENCY;
-
         final BigDecimal balance = currencyConverter.convertCurrency(
             transactionDTO.getBalance(),
             sourceCurrency,
@@ -108,21 +106,6 @@ public class TransactionServiceImpl implements TransactionService {
 
         destSaldo.setBalance(destSaldo.getBalance().add(balanceWithCommission));
 
-         /*       destinedBankAccount.getSaldos()
-                        .stream()
-                        .filter( Objects::nonNull )
-                        .filter( e -> {
-                                if ( destMultiCurrency )
-                                        return e.getCurrencyType() == sourceCurrency;
-                                else
-                                        return e.getCurrencyType().getCurrency() == Currency.PLN;
-                        } )
-                        .findFirst()
-                        .ifPresent( e -> {
-                                e.setBalance( e.getBalance().add( balanceWithCommission ) );
-                                saldoRepository.save( e );
-                        } );
-*/
         transaction.setBalance(BigDecimal.valueOf(transactionDTO.getBalance()));
         transaction.setBalanceWithCommission(balanceWithCommission);
         transaction.setDate(Instant.now());
