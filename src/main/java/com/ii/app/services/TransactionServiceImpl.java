@@ -59,7 +59,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public Transaction create(@NotNull TransactionIn transactionIn) {
+    public Transaction create(TransactionIn transactionIn) {
         final Transaction transaction = new Transaction();
 
         transactionIn.setSourceAccountNumber(transactionIn.getSourceAccountNumber().replace(" ", ""));
