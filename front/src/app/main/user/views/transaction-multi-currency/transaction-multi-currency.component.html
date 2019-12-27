@@ -1,5 +1,5 @@
 <mat-toolbar>
-    Przelew wielowalutowy
+    Przelew walutowy
 </mat-toolbar>
 
 <div *ngIf="bankAccounts && currencyTypes">
@@ -136,7 +136,7 @@
                     </tr>
                     <tr>
                         <td class="divider">Kwota: </td>
-                        <td>{{ transactionForm.get('balance').value }}</td>
+                        <td>{{ transactionForm.get('balance').value | currency: transactionForm.get('sourceCurrency').value }}</td>
                     </tr>
                     <tr>
                         <td class="divider">Tytuł: </td>
@@ -157,8 +157,8 @@
                 <p class="text-danger">Transakcja zakończona niepowodzeniem</p>
                 <p>Powód: {{ errorText }}</p>
             </div>
-            <div>
-                <button mat-button matStepperPrevious>Wysłanie</button>
+            <div><!-- 
+               <button mat-button matStepperPrevious>Wysłanie</button> -->
             </div>
         </mat-step>
     </mat-horizontal-stepper>

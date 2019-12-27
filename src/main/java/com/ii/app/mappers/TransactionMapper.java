@@ -5,10 +5,7 @@ import com.ii.app.dto.out.TransactionOut;
 import com.ii.app.models.Transaction;
 import org.mapstruct.Mapper;
 
-@Mapper (componentModel = "spring")
-public interface TransactionMapper
-{
-        Transaction DTOtoEntity( TransactionIn transactionIn);
-
-        TransactionOut entityToDTO( Transaction transaction);
+@Mapper(componentModel = "spring")
+public interface TransactionMapper {
+    TransactionOut entityToDTO(Transaction transaction);
 }
