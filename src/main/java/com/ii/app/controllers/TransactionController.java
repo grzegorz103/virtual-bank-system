@@ -23,7 +23,7 @@ public class TransactionController {
 
     @PostMapping
     @Secured("ROLE_USER")
-    public Transaction create(@Valid @RequestBody TransactionIn transactionIn) {
+    public TransactionOut create(@Valid @RequestBody TransactionIn transactionIn) {
         return transactionService.create(transactionIn);
     }
 

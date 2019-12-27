@@ -59,7 +59,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public Transaction create(TransactionIn transactionIn) {
+    public TransactionOut create(TransactionIn transactionIn) {
         final Transaction transaction = new Transaction();
 
         transactionIn.setSourceAccountNumber(transactionIn.getSourceAccountNumber().replace(" ", ""));
@@ -114,7 +114,7 @@ public class TransactionServiceImpl implements TransactionService {
         transaction.setSourceCurrencyType(sourceCurrency);
         transaction.setDestinedCurrencyType(destSaldo.getCurrencyType());
 
-        return transactionRepository.save(transaction);
+        return transactionMapper.entityToDTO(transactionRepository.save(transaction));
     }
 
     @Override

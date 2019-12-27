@@ -7,7 +7,7 @@ import com.ii.app.models.Transaction;
 import java.util.List;
 
 public interface TransactionService {
-    Transaction create(TransactionIn transactionDTO);
+    TransactionOut create(TransactionIn transactionDTO);
 
     List<TransactionOut> findAll();
 
