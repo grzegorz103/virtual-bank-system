@@ -46,12 +46,17 @@ public class TransactionTemplateControllerTest {
 
     @BeforeClass
     public static void setup() {
-        jwt = "Bearer " + JwtTokenGenerator.generate("testUser", "testIdentifier", Collections.singletonList("ROLE_USER"));
+        jwt = "Bearer " + JwtTokenGenerator.generate(
+            "testUser",
+            "testIdentifier",
+            Collections.singletonList("ROLE_USER")
+        );
     }
 
     @Test
     public void createTest() throws Exception {
-        TransactionTemplateIn templateIn = new TransactionTemplateIn("11112222333344445555666677", "PLN", "11112222333344445555666677", "PLN", BigDecimal.TEN, "Tytul", false, "Nazwa");
+        String testAccountNr = "11112222333344445555666677";
+        TransactionTemplateIn templateIn = new TransactionTemplateIn(testAccountNr, "PLN", testAccountNr, "PLN", BigDecimal.TEN, "Tytul", false, "Nazwa");
         when(templateService.create(any(TransactionTemplateIn.class))).thenReturn(new TransactionTemplateOut());
         this.mockMvc.perform(post(API_URL)
             .header("Authorization", jwt)
@@ -62,7 +67,8 @@ public class TransactionTemplateControllerTest {
 
     @Test
     public void createUnauthorizedTest() throws Exception {
-        TransactionTemplateIn templateIn = new TransactionTemplateIn("11112222333344445555666677", "PLN", "11112222333344445555666677", "PLN", BigDecimal.TEN, "Tytul", false, "Nazwa");
+        String testAccountNr = "11112222333344445555666677";
+        TransactionTemplateIn templateIn = new TransactionTemplateIn(testAccountNr, "PLN", testAccountNr, "PLN", BigDecimal.TEN, "Tytul", false, "Nazwa");
         when(templateService.create(any(TransactionTemplateIn.class))).thenReturn(new TransactionTemplateOut());
         this.mockMvc.perform(post(API_URL)
             .contentType(MediaType.APPLICATION_JSON)
@@ -89,7 +95,8 @@ public class TransactionTemplateControllerTest {
 
     @Test
     public void updateByIdTest() throws Exception {
-        TransactionTemplateIn template = new TransactionTemplateIn("11112222333344445555666677", "PLN", "11112222333344445555666677", "PLN", BigDecimal.TEN, "Tytul", false, "Nazwa");
+        String testAccountNr = "11112222333344445555666677";
+        TransactionTemplateIn template = new TransactionTemplateIn(testAccountNr, "PLN", testAccountNr, "PLN", BigDecimal.TEN, "Tytul", false, "Nazwa");
         when(templateService.update(any(Long.class), any(TransactionTemplateIn.class))).thenReturn(new TransactionTemplateOut());
         this.mockMvc.perform(put(API_URL + "/" + TEST_ID)
             .header("Authorization", jwt)
@@ -122,7 +129,8 @@ public class TransactionTemplateControllerTest {
 
     @Test
     public void updateByIdUnauthorizedTest() throws Exception {
-        TransactionTemplateIn template = new TransactionTemplateIn("11112222333344445555666677", "PLN", "11112222333344445555666677", "PLN", BigDecimal.TEN, "Tytul", false, "Nazwa");
+        String testAccountNr = "testAccountNr";
+        TransactionTemplateIn template = new TransactionTemplateIn(testAccountNr, "PLN", testAccountNr, "PLN", BigDecimal.TEN, "Tytul", false, "Nazwa");
         when(templateService.update(any(Long.class), any(TransactionTemplateIn.class))).thenReturn(new TransactionTemplateOut());
         this.mockMvc.perform(put(API_URL + "/" + TEST_ID)
             .contentType(MediaType.APPLICATION_JSON)
