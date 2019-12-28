@@ -63,13 +63,19 @@ public class TransactionTemplateControllerTest {
             testAccountNr, "PLN", testAccountNr, "PLN",
             BigDecimal.TEN, "Tytul", false, "Nazwa"
         );
+        when(templateService.create(any(TransactionTemplateIn.class)))
+            .thenReturn(new TransactionTemplateOut());
+        when(templateService.findAll())
+            .thenReturn(Arrays.asList(new TransactionTemplateOut(), new TransactionTemplateOut()));
+        when(templateService.update(any(Long.class), any(TransactionTemplateIn.class)))
+            .thenReturn(new TransactionTemplateOut());
+        when(templateService.findOneById(any(Long.class)))
+            .thenReturn(new TransactionTemplateOut());
     }
 
     @Test
     public void createTest() throws Exception {
-        when(templateService.create(any(TransactionTemplateIn.class)))
-            .thenReturn(new TransactionTemplateOut());
-        this.mockMvc.perform(post(API_URL)
+       this.mockMvc.perform(post(API_URL)
             .header("Authorization", jwt)
             .contentType(MediaType.APPLICATION_JSON)
             .content(new ObjectMapper().writeValueAsString(templateIn)))
@@ -78,8 +84,6 @@ public class TransactionTemplateControllerTest {
 
     @Test
     public void createUnauthorizedTest() throws Exception {
-        when(templateService.create(any(TransactionTemplateIn.class)))
-            .thenReturn(new TransactionTemplateOut());
         this.mockMvc.perform(post(API_URL)
             .contentType(MediaType.APPLICATION_JSON)
             .content(new ObjectMapper().writeValueAsString(templateIn)))
@@ -88,9 +92,7 @@ public class TransactionTemplateControllerTest {
 
     @Test
     public void findAllTest() throws Exception {
-        when(templateService.findAll())
-            .thenReturn(Arrays.asList(new TransactionTemplateOut(), new TransactionTemplateOut()));
-        this.mockMvc.perform(get(API_URL)
+      this.mockMvc.perform(get(API_URL)
             .header("Authorization", jwt))
             .andExpect(jsonPath("$.*", hasSize(2)))
             .andExpect(status().isOk());
@@ -98,18 +100,14 @@ public class TransactionTemplateControllerTest {
 
     @Test
     public void findOneByIdTest() throws Exception {
-        when(templateService.findOneById(any(Long.class)))
-            .thenReturn(new TransactionTemplateOut());
-        this.mockMvc.perform(get(API_URL + "/" + TEST_ID)
+       this.mockMvc.perform(get(API_URL + "/" + TEST_ID)
             .header("Authorization", jwt))
             .andExpect(status().isOk());
     }
 
     @Test
     public void updateByIdTest() throws Exception {
-        when(templateService.update(any(Long.class), any(TransactionTemplateIn.class)))
-            .thenReturn(new TransactionTemplateOut());
-        this.mockMvc.perform(put(API_URL + "/" + TEST_ID)
+       this.mockMvc.perform(put(API_URL + "/" + TEST_ID)
             .header("Authorization", jwt)
             .contentType(MediaType.APPLICATION_JSON)
             .content(new ObjectMapper().writeValueAsString(templateIn)))
@@ -125,8 +123,6 @@ public class TransactionTemplateControllerTest {
 
     @Test
     public void findAllUnauthorizedTest() throws Exception {
-        when(templateService.findAll())
-            .thenReturn(Arrays.asList(new TransactionTemplateOut(), new TransactionTemplateOut()));
         this.mockMvc.perform(get(API_URL))
             .andExpect(jsonPath("$.*", hasSize(2)))
             .andExpect(status().isForbidden());
@@ -134,16 +130,12 @@ public class TransactionTemplateControllerTest {
 
     @Test
     public void findOneByIdUnauthorizedTest() throws Exception {
-        when(templateService.findOneById(any(Long.class)))
-            .thenReturn(new TransactionTemplateOut());
-        this.mockMvc.perform(get(API_URL + "/" + TEST_ID))
+       this.mockMvc.perform(get(API_URL + "/" + TEST_ID))
             .andExpect(status().isForbidden());
     }
 
     @Test
     public void updateByIdUnauthorizedTest() throws Exception {
-        when(templateService.update(any(Long.class), any(TransactionTemplateIn.class)))
-            .thenReturn(new TransactionTemplateOut());
         this.mockMvc.perform(put(API_URL + "/" + TEST_ID)
             .contentType(MediaType.APPLICATION_JSON)
             .content(new ObjectMapper().writeValueAsString(templateIn)))
