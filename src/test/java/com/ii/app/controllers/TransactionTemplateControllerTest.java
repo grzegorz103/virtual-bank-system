@@ -61,6 +61,16 @@ public class TransactionTemplateControllerTest {
     }
 
     @Test
+    public void createUnauthorizedTest() throws Exception {
+        TransactionTemplateIn templateIn = new TransactionTemplateIn("11112222333344445555666677", "PLN", "11112222333344445555666677", "PLN", BigDecimal.TEN, "Tytul", false, "Nazwa");
+        when(templateService.create(any(TransactionTemplateIn.class))).thenReturn(new TransactionTemplateOut());
+        this.mockMvc.perform(post(API_URL)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(new ObjectMapper().writeValueAsString(templateIn)))
+            .andExpect(status().isForbidden());
+    }
+
+    @Test
     public void findAllTest() throws Exception {
         when(templateService.findAll()).thenReturn(Arrays.asList(new TransactionTemplateOut(), new TransactionTemplateOut()));
         this.mockMvc.perform(get(API_URL)
@@ -96,16 +106,6 @@ public class TransactionTemplateControllerTest {
     }
 
     @Test
-    public void createUnauthorizedTest() throws Exception {
-        TransactionTemplateIn templateIn = new TransactionTemplateIn("11112222333344445555666677", "PLN", "11112222333344445555666677", "PLN", BigDecimal.TEN, "Tytul", false, "Nazwa");
-        when(templateService.create(any(TransactionTemplateIn.class))).thenReturn(new TransactionTemplateOut());
-        this.mockMvc.perform(post(API_URL)
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(new ObjectMapper().writeValueAsString(templateIn)))
-            .andExpect(status().isForbidden());
-    }
-
-    @Test
     public void findAllUnauthorizedTest() throws Exception {
         when(templateService.findAll()).thenReturn(Arrays.asList(new TransactionTemplateOut(), new TransactionTemplateOut()));
         this.mockMvc.perform(get(API_URL))
@@ -117,7 +117,7 @@ public class TransactionTemplateControllerTest {
     public void findOneByIdUnauthorizedTest() throws Exception {
         when(templateService.findOneById(any(Long.class))).thenReturn(new TransactionTemplateOut());
         this.mockMvc.perform(get(API_URL + "/" + TEST_ID))
-           .andExpect(status().isForbidden());
+            .andExpect(status().isForbidden());
     }
 
     @Test
