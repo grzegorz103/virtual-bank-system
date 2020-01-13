@@ -1,6 +1,6 @@
 package com.ii.app.controllers;
 
-import com.ii.app.dto.TransactionDTO;
+import com.ii.app.dto.in.TransactionIn;
 import com.ii.app.dto.out.TransactionOut;
 import com.ii.app.models.Transaction;
 import com.ii.app.services.interfaces.TransactionService;
@@ -23,8 +23,8 @@ public class TransactionController {
 
     @PostMapping
     @Secured("ROLE_USER")
-    public Transaction create(@Valid @RequestBody TransactionDTO transactionDTO) {
-        return transactionService.create(transactionDTO);
+    public TransactionOut create(@Valid @RequestBody TransactionIn transactionIn) {
+        return transactionService.create(transactionIn);
     }
 
     @GetMapping

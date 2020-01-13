@@ -23,19 +23,15 @@ public class EmailTakenValidatorTest {
     @InjectMocks
     private EmailTakenValidatorImpl validator;
 
-    @Before
-    public void setup(){
-    }
-
     @Test
-    public void isValidTest(){
+    public void isValidTest() {
         when(userRepository.existsByEmail(any(String.class))).thenReturn(false);
         assertTrue(validator.isValid("test@test.com", null));
         assertTrue(validator.isValid("test2@test2.com", null));
     }
 
     @Test
-    public void isValidTakenEmailTest(){
+    public void isValidTakenEmailTest() {
         when(userRepository.existsByEmail(any(String.class))).thenReturn(true);
         assertFalse(validator.isValid("test@test.com", null));
         assertFalse(validator.isValid(null, null));

@@ -1,0 +1,74 @@
+<div class="box mat-elevation-z8">
+    <mat-toolbar>Szczegóły kredytu</mat-toolbar>
+    <div *ngIf="credit">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 mx-auto">
+                    <table class="table table-hover">
+                        <tr>
+                            <td class="divider">ID: </td>
+                            <td>{{ credit.id }}</td>
+                        </tr>
+                        <tr>
+                            <td class="divider">Wpłacono: </td>
+                            <td>{{ credit.balancePaid | currency: credit.currency}}</td>
+                        </tr>
+                        <tr>
+                            <td class="divider">Wysokość raty: </td>
+                            <td>{{ credit.installmentAmount | currency: credit.currency}}</td>
+                        </tr>
+                        <tr>
+                            <td class="divider">Wysokość kredytu: </td>
+                            <td>{{ credit.totalBalance | currency: credit.currency }}</td>
+                        </tr>
+                      
+                        <tr>
+                            <td class="divider">Waluta: </td>
+                            <td>{{ credit.currency }}</td>
+                        </tr>
+                        <tr>
+                            <td class="divider">Status: </td>
+                            <td>
+                                <p *ngIf="credit.creditStatus.creditType === 'ACTIVE'">Aktywny</p>
+                                <p *ngIf="credit.creditStatus.creditType === 'AWAITING'">Oczekujący</p>
+                                <p *ngIf="credit.creditStatus.creditType === 'CANCELED'">Usunięty</p>
+                                <p *ngIf="credit.creditStatus.creditType === 'PAID'">Spłacony</p>
+                            </td>
+                        </tr>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+        <mat-toolbar>Wpłaty <span *ngIf="credit.creditStatus.creditType==='ACTIVE'" class="ml-auto"><button
+                    mat-raised-button (click)="createInstallment()" color="primary">Opłać</button></span>
+        </mat-toolbar>
+        <div [hidden]="isLoading || (installments && installments.data.length === 0)">
+            <table mat-table [dataSource]="installments">
+
+
+                <ng-container matColumnDef="amount">
+                    <th mat-header-cell *matHeaderCellDef> Kwota </th>
+                    <td mat-cell *matCellDef="let element"> {{element.amount | currency: credit.currency}}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="payDate">
+                    <th mat-header-cell *matHeaderCellDef> Data wpłaty </th>
+                    <td mat-cell *matCellDef="let element"> {{element.payDate | amDateFormat: 'LL HH:mm'}}
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="installmentColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: installmentColumns;"></tr>
+            </table>
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+        </div>
+        <div class="col-12" *ngIf="installments && installments.data.length === 0">
+            Brak wpłat
+        </div>
+    </div>
+    <div *ngIf="!credit">
+        <mat-spinner></mat-spinner>
+    </div>
+</div>

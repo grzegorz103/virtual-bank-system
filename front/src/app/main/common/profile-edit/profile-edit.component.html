@@ -1,0 +1,60 @@
+<div class="box mat-elevation-z8">
+    <div *ngIf="user">
+        <mat-toolbar>Dane adresowe</mat-toolbar>
+        <div class="container">
+            <div class="row">
+                <table class="table table-hover">
+                    <tr>
+                        <td class="divider">Identyfikator: </td>
+                        <td>{{ user.identifier }}</td>
+                    </tr>
+                    <tr>
+                        <td class="divider">Imię i nazwisko: </td>
+                        <td>{{ user.address.name }} {{ user.address.surname }}</td>
+                    </tr>
+                    <tr>
+                        <td class="divider">Ulica: </td>
+                        <td>ul. {{ user.address.street }} {{ user.address.houseNumber }}</td>
+                    </tr>
+                    <tr>
+                        <td class="divider">Miasto: </td>
+                        <td> {{ user.address.city }} {{ user.address.postCode }}</td>
+                    </tr>
+                </table>
+
+                <div class="col-12" *ngIf="authService.hasUserRole()">
+                    <p style="font-size: 13px">W razie potrzeby zmiany adresy, należy utworzyć zgłoszenie</p>
+                </div>
+            </div>
+        </div>
+
+        <mat-toolbar>
+            Edycja hasła
+        </mat-toolbar>
+        <div class="container">
+            <form [formGroup]="passwordForm" (ngSubmit)="sendPasswordEditForm()">
+                <div class="row">
+                    <div class="col-6">
+                        <mat-form-field>
+                            <input matInput placeholder="Nowe hasło" type="password" formControlName="password">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-6">
+                        <mat-form-field>
+                            <input matInput placeholder="Potwierdź hasło" type="password"
+                                formControlName="confirmPassword">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <button mat-raised-button class="bg-success text-white mb-2">Wyślij</button>
+                </div>
+            </form>
+        </div>
+
+        <div *ngIf="!user">
+            <mat-spinner></mat-spinner>
+        </div>
+    </div>
+</div>

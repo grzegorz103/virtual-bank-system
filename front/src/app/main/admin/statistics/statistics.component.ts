@@ -91,6 +91,7 @@ export class StatisticsComponent implements OnInit {
     // this.chartDatasets.push([{ data: typesCounts, label: 'Wykres' }]);
   }
   chartOptions: any;
+  creditChartOptions: any;
   public chartClicked(e: any): void { }
   public chartHovered(e: any): void { }
 

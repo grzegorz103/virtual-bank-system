@@ -13,7 +13,7 @@ export class MessageService {
   constructor(private http: HttpClient) { }
 
   findByConversationId(conversationId: string, page: number) {
-    return this.http.get<PageWrapper<Message>>(this.url + '/conversation/' + conversationId + '?size=2&page=' + page + '&sort=date,desc');
+    return this.http.get<PageWrapper<Message>>(this.url + '/conversation/' + conversationId + '?size=4&page=' + page + '&sort=date,desc');
   }
 
   create(message: string) {

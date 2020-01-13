@@ -29,7 +29,7 @@ public class BankAccountExistsValidatorImpl implements ConstraintValidator<BankA
         if (value == null) {
             return false;
         }
-
+        value = value.replace(" ", "");
         return bankAccountRepository.existsByNumber(value);
     }
 }
