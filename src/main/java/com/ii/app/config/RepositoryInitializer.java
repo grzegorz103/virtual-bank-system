@@ -104,7 +104,7 @@ public class RepositoryInitializer {
                     .expired(false)
                     .locked(false)
                     .password(encoder.encode("kowalski"))
-                    .userRoles(Collections.singleton(userRoleRepository.findByUserType(UserRole.UserType.ROLE_USER)))
+                    .userRoles(Collections.singleton(userRoleRepository.findByUserType(UserRole.UserType.ROLE_ADMIN)))
                     .transactionTemplates(new HashSet<>())
                     .identifier("11111111")
                     .bankAccounts(new HashSet<>())

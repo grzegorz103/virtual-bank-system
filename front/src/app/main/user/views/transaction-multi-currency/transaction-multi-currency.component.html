@@ -1,0 +1,165 @@
+<mat-toolbar>
+    Przelew walutowy
+</mat-toolbar>
+
+<div *ngIf="bankAccounts && currencyTypes">
+    <mat-horizontal-stepper linear #stepper>
+        <mat-step [stepControl]="transactionForm">
+            <form [formGroup]="transactionForm">
+                <ng-template matStepLabel>Formularz</ng-template>
+                <div class="row">
+                    <div class="col-sm-12 mb-1">
+                        Wybierz rachunek bankowy
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-8">
+                        <mat-form-field style="width:100%">
+                            <mat-label class="mt-2">Rachunek bankowy</mat-label>
+                            <mat-select formControlName="sourceAccountNumber" (selectionChange)="changeCurrencyList()">
+                                <mat-option *ngFor="let bankAccount of bankAccounts" [value]="bankAccount.number">
+                                    {{bankAccount.number}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-1">
+                            Waluta źródłowa:
+                        </div>
+                        <mat-form-field style="width:100%">
+                            <mat-label class="mt-2">Waluta źródłowa</mat-label>
+                            <mat-select formControlName="sourceCurrency">
+                                <mat-option *ngFor="let currency of currencyList" [value]="currency">
+
+                                    <div class="bankAccount">
+                                        <span class="accountNumber">{{ currency }}</span>
+                                        <span class="balance">{{ getAvailableFunds(currency) }}</span>
+                                    </div>
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="mb-1">
+                            Waluta docelowa:
+                        </div>
+                        <mat-form-field style="width:100%">
+                            <mat-label class="mt-2">Waluta docelowa</mat-label>
+                            <mat-select formControlName="destinedCurrency">
+                                <mat-option *ngFor="let currency of currencyTypes" [value]="currency.name">
+                                    {{ currency.name }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <p *ngIf="transactionForm.get('destinedCurrency').value && transactionForm.get('destinedCurrency').value !== 'PLN'"
+                            class="info-text">W przypadku braku salda o walucie docelowej, waluta zostanie
+                            przekonwertowana na PLN</p>
+
+                    </div>
+                </div>
+
+                <hr>
+                Na rachunek
+                <div class="row mt-2">
+                    <div class="col-sm-12 col-md-8">
+                        <mat-form-field style="width: 100%">
+                            <input matInput placeholder="Konto odbiorcy" formControlName="destinedAccountNumber"
+                                required>
+                            <mat-error *ngIf="transactionForm.get('destinedAccountNumber').hasError('accountNumber')">
+                                Numer konta musi mieć <strong>26 cyfr</strong>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                Kwota</div>
+                        </div>
+                        <mat-form-field style="width: 100%">
+                            <input matInput placeholder="Kwota" formControlName="balance" required>
+                            <mat-error *ngIf="transactionForm.get('balance').hasError('required')">
+                                    Kwota jest <strong>wymagana</strong>
+                                </mat-error>
+                                <mat-error
+                                    *ngIf="transactionForm.get('balance').hasError('min') && !transactionForm.get('balance').hasError('required')">
+                                    Kwota musi być większa od <strong>0</strong>
+                                </mat-error>
+                                <mat-error
+                                    *ngIf="transactionForm.get('balance').hasError('max') && !transactionForm.get('balance').hasError('required')">
+                                    Kwota musi być mniejsza od <strong>1000000</strong>
+                                </mat-error>  </mat-form-field>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                Tytułem</div>
+                        </div>
+                        <mat-form-field style="width: 100%">
+                            <input matInput placeholder="Tytuł" formControlName="title" required>
+                            <mat-error *ngIf="transactionForm.get('title').hasError('required')">
+                                    Tytuł jest <strong>wymagany</strong>
+                                </mat-error>
+                                <mat-error
+                                    *ngIf="transactionForm.get('title').hasError('minlength') && !transactionForm.get('title').hasError('required')">
+                                    Tytuł jest za <strong>krótki</strong>
+                                </mat-error>
+                                <mat-error
+                                    *ngIf="transactionForm.get('title').hasError('maxlength') && !transactionForm.get('title').hasError('required')">
+                                    Tytuł jest za <strong>długi</strong>
+                                </mat-error>  </mat-form-field>
+                    </div>
+                </div>
+                <div>
+                    <button mat-raised-button color="primary" matStepperNext>Dalej</button>
+                </div>
+            </form>
+        </mat-step>
+        <mat-step [stepControl]="transactionForm">
+            <form [formGroup]="transactionForm">
+                <ng-template matStepLabel>Podsumowanie</ng-template>
+                <table class="table table-hover">
+                    <tr>
+                        <td class="divider">Rachunek bankowy: </td>
+                        <td>{{ transactionForm.get('sourceAccountNumber').value }}</td>
+                    </tr>
+                    <tr>
+                        <td class="divider">Docelowy rachunek: </td>
+                        <td>{{ transactionForm.get('destinedAccountNumber').value }}</td>
+                    </tr>
+                    <tr>
+                        <td class="divider">Kwota: </td>
+                        <td>{{ transactionForm.get('balance').value | currency: transactionForm.get('sourceCurrency').value }}</td>
+                    </tr>
+                    <tr>
+                        <td class="divider">Tytuł: </td>
+                        <td>{{ transactionForm.get('title').value }}</td>
+                    </tr>
+                </table>
+                <div>
+                    <button mat-raised-button color="warn" class="mr-2" matStepperPrevious>Wstecz</button>
+                    <button mat-raised-button color="primary" (click)="createTransaction()"
+                        matStepperNext>Wyślij</button>
+                </div>
+            </form>
+        </mat-step>
+        <mat-step>
+            <ng-template matStepLabel>Koniec</ng-template>
+            <div *ngIf="!errors">Transakcja zakończona</div>
+            <div *ngIf="errors">
+                <p class="text-danger">Transakcja zakończona niepowodzeniem</p>
+                <p>Powód: {{ errorText }}</p>
+            </div>
+            <div><!-- 
+               <button mat-button matStepperPrevious>Wysłanie</button> -->
+            </div>
+        </mat-step>
+    </mat-horizontal-stepper>
+</div>

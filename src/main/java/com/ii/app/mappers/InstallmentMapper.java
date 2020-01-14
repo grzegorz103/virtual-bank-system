@@ -5,10 +5,9 @@ import com.ii.app.dto.out.InstallmentOut;
 import com.ii.app.models.Installment;
 import org.mapstruct.Mapper;
 
-@Mapper (componentModel = "spring")
-public interface InstallmentMapper
-{
-        Installment dtoToEntity ( InstallmentIn installmentIn );
+@Mapper(componentModel = "spring")
+public interface InstallmentMapper {
+    Installment dtoToEntity(InstallmentIn installmentIn);
 
-        InstallmentOut entityToDto ( Installment installment );
+    InstallmentOut entityToDto(Installment installment);
 }

@@ -3,25 +3,37 @@ package com.ii.app.dto.in;
 import com.ii.app.models.BankAccount;
 import com.ii.app.utils.validators.BankAccountExists;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.type.CurrencyType;
+import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
-import java.time.Instant;
 
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Builder
 public class TransactionIn {
-    private BigDecimal balance;
+    private String sourceAccountNumber;
 
-    @BankAccountExists
-    private BankAccount sourceBankAccount;
+    @NotBlank
+    private String sourceCurrency;
 
-    @NotEmpty
+    private String destinedAccountNumber;
+
+    @NotBlank
+    private String destinedCurrency;
+
+    @Min(1)
+    @Max(1000000)
+    private float balance;
+
+    @Length(min = 1, max = 100)
+    @NotBlank
     private String title;
-
-    @BankAccountExists
-    private BankAccount destinedBankAccount;
 }

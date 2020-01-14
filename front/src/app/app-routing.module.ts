@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { BankAccountListComponent } from './main/views/bank-account-list/bank-account-list.component';
-import { TransactionComponent } from './main/views/transaction/transaction.component';
-import { TransactionMultiCurrencyComponent } from './main/views/transaction-multi-currency/transaction-multi-currency.component';
-import { ExchangeCurrencyComponent } from './main/views/exchange-currency/exchange-currency.component';
-import { BankAccountDetailsComponent } from './main/views/bank-account-details/bank-account-details.component';
-import { TemplateListComponent } from './main/views/transaction-templates/template-list/template-list.component';
-import { TemplateCreateComponent } from './main/views/transaction-templates/template-create/template-create.component';
-import { CreditCreateComponent } from './main/views/credit-create/credit-create.component';
+import { BankAccountListComponent } from './main/user/views/bank-account-list/bank-account-list.component';
+import { TransactionComponent } from './main/user/views/transaction/transaction.component';
+import { TransactionMultiCurrencyComponent } from './main/user/views/transaction-multi-currency/transaction-multi-currency.component';
+import { ExchangeCurrencyComponent } from './main/user/views/exchange-currency/exchange-currency.component';
+import { BankAccountDetailsComponent } from './main/user/views/bank-account-details/bank-account-details.component';
+import { TemplateListComponent } from './main/user/views/transaction-templates/template-list/template-list.component';
+import { TemplateCreateComponent } from './main/user/views/transaction-templates/template-create/template-create.component';
+import { CreditCreateComponent } from './main/user/views/credit-create/credit-create.component';
 import { IndexComponent } from './shared/index/index.component';
 
 

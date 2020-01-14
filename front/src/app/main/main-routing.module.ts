@@ -1,23 +1,23 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { BankAccountListComponent } from './views/bank-account-list/bank-account-list.component';
-import { TransactionComponent } from './views/transaction/transaction.component';
-import { TransactionMultiCurrencyComponent } from './views/transaction-multi-currency/transaction-multi-currency.component';
-import { TemplateListComponent } from './views/transaction-templates/template-list/template-list.component';
-import { TemplateCreateComponent } from './views/transaction-templates/template-create/template-create.component';
-import { BankAccountDetailsComponent } from './views/bank-account-details/bank-account-details.component';
-import { ExchangeCurrencyComponent } from './views/exchange-currency/exchange-currency.component';
-import { CreditCreateComponent } from './views/credit-create/credit-create.component';
+import { BankAccountListComponent } from './user/views/bank-account-list/bank-account-list.component';
+import { TransactionComponent } from './user/views/transaction/transaction.component';
+import { TransactionMultiCurrencyComponent } from './user/views/transaction-multi-currency/transaction-multi-currency.component';
+import { TemplateListComponent } from './user/views/transaction-templates/template-list/template-list.component';
+import { TemplateCreateComponent } from './user/views/transaction-templates/template-create/template-create.component';
+import { BankAccountDetailsComponent } from './user/views/bank-account-details/bank-account-details.component';
+import { ExchangeCurrencyComponent } from './user/views/exchange-currency/exchange-currency.component';
+import { CreditCreateComponent } from './user/views/credit-create/credit-create.component';
 import { MainComponent } from './main.component';
 import { CoreGuardService } from './misc/guard/core-guard.service';
-import { UserSupportComponent } from './user-support/user-support.component';
-import { ConversationDetailsComponent } from './conversation-details/conversation-details.component';
-import { ProfileEditComponent } from './profile-edit/profile-edit.component';
-import { ExchangePageComponent } from './views/exchange-page/exchange-page.component';
-import { CreditPageComponent } from './views/credit-page/credit-page.component';
-import { CreditDetailsComponent } from './views/credit-details/credit-details.component';
-import { InvestmentListComponent } from './views/investment-list/investment-list.component';
-import { InvestmentCreateComponent } from './views/investment-create/investment-create.component';
+import { UserSupportComponent } from './user/user-support/user-support.component';
+import { ExchangePageComponent } from './user/views/exchange-page/exchange-page.component';
+import { CreditPageComponent } from './user/views/credit-page/credit-page.component';
+import { CreditDetailsComponent } from './user/views/credit-details/credit-details.component';
+import { InvestmentListComponent } from './user/views/investment-list/investment-list.component';
+import { InvestmentCreateComponent } from './user/views/investment-create/investment-create.component';
+import { ProfileEditComponent } from './common/profile-edit/profile-edit.component';
+import { ConversationDetailsComponent } from './common/conversation-details/conversation-details.component';
 
 
 const routes: Routes = [
