@@ -60,49 +60,57 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public TransactionOut create(TransactionIn transactionIn) {
-        final Transaction transaction = new Transaction();
+        Transaction transaction = new Transaction();
 
-        transactionIn.setSourceAccountNumber(transactionIn.getSourceAccountNumber().replace(" ", ""));
-        transactionIn.setDestinedAccountNumber(transactionIn.getDestinedAccountNumber().replace(" ", ""));
+        transactionIn.setSourceAccountNumber(transactionIn.getSourceAccountNumber()
+                .replace(" ", ""));
+        transactionIn.setDestinedAccountNumber(transactionIn.getDestinedAccountNumber()
+                .replace(" ", ""));
 
-        final CurrencyType sourceCurrency = currencyTypeRepository.findByName(transactionIn.getSourceCurrency())
-            .orElseThrow(() -> new ApiException("Exception.sourceCurrencyNotFound", null));
-        final CurrencyType destCurrency = currencyTypeRepository.findByName(transactionIn.getDestinedCurrency())
-            .orElseThrow(() -> new ApiException("Exception.destCurrencyNotFound", null));
-        final BankAccount destinedBankAccount = bankAccountRepository.findByNumberAndRemovedFalse(transactionIn.getDestinedAccountNumber())
-            .orElseThrow(() -> new ApiException("Exception.notFoundBankAcc", new String[]{transactionIn.getDestinedAccountNumber()}));
-        final BankAccount sourceBankAccount = bankAccountRepository.findByNumberAndRemovedFalse(transactionIn.getSourceAccountNumber())
-            .orElseThrow(() -> new ApiException("Exception.notFoundBankAcc", new String[]{transactionIn.getSourceAccountNumber()}));
+        CurrencyType sourceCurrency = currencyTypeRepository.findByName(transactionIn.getSourceCurrency())
+                .orElseThrow(() -> new ApiException("Exception.sourceCurrencyNotFound", null));
+        CurrencyType destCurrency = currencyTypeRepository.findByName(transactionIn.getDestinedCurrency())
+                .orElseThrow(() -> new ApiException("Exception.destCurrencyNotFound", null));
+        BankAccount destinedBankAccount = bankAccountRepository
+                .findByNumberAndRemovedFalse(transactionIn.getDestinedAccountNumber())
+                .orElseThrow(() ->
+                        new ApiException("Exception.notFoundBankAcc",
+                                new String[]{transactionIn.getDestinedAccountNumber()})
+                );
+        BankAccount sourceBankAccount = bankAccountRepository
+                .findByNumberAndRemovedFalse(transactionIn.getSourceAccountNumber())
+                .orElseThrow(() -> new ApiException("Exception.notFoundBankAcc",
+                        new String[]{transactionIn.getSourceAccountNumber()}));
 
-        final Saldo sourceSaldo = sourceBankAccount.getSaldos()
-            .stream()
-            .filter(e -> e.getCurrencyType() == sourceCurrency)
-            .findFirst()
-            .get();
+        Saldo sourceSaldo = sourceBankAccount.getSaldos()
+                .stream()
+                .filter(e -> e.getCurrencyType() == sourceCurrency)
+                .findFirst()
+                .get();
 
-        final Saldo destSaldo = destinedBankAccount.getSaldos()
-            .stream()
-            .filter(e -> e.getCurrencyType() == destCurrency)
-            .findFirst()
-            .orElse(destinedBankAccount.getSaldos().stream()
-                .filter(e -> Objects.equals(e.getCurrencyType().getName(), "PLN")).findFirst().get());
+        Saldo destSaldo = destinedBankAccount.getSaldos()
+                .stream()
+                .filter(e -> e.getCurrencyType() == destCurrency)
+                .findFirst()
+                .orElse(destinedBankAccount.getSaldos().stream()
+                        .filter(e -> Objects.equals(e.getCurrencyType().getName(), "PLN"))
+                        .findFirst()
+                        .get()
+                );
 
         if (sourceSaldo.getBalance().floatValue() < transactionIn.getBalance())
             throw new ApiException("Exception.notEnoughBalanceSaldo", null);
 
-        final BigDecimal balance = currencyConverter.convertCurrency(
-            transactionIn.getBalance(),
-            sourceCurrency,
-            destSaldo.getCurrencyType()
+        BigDecimal balance = currencyConverter.convertCurrency(
+                transactionIn.getBalance(),
+                sourceCurrency,
+                destSaldo.getCurrencyType()
         );
 
-        final BigDecimal balanceWithCommission = BigDecimal.valueOf(
-            balance.doubleValue() - ((sourceBankAccount.getBankAccType().getTransactionComission() / 100d) * balance.doubleValue()
-            )
-        ).setScale(2, RoundingMode.DOWN);
+        BigDecimal balanceWithCommission = getBalanceWithCommission(sourceBankAccount, balance);
 
-        sourceSaldo.setBalance(sourceSaldo.getBalance().subtract(BigDecimal.valueOf(transactionIn.getBalance())));
-
+        sourceSaldo.setBalance(sourceSaldo.getBalance()
+                .subtract(BigDecimal.valueOf(transactionIn.getBalance())));
         destSaldo.setBalance(destSaldo.getBalance().add(balanceWithCommission));
 
         transaction.setBalance(BigDecimal.valueOf(transactionIn.getBalance()));
@@ -117,20 +125,27 @@ public class TransactionServiceImpl implements TransactionService {
         return transactionMapper.entityToDTO(transactionRepository.save(transaction));
     }
 
+    private BigDecimal getBalanceWithCommission(BankAccount sourceBankAccount, BigDecimal balance) {
+        return BigDecimal.valueOf(
+                balance.doubleValue() - ((sourceBankAccount.getBankAccType().getTransactionComission() / 100d) * balance.doubleValue()
+                )
+        ).setScale(2, RoundingMode.DOWN);
+    }
+
     @Override
     public List<TransactionOut> findAll() {
         return transactionRepository.findAll()
-            .stream()
-            .map(transactionMapper::entityToDTO)
-            .collect(Collectors.toList());
+                .stream()
+                .map(transactionMapper::entityToDTO)
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<TransactionOut> findAllByBankAccountId(Long bankAccountId) {
         return transactionRepository.findTransactionsByBankAccountId(bankAccountId)
-            .stream()
-            .map(transactionMapper::entityToDTO)
-            .collect(Collectors.toList());
+                .stream()
+                .map(transactionMapper::entityToDTO)
+                .collect(Collectors.toList());
     }
 
         /*
