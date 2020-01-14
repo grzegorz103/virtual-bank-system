@@ -60,16 +60,16 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public TransactionOut create(TransactionIn transactionIn) {
-        Transaction transaction = new Transaction();
-
         transactionIn.setSourceAccountNumber(transactionIn.getSourceAccountNumber()
                 .replace(" ", ""));
         transactionIn.setDestinedAccountNumber(transactionIn.getDestinedAccountNumber()
                 .replace(" ", ""));
 
-        CurrencyType sourceCurrency = currencyTypeRepository.findByName(transactionIn.getSourceCurrency())
+        CurrencyType sourceCurrency = currencyTypeRepository
+                .findByName(transactionIn.getSourceCurrency())
                 .orElseThrow(() -> new ApiException("Exception.sourceCurrencyNotFound", null));
-        CurrencyType destCurrency = currencyTypeRepository.findByName(transactionIn.getDestinedCurrency())
+        CurrencyType destCurrency = currencyTypeRepository
+                .findByName(transactionIn.getDestinedCurrency())
                 .orElseThrow(() -> new ApiException("Exception.destCurrencyNotFound", null));
         BankAccount destinedBankAccount = bankAccountRepository
                 .findByNumberAndRemovedFalse(transactionIn.getDestinedAccountNumber())
@@ -88,15 +88,7 @@ public class TransactionServiceImpl implements TransactionService {
                 .findFirst()
                 .get();
 
-        Saldo destSaldo = destinedBankAccount.getSaldos()
-                .stream()
-                .filter(e -> e.getCurrencyType() == destCurrency)
-                .findFirst()
-                .orElse(destinedBankAccount.getSaldos().stream()
-                        .filter(e -> Objects.equals(e.getCurrencyType().getName(), "PLN"))
-                        .findFirst()
-                        .get()
-                );
+        Saldo destSaldo = getDestSaldo(destCurrency, destinedBankAccount);
 
         if (sourceSaldo.getBalance().floatValue() < transactionIn.getBalance())
             throw new ApiException("Exception.notEnoughBalanceSaldo", null);
@@ -113,16 +105,30 @@ public class TransactionServiceImpl implements TransactionService {
                 .subtract(BigDecimal.valueOf(transactionIn.getBalance())));
         destSaldo.setBalance(destSaldo.getBalance().add(balanceWithCommission));
 
-        transaction.setBalance(BigDecimal.valueOf(transactionIn.getBalance()));
-        transaction.setBalanceWithCommission(balanceWithCommission);
-        transaction.setDate(Instant.now());
-        transaction.setDestinedBankAccount(destinedBankAccount);
-        transaction.setSourceBankAccount(sourceBankAccount);
-        transaction.setTitle(transactionIn.getTitle());
-        transaction.setSourceCurrencyType(sourceCurrency);
-        transaction.setDestinedCurrencyType(destSaldo.getCurrencyType());
+        return transactionMapper.entityToDTO(transactionRepository.save(
+                Transaction.builder()
+                        .balance(BigDecimal.valueOf(transactionIn.getBalance()))
+                        .balanceWithCommission(balanceWithCommission)
+                        .date(Instant.now())
+                        .destinedBankAccount(destinedBankAccount)
+                        .sourceBankAccount(sourceBankAccount)
+                        .title(transactionIn.getTitle())
+                        .sourceCurrencyType(sourceCurrency)
+                        .destinedCurrencyType(destSaldo.getCurrencyType())
+                        .build()
+        ));
+    }
 
-        return transactionMapper.entityToDTO(transactionRepository.save(transaction));
+    private Saldo getDestSaldo(CurrencyType destCurrency, BankAccount destinedBankAccount) {
+        return destinedBankAccount.getSaldos()
+                .stream()
+                .filter(e -> e.getCurrencyType() == destCurrency)
+                .findFirst()
+                .orElse(destinedBankAccount.getSaldos().stream()
+                        .filter(e -> Objects.equals(e.getCurrencyType().getName(), "PLN"))
+                        .findFirst()
+                        .get()
+                );
     }
 
     private BigDecimal getBalanceWithCommission(BankAccount sourceBankAccount, BigDecimal balance) {
@@ -147,37 +153,5 @@ public class TransactionServiceImpl implements TransactionService {
                 .map(transactionMapper::entityToDTO)
                 .collect(Collectors.toList());
     }
-
-        /*
-        private BigDecimal convertCurrency ( float currency, CurrencyType sourceCurrency, CurrencyType destinedCurrency )
-        {
-
-                BigDecimal convertedCurrency;
-                if ( currency > 0 )
-                {
-                        if ( sourceCurrency != null && destinedCurrency != null )
-                        {
-                                // gdy waluta zrodlowa == docelowa nie trzeba konwertowac na inna walute
-                                if ( sourceCurrency == destinedCurrency )
-                                {
-                                        convertedCurrency = new BigDecimal( currency );
-                                        convertedCurrency = convertedCurrency.setScale( 2, RoundingMode.DOWN );
-                                        return convertedCurrency;
-                                } else
-                                {
-                                        final float sourceExchangeRate = sourceCurrency.getExchangeRate();
-                                        final float destinedExchangeRate = destinedCurrency.getExchangeRate();
-                                        if ( destinedExchangeRate > 0 )
-                                        {
-                                                convertedCurrency = new BigDecimal( (currency * sourceExchangeRate) / destinedExchangeRate );
-                                                convertedCurrency = convertedCurrency.setScale( 2, RoundingMode.DOWN );
-                                                return convertedCurrency;
-                                        }
-                                }
-                        }
-                }
-                return BigDecimal.ZERO;
-        }
-        */
 
 }
