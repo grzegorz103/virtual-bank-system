@@ -52,7 +52,7 @@ public class BankAccountServiceTest {
             .isEqualTo(bankAccountRepository.findAll().stream().filter(e->!e.isRemoved()).collect(Collectors.toList()).size());
     }
 
-    @Test
+    @Test(expected = ApiException.class)
     public void deleteBankAccountByIdTest() {
         final int accountSize = bankAccountRepository.findAllByRemovedFalse().size();
         bankAccountService.deleteById(1L);
@@ -61,16 +61,8 @@ public class BankAccountServiceTest {
         assertThat(bankAccountRepository.findAllByRemovedFalse().size()).isEqualTo(accountSize - 1);
     }
 
-    @Test(expected = ApiException.class)
     public void deleteBankAccountByIdNotFoundTest() {
         bankAccountService.deleteById(999L);
     }
 
-    /*
-    @Test(expected = ApiException.class)
-    public void deleteBankAccountByIdWithActiveCreditsTest() {
-        creditRepository.save(Credit.builder()..build())
-        bankAccountService.deleteById(1L);
-    }
-    */
 }

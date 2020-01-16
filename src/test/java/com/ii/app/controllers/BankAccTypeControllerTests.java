@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithAnonymousUser;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -55,6 +57,7 @@ public class BankAccTypeControllerTests {
     }
 
     @Test
+    @WithMockUser
     public void findAllTest() throws Exception {
         this.mockMvc.perform(get("/api/bankaccounttypes"))
             .andExpect(status().isOk());

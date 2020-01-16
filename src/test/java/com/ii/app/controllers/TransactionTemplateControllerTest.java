@@ -14,6 +14,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -41,20 +42,9 @@ public class TransactionTemplateControllerTest {
     @MockBean
     private TransactionTemplateService templateService;
 
-    private static String jwt;
-
     private final String TEST_ID = "12";
 
     private TransactionTemplateIn templateIn;
-
-    @BeforeClass
-    public static void setup() {
-        jwt = "Bearer " + JwtTokenGenerator.generate(
-            "testUser",
-            "testIdentifier",
-            Collections.singletonList("ROLE_USER")
-        );
-    }
 
     @Before
     public void init() {
@@ -74,9 +64,9 @@ public class TransactionTemplateControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = "USER")
     public void createTest() throws Exception {
        this.mockMvc.perform(post(API_URL)
-            .header("Authorization", jwt)
             .contentType(MediaType.APPLICATION_JSON)
             .content(new ObjectMapper().writeValueAsString(templateIn)))
             .andExpect(status().isOk());
@@ -91,33 +81,33 @@ public class TransactionTemplateControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = "USER")
     public void findAllTest() throws Exception {
-      this.mockMvc.perform(get(API_URL)
-            .header("Authorization", jwt))
+      this.mockMvc.perform(get(API_URL))
             .andExpect(jsonPath("$.*", hasSize(2)))
             .andExpect(status().isOk());
     }
 
     @Test
+    @WithMockUser(roles = "USER")
     public void findOneByIdTest() throws Exception {
-       this.mockMvc.perform(get(API_URL + "/" + TEST_ID)
-            .header("Authorization", jwt))
+       this.mockMvc.perform(get(API_URL + "/" + TEST_ID))
             .andExpect(status().isOk());
     }
 
     @Test
+    @WithMockUser(roles = "USER")
     public void updateByIdTest() throws Exception {
        this.mockMvc.perform(put(API_URL + "/" + TEST_ID)
-            .header("Authorization", jwt)
             .contentType(MediaType.APPLICATION_JSON)
             .content(new ObjectMapper().writeValueAsString(templateIn)))
             .andExpect(status().isOk());
     }
 
     @Test
+    @WithMockUser(roles = "USER")
     public void deleteByIdTest() throws Exception {
-        this.mockMvc.perform(delete(API_URL + "/" + TEST_ID)
-            .header("Authorization", jwt))
+        this.mockMvc.perform(delete(API_URL + "/" + TEST_ID))
             .andExpect(status().isOk());
     }
 
