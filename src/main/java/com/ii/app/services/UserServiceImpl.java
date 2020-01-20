@@ -77,7 +77,9 @@ public class UserServiceImpl implements UserService {
 
         String identifier = generateIdentifier();
         mapped.setIdentifier(identifier);
-        mapped.setUserRoles(Collections.singleton(userRoleRepository.findByUserType(UserRole.UserType.ROLE_USER)));
+        mapped.setUserRoles(Collections.singleton(
+            userRoleRepository.findByUserType(UserRole.UserType.ROLE_USER))
+        );
         mapped.setPassword(passwordEncoder.encode(userIn.getPassword()));
 
         emailService.sendRegisterMail(mapped.getEmail(), identifier);
