@@ -22,11 +22,11 @@ public class TransactionOut
 
         private BigDecimal balanceWithCommission;
 
-        private BankAccount sourceBankAccount;
+        private BankAccountOut sourceBankAccount;
 
         private String title;
 
-        private BankAccount destinedBankAccount;
+        private BankAccountOut destinedBankAccount;
 
         private CurrencyTypeOut sourceCurrencyType;
 
