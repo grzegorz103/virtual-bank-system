@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Installment } from '../models/installment';
 import { HttpClient } from '@angular/common/http';
+import {environment} from "src/environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class InstallmentService {
 
-  url = 'http://localhost:8080/api/installments';
+  url = environment.apiUrl + '/api/installments';
 
   constructor(private http: HttpClient) { }
 

@@ -1,15 +1,17 @@
-import { Injectable } from '@angular/core';
-import { Credit, CreditStatus } from '../models/credit';
-import { HttpClient } from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Credit, CreditStatus} from '../models/credit';
+import {HttpClient} from '@angular/common/http';
+import {environment} from "src/environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class CreditService {
 
-  url = 'http://localhost:8080/api/credits';
+  url = environment.apiUrl + '/api/credits';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
   create(credit: any) {
     return this.http.post<Credit>(this.url, credit);

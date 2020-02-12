@@ -31,7 +31,6 @@
     "big.js": "^5.2.2",
     "bootstrap": "^4.3.1",
     "hammerjs": "^2.0.8",
-    "http-server": "^3.3.1",
     "i": "^0.3.6",
     "jquery": "^1.9.1",
     "moment": "^2.24.0",
