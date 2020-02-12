@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Payment } from '../models/payment';
+import {environment} from "src/environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class PaymentService {
- 
 
-  url = 'http://localhost:8080/api/payments';
+
+  url = environment.apiUrl + '/api/payments';
 
   constructor(private http: HttpClient) { }
 

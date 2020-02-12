@@ -1,15 +1,17 @@
-import { Injectable } from '@angular/core';
-import { Conversation } from '../models/conversation';
-import { HttpClient } from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Conversation} from '../models/conversation';
+import {HttpClient} from '@angular/common/http';
+import {environment} from "src/environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ConversationService {
 
-  url = 'http://localhost:8080/api/conversations';
+  url = environment.apiUrl + '/api/conversations';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
   findUserEmployeeConversations() {
     return this.http.get<Conversation[]>(this.url + '/userToEmployee');
@@ -32,6 +34,6 @@ export class ConversationService {
   }
 
   changeStatus(id: number) {
-    return this.http.patch<Conversation>(this.url + '/' + id , null);
+    return this.http.patch<Conversation>(this.url + '/' + id, null);
   }
 }

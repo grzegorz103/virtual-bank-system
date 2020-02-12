@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BankAccType } from '../models/bank-acc-type';
 import { HttpClient } from '@angular/common/http';
+import {environment} from "src/environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +9,7 @@ import { HttpClient } from '@angular/common/http';
 export class BankAccountTypeService {
 
 
-  url = 'http://localhost:8080/api/bankaccounttypes';
+  url = environment.apiUrl + '/api/bankaccounttypes';
 
   constructor(private http: HttpClient) { }
 

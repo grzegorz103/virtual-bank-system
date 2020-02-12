@@ -2,12 +2,14 @@ import { Injectable } from '@angular/core';
 import { BankAccount } from '../models/bank-account';
 import { HttpClient } from '@angular/common/http';
 import { Saldo } from '../models/saldo';
+import {environment} from "src/environments/environment";
+
 @Injectable({
   providedIn: 'root'
 })
 export class BankAccountService {
 
-  url = 'http://localhost:8080/api/bankaccount';
+  url = environment.apiUrl + '/api/bankaccount';
 
   constructor(private http: HttpClient) { }
 
@@ -38,7 +40,7 @@ export class BankAccountService {
   updateSaldo(id: number, item: Saldo) {
     return this.http.put(this.url + '/saldo/' + id, item);
   }
-  
+
   update(id: any, bankAccount: BankAccount) {
     return this.http.put(this.url + '/' + id, bankAccount);
   }
