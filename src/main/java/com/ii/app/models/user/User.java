@@ -3,7 +3,6 @@ package com.ii.app.models.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ii.app.models.*;
-import com.sun.istack.internal.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
