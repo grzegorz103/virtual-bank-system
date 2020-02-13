@@ -148,10 +148,6 @@ export class BankAccountDetailsComponent implements OnInit {
     }
   }
 
-  getObjectType(object) {
-    return object.constructor.name;
-  }
-
   initDeleteForm() {
     this.deleteForm = this.fb.group({
       confirmNumber: ['', Validators.required]

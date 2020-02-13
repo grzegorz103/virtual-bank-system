@@ -8,12 +8,14 @@ export class TransactionIn extends TransactionHistory {
     type: string;
     destinedCurrencyType: CurrencyType;
     sourceBankAccount: BankAccount;
+
     constructor(transaction?: TransactionIn, type?) {
         super(transaction.id,
-             transaction.date, 
-             transaction.balance, 
+             transaction.date,
+             transaction.balance,
              transaction.sourceCurrencyType,
-              transaction.destinedBankAccount);
+              transaction.destinedBankAccount,
+          'TransactionIn');
         this.title = transaction.title;
         this.balanceWithCommission = transaction.balanceWithCommission;
         this.type = type;

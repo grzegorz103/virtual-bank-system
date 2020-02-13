@@ -6,7 +6,7 @@
       </mat-toolbar>
       <mat-divider></mat-divider>
       <div class="mx-auto my-2">Numer rachunku: {{ bankAccount?.number }}</div>
-      
+
       <div class="col-md-9 mx-auto">
         <div style="display: block" [ngClass]="">
           <canvas mdbChart [chartType]="chartType" [datasets]="chartDatasets" [labels]="chartLabels"
@@ -24,7 +24,7 @@
         <ng-container matColumnDef="transactionType">
           <th mat-header-cell *matHeaderCellDef> Rodzaj </th>
           <td mat-cell *matCellDef="let element">
-            <div *ngIf="getObjectType(element) === 'TransactionIn'">
+            <div *ngIf="element.typeName === 'TransactionIn'">
               Przelew
               <span *ngIf="element.sourceBankAccount.number !== element.destinedBankAccount.number">
                 <fa-icon *ngIf="element.sourceBankAccount.number === bankAccount.number" matTooltip="Przelew wychodzący"
@@ -35,7 +35,7 @@
                 </fa-icon>
               </span>
             </div>
-            <div *ngIf="getObjectType(element)==='PaymentHistory'">
+            <div *ngIf="element.typeName ==='PaymentHistory'">
               Wpłata
             </div>
           </td>
@@ -43,32 +43,33 @@
 
         <ng-container matColumnDef="title">
             <th mat-header-cell *matHeaderCellDef> Tytuł. </th>
-            <td mat-cell *matCellDef="let element"> {{element.title}}</td>
+            <td mat-cell *matCellDef="let element"> {{element.title}}
+              <div *ngIf="element.typeName === 'PaymentHistory'">-</div></td>
           </ng-container>
 
         <ng-container matColumnDef="sourceAccNr">
           <th mat-header-cell *matHeaderCellDef> Konto źródłowe </th>
           <td mat-cell *matCellDef="let element">
-            <div *ngIf="getObjectType(element) === 'TransactionIn'" matTooltip="{{element.sourceBankAccount.number}}">
+            <div *ngIf="element.typeName === 'TransactionIn'" matTooltip="{{element.sourceBankAccount.number}}">
               {{element.sourceBankAccount.number | slice:0:2}}...{{element.sourceBankAccount.number | slice:22:26}}
             </div>
-            <div *ngIf="getObjectType(element) === 'PaymentHistory'">-</div>
+            <div *ngIf="element.typeName === 'PaymentHistory'">-</div>
           </td>
         </ng-container>
 
         <ng-container matColumnDef="destAccNr">
           <th mat-header-cell *matHeaderCellDef> Konto docelowe </th>
           <td mat-cell *matCellDef="let element">
-            <div *ngIf="getObjectType(element) === 'TransactionIn'" matTooltip="{{element.destinedBankAccount.number}}">
+            <div *ngIf="element.typeName === 'TransactionIn'" matTooltip="{{element.destinedBankAccount.number}}">
               {{element.destinedBankAccount.number | slice:0:2}}...{{element.destinedBankAccount.number | slice:22:26}}
             </div>
-            <div *ngIf="getObjectType(element) === 'PaymentHistory'"
+            <div *ngIf="element.typeName === 'PaymentHistory'"
               matTooltip="{{element.destinedBankAccount.number}}">
               {{element.destinedBankAccount.number | slice:0:2}}...{{element.destinedBankAccount.number | slice:22:26}}
             </div>
           </td>
         </ng-container>
-        <!-- 
+        <!--
         <ng-container *ngIf="bankAccount.bankAccType.bankAccountType === 'MULTI_CURRENCY'"
           matColumnDef="sourceCurrency">
           <th mat-header-cell *matHeaderCellDef> Waluta źródłowa </th>
@@ -90,7 +91,7 @@
         <ng-container matColumnDef="balance">
           <th mat-header-cell *matHeaderCellDef> Kwota </th>
           <td mat-cell *matCellDef="let element">
-            <div *ngIf="getObjectType(element) === 'TransactionIn'">
+            <div *ngIf="element.typeName=== 'TransactionIn'">
               <div *ngIf="element.sourceBankAccount.number !== element.destinedBankAccount.number">
                 <div *ngIf="element.sourceBankAccount.number === bankAccount.number">
                   {{element.balance | currency : element.sourceCurrencyType.name}}
@@ -103,7 +104,7 @@
                   {{element.balanceWithCommission | currency : element.destinedCurrencyType.name}}
                 </div>
             </div>
-            <div *ngIf="getObjectType(element) === 'PaymentHistory'">
+            <div *ngIf="element.typeName === 'PaymentHistory'">
               {{ element.balance | currency: element.sourceCurrencyType.name }}
             </div>
           </td>

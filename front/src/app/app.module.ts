@@ -75,7 +75,7 @@ export function tokenGetter() {
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
-        whitelistedDomains: ['localhost:8080'],
+        whitelistedDomains: ['localhost:8080', 'https://virtual-sys.herokuapp.com' ,'virtual-sys.herokuapp.com'],
       }
     }),
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
