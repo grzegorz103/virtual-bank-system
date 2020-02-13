@@ -1,4 +1,4 @@
-# Virtual bank
+# Virtual bank [![CircleCI](https://circleci.com/gh/grzegorz103/spring-virtual-bank/tree/master.svg?style=svg)](https://circleci.com/gh/grzegorz103/spring-virtual-bank/tree/master)
 
 ## Technology stack
 - Spring
