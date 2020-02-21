@@ -1,5 +1,5 @@
 # Virtual bank [![CircleCI](https://circleci.com/gh/grzegorz103/spring-virtual-bank/tree/master.svg?style=svg)](https://circleci.com/gh/grzegorz103/spring-virtual-bank/tree/master)
-
+This project allows to perform basic operations on virtual bank accounts.
 ## Technology stack
 - Spring
 - Angular 8
