@@ -12,8 +12,11 @@
     width: 110px;
     height: 48px;
   }
-  
-  
+
+  .height{
+    min-height: 7%;
+  }
+
   .underline{
     -webkit-transition: width 0.3s; /* Safari */
     transition: width 0.3s;
@@ -29,4 +32,3 @@
     -webkit-transition-timing-function: ease-out;
     transition-timing-function: ease-out;
     }
-    
