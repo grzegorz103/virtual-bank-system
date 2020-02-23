@@ -1,6 +1,5 @@
 .background {
-    width: 100%;
-    height: 91vh;
+    height: 93%;
     background: url('../../../assets/main-theme.jpg') no-repeat;
     background-size: cover;
     color: white;
@@ -10,7 +9,7 @@
  .green-button{
     background-color: green;
     height:40px !important;
-    width: 100px !important; 
+    width: 100px !important;
     color: white;
  }
 
