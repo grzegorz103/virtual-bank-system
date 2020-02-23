@@ -1,4 +1,4 @@
-# Virtual bank [![CircleCI](https://circleci.com/gh/grzegorz103/spring-virtual-bank/tree/master.svg?style=svg)](https://circleci.com/gh/grzegorz103/spring-virtual-bank/tree/master)
+# Virtual bank [![CircleCI](https://circleci.com/gh/grzegorz103/spring-virtual-bank/tree/master.svg?style=svg)](https://circleci.com/gh/grzegorz103/spring-virtual-bank/tree/master) ![GitHub language count](https://img.shields.io/github/languages/count/grzegorz103/spring-virtual-bank) ![GitHub top language](https://img.shields.io/github/languages/top/grzegorz103/spring-virtual-bank)
 This project allows to perform basic operations on virtual bank accounts.
 ## Technology stack
 - Spring
