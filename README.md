@@ -8,7 +8,7 @@ This project allows to perform basic operations on virtual bank accounts.
 - PostgreSQL
 
 ## Live demo
-
+**You may need to wait a while until back-end loads**    
 https://virtual-system-af1e2.firebaseapp.com/
 
 ### Sample accounts
