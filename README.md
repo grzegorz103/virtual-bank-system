@@ -2,6 +2,11 @@
 [![CircleCI](https://circleci.com/gh/grzegorz103/virtual-bank-system.svg?style=svg)](https://circleci.com/gh/grzegorz103/virtual-bank-system) ![GitHub language count](https://img.shields.io/github/languages/count/grzegorz103/virtual-bank-system) ![GitHub top language](https://img.shields.io/github/languages/top/grzegorz103/virtual-bank-system)    
 
 ## Table of contents
+* [General info](#general-info)
+* [Live demo](#live-demo)
+* [Technologies](#technologies)
+* [Features](#features)
+* [Setup](#setup)
 
 ## General info
 Application which simulates electronic banking managment on virtual bank accounts.
