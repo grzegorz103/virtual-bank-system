@@ -29,13 +29,14 @@ https://virtual-system-af1e2.firebaseapp.com/
 - Hibernate
 - JUnit & Mockito
 - PostgreSQL
-- Mapstruct
-- CircleCI
+- Mapstruct, Lombok
+- CircleCI, Maven
 
 ## Features
 - Client registration (employees need to activate new clients accounts)
 - System admin/employee managment modules
 - Several types of operations on virtual bank accounts are available for clients
+- Chat support system
 
 ## Setup
 ### Prerequisites
