@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { UserService } from '../services/user.service';
-import { AuthService } from '../services/auth.service';
-import { Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {UserService} from '../services/user.service';
+import {AuthService} from '../services/auth.service';
+import {Router} from '@angular/router';
+import {MatSnackBar} from '@angular/material';
 
 @Component({
   selector: 'app-login',
@@ -13,12 +13,13 @@ import { MatSnackBar } from '@angular/material';
 export class LoginComponent implements OnInit {
 
   form: FormGroup;
+  isRequestSend = false;
 
   constructor(private fb: FormBuilder,
-    private userService: UserService,
-    private snackBar: MatSnackBar,
-    private authService: AuthService,
-    private router: Router) {
+              private userService: UserService,
+              private snackBar: MatSnackBar,
+              private authService: AuthService,
+              private router: Router) {
     this.form = this.fb.group({
       username: ['', [Validators.maxLength(20), Validators.required]],
       password: ['', [Validators.maxLength(120), Validators.required]]
@@ -31,23 +32,27 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
+    this.isRequestSend = true;
     this.userService.login(this.form.get('username').value, this.form.get('password').value)
       .subscribe(res => {
-        if (res) {
-          this.authService.saveToken(res.headers.get('Authorization'));
-          this.authService.setUserRoles();
-          this.authService.setUserIdentifier();
-          this.snackBar.open('Zalogowano', '', { duration: 3000, panelClass: 'green-snackbar' });
-          if (this.authService.hasAdminRole()) {
-            this.router.navigateByUrl('/core/admin/stat');
+          if (res) {
+            this.isRequestSend = false;
+            this.authService.saveToken(res.headers.get('Authorization'));
+            this.authService.setUserRoles();
+            this.authService.setUserIdentifier();
+            this.snackBar.open('Zalogowano', '', {duration: 3000, panelClass: 'green-snackbar'});
+            if (this.authService.hasAdminRole()) {
+              this.router.navigateByUrl('/core/admin/stat');
+            } else if (this.authService.hasEmployeeRole()) {
+              this.router.navigateByUrl('/core/employee/payment/create');
+            } else {
+              this.router.navigateByUrl('/core/bankAccounts');
+            }
           }
-          else if (this.authService.hasEmployeeRole()) {
-            this.router.navigateByUrl('/core/employee/payment/create');
-          } else {
-            this.router.navigateByUrl('/core/bankAccounts');
-          }
+        }, err => {
+          this.isRequestSend = false;
+          this.snackBar.open('Niepoprawny identyfikator lub hasło', '', {duration: 3000, panelClass: 'red-snackbar'});
         }
-      }, err => this.snackBar.open('Niepoprawny identyfikator lub hasło', '', { duration: 3000, panelClass: 'red-snackbar' })
       );
   }
 
