@@ -10,6 +10,7 @@ import { MatCardModule, MatButtonModule, MatToolbarModule, MatInputModule, MatDa
 import { ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from './services/auth.service';
 import { FooterComponent } from './footer/footer.component';
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import { FooterComponent } from './footer/footer.component';
     ReactiveFormsModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatProgressSpinnerModule,
     MatExpansionModule
   ],
   providers: []

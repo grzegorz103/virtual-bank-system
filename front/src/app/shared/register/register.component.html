@@ -1,5 +1,5 @@
 <div class="main-div">
-    <mat-card class="col-md-6">
+    <mat-card class="col-md-6" *ngIf="!isRequestSent">
         <mat-toolbar>Rejestracja</mat-toolbar>
         <form [formGroup]="form" (ngSubmit)="sendRegisterForm()">
             <div class="mt-2">
@@ -228,4 +228,8 @@
             </div>
         </form>
     </mat-card>
+  <mat-card *ngIf="isRequestSent">
+    <mat-spinner class="mx-auto"></mat-spinner>
+    <h4 class="mt-3"><i>Trwa przetwarzanie żądania</i></h4>
+  </mat-card>
 </div>

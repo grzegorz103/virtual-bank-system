@@ -1,5 +1,5 @@
 <div class="main-div">
-    <mat-card>
+    <mat-card *ngIf="!isRequestSend">
         <mat-toolbar>Logowanie</mat-toolbar>
         <form [formGroup]="form" (ngSubmit)="login()">
             <mat-form-field class="mt-2">
@@ -25,4 +25,8 @@
             <button [disabled]="form.invalid" mat-raised-button color="primary">Zaloguj</button>
         </form>
     </mat-card>
+  <mat-card *ngIf="isRequestSend">
+    <mat-spinner class="mx-auto"></mat-spinner>
+    <h4 class="mt-3"><i>Trwa przetwarzanie żądania</i></h4>
+  </mat-card>
 </div>
