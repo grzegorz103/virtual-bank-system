@@ -40,7 +40,6 @@ export class LoginComponent implements OnInit {
             this.authService.saveToken(res.headers.get('Authorization'));
             this.authService.setUserRoles();
             this.authService.setUserIdentifier();
-            this.snackBar.open('Zalogowano', '', {duration: 3000, panelClass: 'green-snackbar'});
             if (this.authService.hasAdminRole()) {
               this.router.navigateByUrl('/core/admin/stat');
             } else if (this.authService.hasEmployeeRole()) {
@@ -48,6 +47,7 @@ export class LoginComponent implements OnInit {
             } else {
               this.router.navigateByUrl('/core/bankAccounts');
             }
+            this.snackBar.open('Zalogowano. Za chwilę nastąpi przekierowanie', '', {duration: 6000, panelClass: 'green-snackbar'});
           }
         }, err => {
           this.isRequestSend = false;
