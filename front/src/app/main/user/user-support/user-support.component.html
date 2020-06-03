@@ -1,61 +1,65 @@
 <div class="mat-elevation-z8">
-    <mat-toolbar>Moje zgłoszenia</mat-toolbar>
+  <mat-toolbar>Moje zgłoszenia
+    <fa-icon class="ml-2" matTooltip="Zgłoszenia pozwalają na kontakt z pracownikami."
+             [icon]="faQuestionCircle"></fa-icon>
+  </mat-toolbar>
 
-    <div [hidden]="isLoadingMyConversations" class="mat-elevation-z1">
-        <table mat-table [dataSource]="myConversations">
+  <div [hidden]="isLoadingMyConversations" class="mat-elevation-z1">
+    <table mat-table [dataSource]="myConversations">
 
-            <ng-container matColumnDef="topic">
-                <th mat-header-cell *matHeaderCellDef> Temat </th>
-                <td mat-cell *matCellDef="let element"> {{element.topic}}</td>
-            </ng-container>
+      <ng-container matColumnDef="topic">
+        <th mat-header-cell *matHeaderCellDef> Temat</th>
+        <td mat-cell *matCellDef="let element"> {{element.topic}}</td>
+      </ng-container>
 
-            <ng-container matColumnDef="creationDate">
-                <th mat-header-cell *matHeaderCellDef> Data zgłoszenia </th>
-                <td mat-cell *matCellDef="let element">
-                    {{ element.creationDate | amDateFormat: 'LL HH:mm' }}
-                </td>
-            </ng-container>
+      <ng-container matColumnDef="creationDate">
+        <th mat-header-cell *matHeaderCellDef> Data zgłoszenia</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.creationDate | amDateFormat: 'LL HH:mm' }}
+        </td>
+      </ng-container>
 
-            <ng-container matColumnDef="status">
-                <th mat-header-cell *matHeaderCellDef> Status </th>
-                <td mat-cell *matCellDef="let element">
-                    <span *ngIf="element.conversationStatus.conversationType === 'ACTIVE'">Aktywne</span>
-                    <span *ngIf="element.conversationStatus.conversationType === 'RESOLVED'">Rozwiązano</span>
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef> Status</th>
+        <td mat-cell *matCellDef="let element">
+          <span *ngIf="element.conversationStatus.conversationType === 'ACTIVE'">Aktywne</span>
+          <span *ngIf="element.conversationStatus.conversationType === 'RESOLVED'">Rozwiązano</span>
 
-                </td>
-            </ng-container>
+        </td>
+      </ng-container>
 
-            <ng-container matColumnDef="details">
-                <th mat-header-cell *matHeaderCellDef> Wyświetl </th>
-                <td mat-cell *matCellDef="let element">
-                    <button mat-raised-button [routerLink]="['/core/conversation', element.id]"
-                        color="primary">Wyświetl</button>
-                </td>
-            </ng-container>
+      <ng-container matColumnDef="details">
+        <th mat-header-cell *matHeaderCellDef> Wyświetl</th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-raised-button [routerLink]="['/core/conversation', element.id]"
+                  color="primary">Wyświetl
+          </button>
+        </td>
+      </ng-container>
 
-            <tr mat-header-row *matHeaderRowDef="myConversationColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: myConversationColumns;"></tr>
-        </table>
-        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+      <tr mat-header-row *matHeaderRowDef="myConversationColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: myConversationColumns;"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 
+  </div>
+
+  <mat-toolbar>Utwórz zgłoszenie</mat-toolbar>
+
+  <form [formGroup]="conversationForm" #formDirective="ngForm" (ngSubmit)="sendConversation()">
+    <div class="col-12">
+      <mat-form-field style="width: 100%">
+        <input matInput placeholder="Temat" formControlName="topic" required>
+      </mat-form-field>
     </div>
 
-    <mat-toolbar>Utwórz zgłoszenie</mat-toolbar>
-
-    <form [formGroup]="conversationForm" #formDirective="ngForm" (ngSubmit)="sendConversation()">
-        <div class="col-12">
-            <mat-form-field style="width: 100%">
-                <input matInput placeholder="Temat" formControlName="topic" required>
-            </mat-form-field>
-        </div>
-
-        <div class="col-12">
-            <mat-form-field style="width: 100%">
-                <textarea matInput placeholder="Opis" formControlName="description" required></textarea>
-            </mat-form-field>
-        </div>
-        <div class="d-flex justify-content-center">
-            <button class="btn btn-success mb-2" [disabled]="conversationForm.invalid">Wyślij</button>
-        </div>
-    </form>
+    <div class="col-12">
+      <mat-form-field style="width: 100%">
+        <textarea matInput placeholder="Opis" formControlName="description" required></textarea>
+      </mat-form-field>
+    </div>
+    <div class="d-flex justify-content-center">
+      <button class="btn btn-success mb-2" [disabled]="conversationForm.invalid">Wyślij</button>
+    </div>
+  </form>
 </div>
