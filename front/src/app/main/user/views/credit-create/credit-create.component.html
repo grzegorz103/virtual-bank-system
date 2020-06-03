@@ -1,54 +1,55 @@
 <div class="box mat-elevation-z8">
-    <div *ngIf="bankAccounts">
-        <mat-toolbar>
-            Nowy kredyt
-        </mat-toolbar>
-        <form [formGroup]="form">
-            <div class="col-md-10">
+  <div *ngIf="bankAccounts">
+    <mat-toolbar>
+      Nowy kredyt
+      <fa-icon class="ml-2" matTooltip="Po utworzeniu kredytu, musi on zostać zaakceptowany przez pracownika" [icon]="faQuestionCircle"></fa-icon>
+    </mat-toolbar>
+    <form [formGroup]="form">
+      <div class="col-md-10">
 
-                <div class="mt-2">Wybierz rachunek bankowy
-                </div>
-                <mat-form-field style="width:100%">
-                    <mat-label>Rachunek bankowy</mat-label>
-                    <mat-select [(ngModel)]="selectedBankAccount" [ngModelOptions]="{standalone: true}">
-                        <mat-option *ngFor="let bankAccount of bankAccounts" [value]="bankAccount">
-                            {{bankAccount.number}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
+        <div class="mt-2">Wybierz rachunek bankowy
+        </div>
+        <mat-form-field style="width:100%">
+          <mat-label>Rachunek bankowy</mat-label>
+          <mat-select [(ngModel)]="selectedBankAccount" [ngModelOptions]="{standalone: true}">
+            <mat-option *ngFor="let bankAccount of bankAccounts" [value]="bankAccount">
+              {{bankAccount.number}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
 
-                Saldo docelowe<span matTooltip="Rachunek bankowy, na który zostanie przekazana gotówka po zatwierdzeniu kredytu"
-                aria-label="Tooltip">
+        Saldo docelowe<span matTooltip="Rachunek bankowy, na który zostanie przekazana gotówka po zatwierdzeniu kredytu"
+                            aria-label="Tooltip">
                 (?)</span>
-                <mat-form-field style="width:100%">
-                    <mat-label class="mt-2">Saldo</mat-label>
-                    <mat-select formControlName="destinedSaldoId" (selectionChange)="switchCurrencyType($event)">
-                        <mat-option *ngFor="let saldo of selectedBankAccount?.saldos" [value]="saldo.id">
-                            {{ saldo.currencyType.name}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
+        <mat-form-field style="width:100%">
+          <mat-label class="mt-2">Saldo</mat-label>
+          <mat-select formControlName="destinedSaldoId" (selectionChange)="switchCurrencyType($event)">
+            <mat-option *ngFor="let saldo of selectedBankAccount?.saldos" [value]="saldo.id">
+              {{ saldo.currencyType.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
 
-                Kwota:
-                <ng5-slider [(value)]="balanceSliderValue" formControlName="totalBalance"
+        Kwota:
+        <ng5-slider [(value)]="balanceSliderValue" formControlName="totalBalance"
                     (valueChange)="calculateInstallment($event)" [options]="balanceSlider"></ng5-slider>
 
-                Ilość wpłat:
-                <ng5-slider [(value)]="monthSliderValue" formControlName="totalInstallmentCount"
+        Ilość wpłat:
+        <ng5-slider [(value)]="monthSliderValue" formControlName="totalInstallmentCount"
                     (valueChange)="calculateInstallment($event)" [options]="monthSlider"></ng5-slider>
 
-                <div *ngIf="currencyType">
-                    Wysokość jednej wpłaty: {{ installmentValue | currency: currencyType }}
-                </div>
-            </div>
+        <div *ngIf="currencyType">
+          Wysokość jednej wpłaty: {{ installmentValue | currency: currencyType }}
+        </div>
+      </div>
 
-            <mat-divider></mat-divider>
-            <mat-toolbar>
-                <button mat-raised-button color="primary" [disabled]="form.invalid" (click)="createCredit()">Wyślij</button>
-            </mat-toolbar>
-        </form>
-    </div>
-    <div *ngIf="!bankAccounts">
-        <mat-spinner></mat-spinner>
-    </div>
+      <mat-divider></mat-divider>
+      <mat-toolbar>
+        <button mat-raised-button color="primary" [disabled]="form.invalid" (click)="createCredit()">Wyślij</button>
+      </mat-toolbar>
+    </form>
+  </div>
+  <div *ngIf="!bankAccounts">
+    <mat-spinner></mat-spinner>
+  </div>
 </div>
