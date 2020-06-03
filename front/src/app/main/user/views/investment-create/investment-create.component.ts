@@ -5,6 +5,7 @@ import { BankAccount } from '../../../models/bank-account';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
+import {faQuestionCircle} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-investment-create',
@@ -18,6 +19,7 @@ export class InvestmentCreateComponent implements OnInit {
   selectedBankAccount: BankAccount;
   currencyType: string;
   investmentForm: FormGroup;
+  faQuestionCircle = faQuestionCircle;
 
   constructor(private bankAccountService: BankAccountService,
     private fb: FormBuilder,

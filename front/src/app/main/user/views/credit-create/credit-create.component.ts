@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { Options } from 'ng5-slider';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { BankAccountService } from '../../../services/bank-account.service';
-import { BankAccount } from '../../../models/bank-account';
-import { CreditService } from '../../../services/credit.service';
+import {Component, OnInit} from '@angular/core';
+import {Options} from 'ng5-slider';
+import {FormGroup, FormBuilder, Validators} from '@angular/forms';
+import {BankAccountService} from '../../../services/bank-account.service';
+import {BankAccount} from '../../../models/bank-account';
+import {CreditService} from '../../../services/credit.service';
 import Big from 'big.js';
-import { MatSnackBar } from '@angular/material';
+import {MatSnackBar} from '@angular/material';
+import {faQuestionCircle} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-credit-create',
@@ -34,11 +35,12 @@ export class CreditCreateComponent implements OnInit {
   form: FormGroup;
   selectedBankAccount: BankAccount;
   currencyType: string;
+  faQuestionCircle = faQuestionCircle;
 
   constructor(private fb: FormBuilder,
-    private snackBar: MatSnackBar,
-    private bankAccountService: BankAccountService,
-    private creditService: CreditService) {
+              private snackBar: MatSnackBar,
+              private bankAccountService: BankAccountService,
+              private creditService: CreditService) {
     bankAccountService.findByUser().subscribe(res => {
       this.bankAccounts = res;
       this.form = this.fb.group({
@@ -54,7 +56,7 @@ export class CreditCreateComponent implements OnInit {
 
   createCredit() {
     this.creditService.create(this.form.value).subscribe(res =>
-      this.snackBar.open('Utworzono wniosek', '', { duration: 3000, panelClass: 'green-snackbar' })
+      this.snackBar.open('Utworzono wniosek', '', {duration: 3000, panelClass: 'green-snackbar'})
     );
   }
 

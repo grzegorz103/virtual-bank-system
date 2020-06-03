@@ -3,6 +3,7 @@ import { Conversation } from '../../models/conversation';
 import { FormGroup, NgForm, FormBuilder, Validators } from '@angular/forms';
 import { ConversationService } from '../../services/conversation.service';
 import { MatTableDataSource, MatPaginator, MatSnackBar } from '@angular/material';
+import {faQuestionCircle} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-user-support',
@@ -15,13 +16,15 @@ export class UserSupportComponent implements OnInit {
 
   myConversationColumns = ['topic', 'creationDate', 'status', 'details']
   myConversations = new MatTableDataSource<Conversation>();
-  
+
   @ViewChild(MatPaginator, { static: true })
   paginator: MatPaginator;
 
   conversationForm: FormGroup;
   @ViewChild('formDirective', { static: true }) private formDirective: NgForm;
-  
+
+  faQuestionCircle = faQuestionCircle;
+
   constructor(private conversationService: ConversationService,
     private snackBar: MatSnackBar,
     private fb: FormBuilder) { }
@@ -33,8 +36,8 @@ export class UserSupportComponent implements OnInit {
 
   fetchMyConversations() {
     this.conversationService.findByUser()
-      .subscribe(res => { 
-        this.myConversations.data = res; 
+      .subscribe(res => {
+        this.myConversations.data = res;
         this.isLoadingMyConversations = false;
         this.myConversations.paginator = this.paginator; });
   }
