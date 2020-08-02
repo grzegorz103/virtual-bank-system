@@ -4,6 +4,7 @@
 ## Table of contents
 * [General info](#general-info)
 * [Live demo](#live-demo)
+* [Screenshots](#screenshots)
 * [Technologies](#technologies)
 * [Features](#features)
 * [Setup](#setup)
@@ -15,6 +16,10 @@ Application which simulates electronic banking managment on virtual bank account
 **You may need to wait a while until back-end loads**    
 https://virtual-system-af1e2.firebaseapp.com/
 
+## Screenshots
+<p>
+<img width="500" src="https://i.imgur.com/i0uGako.png"><img width="500" src="https://i.imgur.com/r40WlZW.png">
+</p>
 ### Sample accounts
 
 | __Identifier__ | __Password__ | Role |
