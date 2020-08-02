@@ -18,7 +18,7 @@ https://virtual-system-af1e2.firebaseapp.com/
 
 ## Screenshots
 <p>
-<img width="500" src="https://i.imgur.com/i0uGako.png"><img width="500" src="https://i.imgur.com/r40WlZW.png">
+<img width="800" src="https://i.imgur.com/i0uGako.png"><img width="800" src="https://i.imgur.com/r40WlZW.png">
 </p>
 ### Sample accounts
 
